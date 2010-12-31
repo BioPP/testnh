@@ -1,0 +1,27 @@
+input.tree.file = Tree.dnd
+input.tree.format = Newick
+
+#partition.method = threshold
+#partition.threshold = 0.001
+
+partition.method = auto
+partition.test = BIC
+partition.test.threshold = 0.01
+
+alphabet = RNA
+input.sequence.file = Life_Alignment.mase
+input.sequence.format = Mase
+input.sequence.sites_to_use = complete
+
+model = T92(kappa=2.0, theta=0.5)
+rate_distribution = Gamma(n=4, alpha=0.5)
+nonhomogeneous.root_freq = GC(theta=0.5)
+nonhomogeneous.shared_parameters = T92.kappa
+
+optimize = FullD(derivatives=Newton)
+optimization.reparametrization = no
+optimization.verbose = 1
+optimization.max_number_f_eval = 1000
+optimization.tolerance = 0.000001
+optimization.profiler = Life_Alignment.profile
+optimization.final = none

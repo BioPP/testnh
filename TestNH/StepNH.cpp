@@ -1,5 +1,5 @@
 //
-// File: bppML.cpp
+// File: StepNH.cpp
 // Created by: Julien Dutheil
 // Created on: Dec Sat 03 16:41 2005
 //
@@ -7,9 +7,8 @@
 /*
 Copyright or © or Copr. CNRS
 
-This software is a computer program whose purpose is to estimate
-phylogenies and evolutionary parameters from a dataset according to
-the maximum likelihood principle.
+This software is a computer program whose purpose is to perform
+a model selection with non-homogeneous models.
 
 This software is governed by the CeCILL  license under French law and
 abiding by the rules of distribution of free software.  You can  use, 
@@ -190,16 +189,16 @@ void stepBackward(NonHomogeneousTreeLikelihood* nhtl,
     for (unsigned int i = 1; i < nbParams; i++)
     {
       ApplicationTools::displayGauge(i - 1, nbParams - 2, '=');
-      if(!mask[i]) continue;
+      if (!mask[i]) continue;
       string parami = params[i].getName();
-      for(unsigned int j = 0; j < i; j++)
+      for (unsigned int j = 0; j < i; j++)
       {
-        if(!mask[j]) continue;
+        if (!mask[j]) continue;
         string paramj = params[j].getName();
         //Check if parameters i and j are mergeable:
-        if(paramModelNames[i] != paramModelNames[j]) continue;
+        if (paramModelNames[i] != paramModelNames[j]) continue;
         //Merge only parameters from adjacent nodes?
-        if(connectedBranchesOnly && !areConnected(dynamic_cast<const TreeTemplate<Node> &>(nhtl->getTree()), nodesId[i], nodesId[j])) continue;
+        if (connectedBranchesOnly && !areConnected(dynamic_cast<const TreeTemplate<Node> &>(nhtl->getTree()), nodesId[i], nodesId[j])) continue;
 
         //Copy the current model set:
         SubstitutionModelSet* thisModelSet = modelSet->clone();
@@ -208,7 +207,7 @@ void stepBackward(NonHomogeneousTreeLikelihood* nhtl,
         //First remove parameter j:
         thisModelSet->removeParameter(paramj);
         //Then associate parameter i to all models where j was previously found:
-        for(unsigned int k = 0; k < models4j.size(); k++)
+        for (size_t k = 0; k < models4j.size(); k++)
         {
           thisModelSet->setParameterToModel(thisModelSet->getParameterIndex(parami), models4j[k]);  
         }
@@ -244,7 +243,7 @@ void stepBackward(NonHomogeneousTreeLikelihood* nhtl,
       }
     }
     ApplicationTools::displayTaskDone();
-    if(preVsp.size() == 0)
+    if (preVsp.size() == 0)
     {
       cout << "Stoping here..." << endl;
       mainTest = false; //No more test to perform
@@ -255,9 +254,9 @@ void stepBackward(NonHomogeneousTreeLikelihood* nhtl,
     sort(preVsp.begin(), preVsp.end(), cmp);
     double maxpval = preVsp[0].value;
 
-    if(maxpval < threshold)
+    if (maxpval < threshold)
     {
-      if(verbose > 0) cout << "Stoping here..." << endl;
+      if (verbose > 0) cout << "Stoping here..." << endl;
       mainTest = false; //No more test to perform
       break;
     }
@@ -265,34 +264,34 @@ void stepBackward(NonHomogeneousTreeLikelihood* nhtl,
     {
       //Check if each pair is not already present by connection of previous pairs:
       vector<SortablePair> vsp;
-      for(unsigned int k = 0; k < preVsp.size(); k++)
+      for (size_t k = 0; k < preVsp.size(); k++)
       {
         SortablePair sp = preVsp[k];
         unsigned int testPresent = 0;
-        for(unsigned int l = 0; l < vsp.size() && testPresent < 2; l++)
+        for (size_t l = 0; l < vsp.size() && testPresent < 2; l++)
         {
-          if(sp.i == vsp[l].i || sp.j == vsp[l].j) testPresent++;
+          if (sp.i == vsp[l].i || sp.j == vsp[l].j) testPresent++;
         }
-        if(testPresent < 2) vsp.push_back(sp);
+        if (testPresent < 2) vsp.push_back(sp);
       }
 
       //Compute the number of mergings to perform:
       unsigned int nbTests = 1;
-      if(simultaneous)
+      if (simultaneous)
       {
-        while(nbTests < vsp.size() && vsp[nbTests].value > threshold) nbTests++;
+        while (nbTests < vsp.size() && vsp[nbTests].value > threshold) nbTests++;
       }
 
       //Merge the parameters:
       bool test = true;
-      while(test)
+      while (test)
       {
         SubstitutionModelSet *backupSet = modelSet->clone();
         vector<bool> backupMask = mask;
         unsigned int nbp = modelSet->getParameters().size();
         //Get the intersection set:
         vector<ParamNameAndIndex> paramNames;
-        for(unsigned int i = 0; i < nbTests; i++)
+        for (unsigned int i = 0; i < nbTests; i++)
         {
           ParamNameAndIndex pnai1(params[vsp[i].i].getName(), vsp[i].i);
           ParamNameAndIndex pnai2(params[vsp[i].j].getName(), vsp[i].j);
@@ -300,11 +299,11 @@ void stepBackward(NonHomogeneousTreeLikelihood* nhtl,
           paramNames.push_back(pnai2);
         }
         paramNames = VectorTools::unique<ParamNameAndIndex>(paramNames); //This will also sort the names.
-        for(unsigned int i = 1; i < paramNames.size(); i++)
+        for (unsigned int i = 1; i < paramNames.size(); i++)
         {
           string parami = paramNames[i].name;
           string paramj = paramNames[i-1].name;
-          if(modelSet->getParameterModelName(parami) != modelSet->getParameterModelName(paramj))
+          if (modelSet->getParameterModelName(parami) != modelSet->getParameterModelName(paramj))
             continue;
 
           if(verbose > 1) cout << "Merging parameter " << parami << " and " << paramj << endl;
@@ -329,7 +328,7 @@ void stepBackward(NonHomogeneousTreeLikelihood* nhtl,
         OptimizationTools::optimizeNumericalParameters(
             dynamic_cast<DiscreteRatesAcrossSitesTreeLikelihood*>(nhtl),
             nhtl->getParameters(), 0, 1, precision, 10000, messenger, profiler, false,
-            max(0, (int)verbose - 2), OptimizationTools::OPTIMIZATION_NEWTON);
+            max(0, (int)verbose - 2), OptimizationTools::OPTIMIZATION_NEWTON, OptimizationTools::OPTIMIZATION_BRENT);
          ApplicationTools::displayTaskDone();
         unsigned int newNbp = modelSet->getParameters().size();
         double thisL = nhtl->getValue();
@@ -337,14 +336,14 @@ void stepBackward(NonHomogeneousTreeLikelihood* nhtl,
         double stat = 2*thisL - 2*currentL;
         double pvalue = 1. - RandomTools::pChisq(stat, nbp - newNbp);
         ApplicationTools::displayResult("Global LRT (ddf = " + TextTools::toString(nbp - newNbp) + ")", pvalue);
-        if(pvalue < threshold)
+        if (pvalue < threshold)
         {
-          if(verbose > 0) cout << "Moving foreward..." << endl;
+          if (verbose > 0) cout << "Moving foreward..." << endl;
           nhtl->setSubstitutionModelSet(backupSet);
           delete modelSet;
           modelSet = backupSet;
           mask = backupMask;
-          if(nbTests == 1)
+          if (nbTests == 1)
           {
             if(verbose > 0) cout << "Stoping here..." << endl;
             mainTest = false; //No more test to perform
@@ -373,16 +372,16 @@ void stepForward(NonHomogeneousTreeLikelihood* nhtl)
 DataTable* getModelTable(const SubstitutionModelSet* modelSet, const vector<int>& ids)
 {
   ParameterList pl = modelSet->getNodeParameters();
-  DataTable * table = new DataTable(ids.size(),pl.size());
+  DataTable* table = new DataTable(ids.size(),pl.size());
   table->setColumnNames(pl.getParameterNames());
   vector<string> rowNames(ids.size());
-  for(unsigned int i = 0; i < ids.size(); i++)
+  for (size_t i = 0; i < ids.size(); i++)
     rowNames[i] = TextTools::toString(ids[i]);
   table->setRowNames(rowNames);
-  for(unsigned int i = 0; i < pl.size(); i++)
+  for (unsigned int i = 0; i < pl.size(); i++)
   {
     vector<int> thisIds = modelSet->getNodesWithParameter(pl[i].getName());
-    for(unsigned int j = 0; j < thisIds.size(); j++)
+    for (size_t j = 0; j < thisIds.size(); j++)
     {
       (*table)(TextTools::toString(thisIds[j]), pl[i].getName()) = "X";
     }
@@ -411,7 +410,7 @@ int main(int args, char ** argv)
   cout << "******************************************************************" << endl;
   cout << endl;
 
-  if(args == 1)
+  if (args == 1)
   {
     help();
     exit(0);
@@ -424,9 +423,9 @@ int main(int args, char ** argv)
 
   Alphabet* alphabet = SequenceApplicationTools::getAlphabet(stepnh.getParams(), "", false);
 
-  VectorSiteContainer * allSites = SequenceApplicationTools::getSiteContainer(alphabet, stepnh.getParams());
+  VectorSiteContainer* allSites = SequenceApplicationTools::getSiteContainer(alphabet, stepnh.getParams());
   
-  VectorSiteContainer * sites = SequenceApplicationTools::getSitesToAnalyse(* allSites, stepnh.getParams());
+  VectorSiteContainer* sites = SequenceApplicationTools::getSitesToAnalyse(*allSites, stepnh.getParams());
   delete allSites;
 
   ApplicationTools::displayResult("Number of sequences", TextTools::toString(sites->getNumberOfSequences()));
@@ -445,13 +444,13 @@ int main(int args, char ** argv)
   string nhOpt = ApplicationTools::getStringParameter("nonhomogeneous", stepnh.getParams(), "no", "", true, false);
   ApplicationTools::displayResult("Heterogeneous model", nhOpt);
 
-  SubstitutionModelSet * modelSet = NULL;
-  DiscreteDistribution * rDist    = NULL;
+  SubstitutionModelSet* modelSet = 0;
+  DiscreteDistribution* rDist    = 0;
 
-  if(nhOpt == "one_per_branch")
+  if (nhOpt == "one_per_branch")
   {
-    SubstitutionModel * model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, stepnh.getParams());
-    if(model->getNumberOfStates() > model->getAlphabet()->getSize())
+    SubstitutionModel* model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, stepnh.getParams());
+    if (model->getNumberOfStates() > model->getAlphabet()->getSize())
     {
       //Markov-modulated Markov model!
       rDist = new ConstantDistribution(1.);
@@ -461,24 +460,24 @@ int main(int args, char ** argv)
       rDist = PhylogeneticsApplicationTools::getRateDistribution(stepnh.getParams());
     }
     vector<double> rateFreqs;
-    if(model->getNumberOfStates() != alphabet->getSize())
+    if (model->getNumberOfStates() != alphabet->getSize())
     {
       //Markov-Modulated Markov Model...
       unsigned int n =(unsigned int)(model->getNumberOfStates() / alphabet->getSize());
-      rateFreqs = vector<double>(n, 1./(double)n); // Equal rates assumed for now, may be changed later (actually, in the most general case,
+      rateFreqs = vector<double>(n, 1./static_cast<double>(n)); // Equal rates assumed for now, may be changed later (actually, in the most general case,
                                                    // we should assume a rate distribution for the root also!!!  
     }
     FrequenciesSet* rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, sites, stepnh.getParams(), rateFreqs);
     vector<string> globalParameters = ApplicationTools::getVectorParameter<string>("nonhomogeneous_one_per_branch.shared_parameters", stepnh.getParams(), ',', "");
     modelSet = SubstitutionModelSetTools::createNonHomogeneousModelSet(model, rootFreqs, tree, globalParameters); 
-    model = NULL;
+    model = 0;
     
     tl = new RNonHomogeneousTreeLikelihood(*tree, *sites, modelSet, rDist, false, true);
   }
-  else if(nhOpt == "general")
+  else if (nhOpt == "general")
   {
-    modelSet = PhylogeneticsApplicationTools::getSubstitutionModelSet(alphabet,NULL, stepnh.getParams());
-    if(modelSet->getNumberOfStates() > modelSet->getAlphabet()->getSize())
+    modelSet = PhylogeneticsApplicationTools::getSubstitutionModelSet(alphabet, 0, stepnh.getParams());
+    if (modelSet->getNumberOfStates() > modelSet->getAlphabet()->getSize())
     {
       //Markov-modulated Markov model!
       rDist = new ConstantDistribution(1.);
@@ -494,7 +493,7 @@ int main(int args, char ** argv)
  
     
   double logL = tl->getValue();
-  if(isinf(logL))
+  if (isinf(logL))
   {
     // This may be due to null branch lengths, leading to null likelihood!
     ApplicationTools::displayWarning("!!! Warning!!! Initial likelihood is zero.");
@@ -509,11 +508,11 @@ int main(int args, char ** argv)
     logL = tl->getValue();
   }
   ApplicationTools::displayResult("Initial -log(likelihood)", TextTools::toString(logL, 15));
-  if(isinf(logL))
+  if (isinf(logL))
   {
     ApplicationTools::displayError("!!! Unexpected initial likelihood == 0.");
     ApplicationTools::displayError("!!! Looking at each site:");
-    for(unsigned int i = 0; i < sites->getNumberOfSites(); i++)
+    for (unsigned int i = 0; i < sites->getNumberOfSites(); i++)
     {
       (*ApplicationTools::error << "Site " << sites->getSite(i).getPosition() << "\tlog likelihood = " << tl->getLogLikelihoodForASite(i)).endLine();
     }
@@ -547,9 +546,9 @@ int main(int args, char ** argv)
   if (profiler) profiler->setPrecision(20);
   if (verbose) ApplicationTools::displayResult("Profiler", prPath);
 
-  if(algo == "backward")
+  if (algo == "backward")
     stepBackward(tl, threshold, connected, !sequential, precision, profiler, messageHandler, verbose);
-  else if(algo == "forward")
+  else if (algo == "forward")
     stepForward(tl);
   else throw Exception("Unknown algorithm " + algo);
   modelSet = tl->getSubstitutionModelSet();
@@ -571,18 +570,18 @@ int main(int args, char ** argv)
   // Write parameters to screen:
   ApplicationTools::displayResult("Log likelihood", TextTools::toString(tl->getValue(), 15));
   ParameterList parameters = tl->getSubstitutionModelParameters();
-  for(unsigned int i = 0; i < parameters.size(); i++)
+  for (unsigned int i = 0; i < parameters.size(); i++)
   {
     ApplicationTools::displayResult(parameters[i].getName(), TextTools::toString(parameters[i].getValue()));
   }
   parameters = tl->getRateDistributionParameters();
-  for(unsigned int i = 0; i < parameters.size(); i++)
+  for (unsigned int i = 0; i < parameters.size(); i++)
   {
     ApplicationTools::displayResult(parameters[i].getName(), TextTools::toString(parameters[i].getValue()));
   }
   // Write parameters to file:
   string parametersFile = ApplicationTools::getAFilePath("output.estimates", stepnh.getParams(), false, false);
-  if(parametersFile != "none")
+  if (parametersFile != "none")
   {
     auto_ptr<ostream> out_ptr(new ofstream(parametersFile.c_str(), ios::out));
     StlOutputStream out(out_ptr);
@@ -597,13 +596,13 @@ int main(int args, char ** argv)
   }
 
   string treeWIdPath = ApplicationTools::getAFilePath("output.tree_wid.path", stepnh.getParams(), false, false);
-  if(treeWIdPath != "none")
+  if( treeWIdPath != "none")
   {
     TreeTemplate<Node> tt(*tree);
     vector<Node*> nodes = tt.getNodes();
-    for(unsigned int i = 0; i < nodes.size(); i++)
+    for (size_t i = 0; i < nodes.size(); i++)
     {
-      if(nodes[i]->isLeaf())
+      if (nodes[i]->isLeaf())
         nodes[i]->setName(TextTools::toString(nodes[i]->getId()) + "_" + nodes[i]->getName());
       else
         nodes[i]->setBranchProperty("NodeId", BppString(TextTools::toString(nodes[i]->getId())));
@@ -615,7 +614,7 @@ int main(int args, char ** argv)
   }
 
   string tablePath = ApplicationTools::getAFilePath("output.model_table", stepnh.getParams(), false, false);
-  if(tablePath != "none")
+  if (tablePath != "none")
   {
     ofstream file(tablePath.c_str(), ios::out);
     DataTable* table = getModelTable(modelSet, tree->getNodesId());
@@ -632,7 +631,7 @@ int main(int args, char ** argv)
   stepnh.done();
 
   }
-  catch(exception & e)
+  catch (exception& e)
   {
     cout << e.what() << endl;
     exit(-1);

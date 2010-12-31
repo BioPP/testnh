@@ -1,0 +1,22 @@
+alphabet = RNA
+
+input.tree.file = Life_Alignment.dnd
+input.tree.format = Newick
+
+input.sequence.file = Life_Alignment.mase
+input.sequence.format = Mase
+input.sequence.sites_to_use = complete
+
+map.type = GC
+test.global = no
+test.branch = yes
+test.branch.neighbor = yes
+test.branch.negbrlen = no
+
+optimize = FullD(derivatives=Newton)
+optimization.reparametrization = no
+optimization.verbose = yes
+optimization.max_number_f_eval = 1000
+optimization.tolerance = 0.0001
+optimization.profiler = Life_Alignment.profile
+optimization.final = none
