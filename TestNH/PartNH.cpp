@@ -47,6 +47,7 @@ using namespace std;
 #include <Bpp/Phyl/Tree.h>
 #include <Bpp/Phyl/App/PhylogeneticsApplicationTools.h>
 #include <Bpp/Phyl/Io/Newick.h>
+#include <Bpp/Phyl/Io/Nhx.h>
 #include <Bpp/Phyl/Likelihood.all>
 
 // From bpp-seq:
@@ -95,7 +96,7 @@ vector<const Node*> getCandidateNodesForThreshold(map<double, vector<const Node*
   return candidates;
 }
 
-map<unsigned int, vector<int> > getGroups(vector<const Node*>& candidates) {
+vector< vector<int> > getGroups(vector<const Node*>& candidates) {
   map<int, Partition> partitions;
   for (size_t i = 0; i < candidates.size(); ++i) {
     vector<string> ids = TreeTemplateTools::getLeavesNames(*candidates[i]);
@@ -119,14 +120,20 @@ map<unsigned int, vector<int> > getGroups(vector<const Node*>& candidates) {
   for (map<int, Partition>::iterator it = partitions.begin(); it != partitions.end(); ++it) {
     groups[it->second.number].push_back(it->first);
   }
-  return groups;
+  //And renumber partitions:
+  vector< vector<int> > groups2;
+  for (map<unsigned int, vector<int> >::const_iterator it = groups.begin(); it != groups.end(); it++)
+    groups2.push_back(it->second);
+
+  //Return results
+  return groups2;
 }
  
 SubstitutionModelSet* buildModelSetFromPartitions(
     const SubstitutionModel* model,
     const FrequenciesSet* rootFreqs,
     const Tree* tree,
-    const map<unsigned int, vector<int> >& groups,
+    const vector< vector<int> >& groups,
     const vector<string>& globalParameterNames
   ) throw (AlphabetException, Exception)
 {
@@ -137,23 +144,21 @@ SubstitutionModelSet* buildModelSetFromPartitions(
   globalParameters = model->getParameters();
   vector<string> globalParameterPrefs; // vector of the prefixes (when there is a '*' in the declaration)
   //First check if parameter names are valid:
-  size_t i, j;
-  
-  for ( i = 0; i < globalParameterNames.size(); i++)
+  for ( size_t i = 0; i < globalParameterNames.size(); i++)
   {
     if (globalParameterNames[i].find("*") != string::npos) {
-      j = globalParameterNames[i].find("*");
+      size_t j = globalParameterNames[i].find("*");
       globalParameterPrefs.push_back(globalParameterNames[i].substr(0,j));
     }
     else if (!globalParameters.hasParameter(globalParameterNames[i]))
       throw Exception("SubstitutionModelSetTools::createNonHomogeneousModelSet. Parameter '" + globalParameterNames[i] + "' is not valid.");
   }
   
-  for ( i = globalParameters.size(); i > 0; i--)
+  for ( size_t i = globalParameters.size(); i > 0; i--)
   {
     string gN = globalParameters[i - 1].getName();
     bool flag = false;
-    for ( j = 0; j < globalParameterPrefs.size(); j++)
+    for ( size_t j = 0; j < globalParameterPrefs.size(); j++)
       if (gN.find(globalParameterPrefs[j]) == 0) {
         flag = true;
         break;
@@ -171,14 +176,14 @@ SubstitutionModelSet* buildModelSetFromPartitions(
     new SubstitutionModelSet(model->getAlphabet(), rootFreqs->clone()) :
     new SubstitutionModelSet(model->getAlphabet(), true);
   //We assign a copy of this model to all nodes in the tree, for each partition, and link all parameters with it.
-  for (map<unsigned int, vector<int> >::const_iterator it = groups.begin(); it != groups.end(); it++) {
+  for (size_t i = 0; i < groups.size(); ++i) {
     modelSet->addModel(dynamic_cast<SubstitutionModel*>(model->clone()),
-        it->second, branchParameters.getParameterNames());
+        groups[i], branchParameters.getParameterNames());
   }
   vector<int> allIds = tree->getNodesId();
   int rootId = tree->getRootId();
   unsigned int pos = 0;
-  for (i = 0; i < allIds.size(); i++) {
+  for (size_t i = 0; i < allIds.size(); i++) {
     if (allIds[i] == rootId) {
       pos = i;
       break;
@@ -211,8 +216,16 @@ int main(int args, char ** argv)
   partnh.startTimer();
 
   Newick newick;
-  TreeTemplate<Node>* htree = newick.read(string("Clusters.dnd"));
-  TreeTemplate<Node>* ptree = dynamic_cast<TreeTemplate<Node>*>(PhylogeneticsApplicationTools::getTree(partnh.getParams()));
+  string clusterTree = ApplicationTools::getAFilePath("input.cluster_tree.file", partnh.getParams(), true, true);
+  ApplicationTools::displayResult("Input cluster tree", clusterTree);
+  TreeTemplate<Node>* htree = newick.read(clusterTree);
+  
+  //We only read NHX tree because we want to be sure to use the correct id:
+  //TreeTemplate<Node>* ptree = dynamic_cast<TreeTemplate<Node>*>(PhylogeneticsApplicationTools::getTree(partnh.getParams()));
+  string treeIdPath = ApplicationTools::getAFilePath("input.tree.file", partnh.getParams(), true, true);
+  ApplicationTools::displayResult("Input tree file", treeIdPath);
+  Nhx nhx(true);
+  TreeTemplate<Node>* ptree = nhx.read(treeIdPath);
 
   map<const Node*, double> heights;
   TreeTemplateTools::getHeights(*htree->getRootNode(), heights);
@@ -222,36 +235,25 @@ int main(int args, char ** argv)
   for (map<const Node*, double>::iterator it = heights.begin(); it != heights.end(); ++it)
     sortedHeights[max(0., 1. - 2. * it->second)].push_back(it->first);
 
+  //This will contains the final groups of nodes:
+  vector< vector<int> > groups;
+
   if (method == "threshold") {
     double threshold = ApplicationTools::getDoubleParameter("partition.threshold", partnh.getParams(), 0.01);
     ApplicationTools::displayResult("Output partitions for threshold", threshold);
     vector<const Node*> candidates = getCandidateNodesForThreshold(sortedHeights, threshold);
     ApplicationTools::displayResult("Number of nested partitions", candidates.size());
    
-    map<unsigned int, vector<int> > groups = getGroups(candidates);
+    groups = getGroups(candidates);
     ApplicationTools::displayResult("Number of real partitions", groups.size());
     //Display partitions:
-    for (map<unsigned int, vector<int> >::iterator itg = groups.begin(); itg != groups.end(); ++itg) {
-      ApplicationTools::displayResult("Partition " + TextTools::toString(itg->first), TextTools::toString(itg->second.size()) + " elements.");
-    }
+    for (size_t i = 0; i < groups.size(); ++i)
+      ApplicationTools::displayResult("Partition " + TextTools::toString(i + 1), TextTools::toString(groups[i].size()) + " element(s).");
   
-    //Now write to file:
-    for (map<unsigned int, vector<int> >::iterator itg = groups.begin(); itg != groups.end(); ++itg) {
-      for (size_t j = 0; j < itg->second.size(); ++j) {
-        Node* node = ptree->getNode(itg->second[j]);
-        if (node->hasName())
-          node->setName(TextTools::toString(itg->first) + "_" + node->getName());
-        node->setBranchProperty("partition", BppString(TextTools::toString(itg->first)));
-      }
-    }
-    newick.enableExtendedBootstrapProperty("partition");
-    newick.write(*ptree, "Partitions.dnd");
   } else if (method == "auto") {
     //First we need to get the alphabet and data:
     Alphabet* alphabet = SequenceApplicationTools::getAlphabet(partnh.getParams(), "", false);
-
     VectorSiteContainer* allSites = SequenceApplicationTools::getSiteContainer(alphabet, partnh.getParams());
-  
     VectorSiteContainer* sites = SequenceApplicationTools::getSitesToAnalyse(*allSites, partnh.getParams());
     delete allSites;
     unsigned int nbSites = sites->getNumberOfSites();
@@ -308,6 +310,8 @@ int main(int args, char ** argv)
       stationarity = !rootFreqs;
     }
     ApplicationTools::displayBooleanResult("Stationarity assumed", stationarity);
+    if (!stationarity && !ptree->isRooted())
+      ApplicationTools::displayWarning("An (most likely) unrooted tree is in use with a non-stationary model! This is probably not what you want...");
    
     vector<string> globalParameters = ApplicationTools::getVectorParameter<string>("nonhomogeneous.shared_parameters", partnh.getParams(), ',', "");
     for (unsigned int i = 0; i < globalParameters.size(); i++)
@@ -330,9 +334,11 @@ int main(int args, char ** argv)
     bool test = true;
     map<double, vector<const Node*> >::iterator it = sortedHeights.begin();
     double currentThreshold = 1.;
+    
+    //We get this now, so that it does not fail after having done the full optimization!!
+    string modelPath = ApplicationTools::getAFilePath("output.model.file", partnh.getParams(), true, false);
 
     SubstitutionModelSet* modelSet = 0;
-    unsigned int count = 1;
     while (test && it != sortedHeights.end()) {
       for (vector<const Node*>::iterator it2 = it->second.begin(); it2 != it->second.end(); ++it2) {
         for (unsigned int k = 0; k < (*it2)->getNumberOfSons(); ++k)
@@ -342,19 +348,18 @@ int main(int args, char ** argv)
       ApplicationTools::displayResult("Current threshold", currentThreshold);
       it++;
       //Get the corresponding partitions:
-      map<unsigned int, vector<int> > groups = getGroups(candidates);
-      ApplicationTools::displayResult("Number of real partitions", groups.size());
+      vector< vector<int> > newGroups = getGroups(candidates);
+      ApplicationTools::displayResult("Number of real partitions", newGroups.size());
       //Display partitions:
-      for (map<unsigned int, vector<int> >::iterator itg = groups.begin(); itg != groups.end(); ++itg) {
-        ApplicationTools::displayResult("Partition " + TextTools::toString(itg->first), TextTools::toString(itg->second.size()) + " elements.");
-      }
+      for (size_t i = 0; i < newGroups.size(); ++i)
+        ApplicationTools::displayResult("Partition " + TextTools::toString(i + 1), TextTools::toString(newGroups[i].size()) + " element(s).");
       //Now we have to build the corresponding model set:
-      modelSet = buildModelSetFromPartitions(model, rootFreqs, ptree, groups, globalParameters);
+      SubstitutionModelSet* newModelSet = buildModelSetFromPartitions(model, rootFreqs, ptree, newGroups, globalParameters);
       ParameterList previousParameters = drtl->getBranchLengthsParameters();
       previousParameters.addParameters(drtl->getRateDistributionParameters());
       delete drtl;
       if (dynamic_cast<MixedSubstitutionModel*>(model) == 0)
-        drtl = new DRNonHomogeneousTreeLikelihood(*ptree, *sites, modelSet, rDist, true);
+        drtl = new DRNonHomogeneousTreeLikelihood(*ptree, *sites, newModelSet, rDist, false);
       else
         throw Exception("Mixed models not supported so far.");
         //drtl = new DRNonHomogeneousMixedTreeLikelihood(*ptree, *sites, modelSet, rDist, true);
@@ -364,16 +369,16 @@ int main(int args, char ** argv)
       PhylogeneticsApplicationTools::optimizeParameters(drtl, drtl->getParameters(), partnh.getParams(), "", true, false);
       double newLogL = drtl->getValue();
       double newDf = static_cast<double>(drtl->getParameters().size());
-      ApplicationTools::displayResult("* New non-homogeneous model - LogL", newLogL);
-      ApplicationTools::displayResult("                            - df", newDf);
+      ApplicationTools::displayResult("* New NH model - LogL", newLogL);
+      ApplicationTools::displayResult("               - df", newDf);
       double newAic = 2. * (newDf + newLogL);
       double newBic = 2. * newLogL + newDf * log(nbSites);
 
       double d = 2 * (logL - newLogL);
       double pvalue = 1. - RandomTools::pChisq(d, newDf - df);
-      ApplicationTools::displayResult("                            - LRT p-value", pvalue);
-      ApplicationTools::displayResult("                            - AIC", newAic);
-      ApplicationTools::displayResult("                            - BIC", newBic);
+      ApplicationTools::displayResult("               - LRT p-value", pvalue);
+      ApplicationTools::displayResult("               - AIC", newAic);
+      ApplicationTools::displayResult("               - BIC", newBic);
 
       //Finally compare new model to the current one:
       if (likelihoodComparison == "LRT") {
@@ -384,8 +389,24 @@ int main(int args, char ** argv)
         test = (newBic < bic);
       }
 
-      //Print model description:
-      StlOutputStream out(auto_ptr<ostream>(new ofstream(string("model" + TextTools::toString(count++) + ".bpp").c_str(), ios::out)));
+      if (test) {
+        if (modelSet)
+          delete modelSet;
+        modelSet = newModelSet;
+        logL     = newLogL;
+        df       = newDf;
+        aic      = newAic;
+        bic      = newBic;
+        groups   = newGroups;
+      } else {
+        delete newModelSet;
+      }
+    }
+    //Write best model to file and output partition tree.
+    ApplicationTools::displayResult("Model description output to file", modelPath);
+    //We have to distinguish two cases...
+    if (modelSet) {
+      StlOutputStream out(auto_ptr<ostream>(new ofstream(modelPath.c_str(), ios::out)));
       out << "# Log likelihood = ";
       out.setPrecision(20) << (-drtl->getValue());
       out.endLine();
@@ -396,25 +417,40 @@ int main(int args, char ** argv)
       out.endLine();
       PhylogeneticsApplicationTools::printParameters(rDist   , out);
       out.endLine();
-
-      if (test) {
-        delete modelSet;
-        logL = newLogL;
-        df   = newDf;
-        aic  = newAic;
-        bic  = newBic;
-      }
-    }
-    //Write best model to file and output partition tree.
-    //We have to distinguish a few cases...
-    if (modelSet) {
-
     } else {
-
+      StlOutputStream out(auto_ptr<ostream>(new ofstream("model.bpp", ios::out)));
+      out << "# Log likelihood = ";
+      out.setPrecision(20) << (-drtl->getValue());
+      out.endLine();
+      out.endLine();
+      out << "# Substitution model parameters:";
+      out.endLine();
+      PhylogeneticsApplicationTools::printParameters(model, out);
+      out.endLine();
+      PhylogeneticsApplicationTools::printParameters(rDist, out);
+      out.endLine();
     }
-    //TODO  
   } else throw Exception("Unknown option: " + method);
 
+  //Now write partitions to file:
+  if (groups.size() > 1) {
+    string partPath = ApplicationTools::getAFilePath("output.partitions.file", partnh.getParams(), true, false);
+    ApplicationTools::displayResult("Partitions output to file", partPath);
+    for (size_t i = 0; i < groups.size(); ++i) {
+      for (size_t j = 0; j < groups[i].size(); ++j) {
+        Node* node = ptree->getNode(groups[i][j]);
+        if (node->hasName())
+          node->setName(TextTools::toString(i + 1) + "_" + node->getName());
+        node->setBranchProperty("partition", BppString(TextTools::toString(i + 1)));
+      }
+    }
+    newick.enableExtendedBootstrapProperty("partition");
+    newick.write(*ptree, partPath);
+  } else {
+    ApplicationTools::displayResult("Partitions output to file", string("None (no partitions found)"));
+  }
+ 
+  //Cleaning memory:
   delete htree;
   delete ptree;
   partnh.done();

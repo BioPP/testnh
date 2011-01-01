@@ -98,13 +98,16 @@ void simulate(
 {
   ApplicationTools::displayTask("Perform simulations", true);
 
-  ofstream out(distFile.c_str(), ios::out);
-  out << "Sim\tNbSignif\tMedian" << endl;
+  auto_ptr<ofstream> out;
+  if (distFile != "none") {
+    out.reset(new ofstream(distFile.c_str(), ios::out));
+    *out << "Sim\tNbSignif\tMedian" << endl;
+  }
 
   SiteContainer * sites;
   unsigned int nbNbTPVal = 0;
   unsigned int nbMedPVal = 0;
-  for(unsigned int k = 0; k < nSim; k++)
+  for (unsigned int k = 0; k < nSim; k++)
   {
     ApplicationTools::displayGauge(k, nSim-1, '=');
 
@@ -114,26 +117,28 @@ void simulate(
     unsigned nbTest = 0;
     vector<double> bstats;
     BowkerTest * test;
-    for(unsigned int i = 0; i < nbSequences; i++)
+    for (unsigned int i = 0; i < nbSequences; i++)
     {
-      for(unsigned int j = 0; j < i; j++)
+      for (unsigned int j = 0; j < i; j++)
       {
         test = SequenceTools::bowkerTest(sites->getSequence(i), sites->getSequence(j));
-        if(test->getPValue() < threshold) nbTest++;
+        if (test->getPValue() < threshold) nbTest++;
         bstats.push_back(test->getStatistic());
         delete test;
       }
     }
     double median = VectorTools::median(bstats);
-    out << k << "\t" << nbTest << "\t" << median << endl;
-    if(nbTest >= observedNbSignif) nbNbTPVal++;
-    if(median >= observedMedian  ) nbMedPVal++;
+    if (out.get())
+      *out << k << "\t" << nbTest << "\t" << median << endl;
+    if (nbTest >= observedNbSignif) nbNbTPVal++;
+    if (median >= observedMedian  ) nbMedPVal++;
    
     delete sites;
   }
-  out.close();
-  nbSignifPValue = (double)(nbNbTPVal + 1) / (double)(nSim + 1);
-  medianPValue   = (double)(nbMedPVal + 1) / (double)(nSim + 1);
+  if (out.get())
+    out->close();
+  nbSignifPValue = static_cast<double>(nbNbTPVal + 1) / static_cast<double>(nSim + 1);
+  medianPValue   = static_cast<double>(nbMedPVal + 1) / static_cast<double>(nSim + 1);
   ApplicationTools::displayTaskDone();
 }
 
@@ -199,7 +204,7 @@ int main(int args, char ** argv)
 
   
   // 2) Run simulations
-  NonHomogeneousSequenceSimulator * nhss;
+  NonHomogeneousSequenceSimulator* nhss;
   unsigned int nbSim = ApplicationTools::getParameter<unsigned int>("bootstrap.number", testnh.getParams(), 100);
   ApplicationTools::displayResult("Number of simulations", nbSim);
   double nbSignifPValue, medianPValue;
@@ -286,7 +291,7 @@ int main(int args, char ** argv)
   // 2.2) Simulate
   distFile = ApplicationTools::getAFilePath("bootstrap.dist_file", testnh.getParams(), false, false);
   ApplicationTools::displayResult("Null distribution in file", distFile);
-  if(nhOpt == "no")
+  if (nhOpt == "no")
     nhss = new NonHomogeneousSequenceSimulator(model, rDist, tree);
   else
     nhss = new NonHomogeneousSequenceSimulator(modelSet, rDist, tree);

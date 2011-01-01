@@ -60,6 +60,7 @@ using namespace std;
 #include <Bpp/Phyl/App/PhylogeneticsApplicationTools.h>
 #include <Bpp/Phyl/OptimizationTools.h>
 #include <Bpp/Phyl/Io/Newick.h>
+#include <Bpp/Phyl/Io/Nhx.h>
 #include <Bpp/Phyl/Model/JCnuc.h>
 #include <Bpp/Phyl/Model/HKY85.h>
 #include <Bpp/Phyl/Model/JCprot.h>
@@ -141,19 +142,21 @@ int main(int args, char ** argv)
   mapnh.startTimer();
 
   Alphabet* alphabet = SequenceApplicationTools::getAlphabet(mapnh.getParams(), "", false);
-
   VectorSiteContainer* allSites = SequenceApplicationTools::getSiteContainer(alphabet, mapnh.getParams());
-  
   VectorSiteContainer* sites = SequenceApplicationTools::getSitesToAnalyse(*allSites, mapnh.getParams());
   delete allSites;
 
   ApplicationTools::displayResult("Number of sequences", TextTools::toString(sites->getNumberOfSequences()));
   ApplicationTools::displayResult("Number of sites", TextTools::toString(sites->getNumberOfSites()));
   
-  // Get the initial tree
+  //Get the initial tree
   Tree* tree = PhylogeneticsApplicationTools::getTree(mapnh.getParams());
   ApplicationTools::displayResult("Number of leaves", TextTools::toString(tree->getNumberOfLeaves()));
- 
+  //Convert to NHX if input tree is newick or nexus?
+  string treeIdOut = ApplicationTools::getAFilePath("output.tree_with_id.file", mapnh.getParams(), false, false);
+  Nhx nhx(true);
+  nhx.write(*tree, treeIdOut);
+
   //Perform the mapping:
   SubstitutionRegister* reg = 0;
   string regType = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "all", "", true, false);
@@ -179,8 +182,6 @@ int main(int args, char ** argv)
   DiscreteDistribution* rDist = new ConstantDistribution(1., true);
   SubstitutionCount* count = new SimpleSubstitutionCount(reg);
 
-  tree->unroot();
-  tree->resetNodesId();
   DRHomogeneousTreeLikelihood drtl(*tree, *sites, model, rDist);
   drtl.initialize();
   
@@ -214,13 +215,17 @@ int main(int args, char ** argv)
   bool testBranch = ApplicationTools::getBooleanParameter("test.branch", mapnh.getParams(), false, "", true, false);
   bool testNeighb = ApplicationTools::getBooleanParameter("test.branch.neighbor", mapnh.getParams(), true, "", true, false);
   bool testNegBrL = ApplicationTools::getBooleanParameter("test.branch.negbrlen", mapnh.getParams(), false, "", true, false);
+  ApplicationTools::displayBooleanResult("Perform branch clustering", testBranch);
+  ApplicationTools::displayBooleanResult("Cluster only neighbor nodes", testNeighb);
+  ApplicationTools::displayBooleanResult("Allow len < 0 in clustering", testNegBrL);
   if (testBranch) {
     //ChiClustering htest(counts, ids, true);
     MultinomialClustering htest(counts, ids, drtl.getTree(), testNeighb, testNegBrL, true);
     TreeTemplate<Node>* htree = htest.getTree();
     Newick newick;
-    newick.write(*htree, "Clusters.dnd");
-    newick.write(drtl.getTree(), "Tree.dnd");
+    string clusterTreeOut = ApplicationTools::getAFilePath("output.cluster_tree.file", mapnh.getParams(), false, false);
+    ApplicationTools::displayResult("Output cluster tree to", clusterTreeOut);
+    newick.write(*htree, clusterTreeOut);
     delete htree;
   }
 

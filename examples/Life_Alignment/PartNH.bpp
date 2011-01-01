@@ -1,0 +1,44 @@
+#Input tree file must be in NHX format, in order to get proper node id.
+#MapNH can output such an NHX tree if the input one was in Newick or Nexus.
+input.tree.file = Life_Alignment.nhx
+input.cluster_tree.file = Clusters.dnd
+
+#A simple newick tree showing the resulting partitions for visual inspection:
+output.partitions.file = Partitions.dnd
+
+###########################################################################
+#This (fast) method allows you to output partitions from a given threshold:
+###########################################################################
+#partition.method = threshold
+#partition.threshold = 0.001
+
+###########################################################################
+#Alternatively, we can use models comparison to determine the threshold.
+#This requires a data set and a model family to be specified, provided
+#with the following options:
+###########################################################################
+partition.method = auto
+partition.test = BIC #Can be one of LRT, BIC or AIC.
+partition.test.threshold = 0.01 #If LRT is used.
+
+alphabet = RNA
+input.sequence.file = Life_Alignment.mase
+input.sequence.format = Mase
+input.sequence.sites_to_use = complete
+
+model = T92(kappa=2.0, theta=0.5)
+rate_distribution = Gamma(n=4, alpha=0.5)
+nonhomogeneous.root_freq = GC(theta=0.5)
+nonhomogeneous.shared_parameters = T92.kappa #Only theta will be "non-homogeneous"
+
+#How to optimize parameters when fitting models:
+optimize = FullD(derivatives=Newton)
+optimization.reparametrization = no
+optimization.verbose = 1
+optimization.max_number_f_eval = 1000
+optimization.tolerance = 0.000001
+optimization.profiler = Life_Alignment.profile
+optimization.final = none
+
+#Where to write optimal model (for later use with bppSeqGen or bppAncestor for instance):
+output.model.file = Model_$(partition.test).bpp

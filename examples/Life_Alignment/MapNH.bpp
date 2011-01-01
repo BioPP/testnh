@@ -2,6 +2,10 @@ alphabet = RNA
 
 input.tree.file = Life_Alignment.dnd
 input.tree.format = Newick
+#We convert the tree to Nhx format for use with PartNH:
+output.tree_with_id.file = Life_Alignment.nhx
+#Where to output cluster tree:
+output.cluster_tree.file = Life_Alignment.cluster_join.dnd
 
 input.sequence.file = Life_Alignment.mase
 input.sequence.format = Mase
@@ -10,13 +14,12 @@ input.sequence.sites_to_use = complete
 map.type = GC
 test.global = no
 test.branch = yes
-test.branch.neighbor = yes
+test.branch.neighbor = #yes or no
 test.branch.negbrlen = no
 
 optimize = FullD(derivatives=Newton)
 optimization.reparametrization = no
 optimization.verbose = yes
 optimization.max_number_f_eval = 1000
-optimization.tolerance = 0.0001
-optimization.profiler = Life_Alignment.profile
+optimization.tolerance = 0.000001
 optimization.final = none
