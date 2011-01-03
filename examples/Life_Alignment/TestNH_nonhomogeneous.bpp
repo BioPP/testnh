@@ -1,0 +1,16 @@
+#Input tree file must be in NHX format, in order to get proper node id.
+#MapNH can output such an NHX tree if the input one was in Newick or Nexus.
+input.tree.file = Life_Alignment.ml_h.dnd
+input.tree.format = Newick
+
+alphabet = RNA
+input.sequence.file = Life_Alignment.mase
+input.sequence.format = Mase
+input.sequence.sites_to_use = complete
+
+#When to consider a pairwise test significant:
+bowker_test.threshold = 0.05
+
+#Number of simulations to perform (parameric bootstrap):
+bootstrap.number = 1000
+
