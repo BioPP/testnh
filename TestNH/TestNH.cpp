@@ -167,9 +167,7 @@ int main(int args, char ** argv)
   testnh.startTimer();
 
   Alphabet* alphabet = SequenceApplicationTools::getAlphabet(testnh.getParams(), "", false);
-
   VectorSiteContainer* allSites = SequenceApplicationTools::getSiteContainer(alphabet, testnh.getParams());
-  
   VectorSiteContainer* sites = SequenceApplicationTools::getSitesToAnalyse(* allSites, testnh.getParams());
   delete allSites;
 
@@ -184,9 +182,9 @@ int main(int args, char ** argv)
   double threshold = ApplicationTools::getDoubleParameter("bowker_test.threshold", testnh.getParams(), 0.05);
   ApplicationTools::displayResult("Bowker's test threshold", threshold);
   
-  BowkerTest * test;
+  BowkerTest* test;
   ApplicationTools::displayTask("Compute pairwise tests", true);
-  for(unsigned int i = 0; i < nbSequences; i++)
+  for (unsigned int i = 0; i < nbSequences; i++)
   {
     ApplicationTools::displayGauge(i, nbSequences - 1, '=');
     for(unsigned int j = 0; j < i; j++)
@@ -212,7 +210,8 @@ int main(int args, char ** argv)
   
   // 2.1) Get the initial tree and model
   Tree* tree = PhylogeneticsApplicationTools::getTree(testnh.getParams());
-  ApplicationTools::displayResult("Number of leaves", TextTools::toString(tree->getNumberOfLeaves()));
+  ApplicationTools::displayResult("Number of leaves", tree->getNumberOfLeaves());
+  ApplicationTools::displayBooleanResult("Is rooted", tree->isRooted());
  
   SubstitutionModel   * model    = 0;
   SubstitutionModelSet* modelSet = 0;
@@ -222,13 +221,13 @@ int main(int args, char ** argv)
   string nhOpt = ApplicationTools::getStringParameter("nonhomogeneous", testnh.getParams(), "no", "", true, false);
   ApplicationTools::displayResult("Heterogeneous model", nhOpt);
 
-  if(nhOpt == "no")
+  if (nhOpt == "no")
   {  
     model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, testnh.getParams());
-    if(model->getNumberOfStates() > model->getAlphabet()->getSize())
+    if (model->getNumberOfStates() > model->getAlphabet()->getSize())
     {
       //Markov-modulated Markov model!
-      rDist = new ConstantDistribution(1.);
+      rDist = new ConstantDistribution(1., true);
     }
     else
     {
@@ -237,40 +236,40 @@ int main(int args, char ** argv)
   
     tl = new RHomogeneousTreeLikelihood(*tree, *sites, model, rDist, true, true, true);
   }
-  else if(nhOpt == "one_per_branch")
+  else if (nhOpt == "one_per_branch")
   {
     model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, testnh.getParams());
-    if(model->getNumberOfStates() > model->getAlphabet()->getSize())
+    if (model->getNumberOfStates() > model->getAlphabet()->getSize())
     {
       //Markov-modulated Markov model!
-      rDist = new ConstantDistribution(1.);
+      rDist = new ConstantDistribution(1., true);
     }
     else
     {
       rDist = PhylogeneticsApplicationTools::getRateDistribution(testnh.getParams());
     }
     vector<double> rateFreqs;
-    if(model->getNumberOfStates() != alphabet->getSize())
+    if (model->getNumberOfStates() != alphabet->getSize())
     {
       //Markov-Modulated Markov Model...
-      unsigned int n =(unsigned int)(model->getNumberOfStates() / alphabet->getSize());
-      rateFreqs = vector<double>(n, 1./(double)n); // Equal rates assumed for now, may be changed later (actually, in the most general case,
+      unsigned int n = static_cast<unsigned int>(model->getNumberOfStates() / alphabet->getSize());
+      rateFreqs = vector<double>(n, 1./static_cast<double>(n)); // Equal rates assumed for now, may be changed later (actually, in the most general case,
                                                    // we should assume a rate distribution for the root also!!!  
     }
     FrequenciesSet* rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, sites, testnh.getParams(), rateFreqs);
     vector<string> globalParameters = ApplicationTools::getVectorParameter<string>("nonhomogeneous_one_per_branch.shared_parameters", testnh.getParams(), ',', "");
     modelSet = SubstitutionModelSetTools::createNonHomogeneousModelSet(model, rootFreqs, tree, globalParameters); 
-    model = NULL;
+    model = 0;
       
     tl = new RNonHomogeneousTreeLikelihood(*tree, *sites, modelSet, rDist, true, true);
   }
-  else if(nhOpt == "general")
+  else if (nhOpt == "general")
   {
     modelSet = PhylogeneticsApplicationTools::getSubstitutionModelSet(alphabet, 0, testnh.getParams());
-    if(modelSet->getNumberOfStates() > modelSet->getAlphabet()->getSize())
+    if (modelSet->getNumberOfStates() > modelSet->getAlphabet()->getSize())
     {
       //Markov-modulated Markov model!
-      rDist = new ConstantDistribution(1.);
+      rDist = new ConstantDistribution(1., true);
     }
     else
     {

@@ -34,30 +34,54 @@
      
      partnh param=PartNH.bpp\
             input.cluster_tree.file=Life_Alignment.cluster_free.dnd\
-            partitions.test=BIC\
+            partition.test=BIC\
             output.partitions.file=Partitions_free_BIC.dnd\
-            output.model.file=Model_free_BIC.bpp
+            output.model.file=Model_free_BIC.bpp\
+            output.tree.file=Life_Alignment.ml_nh_free_BIC.nhx > partnh_free_BIC.out
 
      partnh param=PartNH.bpp\
             input.cluster_tree.file=Life_Alignment.cluster_join.dnd\
-            partitions.test=BIC\
+            partition.test=BIC\
             output.partitions.file=Partitions_join_BIC.dnd\
-            output.model.file=Model_join_BIC.bpp
+            output.model.file=Model_join_BIC.bpp\
+            output.tree.file=Life_Alignment.ml_nh_join_BIC.nhx > partnh_join_BIC.out
 
      partnh param=PartNH.bpp\
             input.cluster_tree.file=Life_Alignment.cluster_free.dnd\
-            partitions.test=AIC\
+            partition.test=AIC\
             output.partitions.file=Partitions_free_AIC.dnd\
-            output.model.file=Model_free_AIC.bpp
+            output.model.file=Model_free_AIC.bpp\
+            output.tree.file=Life_Alignment.ml_nh_free_AIC.nhx > partnh_free_AIC.out
 
      partnh param=PartNH.bpp\
             input.cluster_tree.file=Life_Alignment.cluster_join.dnd\
-            partitions.test=AIC\
+            partition.test=AIC\
             output.partitions.file=Partitions_join_AIC.dnd\
-            output.model.file=Model_join_AIC.bpp
+            output.model.file=Model_join_AIC.bpp\
+            output.tree.file=Life_Alignment.ml_nh_join_AIC.nhx > partnh_join_AIC.out
 
 3) Test if the resulting non-homogeneous models take into account the underlying non-homogeneity,
    using the Bowker test against the alternative hypothesis (see Dutheil and Boussau 2008):
+
+     testnh param=TestNH_nonhomogeneous.bpp\
+            param=Model_free_BIC.bpp\
+            bootstrap.dist_file=TestNH_nonhomogeneous.null_free_BIC.txt\
+            input.tree.file=Life_Alignment.ml_nh_free_BIC.nhx > testnh_nh_free_BIC.out
+
+     testnh param=TestNH_nonhomogeneous.bpp\
+            param=Model_join_BIC.bpp\
+            bootstrap.dist_file=TestNH_nonhomogeneous.null_join_BIC.txt\
+            input.tree.file=Life_Alignment.ml_nh_join_BIC.nhx > testnh_nh_join_BIC.out
+
+     testnh param=TestNH_nonhomogeneous.bpp\
+            param=Model_free_AIC.bpp\
+            bootstrap.dist_file=TestNH_nonhomogeneous.null_free_AIC.txt\
+            input.tree.file=Life_Alignment.ml_nh_free_AIC.nhx > testnh_nh_free_AIC.out
+
+     testnh param=TestNH_nonhomogeneous.bpp\
+            param=Model_join_AIC.bpp\
+            bootstrap.dist_file=TestNH_nonhomogeneous.null_join_AIC.txt\
+            input.tree.file=Life_Alignment.ml_nh_join_AIC.nhx > testnh_nh_join_AIC.out
 
 
 

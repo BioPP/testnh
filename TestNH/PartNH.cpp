@@ -390,6 +390,8 @@ int main(int args, char ** argv)
       }
 
       if (test) {
+        delete ptree;
+        ptree = new TreeTemplate<Node>(drtl->getTree());
         if (modelSet)
           delete modelSet;
         modelSet = newModelSet;
@@ -432,6 +434,9 @@ int main(int args, char ** argv)
     }
   } else throw Exception("Unknown option: " + method);
 
+  //Write best tree:
+  PhylogeneticsApplicationTools::writeTree(*ptree, partnh.getParams());
+ 
   //Now write partitions to file:
   if (groups.size() > 1) {
     string partPath = ApplicationTools::getAFilePath("output.partitions.file", partnh.getParams(), true, false);
@@ -449,7 +454,7 @@ int main(int args, char ** argv)
   } else {
     ApplicationTools::displayResult("Partitions output to file", string("None (no partitions found)"));
   }
- 
+
   //Cleaning memory:
   delete htree;
   delete ptree;

@@ -1,5 +1,6 @@
 alphabet = RNA
 
+#Set imput tree file. Original branch lengths will be used for mapping.
 input.tree.file = Life_Alignment.dnd
 input.tree.format = Newick
 #We convert the tree to Nhx format for use with PartNH:
@@ -17,9 +18,3 @@ test.branch = yes
 test.branch.neighbor = #yes or no
 test.branch.negbrlen = no
 
-optimize = FullD(derivatives=Newton)
-optimization.reparametrization = no
-optimization.verbose = yes
-optimization.max_number_f_eval = 1000
-optimization.tolerance = 0.000001
-optimization.final = none

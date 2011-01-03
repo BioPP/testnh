@@ -182,11 +182,11 @@ int main(int args, char ** argv)
   DiscreteDistribution* rDist = new ConstantDistribution(1., true);
   SubstitutionCount* count = new SimpleSubstitutionCount(reg);
 
-  DRHomogeneousTreeLikelihood drtl(*tree, *sites, model, rDist);
+  DRHomogeneousTreeLikelihood drtl(*tree, *sites, model, rDist, false, false);
   drtl.initialize();
   
   //Optimization of parameters:
-  PhylogeneticsApplicationTools::optimizeParameters(&drtl, drtl.getParameters(), mapnh.getParams(), "", true, true);
+  //PhylogeneticsApplicationTools::optimizeParameters(&drtl, drtl.getParameters(), mapnh.getParams(), "", true, true);
  
   vector<int> ids = drtl.getTree().getNodesId();
   ids.pop_back(); //remove root id. 

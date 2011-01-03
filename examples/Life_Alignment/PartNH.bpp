@@ -42,4 +42,6 @@ optimization.message_handler = Life_Alignment.message
 optimization.final = none
 
 #Where to write optimal model (for later use with bppSeqGen or bppAncestor for instance):
-output.model.file = Model_$(partition.test).bpp
+output.model.file = 
+output.tree.file = 
+output.tree.format = NHX
