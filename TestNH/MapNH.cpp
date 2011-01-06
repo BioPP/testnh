@@ -43,6 +43,7 @@ knowledge of the CeCILL license and that you accept its terms.
 // From the STL:
 #include <iostream>
 #include <iomanip>
+#include <map>
 
 using namespace std;
 
@@ -64,6 +65,7 @@ using namespace std;
 #include <Bpp/Phyl/Model/JCnuc.h>
 #include <Bpp/Phyl/Model/HKY85.h>
 #include <Bpp/Phyl/Model/JCprot.h>
+#include <Bpp/Phyl/Model/CodonNeutralReversibleSubstitutionModel.h>
 #include <Bpp/Phyl/Model/SubstitutionModelSet.h>
 #include <Bpp/Phyl/Model/SubstitutionModelSetTools.h>
 
@@ -80,6 +82,7 @@ using namespace std;
 #include <Bpp/App/ApplicationTools.h>
 #include <Bpp/Io/FileTools.h>
 #include <Bpp/Text/TextTools.h>
+#include <Bpp/Text/KeyvalTools.h>
 
 using namespace bpp;
 
@@ -159,14 +162,34 @@ int main(int args, char ** argv)
 
   //Perform the mapping:
   SubstitutionRegister* reg = 0;
-  string regType = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "all", "", true, false);
-  if (regType == "all")
+  string regTypeDesc = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "all", "", true, false);
+  string regType = "";
+  map<string, string> regArgs;
+  KeyvalTools::parseProcedure(regTypeDesc, regType, regArgs);
+  auto_ptr<GeneticCode> geneticCode;
+  if (regType == "All")
     reg = new ExhaustiveSubstitutionRegister(alphabet);
   else if (regType == "GC")
     if (AlphabetTools::isNucleicAlphabet(alphabet))
       reg = new GCSubstitutionRegister(dynamic_cast<NucleicAlphabet*>(alphabet));
     else
       throw Exception("GC categorization is only available for nucleotide alphabet!");
+  else if (regType == "TsTv")
+    if (AlphabetTools::isNucleicAlphabet(alphabet))
+      reg = new TsTvSubstitutionRegister(dynamic_cast<NucleicAlphabet*>(alphabet));
+    else
+      throw Exception("TsTv categorization is only available for nucleotide alphabet!");
+  else if (regType == "DnDs")
+    if (AlphabetTools::isCodonAlphabet(alphabet)) {
+      string code = regArgs["code"];
+      if (TextTools::isEmpty(code)) {
+        code = "Standard";
+        ApplicationTools::displayWarning("No genetic code provided, standard code used.");
+      }
+      geneticCode.reset(SequenceApplicationTools::getGeneticCode(dynamic_cast<const NucleicAlphabet*>(alphabet), code));
+      reg = new DnDsSubstitutionRegister(geneticCode.get());
+    } else
+      throw Exception("DnDs categorization is only available for nucleic alphabet!");
   else
     throw Exception("Unsupported substitution categorization: " + regType);
 
@@ -174,6 +197,12 @@ int main(int args, char ** argv)
   SubstitutionModel* model = 0;
   if (AlphabetTools::isNucleicAlphabet(alphabet))
     model = new JCnuc(dynamic_cast<NucleicAlphabet*>(alphabet));
+    if (geneticCode.get()) {
+      //Codon model
+      model = new CodonNeutralReversibleSubstitutionModel(
+          dynamic_cast<const CodonAlphabet*>(geneticCode->getSourceAlphabet()),
+          dynamic_cast<NucleotideSubstitutionModel*>(model));
+    }
   else if (AlphabetTools::isProteicAlphabet(alphabet))
     model = new JCprot(dynamic_cast<ProteicAlphabet*>(alphabet));
   else
