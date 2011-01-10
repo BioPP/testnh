@@ -169,18 +169,19 @@ int main(int args, char ** argv)
   auto_ptr<GeneticCode> geneticCode;
   if (regType == "All")
     reg = new ExhaustiveSubstitutionRegister(alphabet);
-  else if (regType == "GC")
-    if (AlphabetTools::isNucleicAlphabet(alphabet))
-      reg = new GCSubstitutionRegister(dynamic_cast<NucleicAlphabet*>(alphabet));
-    else
+  else if (regType == "GC") {
+    if (AlphabetTools::isNucleicAlphabet(alphabet)) {
+      bool includeZero = ApplicationTools::getBooleanParameter("inc_zeros", regArgs, false);
+      reg = new GCSubstitutionRegister(dynamic_cast<NucleicAlphabet*>(alphabet), includeZero);
+    } else
       throw Exception("GC categorization is only available for nucleotide alphabet!");
-  else if (regType == "TsTv")
+  } else if (regType == "TsTv") {
     if (AlphabetTools::isNucleicAlphabet(alphabet))
       reg = new TsTvSubstitutionRegister(dynamic_cast<NucleicAlphabet*>(alphabet));
     else
       throw Exception("TsTv categorization is only available for nucleotide alphabet!");
-  else if (regType == "DnDs")
-    if (AlphabetTools::isCodonAlphabet(alphabet)) {
+  } else if (regType == "DnDs") {
+    if (AlphabetTools::isNucleicAlphabet(alphabet)) {
       string code = regArgs["code"];
       if (TextTools::isEmpty(code)) {
         code = "Standard";
@@ -190,12 +191,12 @@ int main(int args, char ** argv)
       reg = new DnDsSubstitutionRegister(geneticCode.get());
     } else
       throw Exception("DnDs categorization is only available for nucleic alphabet!");
-  else
+  } else
     throw Exception("Unsupported substitution categorization: " + regType);
 
   //Now perform mapping using a JC model:
   SubstitutionModel* model = 0;
-  if (AlphabetTools::isNucleicAlphabet(alphabet))
+  if (AlphabetTools::isNucleicAlphabet(alphabet)) {
     model = new JCnuc(dynamic_cast<NucleicAlphabet*>(alphabet));
     if (geneticCode.get()) {
       //Codon model
@@ -203,7 +204,7 @@ int main(int args, char ** argv)
           dynamic_cast<const CodonAlphabet*>(geneticCode->getSourceAlphabet()),
           dynamic_cast<NucleotideSubstitutionModel*>(model));
     }
-  else if (AlphabetTools::isProteicAlphabet(alphabet))
+  } else if (AlphabetTools::isProteicAlphabet(alphabet))
     model = new JCprot(dynamic_cast<ProteicAlphabet*>(alphabet));
   else
     throw Exception("Unsupported alphabet!");
