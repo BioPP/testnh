@@ -1,0 +1,25 @@
+DATA = PalandAndLynch28
+
+alphabet = Codon(letter=DNA, type=InvertebrateMitochondrial)  #DNA
+
+#Set imput tree file. Original branch lengths will be used for mapping.
+input.tree.file = $(DATA)Tree.dnd
+input.tree.format = Newick
+#We convert the tree to Nhx format for use with PartNH:
+output.tree_with_id.file = $(DATA).nhx
+#Where to output cluster tree:
+output.cluster_tree.file = $(DATA).cluster_join.dnd
+
+input.sequence.file = $(DATA)Concatenate.fasta
+input.sequence.format = Fasta
+input.sequence.sites_to_use = complete #all
+# Remove stop codons
+input.sequence.remove_stop_codons=yes
+
+
+map.type = DnDs(code=InvertebrateMitochondrial)
+test.global = no
+test.branch = yes
+test.branch.neighbor = #yes or no
+test.branch.negbrlen = no
+

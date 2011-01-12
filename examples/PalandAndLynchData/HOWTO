@@ -1,0 +1,89 @@
+1) Dn/Ds analysis on Paland and Lynch data set.
+1.1) Fit a homogeneous model, with a single Dn/Ds for all branches:
+     
+     bppml param=ML.bpp
+     
+     This will store optimized parameter in file PalandAndLynch28.params_h.bpp
+     and corresponding tree in file              PalandAndLynch28.ml_h.dnd
+
+     A YN98+F3X4 codon substitution model is used.
+1.2) Same thing as above, but using the general syntax to specify non-homogeneous models:
+
+     bppml param=ML_NH_1DNDS.bpp
+
+     This will store optimized parameter in file PalandAndLynch28.params_NH_1DNDS.bpp
+     and corresponding tree in file              PalandAndLynch28.ml_NH_1DNDS.dnd
+
+2) Try to find a better non-homogeneous model to describe the data.
+2.1) Cluster nodes using substitution mapping.
+     We will map non-synonymous substitutions.
+
+     We try to cluster nodes freely:
+     mapnh param=MapNH.bpp test.branch.neighbor=no output.cluster_tree.file=PalandAndLynch.cluster_free.dnd
+
+     And also adding the constraint to cluster only adjacent nodes:
+     mapnh param=MapNH.bpp test.branch.neighbor=yes output.cluster_tree.file=PalandAndLynch.cluster_join.dnd
+
+     This will first create a tree in Nhx format, identical to the input one, but with
+     nodes ID. It then creates a cluster tree in Newick format, with leaves being nodes ID.
+
+2.2) Use the clustering tree to define partitions, and test them using model testing.
+     We test both the clustering with nodes constrained to be adjacent or not in clustering,
+     and use two model selection criteria (AIC and BIC):
+     
+     partnh param=PartNH.bpp\
+            input.cluster_tree.file=Life_Alignment.cluster_free.dnd\
+            partition.test=BIC\
+            output.partitions.file=Partitions_free_BIC.dnd\
+            output.model.file=Model_free_BIC.bpp\
+            output.tree.file=Life_Alignment.ml_nh_free_BIC.nhx > partnh_free_BIC.out
+
+     partnh param=PartNH.bpp\
+            input.cluster_tree.file=Life_Alignment.cluster_join.dnd\
+            partition.test=BIC\
+            output.partitions.file=Partitions_join_BIC.dnd\
+            output.model.file=Model_join_BIC.bpp\
+            output.tree.file=Life_Alignment.ml_nh_join_BIC.nhx > partnh_join_BIC.out
+
+     partnh param=PartNH.bpp\
+            input.cluster_tree.file=Life_Alignment.cluster_free.dnd\
+            partition.test=AIC\
+            output.partitions.file=Partitions_free_AIC.dnd\
+            output.model.file=Model_free_AIC.bpp\
+            output.tree.file=Life_Alignment.ml_nh_free_AIC.nhx > partnh_free_AIC.out
+
+     partnh param=PartNH.bpp\
+            input.cluster_tree.file=Life_Alignment.cluster_join.dnd\
+            partition.test=AIC\
+            output.partitions.file=Partitions_join_AIC.dnd\
+            output.model.file=Model_join_AIC.bpp\
+            output.tree.file=Life_Alignment.ml_nh_join_AIC.nhx > partnh_join_AIC.out
+
+3) Test if the resulting non-homogeneous models take into account the underlying non-homogeneity,
+   using the Bowker test against the alternative hypothesis (see Dutheil and Boussau 2008):
+
+     testnh param=TestNH_nonhomogeneous.bpp\
+            param=Model_free_BIC.bpp\
+            bootstrap.dist_file=TestNH_nonhomogeneous.null_free_BIC.txt\
+            input.tree.file=Life_Alignment.ml_nh_free_BIC.nhx > testnh_nh_free_BIC.out
+
+     testnh param=TestNH_nonhomogeneous.bpp\
+            param=Model_join_BIC.bpp\
+            bootstrap.dist_file=TestNH_nonhomogeneous.null_join_BIC.txt\
+            input.tree.file=Life_Alignment.ml_nh_join_BIC.nhx > testnh_nh_join_BIC.out
+
+     testnh param=TestNH_nonhomogeneous.bpp\
+            param=Model_free_AIC.bpp\
+            bootstrap.dist_file=TestNH_nonhomogeneous.null_free_AIC.txt\
+            input.tree.file=Life_Alignment.ml_nh_free_AIC.nhx > testnh_nh_free_AIC.out
+
+     testnh param=TestNH_nonhomogeneous.bpp\
+            param=Model_join_AIC.bpp\
+            bootstrap.dist_file=TestNH_nonhomogeneous.null_join_AIC.txt\
+            input.tree.file=Life_Alignment.ml_nh_join_AIC.nhx > testnh_nh_join_AIC.out
+
+    All tests are now not significant!
+
+
+
+
