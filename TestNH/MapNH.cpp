@@ -181,13 +181,13 @@ int main(int args, char ** argv)
     else
       throw Exception("TsTv categorization is only available for nucleotide alphabet!");
   } else if (regType == "DnDs") {
-    if (AlphabetTools::isNucleicAlphabet(alphabet)) {
+    if (AlphabetTools::isCodonAlphabet(alphabet)) {
       string code = regArgs["code"];
       if (TextTools::isEmpty(code)) {
         code = "Standard";
         ApplicationTools::displayWarning("No genetic code provided, standard code used.");
       }
-      geneticCode.reset(SequenceApplicationTools::getGeneticCode(dynamic_cast<const NucleicAlphabet*>(alphabet), code));
+      geneticCode.reset(SequenceApplicationTools::getGeneticCode(dynamic_cast<CodonAlphabet*>(alphabet)->getNucleicAlphabet(), code));
       reg = new DnDsSubstitutionRegister(geneticCode.get());
     } else
       throw Exception("DnDs categorization is only available for nucleic alphabet!");
@@ -198,14 +198,13 @@ int main(int args, char ** argv)
   SubstitutionModel* model = 0;
   if (AlphabetTools::isNucleicAlphabet(alphabet)) {
     model = new JCnuc(dynamic_cast<NucleicAlphabet*>(alphabet));
-    if (geneticCode.get()) {
-      //Codon model
-      model = new CodonNeutralReversibleSubstitutionModel(
-          dynamic_cast<const CodonAlphabet*>(geneticCode->getSourceAlphabet()),
-          dynamic_cast<NucleotideSubstitutionModel*>(model));
-    }
-  } else if (AlphabetTools::isProteicAlphabet(alphabet))
+  } else if (AlphabetTools::isProteicAlphabet(alphabet)) {
     model = new JCprot(dynamic_cast<ProteicAlphabet*>(alphabet));
+  } else if (AlphabetTools::isCodonAlphabet(alphabet)) {
+    model = new CodonNeutralReversibleSubstitutionModel(
+        dynamic_cast<const CodonAlphabet*>(geneticCode->getSourceAlphabet()),
+        new JCnuc(dynamic_cast<CodonAlphabet*>(alphabet)->getNucleicAlphabet()));
+  }
   else
     throw Exception("Unsupported alphabet!");
 
