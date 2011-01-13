@@ -25,39 +25,80 @@
      mapnh param=MapNH.bpp test.branch.neighbor=yes output.cluster_tree.file=PalandAndLynch.cluster_join.dnd
 
      This will first create a tree in Nhx format, identical to the input one, but with
-     nodes ID. It then creates a cluster tree in Newick format, with leaves being nodes ID.
+     node IDs. It then creates a cluster tree in Newick format, with leaves corresponding to node IDs.
 
 2.2) Use the clustering tree to define partitions, and test them using model testing.
      We test both the clustering with nodes constrained to be adjacent or not in clustering,
      and use two model selection criteria (AIC and BIC):
      
      partnh param=PartNH.bpp\
-            input.cluster_tree.file=Life_Alignment.cluster_free.dnd\
+            input.cluster_tree.file=PalandAndLynch.cluster_free.dnd\
             partition.test=BIC\
             output.partitions.file=Partitions_free_BIC.dnd\
             output.model.file=Model_free_BIC.bpp\
-            output.tree.file=Life_Alignment.ml_nh_free_BIC.nhx > partnh_free_BIC.out
+            output.tree.file=PalandAndLynch.ml_nh_free_BIC.nhx > partnh_free_BIC.out
 
      partnh param=PartNH.bpp\
-            input.cluster_tree.file=Life_Alignment.cluster_join.dnd\
+            input.cluster_tree.file=PalandAndLynch.cluster_join.dnd\
             partition.test=BIC\
             output.partitions.file=Partitions_join_BIC.dnd\
             output.model.file=Model_join_BIC.bpp\
-            output.tree.file=Life_Alignment.ml_nh_join_BIC.nhx > partnh_join_BIC.out
+            output.tree.file=PalandAndLynch.ml_nh_join_BIC.nhx > partnh_join_BIC.out
 
      partnh param=PartNH.bpp\
-            input.cluster_tree.file=Life_Alignment.cluster_free.dnd\
+            input.cluster_tree.file=PalandAndLynch.cluster_free.dnd\
             partition.test=AIC\
             output.partitions.file=Partitions_free_AIC.dnd\
             output.model.file=Model_free_AIC.bpp\
-            output.tree.file=Life_Alignment.ml_nh_free_AIC.nhx > partnh_free_AIC.out
+            output.tree.file=PalandAndLynch.ml_nh_free_AIC.nhx > partnh_free_AIC.out
 
      partnh param=PartNH.bpp\
-            input.cluster_tree.file=Life_Alignment.cluster_join.dnd\
+            input.cluster_tree.file=PalandAndLynch.cluster_join.dnd\
             partition.test=AIC\
             output.partitions.file=Partitions_join_AIC.dnd\
             output.model.file=Model_join_AIC.bpp\
-            output.tree.file=Life_Alignment.ml_nh_join_AIC.nhx > partnh_join_AIC.out
+            output.tree.file=PalandAndLynch.ml_nh_join_AIC.nhx > partnh_join_AIC.out
+
+Interestingly, none of the above approaches find more than one cluster in the data.
+
+2.3) We try clustering using LRTs, with a generous threshold p-value.
+
+     partnh param=PartNH.bpp\
+            input.cluster_tree.file=PalandAndLynch.cluster_free.dnd\
+            partition.test=LRT\
+	    partition.test.threshold=0.1\ 
+            output.partitions.file=Partitions_free_LRT.dnd\
+            output.model.file=Model_free_LRT.bpp\
+            output.tree.file=PalandAndLynch.ml_nh_free_LRT.nhx\ 
+	    output.model.file=PalandAndLynch.ml_nh_free_LRT.model > partnh_free_LRT.out
+
+     partnh param=PartNH.bpp\
+            input.cluster_tree.file=PalandAndLynch.cluster_join.dnd\
+            partition.test=LRT\
+	    partition.test.threshold=0.1\
+            output.partitions.file=Partitions_join_LRT.dnd\
+            output.model.file=Model_join_LRT.bpp\
+            output.tree.file=PalandAndLynch.ml_nh_join_LRT.nhx 
+            output.model.file=PalandAndLynch.ml_nh_join_LRT.model > partnh_join_LRT.out
+	   
+	   Does not help, only one cluster in the end
+
+2.4) We try with the threshold, not the auto, method.
+     partnh param=PartNH_threshold.bpp\
+            input.cluster_tree.file=PalandAndLynch.cluster_free.dnd\
+            output.partitions.file=Partitions_free_LRT_threshold.dnd\
+            output.model.file=Model_free_LRT_threshold.bpp\
+            output.tree.file=PalandAndLynch.ml_nh_free_LRT_threshold.nhx\
+            output.model.file=PalandAndLynch.ml_nh_free_LRT_threshold.model > partnh_free_LRT_threshold.out
+
+     partnh param=PartNH_threshold.bpp\
+            input.cluster_tree.file=PalandAndLynch.cluster_join.dnd\
+            output.partitions.file=Partitions_join_LRT_threshold.dnd\
+            output.model.file=Model_join_LRT_threshold.bpp\
+            output.tree.file=PalandAndLynch.ml_nh_join_LRT_threshold.nhx
+            output.model.file=PalandAndLynch.ml_nh_join_LRT_threshold.model > partnh_join_LRT_threshold.out
+
+ 
 
 3) Test if the resulting non-homogeneous models take into account the underlying non-homogeneity,
    using the Bowker test against the alternative hypothesis (see Dutheil and Boussau 2008):
