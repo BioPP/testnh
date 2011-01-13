@@ -262,7 +262,7 @@ int main(int args, char ** argv)
     ApplicationTools::displayResult("Number of sites", nbSites);
  
     //Then we need the model to be used, including substitution model, rate distribution and root frequencies set.
-    //We also need to specify the parameters that will be share by all partitions.
+    //We also need to specify the parameters that will be shared by all partitions.
     SubstitutionModel* model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, partnh.getParams());
     DiscreteDistribution* rDist = 0;
     if (model->getName() != "RE08") SiteContainerTools::changeGapsToUnknownCharacters(*sites);
@@ -283,6 +283,10 @@ int main(int args, char ** argv)
       throw Exception("Mixed models not supported so far.");
       //drtl = new DRHomogeneousMixedTreeLikelihood(*ptree, *sites, model, rDist, true);
     drtl->initialize();
+    
+    //We get this now, so that it does not fail after having done the full optimization!!
+    string modelPath = ApplicationTools::getAFilePath("output.model.file", partnh.getParams(), true, false);
+    
     //Optimize parameters
     PhylogeneticsApplicationTools::optimizeParameters(drtl, drtl->getParameters(), partnh.getParams(), "", true, true);
     double logL = drtl->getValue();
@@ -335,8 +339,6 @@ int main(int args, char ** argv)
     map<double, vector<const Node*> >::iterator it = sortedHeights.begin();
     double currentThreshold = 1.;
     
-    //We get this now, so that it does not fail after having done the full optimization!!
-    string modelPath = ApplicationTools::getAFilePath("output.model.file", partnh.getParams(), true, false);
 
     SubstitutionModelSet* modelSet = 0;
     while (test && it != sortedHeights.end()) {
