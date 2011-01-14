@@ -3,6 +3,7 @@ DATA = PalandAndLynch28
 #Input tree file must be in NHX format, in order to get proper node id.
 #MapNH can output such an NHX tree if the input one was in Newick or Nexus.
 input.tree.file = $(DATA).nhx
+
 input.cluster_tree.file = Clusters.dnd
 
 #A simple newick tree showing the resulting partitions for visual inspection:
@@ -30,7 +31,9 @@ input.sequence.sites_to_use = all
 # Remove stop codons
 input.sequence.remove_stop_codons=yes
 
-model = YN98(genetic_code=InvertebrateMitochondrial, codon_freqs=F3X4)
+
+
+model = YN98(genetic_code=InvertebrateMitochondrial, codon_freqs=F3X4, omega=0.16)
 rate_distribution = Uniform #Gamma(n=4, alpha=0.5)
 nonhomogeneous.root_freq = None 
 nonhomogeneous.shared_parameters = YN98.kappa, YN98.freq_Word.* 

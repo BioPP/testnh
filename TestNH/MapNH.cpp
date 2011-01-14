@@ -124,6 +124,21 @@ vector< vector<unsigned int> > getCountsPerBranch(
   return counts;
 }
 
+void buildDnAndDsTrees(const vector< vector<unsigned int> > counts,
+                       const vector<int>& ids,
+                       Tree* dnTree, 
+                       Tree* dsTree)
+{
+  for (size_t i = 0; i < ids.size(); ++i) {
+
+    if (dnTree->hasFather(i)){
+      dnTree->setDistanceToFather(i, counts[i][1]);
+      dsTree->setDistanceToFather(i, counts[i][0]);
+    }
+  }
+}
+
+
 int main(int args, char ** argv)
 {
   cout << "******************************************************************" << endl;
@@ -201,6 +216,7 @@ int main(int args, char ** argv)
   } else if (AlphabetTools::isProteicAlphabet(alphabet)) {
     model = new JCprot(dynamic_cast<ProteicAlphabet*>(alphabet));
   } else if (AlphabetTools::isCodonAlphabet(alphabet)) {
+//    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, mapnh.getParams());
     model = new CodonNeutralReversibleSubstitutionModel(
         dynamic_cast<const CodonAlphabet*>(geneticCode->getSourceAlphabet()),
         new JCnuc(dynamic_cast<CodonAlphabet*>(alphabet)->getNucleicAlphabet()));
@@ -220,7 +236,21 @@ int main(int args, char ** argv)
   vector<int> ids = drtl.getTree().getNodesId();
   ids.pop_back(); //remove root id. 
   vector< vector<unsigned int> > counts = getCountsPerBranch(drtl, ids, *count);
-  
+    std::cout <<"Size 1: "<<counts.size() << " Size 2: "<<counts[0].size()<<std::endl;
+  if (regType == "DnDs") {
+    Tree* dnTree = tree->clone();
+    Tree* dsTree = tree->clone();
+    buildDnAndDsTrees(counts, ids, dnTree, dsTree);
+    Newick newick;
+    string dnTreeOut = ApplicationTools::getAFilePath("output.dn_tree.file", mapnh.getParams(), false, false);
+    string dsTreeOut = ApplicationTools::getAFilePath("output.ds_tree.file", mapnh.getParams(), false, false);
+    ApplicationTools::displayResult("Output Dn tree to", dnTreeOut);
+    ApplicationTools::displayResult("Output Ds tree to", dsTreeOut);
+    newick.write(*dnTree, dnTreeOut);
+    newick.write(*dsTree, dsTreeOut);
+    delete dnTree;
+    delete dsTree;
+  }
   //Global homogeneity test:
   bool testGlobal = ApplicationTools::getBooleanParameter("test.global", mapnh.getParams(), true, "", true, false);
   if (testGlobal) {
