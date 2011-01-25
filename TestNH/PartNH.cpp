@@ -286,7 +286,14 @@ int main(int args, char ** argv)
     
     //We get this now, so that it does not fail after having done the full optimization!!
     string modelPath = ApplicationTools::getAFilePath("output.model.file", partnh.getParams(), true, false);
-    
+    string logPath = ApplicationTools::getAFilePath("output.log.file", partnh.getParams(), false, false);
+    ApplicationTools::displayResult("Output log to", logPath);
+    auto_ptr<ofstream> logout;
+    if (logPath != "none" && logPath != "None") {
+      logout.reset(new ofstream(logPath.c_str(), ios::out));
+      *logout << "Threshold\tNbPartitions\tLogL\tDF\tAIC\tBIC" << endl;
+    }
+
     //Optimize parameters
     PhylogeneticsApplicationTools::optimizeParameters(drtl, drtl->getParameters(), partnh.getParams(), "", true, true);
     double logL = drtl->getValue();
@@ -295,13 +302,15 @@ int main(int args, char ** argv)
     double bic = 2. * logL + df * log(nbSites);
     ApplicationTools::displayResult("* Homogeneous model - LogL", logL);
     ApplicationTools::displayResult("                    - df", df);
+    if (logout.get())
+      *logout << 0. << "\t" << 1. << "\t" << -logL << "\t" << df << "\t" << aic << "\t" << bic << endl;
     
     //Get necessary things for building a non-homogeneous model:
     vector<double> rateFreqs;
     if (model->getNumberOfStates() != alphabet->getSize())
     {
       // Markov-Modulated Markov Model...
-      unsigned int n = (unsigned int)(model->getNumberOfStates() / alphabet->getSize());
+      unsigned int n = static_cast<unsigned int>(model->getNumberOfStates() / alphabet->getSize());
       rateFreqs = vector<double>(n, 1. / (double)n); // Equal rates assumed for now, may be changed later (actually, in the most general case,
                                                      // we should assume a rate distribution for the root also!!!
     }
@@ -332,6 +341,9 @@ int main(int args, char ** argv)
     ApplicationTools::displayResult("AIC", aic);
     ApplicationTools::displayResult("BIC", bic);
     ApplicationTools::displayResult("Likelihood comparison method", likelihoodComparison);
+      
+    bool stopFirst = ApplicationTools::getBooleanParameter("partition.test.stop_first", partnh.getParams(), false);
+    ApplicationTools::displayResult("Final model", (stopFirst ? "First best" : "Global best"));
 
     //Now try more and more complex non-homogeneous models, using the clustering tree set as input.
     vector<const Node*> candidates;
@@ -339,8 +351,12 @@ int main(int args, char ** argv)
     map<double, vector<const Node*> >::iterator it = sortedHeights.begin();
     double currentThreshold = 1.;
     
-
     SubstitutionModelSet* modelSet = 0;
+    SubstitutionModelSet* bestModelSet = 0;
+    DiscreteDistribution* bestRDist = 0;
+    TreeTemplate<Node>*   bestTree = 0;
+    double bestAic = aic;
+    double bestBic = bic;
     while (test && it != sortedHeights.end()) {
       for (vector<const Node*>::iterator it2 = it->second.begin(); it2 != it->second.end(); ++it2) {
         for (unsigned int k = 0; k < (*it2)->getNumberOfSons(); ++k)
@@ -349,19 +365,25 @@ int main(int args, char ** argv)
       currentThreshold = it->first;
       ApplicationTools::displayResult("Current threshold", currentThreshold);
       it++;
+      
       //Get the corresponding partitions:
       vector< vector<int> > newGroups = getGroups(candidates);
       ApplicationTools::displayResult("Number of real partitions", newGroups.size());
+      
       //Display partitions:
       for (size_t i = 0; i < newGroups.size(); ++i)
         ApplicationTools::displayResult("Partition " + TextTools::toString(i + 1), TextTools::toString(newGroups[i].size()) + " element(s).");
+
       //Now we have to build the corresponding model set:
       SubstitutionModelSet* newModelSet = buildModelSetFromPartitions(model, rootFreqs, ptree, newGroups, globalParameters);
+      DiscreteDistribution* newRDist = rDist->clone();
+      
       ParameterList previousParameters = drtl->getBranchLengthsParameters();
       previousParameters.addParameters(drtl->getRateDistributionParameters());
+      //ParameterList previousParameters = drtl->getParameters(); //Here we should set the parameters in a clever way... not that straightforward!
       delete drtl;
       if (dynamic_cast<MixedSubstitutionModel*>(model) == 0)
-        drtl = new DRNonHomogeneousTreeLikelihood(*ptree, *sites, newModelSet, rDist, false);
+        drtl = new DRNonHomogeneousTreeLikelihood(*ptree, *sites, newModelSet, newRDist, false);
       else
         throw Exception("Mixed models not supported so far.");
         //drtl = new DRNonHomogeneousMixedTreeLikelihood(*ptree, *sites, modelSet, rDist, true);
@@ -375,6 +397,7 @@ int main(int args, char ** argv)
       ApplicationTools::displayResult("               - df", newDf);
       double newAic = 2. * (newDf + newLogL);
       double newBic = 2. * newLogL + newDf * log(nbSites);
+      TreeTemplate<Node>* newTree = new TreeTemplate<Node>(drtl->getTree());
 
       double d = 2 * (logL - newLogL);
       double pvalue = 1. - RandomTools::pChisq(d, newDf - df);
@@ -382,21 +405,62 @@ int main(int args, char ** argv)
       ApplicationTools::displayResult("               - AIC", newAic);
       ApplicationTools::displayResult("               - BIC", newBic);
 
+      if (logout.get())
+        *logout << currentThreshold << "\t" << newGroups.size() << "\t" << -newLogL << "\t" << newDf << "\t" << newAic << "\t" << newBic << endl;
+
       //Finally compare new model to the current one:
+      bool saveThisModel = false;
       if (likelihoodComparison == "LRT") {
         test = (pvalue <= testThreshold);
-      } else if (likelihoodComparison == "AIC") {
-        test = (newAic < aic);
-      } else { //BIC
-        test = (newBic < bic);
+        if (test) {
+          saveThisModel = true;
+        }
+      } else {
+        if (stopFirst) {
+          if (likelihoodComparison == "AIC") {
+            test = (newAic < aic);
+          } else { //BIC
+            test = (newBic < bic);
+          }
+          if (test) {
+            saveThisModel = true;
+          }
+        } else {
+          //Test will always be true so that we check all nested models.
+          if (likelihoodComparison == "AIC") {
+            if (newAic < bestAic) {
+              bestAic = newAic;
+              saveThisModel = true;
+            }
+          } else { //BIC
+            if (newBic < bestBic) {
+              bestBic = newBic;
+              saveThisModel = true;
+            }
+          }
+        }
       }
 
+      if (saveThisModel) {
+        if (bestModelSet) {
+          delete bestModelSet;
+          delete bestRDist;
+          delete bestTree;
+        }
+        bestModelSet = newModelSet->clone();
+        bestRDist    = newRDist->clone();
+        bestTree     = newTree->clone();
+      }
+
+      //Moving forward:
       if (test) {
         delete ptree;
-        ptree = new TreeTemplate<Node>(drtl->getTree());
         if (modelSet)
           delete modelSet;
+        delete rDist;
+        ptree    = newTree;
         modelSet = newModelSet;
+        rDist    = newRDist;
         logL     = newLogL;
         df       = newDf;
         aic      = newAic;
@@ -404,12 +468,14 @@ int main(int args, char ** argv)
         groups   = newGroups;
       } else {
         delete newModelSet;
+        delete newRDist;
+        delete newTree;
       }
     }
     //Write best model to file and output partition tree.
     ApplicationTools::displayResult("Model description output to file", modelPath);
     //We have to distinguish two cases...
-    if (modelSet) {
+    if (bestModelSet) {
       StlOutputStream out(auto_ptr<ostream>(new ofstream(modelPath.c_str(), ios::out)));
       out << "# Log likelihood = ";
       out.setPrecision(20) << (-drtl->getValue());
@@ -417,12 +483,12 @@ int main(int args, char ** argv)
       out.endLine();
       out << "# Substitution model parameters:";
       out.endLine();
-      PhylogeneticsApplicationTools::printParameters(modelSet, out);
+      PhylogeneticsApplicationTools::printParameters(bestModelSet, out);
       out.endLine();
-      PhylogeneticsApplicationTools::printParameters(rDist   , out);
+      PhylogeneticsApplicationTools::printParameters(bestRDist   , out);
       out.endLine();
     } else {
-      StlOutputStream out(auto_ptr<ostream>(new ofstream("model.bpp", ios::out)));
+      StlOutputStream out(auto_ptr<ostream>(new ofstream(modelPath.c_str(), ios::out)));
       out << "# Log likelihood = ";
       out.setPrecision(20) << (-drtl->getValue());
       out.endLine();
@@ -434,6 +500,53 @@ int main(int args, char ** argv)
       PhylogeneticsApplicationTools::printParameters(rDist, out);
       out.endLine();
     }
+
+    //Write parameter estimates per node:
+    string paramPath = ApplicationTools::getAFilePath("output.parameters.file", partnh.getParams(), false, false);
+    ApplicationTools::displayResult("Output parameter table to", paramPath);
+    if (paramPath != "none") {
+      ofstream paramFile(paramPath.c_str(), ios::out);
+      vector<string> paramNames = model->getParameters().getParameterNames();
+      paramFile << "NodeId";
+      for (size_t i = 0; i < paramNames.size(); ++i)
+        paramFile << "\t" << paramNames[i];
+      paramFile << endl;
+      if (bestModelSet) {
+        for (unsigned k = 0; k < bestModelSet->getNumberOfModels(); ++k) {
+          ParameterList pl = bestModelSet->getModel(k)->getParameters();
+          vector<int> idsk = bestModelSet->getNodesWithModel(k);
+          for (size_t j = 0; j < idsk.size(); ++j) {
+            paramFile << idsk[j];
+            for (size_t i = 0; i < paramNames.size(); ++i) {
+              paramFile << "\t" << pl.getParameter(paramNames[i]).getValue();
+            }
+            paramFile << endl;
+          }
+        }
+      } else {
+        //All nodes have the same parameters:
+        vector<int> ids = bestTree->getNodesId();
+        ids.pop_back();
+        ParameterList pl = model->getParameters();
+        for (size_t j = 0; j < ids.size(); ++j) {
+          paramFile << ids[j];
+          for (size_t i = 0; i < paramNames.size(); ++i) {
+            paramFile << "\t" << pl.getParameter(paramNames[i]).getValue();
+          }
+          paramFile << endl;
+        }
+      }
+      paramFile.close();
+    }
+
+    //Cleaning:
+    ptree = bestTree;
+    delete bestModelSet;
+    delete bestRDist;
+  
+    if (logout.get())
+      logout->close();
+
   } else throw Exception("Unknown option: " + method);
 
   //Write best tree:

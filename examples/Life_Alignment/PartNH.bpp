@@ -20,7 +20,7 @@ output.partitions.file = Partitions.dnd
 partition.method = auto
 partition.test = BIC #Can be one of LRT, BIC or AIC.
 partition.test.threshold = 0.01 #If LRT is used.
-
+partition.test.stop_first = no 
 alphabet = RNA
 input.sequence.file = Life_Alignment.mase
 input.sequence.format = Mase
@@ -36,12 +36,13 @@ optimize = FullD(derivatives=Newton)
 optimization.reparametrization = no
 optimization.verbose = 1
 optimization.max_number_f_eval = 1000
-optimization.tolerance = 0.000001
+optimization.tolerance = 1.0
 optimization.profiler = Life_Alignment.profile
 optimization.message_handler = Life_Alignment.message
 optimization.final = none
 
 #Where to write optimal model (for later use with bppSeqGen or bppAncestor for instance):
 output.model.file = 
+output.log.file = 
 output.tree.file = 
 output.tree.format = NHX

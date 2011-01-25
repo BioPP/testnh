@@ -10,6 +10,68 @@
 using namespace bpp;
 using namespace std;
 
+class AutomaticGroupingCondition
+{
+  public:
+    virtual ~AutomaticGroupingCondition() {}
+
+  public:
+    virtual bool check(const vector<unsigned int>& counts) const = 0;
+};
+
+class NoAutomaticGroupingCondition:
+  public AutomaticGroupingCondition
+{
+  public:
+    ~NoAutomaticGroupingCondition() {}
+
+  public:
+    bool check(const vector<unsigned int>& counts) const {
+      return true;
+    }
+};
+
+class SumCountsAutomaticGroupingCondition:
+  public AutomaticGroupingCondition
+{
+  private:
+    unsigned int threshold_;
+
+  public:
+    SumCountsAutomaticGroupingCondition(unsigned int threshold = 0):
+      threshold_(threshold)
+    {}
+
+    ~SumCountsAutomaticGroupingCondition() {}
+
+  public:
+    bool check(const vector<unsigned int>& counts) const {
+      return VectorTools::sum(counts) > threshold_;
+    }
+};
+
+class AnyCountAutomaticGroupingCondition:
+  public AutomaticGroupingCondition
+{
+  private:
+    unsigned int threshold_;
+
+  public:
+    AnyCountAutomaticGroupingCondition(unsigned int threshold = 0):
+      threshold_(threshold)
+    {}
+
+    ~AnyCountAutomaticGroupingCondition() {}
+
+  public:
+    bool check(const vector<unsigned int>& counts) const {
+      for (size_t i = 0; i < counts.size(); ++i) {
+        if (counts[i] <= threshold_) return false;
+      }
+      return true;
+    }
+};
+
 class MultinomialClustering :
   public AbstractAgglomerativeDistanceMethod
 {
@@ -23,6 +85,7 @@ class MultinomialClustering :
         const vector< vector<unsigned int> >& counts,
         const vector<int>& ids,
         const Tree& tree,
+        const AutomaticGroupingCondition& autoGroup,
         bool neighborsOnly = false,
         bool negativeBrlen = false,
         bool verbose = false);

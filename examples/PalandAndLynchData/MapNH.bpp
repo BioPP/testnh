@@ -13,7 +13,7 @@ output.cluster_tree.file = $(DATA).cluster_join.dnd
 
 input.sequence.file = $(DATA)Concatenate.fasta
 input.sequence.format = Fasta
-input.sequence.sites_to_use = complete #all
+input.sequence.sites_to_use = all
 # Remove stop codons
 input.sequence.remove_stop_codons=yes
 

@@ -32,33 +32,37 @@
      We test both the clustering with nodes constrained to be adjacent or not in clustering,
      and use two model selection criteria (AIC and BIC):
      
-     partnh param=PartNH.bpp\
+     partnh param=PartNH.bpp --noninteractive=yes \
             input.cluster_tree.file=Life_Alignment.cluster_free.dnd\
             partition.test=BIC\
             output.partitions.file=Partitions_free_BIC.dnd\
             output.model.file=Model_free_BIC.bpp\
-            output.tree.file=Life_Alignment.ml_nh_free_BIC.nhx > partnh_free_BIC.out
+            output.log.file=Model_free_BIC.log.txt\
+            output.tree.file=Life_Alignment.ml_nh_free_BIC.nhx > partnh_free_BIC.out &
 
-     partnh param=PartNH.bpp\
+     partnh param=PartNH.bpp --noninteractive=yes \
             input.cluster_tree.file=Life_Alignment.cluster_join.dnd\
             partition.test=BIC\
             output.partitions.file=Partitions_join_BIC.dnd\
             output.model.file=Model_join_BIC.bpp\
-            output.tree.file=Life_Alignment.ml_nh_join_BIC.nhx > partnh_join_BIC.out
+            output.log.file=Model_join_BIC.log.txt\
+            output.tree.file=Life_Alignment.ml_nh_join_BIC.nhx > partnh_join_BIC.out &
 
-     partnh param=PartNH.bpp\
+     partnh param=PartNH.bpp --noninteractive=yes \
             input.cluster_tree.file=Life_Alignment.cluster_free.dnd\
             partition.test=AIC\
             output.partitions.file=Partitions_free_AIC.dnd\
             output.model.file=Model_free_AIC.bpp\
-            output.tree.file=Life_Alignment.ml_nh_free_AIC.nhx > partnh_free_AIC.out
+            output.log.file=Model_free_AIC.log.txt\
+            output.tree.file=Life_Alignment.ml_nh_free_AIC.nhx > partnh_free_AIC.out &
 
-     partnh param=PartNH.bpp\
+     partnh param=PartNH.bpp --noninteractive=yes \
             input.cluster_tree.file=Life_Alignment.cluster_join.dnd\
             partition.test=AIC\
             output.partitions.file=Partitions_join_AIC.dnd\
             output.model.file=Model_join_AIC.bpp\
-            output.tree.file=Life_Alignment.ml_nh_join_AIC.nhx > partnh_join_AIC.out
+            output.log.file=Model_join_AIC.log.txt\
+            output.tree.file=Life_Alignment.ml_nh_join_AIC.nhx > partnh_join_AIC.out &
 
 3) Test if the resulting non-homogeneous models take into account the underlying non-homogeneity,
    using the Bowker test against the alternative hypothesis (see Dutheil and Boussau 2008):

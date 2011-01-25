@@ -28,7 +28,7 @@ input.sequence.remove_stop_codons=yes
 # user or random
 init.tree = user
 
-input.tree.file = $(DATA)Tree.dnd
+input.tree.file = $(DATA)Tree_unrooted.dnd
 input.tree.format = Newick
 
 init.brlen.method = Input

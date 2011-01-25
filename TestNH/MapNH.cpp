@@ -117,23 +117,23 @@ vector< vector<unsigned int> > getCountsPerBranch(
   for (size_t i = 0; i < ids.size(); ++i) {
     vector<double> countsf = SubstitutionMappingTools::computeSumForBranch(*mapping, mapping->getNodeIndex(ids[i]));
     counts[i].resize(countsf.size());
-    for (size_t j = 0; j < countsf.size(); ++j)
+    for (size_t j = 0; j < countsf.size(); ++j) {
       counts[i][j] = static_cast<unsigned int>(floor(countsf[j] + 0.5)); //Round counts
+    }
   }
   delete mapping;
   return counts;
 }
 
-void buildDnAndDsTrees(const vector< vector<unsigned int> > counts,
-                       const vector<int>& ids,
-                       Tree* dnTree, 
-                       Tree* dsTree)
+void buildCountTree(
+    const vector< vector<unsigned int> >& counts,
+    const vector<int>& ids,
+    Tree* cTree, 
+    unsigned int type)
 {
   for (size_t i = 0; i < ids.size(); ++i) {
-
-    if (dnTree->hasFather(i)){
-      dnTree->setDistanceToFather(i, counts[i][1]);
-      dsTree->setDistanceToFather(i, counts[i][0]);
+    if (cTree->hasFather(ids[i])) {
+      cTree->setDistanceToFather(ids[i], counts[i][type]);
     }
   }
 }
@@ -232,25 +232,25 @@ int main(int args, char ** argv)
   
   //Optimization of parameters:
   //PhylogeneticsApplicationTools::optimizeParameters(&drtl, drtl.getParameters(), mapnh.getParams(), "", true, true);
- 
+  
   vector<int> ids = drtl.getTree().getNodesId();
   ids.pop_back(); //remove root id. 
   vector< vector<unsigned int> > counts = getCountsPerBranch(drtl, ids, *count);
-    std::cout <<"Size 1: "<<counts.size() << " Size 2: "<<counts[0].size()<<std::endl;
-  if (regType == "DnDs") {
-    Tree* dnTree = tree->clone();
-    Tree* dsTree = tree->clone();
-    buildDnAndDsTrees(counts, ids, dnTree, dsTree);
+
+  //Write count trees:
+  string treePathPrefix = ApplicationTools::getStringParameter("output.counts.tree.prefix", mapnh.getParams(), "none");
+  if (treePathPrefix != "none") {
     Newick newick;
-    string dnTreeOut = ApplicationTools::getAFilePath("output.dn_tree.file", mapnh.getParams(), false, false);
-    string dsTreeOut = ApplicationTools::getAFilePath("output.ds_tree.file", mapnh.getParams(), false, false);
-    ApplicationTools::displayResult("Output Dn tree to", dnTreeOut);
-    ApplicationTools::displayResult("Output Ds tree to", dsTreeOut);
-    newick.write(*dnTree, dnTreeOut);
-    newick.write(*dsTree, dsTreeOut);
-    delete dnTree;
-    delete dsTree;
+    for (unsigned int i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i) {
+      string path = treePathPrefix + TextTools::toString(i + 1) + string(".dnd");
+      ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
+      Tree* cTree = tree->clone();
+      buildCountTree(counts, ids, cTree, i);
+      newick.write(*cTree, path);
+      delete cTree;
+    }
   }
+
   //Global homogeneity test:
   bool testGlobal = ApplicationTools::getBooleanParameter("test.global", mapnh.getParams(), true, "", true, false);
   if (testGlobal) {
@@ -272,14 +272,34 @@ int main(int args, char ** argv)
 
   //Branch test!
   bool testBranch = ApplicationTools::getBooleanParameter("test.branch", mapnh.getParams(), false, "", true, false);
-  bool testNeighb = ApplicationTools::getBooleanParameter("test.branch.neighbor", mapnh.getParams(), true, "", true, false);
-  bool testNegBrL = ApplicationTools::getBooleanParameter("test.branch.negbrlen", mapnh.getParams(), false, "", true, false);
-  ApplicationTools::displayBooleanResult("Perform branch clustering", testBranch);
-  ApplicationTools::displayBooleanResult("Cluster only neighbor nodes", testNeighb);
-  ApplicationTools::displayBooleanResult("Allow len < 0 in clustering", testNegBrL);
   if (testBranch) {
+    bool testNeighb = ApplicationTools::getBooleanParameter("test.branch.neighbor", mapnh.getParams(), true, "", true, false);
+    bool testNegBrL = ApplicationTools::getBooleanParameter("test.branch.negbrlen", mapnh.getParams(), false, "", true, false);
+    ApplicationTools::displayBooleanResult("Perform branch clustering", testBranch);
+    ApplicationTools::displayBooleanResult("Cluster only neighbor nodes", testNeighb);
+    ApplicationTools::displayBooleanResult("Allow len < 0 in clustering", testNegBrL);
+    string autoClustDesc = ApplicationTools::getStringParameter("test.branch.auto_cluster", mapnh.getParams(), "Global(threshold=0)");
+    string autoClustName;
+    map<string, string> autoClustParam;
+    KeyvalTools::parseProcedure(autoClustDesc, autoClustName, autoClustParam);
+    ApplicationTools::displayResult("Auto-clustering", autoClustName);
+    auto_ptr<AutomaticGroupingCondition> autoClust;
+    if (autoClustName == "None") {
+      autoClust.reset(new NoAutomaticGroupingCondition());
+    } else if (autoClustName == "Global") {
+      double threshold = ApplicationTools::getParameter<unsigned int>("threshold", autoClustParam, 0);
+      ApplicationTools::displayResult("Auto-clutering threshold", threshold);
+      autoClust.reset(new SumCountsAutomaticGroupingCondition(threshold));
+    } else if (autoClustName == "Marginal") {
+      double threshold = ApplicationTools::getParameter<unsigned int>("threshold", autoClustParam, 0);
+      ApplicationTools::displayResult("Auto-clutering threshold", threshold);
+      autoClust.reset(new AnyCountAutomaticGroupingCondition(threshold));
+    } else {
+      throw Exception("Unknown automatic clustering option: " + autoClustName);
+    }
+
     //ChiClustering htest(counts, ids, true);
-    MultinomialClustering htest(counts, ids, drtl.getTree(), testNeighb, testNegBrL, true);
+    MultinomialClustering htest(counts, ids, drtl.getTree(), *autoClust, testNeighb, testNegBrL, true);
     TreeTemplate<Node>* htree = htest.getTree();
     Newick newick;
     string clusterTreeOut = ApplicationTools::getAFilePath("output.cluster_tree.file", mapnh.getParams(), false, false);

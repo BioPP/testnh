@@ -14,10 +14,14 @@ TARGET_LINK_LIBRARIES(mapnh ${LIBS})
 ADD_EXECUTABLE(partnh PartNH.cpp)
 TARGET_LINK_LIBRARIES(partnh ${LIBS})
 
+ADD_EXECUTABLE(randnh RandNH.cpp)
+TARGET_LINK_LIBRARIES(randnh ${LIBS})
+
 # Install progs
 INSTALL(TARGETS
   testnh
   stepnh
   mapnh
   partnh
+  randnh
   DESTINATION bin)

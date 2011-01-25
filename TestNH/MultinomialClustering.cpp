@@ -9,7 +9,12 @@
 
 using namespace std;
 	
-MultinomialClustering::MultinomialClustering(const vector< vector<unsigned int> >& counts, const vector<int>& ids, const Tree& tree, bool neighborsOnly, bool negativeBrlen, bool verbose):
+MultinomialClustering::MultinomialClustering(
+    const vector< vector<unsigned int> >& counts,
+    const vector<int>& ids,
+    const Tree& tree,
+    const AutomaticGroupingCondition& autoGroup,
+    bool neighborsOnly, bool negativeBrlen, bool verbose):
   AbstractAgglomerativeDistanceMethod(verbose), counts_(counts), neighborsOnly_(neighborsOnly), negativeBrlen_(negativeBrlen)
 {
   unsigned int n = counts.size();
@@ -23,7 +28,21 @@ MultinomialClustering::MultinomialClustering(const vector< vector<unsigned int> 
       ApplicationTools::displayGauge(i, n - 1, '=');
     matrix_(i, i) = 0.;
     //Check for small counts:
-    if (VectorTools::sum(counts_[i]) == 0) {
+    if (autoGroup.check(counts_[i])) {
+      for (size_t j = 0; j < i; ++j) {
+        if (neighborsOnly_) {
+          if (tree.getFatherId(ids[i]) == ids[j])
+            matrix_(i, j) = matrix_(j, i) = getDist(counts_[i], counts_[j]);
+          if (tree.getFatherId(ids[j]) == ids[i])
+            matrix_(i, j) = matrix_(j, i) = getDist(counts_[i], counts_[j]);
+          if (tree.getFatherId(ids[i]) == tree.getRootId()
+           && tree.getFatherId(ids[j]) == tree.getRootId())
+            matrix_(i, j) = matrix_(j, i) = getDist(counts_[i], counts_[j]);
+        } else {
+          matrix_(i, j) = matrix_(j, i) = getDist(counts_[i], counts_[j]);
+        }
+      }
+    } else {
       //node i has distance 0 with his father, 1. with brothers and sons and 2. with all others
       for (size_t j = 0; j < n; ++j) {
         if (j != i) {
@@ -35,17 +54,6 @@ MultinomialClustering::MultinomialClustering(const vector< vector<unsigned int> 
           } else if (fatherId_i == fatherId_j || ids[i] == fatherId_j)
             matrix_(i, j) = matrix_(j, i) = 1.;
           //else remains 2.
-        }
-      }
-    } else {
-      for (size_t j = 0; j < i; ++j) {
-        if (neighborsOnly_) {
-          if (tree.getFatherId(ids[i]) == ids[j])
-            matrix_(i, j) = matrix_(j, i) = getDist(counts_[i], counts_[j]);
-          if (tree.getFatherId(ids[j]) == ids[i])
-            matrix_(i, j) = matrix_(j, i) = getDist(counts_[i], counts_[j]);
-        } else {
-          matrix_(i, j) = matrix_(j, i) = getDist(counts_[i], counts_[j]);
         }
       }
     }
