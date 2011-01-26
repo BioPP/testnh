@@ -134,13 +134,13 @@ int main(int args, char ** argv)
     depths.insert(CandidatePart(partRootIds[i], TreeTools::getDepth(*tree, partRootIds[i])));
   }
   map<int, unsigned int> partitionsIndex;
-  for(size_t i = 0; i < ids.size(); ++i)
+  for (size_t i = 0; i < ids.size(); ++i)
     partitionsIndex[ids[i]] = 0;
   unsigned int p = 1;
   for (set<CandidatePart>::iterator it = depths.begin(); it != depths.end(); ++it) {
     cout << it->id << "\t" << it->depth << endl;
     vector<int> subids = TreeTools::getNodesId(*tree, it->id);
-    for(size_t i = 0; i < subids.size(); ++i)
+    for (size_t i = 0; i < subids.size(); ++i)
       partitionsIndex[subids[i]] = p;
     p++;
   }
@@ -151,14 +151,17 @@ int main(int args, char ** argv)
   }
     
   //Print partitions:
+  string modelOutPath = ApplicationTools::getAFilePath("output.model.file", randnh.getParams(), true, false);
+  ofstream modelOut(modelOutPath.c_str(), ios::out);
   unsigned int index = 1;
   for (map<unsigned int, vector<int> >::iterator it = partitions.begin(); it != partitions.end(); ++it) {
-    cout << "model" << index << ".nodes_id = " << it->second[0];
-    for(size_t i = 1; i < it->second.size(); ++i)
-      cout << "," << it->second[i];
-    cout << endl;
+    modelOut << "model" << index << ".nodes_id = " << it->second[0];
+    for (size_t i = 1; i < it->second.size(); ++i)
+      modelOut << "," << it->second[i];
+    modelOut << endl;
     index++;
   }
+  modelOut.close();
 
   //Clean and exit:
   randnh.done();

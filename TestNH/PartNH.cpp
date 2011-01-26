@@ -525,7 +525,7 @@ int main(int args, char ** argv)
         }
       } else {
         //All nodes have the same parameters:
-        vector<int> ids = bestTree->getNodesId();
+        vector<int> ids = ptree->getNodesId();
         ids.pop_back();
         ParameterList pl = model->getParameters();
         for (size_t j = 0; j < ids.size(); ++j) {
@@ -540,7 +540,8 @@ int main(int args, char ** argv)
     }
 
     //Cleaning:
-    ptree = bestTree;
+    if (bestTree)
+      ptree = bestTree;
     delete bestModelSet;
     delete bestRDist;
   

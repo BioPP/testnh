@@ -138,8 +138,16 @@ void MultinomialClustering::finalStep(int idRoot)
 	double d = matrix_(i1, i2) / 2;
 	root->addSon(n1);
 	root->addSon(n2);
-	n1->setDistanceToFather(d - dynamic_cast<NodeTemplate<ClusterInfos> *>(n1)->getInfos().length); 
-	n2->setDistanceToFather(d - dynamic_cast<NodeTemplate<ClusterInfos> *>(n2)->getInfos().length); 
+	double d1 = dynamic_cast<NodeTemplate<ClusterInfos>*>(n1)->getInfos().length; 
+	double d2 = dynamic_cast<NodeTemplate<ClusterInfos>*>(n2)->getInfos().length; 
+  if (negativeBrlen_) {
+  	n1->setDistanceToFather(d - d1); 
+	  n2->setDistanceToFather(d - d2);
+  } else {
+    double h = max(d, max(d1, d2));
+  	n1->setDistanceToFather(h - d1); 
+	  n2->setDistanceToFather(h - d2);
+  }
 	//n1->setDistanceToFather(d); 
 	//n2->setDistanceToFather(d); 
 	tree_ = new TreeTemplate< NodeTemplate<ClusterInfos> >(root);
