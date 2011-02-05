@@ -1,0 +1,21 @@
+#Input tree file must be in NHX format, in order to get proper node id.
+#MapNH can output such an NHX tree if the input one was in Newick or Nexus.
+input.tree.file = lysozymeLarge.ml_h.dnd
+input.tree.format = Newick
+
+alphabet = Codon(letter=DNA, type=Standard)
+
+input.sequence.file = lysozymeLarge.fasta
+input.sequence.format = Fasta
+input.sequence.sites_to_use = complete
+
+#When to consider a pairwise test significant:
+bowker_test.threshold = 0.05
+
+#Number of simulations to perform (parameric bootstrap):
+bootstrap.number = 1000
+bootstrap.dist_file = TestNH_homogeneous.null.txt
+
+#Use the model estimated by bppml:
+param = lysozymeLarge.ml_h.params.bpp
+

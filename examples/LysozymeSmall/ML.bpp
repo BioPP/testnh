@@ -1,25 +1,27 @@
-DATA = PalandAndLynch28
+#Example data set adapted from PAML
+
+# Global variables:
+DATA = lysozymeSmall
 
 # Sequences:
 
 # The alphabet to use:
-# DNA, RNA or Protein
-alphabet = Codon(letter=DNA, type=InvertebrateMitochondrial)
+# DNA, RNA or Protein...
+alphabet = Codon(letter=DNA, type=Standard)
 
 # The sequence file to use (sequences must be aligned!)
-input.sequence.file = $(DATA)Concatenate.fasta
+input.sequence.file = $(DATA).fasta
 
 # The alignment format:
-input.sequence.format = Fasta
+input.sequence.format=Fasta
 
 #Sites to use:
 # all, nogap or complete (=only resolved chars)
-input.sequence.sites_to_use = all #complete
+input.sequence.sites_to_use = complete
 # Specify a maximum amount of gaps: may be an absolute number or a percentage.
 input.sequence.max_gap_allowed = 50%
-# Remove stop codons
-input.sequence.remove_stop_codons=yes
 
+input.sequence.remove_stop_codons = yes
 
 # ----------------------------------------------------------------------------------------
 #                                     Input tree file
@@ -28,7 +30,7 @@ input.sequence.remove_stop_codons=yes
 # user or random
 init.tree = user
 
-input.tree.file = $(DATA)UnrootedTree.dnd
+input.tree.file = $(DATA).dnd
 input.tree.format = Newick
 
 init.brlen.method = Input
@@ -38,33 +40,16 @@ init.brlen.method = Input
 # ----------------------------------------------------------------------------------------
 # See the manual for a description of the syntax and available options.
 #
+model = YN98(kappa=1, omega=1, frequencies=F3X4, useObservedFreqs=yes, useObservedFreqs.pseudoCount=0)
 
-rate_distribution = Uniform #Gamma(n=4, alpha=0.5)
+nonhomogeneous = no //one_per_branch
+#These lines are for the F1X4 option:
+nonhomogeneous_one_per_branch.shared_parameters=YN98.kappa, YN98.freq*
+nonhomogeneous.stationarity = yes
+#Only if stationarity is set to false:
+nonhomogeneous.root_freq=
 
-nonhomogeneous = general
-
-#nonhomogeneous.root_freq=Fixed(init=observed)
-nonhomogeneous.root_freq = None
-
-# Now the general heterogeneous case:
-# Specify the number of distincts models.
-nonhomogeneous.number_of_models = 2
-
-
-# Set up each model:
-# If we want to get node ids:
-#output.tree_ids.file=$(DATA)UnrootedTreeWithId.dnd
-# 2 models for all nodes
-# Internal branches
-model1 = YN98(genetic_code=InvertebrateMitochondrial, codon_freqs=F3X4)
-model1.nodes_id=4, 5, 52, 51, 9, 12, 13, 17, 16, 30, 21, 29, 28, 26, 27, 50, 41, 49, 44, 48, 47, 35, 36, 37, 40  # The Ids of the nodes to which this model should be assigned.
-
-#External branches
-model2 = YN98(genetic_code=InvertebrateMitochondrial, freq_Word.*=model1.YN98.freq_Word.*, kappa=model1.YN98.kappa)
-model2.nodes_id=0, 1, 2, 3, 6, 7, 8, 10, 11, 14, 15, 18, 19, 20, 22, 23, 24, 25, 31, 32, 33, 34, 38, 39, 42, 43, 45, 46  # The Ids of the nodes to which this model should be assigned.
-
-#nonhomogeneous.shared_parameters = YN98.kappa, YN98.freq_Word.* 
-
+rate_distribution = Uniform
 
 # Likelihood recursion option:
 # - simple: derivatives takes more time to compute, but likelihood computation is faster.
@@ -90,10 +75,6 @@ likelihood.recursion_simple.compression = recursive
 
 # Should we reestimate likelihood parameters? Tree topology will not be optimized.
 # (recommanded)
-# Method to use for optimizing numerical parameters:
-# - None, no optimization performed
-# - DB derivatives for branch lengths + Brent for other parameters
-# - FullD derivatives for all parameters, using numerical derivatives for non-branch lengths parameters.
 optimization = FullD(derivatives=Newton)
 
 # Tell if the parameter should be transformed in order to remove constraints.
@@ -108,7 +89,7 @@ optimization.final = none
 optimization.verbose = 3
 
 # Parameters to ignore (for instance equilibrium frequencies)
-optimization.ignore_parameter =
+optimization.ignore_parameter = YN98.freq*
 
 # Maximum number of likelihood evaluations:
 optimization.max_number_f_eval = 10000
@@ -117,37 +98,13 @@ optimization.max_number_f_eval = 10000
 optimization.tolerance = 0.000001
 
 # idem for error or warning messages:
-optimization.message_handler = $(DATA)_NH_2DNDS.messages
+optimization.message_handler = $(DATA).messages
 
 # A file where to dump optimization steps (a file path or std for standard output)
-optimization.profiler = $(DATA)_NH_2DNDS.profile
+optimization.profiler = $(DATA).profile
 
 # Shall we optimize tree topology as well?
 optimization.topology = no
-
-# Algorithm to use for topology estimation: only NNI for now
-optimization.topology.algorithm = NNI
-
-# NNI method: fast, better or phyml
-# You should use the phyml option, since it is really more efficient!
-optimization.topology.algorithm_nni.method = phyml
-
-# Number of phyml topology movement steps before reoptimizing parameters:
-optimization.topology.nstep = 4
-
-# Shall we estimate parameters before looking for topology movements?
-optimization.topology.numfirst = no
-
-# Tolerances: These numbers should not be too low, in order to save computation
-# time and also for a better topology estimation.
-# The optimization.tolerance parameter will be used for the final optimization
-# of numerical parameters.
-#
-# Tolerance for the prior-topology estimation
-optimization.topology.tolerance.before = 100
-
-# Tolerance for the during-topology estimation
-optimization.topology.tolerance.during = 100
 
 # Shall we first scale the tree before optimizing parameters? [deprecated]
 optimization.scale_first = no
@@ -156,23 +113,18 @@ optimization.scale_first = no
 
 
 # Should we write the resulting tree? none or file name.
-output.tree.file = $(DATA).ml_NH_2DNDS.dnd
+output.tree.file = $(DATA).ml_h.dnd
 output.tree.format = Newick
 
 # Alignment information log file (site specific rates, etc):
-output.infos = $(DATA)_NH_2DNDS.infos
+output.infos = $(DATA).infos
 
 # Write numerical parameter estimated values:
-output.estimates = $(DATA).params_NH_2DNDS.bpp
+output.estimates = $(DATA).ml_h.params.bpp
 
 # ----------------------------------------------------------------------------------------
 #                                     Bootstrap
 # ----------------------------------------------------------------------------------------
 
 bootstrap.number = 0
-# Tell if numerical parameters should be kept to their initial value when bootstrapping: 
-bootstrap.approximate = no
-# Set this to yes for detailed output when bootstrapping. 
-bootstrap.verbose = no
-bootstrap.output.file = 
 

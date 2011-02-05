@@ -1,8 +1,9 @@
-DATA = PalandAndLynch28
+DATA = lysozymeSmall
 
 #Input tree file must be in NHX format, in order to get proper node id.
 #MapNH can output such an NHX tree if the input one was in Newick or Nexus.
 input.tree.file = $(DATA).nhx
+
 input.cluster_tree.file = Clusters.dnd
 
 #A simple newick tree showing the resulting partitions for visual inspection:
@@ -11,29 +12,30 @@ output.partitions.file = Partitions.dnd
 ###########################################################################
 #This (fast) method allows you to output partitions from a given threshold:
 ###########################################################################
-partition.method = threshold
-partition.threshold = 0.001
+#partition.method = threshold
+#partition.threshold = 0.001
 
 ###########################################################################
 #Alternatively, we can use models comparison to determine the threshold.
 #This requires a data set and a model family to be specified, provided
 #with the following options:
 ###########################################################################
-#partition.method = auto
-#partition.test = BIC #Can be one of LRT, BIC or AIC.
-#partition.test.threshold = 0.01 #If LRT is used.
+partition.method = auto
+partition.test = BIC #Can be one of LRT, BIC or AIC.
+partition.test.threshold = 0.01 #If LRT is used.
+partition.test.stop_first = yes 
 
-alphabet = Codon(letter=DNA, type=InvertebrateMitochondrial)
-input.sequence.file = $(DATA)Concatenate.fasta
+alphabet = Codon(letter=DNA, type=Standard)
+input.sequence.file = $(DATA).fasta
 input.sequence.format = Fasta
-input.sequence.sites_to_use = all
+input.sequence.sites_to_use = complete
 # Remove stop codons
-input.sequence.remove_stop_codons=yes
+input.sequence.remove_stop_codons = yes
 
-model = YN98(genetic_code=InvertebrateMitochondrial, codon_freqs=F3X4)
+param = lysozymeSmall.ml_h.params.bpp
 rate_distribution = Uniform #Gamma(n=4, alpha=0.5)
-nonhomogeneous.root_freq = None 
-nonhomogeneous.shared_parameters = YN98.kappa, YN98.freq_Word.* 
+nonhomogeneous.stationarity = yes
+nonhomogeneous.shared_parameters = YN98.kappa, YN98.freq* 
 
 #How to optimize parameters when fitting models:
 optimize = FullD(derivatives=Newton)
@@ -42,10 +44,12 @@ optimization.verbose = 1
 optimization.max_number_f_eval = 1000
 optimization.tolerance = 0.000001
 optimization.profiler = $(DATA).profile
-optimization.message_handler = $(DATA).message
+optimization.message_handler = $(DATA).messages
 optimization.final = none
+optimization.ignore_parameter = YN98.freq*
 
 #Where to write optimal model (for later use with bppSeqGen or bppAncestor for instance):
 output.model.file = 
+output.log.file = 
 output.tree.file = 
 output.tree.format = NHX

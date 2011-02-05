@@ -1,0 +1,65 @@
+1) Perform a Bowker test.
+1.1) Fit a homogeneous model:
+     
+     bppml --noninteractive=yes param=ML.bpp >& bppml_h.out
+     
+     This will store optimized parameter in file lysozymeLarge.mh_h.params.txt
+     and corresponding tree in file              lysozymeLarge.ml_h.txt.
+     A YN98 substitution model is used.
+
+ 1.2) Compute the Bowker statistic and compare to simulations under the estimated model
+     (See Dutheil and Boussau 2008):
+     
+     testnh --noninteractive=yes param=TestNH_homogeneous.bpp >& testnh_h.out
+
+     The test is not significant.Bowker only works with heterogeneity in frequencies...?
+
+2) Try to find a better non-homogeneous model to describe the data.
+2.1) Cluster nodes using substitution mapping.
+     We will map two types of substitutions: N and S.
+
+     We try to cluster nodes freely:
+     mapnh --noninteractive=yes param=MapNH.bpp test.branch.neighbor=no output.cluster_tree.file=lysozymeLarge.cluster_free.dnd >& mapnh_free.out
+
+     And also adding the constraint to cluster only adjacent nodes:
+     mapnh --noninteractive=yes param=MapNH.bpp test.branch.neighbor=yes output.cluster_tree.file=lysozymeLarge.cluster_join.dnd >& mapnh_join.out
+
+     This will first create a tree in Nhx format, identical to the input one, but with
+     nodes ID. It then creates a cluster tree in Newick format, with leaves being nodes ID.
+
+2.2) Use the clustering tree to define partitions, and test them using model testing.
+     We test both the clustering with nodes constrained to be adjacent or not in clustering,
+     and use two model selection criteria (AIC and BIC):
+     
+     partnh param=PartNH.bpp --noninteractive=yes \
+            input.cluster_tree.file=lysozymeLarge.cluster_free.dnd\
+            partition.test=BIC\
+            output.partitions.file=Partitions_free_BIC.dnd\
+            output.model.file=Model_free_BIC.bpp\
+            output.log.file=Model_free_BIC.log.txt\
+            output.tree.file=lysozymeLarge.ml_nh_free_BIC.nhx >& partnh_free_BIC.out &
+
+     partnh param=PartNH.bpp --noninteractive=yes \
+            input.cluster_tree.file=lysozymeLarge.cluster_join.dnd\
+            partition.test=BIC\
+            output.partitions.file=Partitions_join_BIC.dnd\
+            output.model.file=Model_join_BIC.bpp\
+            output.log.file=Model_join_BIC.log.txt\
+            output.tree.file=lysozymeLarge.ml_nh_join_BIC.nhx >& partnh_join_BIC.out &
+
+     partnh param=PartNH.bpp --noninteractive=yes \
+            input.cluster_tree.file=lysozymeLarge.cluster_free.dnd\
+            partition.test=AIC\
+            output.partitions.file=Partitions_free_AIC.dnd\
+            output.model.file=Model_free_AIC.bpp\
+            output.log.file=Model_free_AIC.log.txt\
+            output.tree.file=lysozymeLarge.ml_nh_free_AIC.nhx >& partnh_free_AIC.out &
+
+     partnh param=PartNH.bpp --noninteractive=yes \
+            input.cluster_tree.file=lysozymeLarge.cluster_join.dnd\
+            partition.test=AIC\
+            output.partitions.file=Partitions_join_AIC.dnd\
+            output.model.file=Model_join_AIC.bpp\
+            output.log.file=Model_join_AIC.log.txt\
+            output.tree.file=lysozymeLarge.ml_nh_join_AIC.nhx >& partnh_join_AIC.out &
+
