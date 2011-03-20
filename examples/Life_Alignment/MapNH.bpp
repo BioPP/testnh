@@ -7,6 +7,7 @@ input.tree.format = Newick
 output.tree_with_id.file = Life_Alignment.nhx
 #Where to output cluster tree:
 output.cluster_tree.file = Life_Alignment.cluster_join.dnd
+output.counts.tree.prefix = CountsTree
 
 input.sequence.file = Life_Alignment.mase
 input.sequence.format = Mase

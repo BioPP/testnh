@@ -118,7 +118,12 @@ vector< vector<unsigned int> > getCountsPerBranch(
     vector<double> countsf = SubstitutionMappingTools::computeSumForBranch(*mapping, mapping->getNodeIndex(ids[i]));
     counts[i].resize(countsf.size());
     for (size_t j = 0; j < countsf.size(); ++j) {
-      counts[i][j] = static_cast<unsigned int>(floor(countsf[j] + 0.5)); //Round counts
+      //if(countsf[j] < 0) {
+      //  cout << countsf[j] << "\t" << drtl.getTree().getDistanceToFather(ids[i]) << "\t" << endl;
+      //  counts[i][j] = 0;
+      //} else {
+        counts[i][j] = static_cast<unsigned int>(floor(countsf[j] + 0.5)); //Round counts
+      //}
     }
   }
   delete mapping;
@@ -210,7 +215,7 @@ int main(int args, char ** argv)
     throw Exception("Unsupported substitution categorization: " + regType);
 
   //Now perform mapping using a JC model:
-  SubstitutionModel* model = 0;
+  ReversibleSubstitutionModel* model = 0;
   if (AlphabetTools::isNucleicAlphabet(alphabet)) {
     model = new JCnuc(dynamic_cast<NucleicAlphabet*>(alphabet));
   } else if (AlphabetTools::isProteicAlphabet(alphabet)) {
@@ -225,7 +230,8 @@ int main(int args, char ** argv)
     throw Exception("Unsupported alphabet!");
 
   DiscreteDistribution* rDist = new ConstantDistribution(1., true);
-  SubstitutionCount* count = new SimpleSubstitutionCount(reg);
+  SubstitutionCount* count = new UniformizationSubstitutionCount(model, reg);
+  //SubstitutionCount* count = new SimpleSubstitutionCount(reg);
 
   DRHomogeneousTreeLikelihood drtl(*tree, *sites, model, rDist, false, false);
   drtl.initialize();
