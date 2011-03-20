@@ -300,7 +300,7 @@ int main(int args, char ** argv)
     double df = static_cast<double>(drtl->getParameters().size());
     double aic = 2. * (df + logL);
     double bic = 2. * logL + df * log(nbSites);
-    ApplicationTools::displayResult("* Homogeneous model - LogL", logL);
+    ApplicationTools::displayResult("* Homogeneous model - LogL", -logL);
     ApplicationTools::displayResult("                    - df", df);
     if (logout.get())
       *logout << 0. << "\t" << 1. << "\t" << -logL << "\t" << df << "\t" << aic << "\t" << bic << endl;
@@ -342,12 +342,18 @@ int main(int args, char ** argv)
     ApplicationTools::displayResult("BIC", bic);
     ApplicationTools::displayResult("Likelihood comparison method", likelihoodComparison);
       
-    bool stopFirst = ApplicationTools::getBooleanParameter("partition.test.stop_first", partnh.getParams(), false);
-    ApplicationTools::displayResult("Final model", (stopFirst ? "First best" : "Global best"));
-
+    string stopCond = ApplicationTools::getStringParameter("partition.test.stop_condition", partnh.getParams(), "0");
+    int stop;
+    if (stopCond == "all") {
+      stop = -log(0); //Inf
+      ApplicationTools::displayResult("Stop condition", string("test all nested models and report global best"));
+    } else {
+      stop = TextTools::toInt(stopCond);
+      ApplicationTools::displayResult("Stop condition", string("test ") + TextTools::toString(stop) + string(" nested models after local best"));
+    }
     //Now try more and more complex non-homogeneous models, using the clustering tree set as input.
     vector<const Node*> candidates;
-    bool test = true;
+    bool moveForward = true;
     map<double, vector<const Node*> >::iterator it = sortedHeights.begin();
     double currentThreshold = 1.;
     
@@ -357,7 +363,8 @@ int main(int args, char ** argv)
     TreeTemplate<Node>*   bestTree = 0;
     double bestAic = aic;
     double bestBic = bic;
-    while (test && it != sortedHeights.end()) {
+    int previousBest = -1;
+    while (moveForward && it != sortedHeights.end()) {
       for (vector<const Node*>::iterator it2 = it->second.begin(); it2 != it->second.end(); ++it2) {
         for (unsigned int k = 0; k < (*it2)->getNumberOfSons(); ++k)
           candidates.push_back((*it2)->getSon(k));
@@ -393,7 +400,7 @@ int main(int args, char ** argv)
       PhylogeneticsApplicationTools::optimizeParameters(drtl, drtl->getParameters(), partnh.getParams(), "", true, false);
       double newLogL = drtl->getValue();
       double newDf = static_cast<double>(drtl->getParameters().size());
-      ApplicationTools::displayResult("* New NH model - LogL", newLogL);
+      ApplicationTools::displayResult("* New NH model - LogL", -newLogL);
       ApplicationTools::displayResult("               - df", newDf);
       double newAic = 2. * (newDf + newLogL);
       double newBic = 2. * newLogL + newDf * log(nbSites);
@@ -410,34 +417,32 @@ int main(int args, char ** argv)
 
       //Finally compare new model to the current one:
       bool saveThisModel = false;
+      bool test = false;
       if (likelihoodComparison == "LRT") {
         test = (pvalue <= testThreshold);
         if (test) {
           saveThisModel = true;
+          moveForward = false;
         }
       } else {
-        if (stopFirst) {
-          if (likelihoodComparison == "AIC") {
-            test = (newAic < aic);
-          } else { //BIC
-            test = (newBic < bic);
-          }
-          if (test) {
-            saveThisModel = true;
-          }
+        if (likelihoodComparison == "AIC") {
+          test = (newAic < bestAic);
+        } else { //BIC
+          test = (newBic < bestBic);
+        }
+        if (newAic < bestAic)
+          bestAic = newAic;
+        if (newBic < bestBic)
+          bestBic = newBic;
+        if (test) {
+          saveThisModel = true;
+          previousBest = 0;
         } else {
-          //Test will always be true so that we check all nested models.
-          if (likelihoodComparison == "AIC") {
-            if (newAic < bestAic) {
-              bestAic = newAic;
-              saveThisModel = true;
-            }
-          } else { //BIC
-            if (newBic < bestBic) {
-              bestBic = newBic;
-              saveThisModel = true;
-            }
-          }
+          previousBest++;
+        }
+        if (previousBest == stop) {
+          //We have to stop here
+          moveForward = false;
         }
       }
 
@@ -453,7 +458,7 @@ int main(int args, char ** argv)
       }
 
       //Moving forward:
-      if (test) {
+      if (moveForward) {
         delete ptree;
         if (modelSet)
           delete modelSet;

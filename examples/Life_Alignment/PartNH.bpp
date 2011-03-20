@@ -20,14 +20,13 @@ output.partitions.file = Partitions.dnd
 partition.method = auto
 partition.test = BIC #Can be one of LRT, BIC or AIC.
 partition.test.threshold = 0.01 #If LRT is used.
-partition.test.stop_first = no 
+partition.test.stop_condition = 3 
 alphabet = RNA
 input.sequence.file = Life_Alignment.mase
 input.sequence.format = Mase
 input.sequence.sites_to_use = complete
 
-model = T92(kappa=2.0, theta=0.5)
-rate_distribution = Gamma(n=4, alpha=0.5)
+param = Life_Alignment.params_h.bpp 
 nonhomogeneous.root_freq = GC(theta=0.5)
 nonhomogeneous.shared_parameters = T92.kappa #Only theta will be "non-homogeneous"
 
@@ -35,8 +34,8 @@ nonhomogeneous.shared_parameters = T92.kappa #Only theta will be "non-homogeneou
 optimize = FullD(derivatives=Newton)
 optimization.reparametrization = no
 optimization.verbose = 1
-optimization.max_number_f_eval = 1000
-optimization.tolerance = 1.0
+optimization.max_number_f_eval = 10000
+optimization.tolerance = 0.0001
 optimization.profiler = Life_Alignment.profile
 optimization.message_handler = Life_Alignment.message
 optimization.final = none

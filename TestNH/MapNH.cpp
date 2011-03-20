@@ -187,11 +187,12 @@ int main(int args, char ** argv)
   map<string, string> regArgs;
   KeyvalTools::parseProcedure(regTypeDesc, regType, regArgs);
   auto_ptr<GeneticCode> geneticCode;
+  bool includeZero = false;
   if (regType == "All")
     reg = new ExhaustiveSubstitutionRegister(alphabet);
   else if (regType == "GC") {
     if (AlphabetTools::isNucleicAlphabet(alphabet)) {
-      bool includeZero = ApplicationTools::getBooleanParameter("inc_zeros", regArgs, false);
+      includeZero = ApplicationTools::getBooleanParameter("inc_zeros", regArgs, false);
       reg = new GCSubstitutionRegister(dynamic_cast<NucleicAlphabet*>(alphabet), includeZero);
     } else
       throw Exception("GC categorization is only available for nucleotide alphabet!");
@@ -303,9 +304,22 @@ int main(int args, char ** argv)
     } else {
       throw Exception("Unknown automatic clustering option: " + autoClustName);
     }
+    string clustTypeDesc = ApplicationTools::getStringParameter("test.branch.cluster_type", mapnh.getParams(), "simple");
+    short clustType = MultinomialClustering::CLUSTERING_SIMPLE;
+    if (clustTypeDesc == "simple")
+      clustType = MultinomialClustering::CLUSTERING_SIMPLE;
+    else if (clustTypeDesc == "equilibrium") {
+      if (regType != "GC")
+        throw Exception("Equilibirum clustering is only available for GC mapping.");
+      if (!includeZero)
+        throw Exception("Equilibirum clustering can only work with the 'inc_zeros=yes' option.");
+      clustType = MultinomialClustering::CLUSTERING_EQUILIBRIUM;
+      ApplicationTools::displayResult("Clustering type", string("equilibrium"));
+    } else
+      throw Exception("Invalide clustering type option: " + clustTypeDesc);
 
     //ChiClustering htest(counts, ids, true);
-    MultinomialClustering htest(counts, ids, drtl.getTree(), *autoClust, testNeighb, testNegBrL, true);
+    MultinomialClustering htest(counts, ids, drtl.getTree(), *autoClust, clustType, testNeighb, testNegBrL, true);
     TreeTemplate<Node>* htree = htest.getTree();
     Newick newick;
     string clusterTreeOut = ApplicationTools::getAFilePath("output.cluster_tree.file", mapnh.getParams(), false, false);
