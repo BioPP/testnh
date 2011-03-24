@@ -66,6 +66,7 @@ using namespace std;
 #include <Bpp/Phyl/Model/HKY85.h>
 #include <Bpp/Phyl/Model/JCprot.h>
 #include <Bpp/Phyl/Model/CodonNeutralReversibleSubstitutionModel.h>
+#include <Bpp/Phyl/Model/YN98.h>
 #include <Bpp/Phyl/Model/SubstitutionModelSet.h>
 #include <Bpp/Phyl/Model/SubstitutionModelSetTools.h>
 
@@ -110,19 +111,39 @@ void help()
 vector< vector<unsigned int> > getCountsPerBranch(
     DRTreeLikelihood& drtl,
     const vector<int>& ids,
-    SubstitutionCount& count)
+    SubstitutionCount& count,
+    double threshold = -1)
 {
   ProbabilisticSubstitutionMapping* mapping = SubstitutionMappingTools::computeSubstitutionVectors(drtl, count, false);
   vector< vector<unsigned int> > counts(ids.size());
-  for (size_t i = 0; i < ids.size(); ++i) {
-    vector<double> countsf = SubstitutionMappingTools::computeSumForBranch(*mapping, mapping->getNodeIndex(ids[i]));
-    counts[i].resize(countsf.size());
+  unsigned int nbSites = mapping->getNumberOfSites();
+  unsigned int nbTypes = mapping->getNumberOfSubstitutionTypes();
+  for (size_t k = 0; k < ids.size(); ++k) {
+    //vector<double> countsf = SubstitutionMappingTools::computeSumForBranch(*mapping, mapping->getNodeIndex(ids[i]));
+    vector<double> countsf(nbTypes, 0);
+    vector<double> tmp(nbTypes, 0);
+    unsigned int nbIgnored = 0;
+    for (unsigned int i = 0; i < nbSites; ++i) {
+      double s = 0;
+      for (unsigned int t = 0; t < nbTypes; ++t) {
+        tmp[t] = (*mapping)(k, i, t);
+        s += tmp[t];
+      }
+      if (threshold >= 0 && s <= threshold)
+        countsf += tmp;
+      else
+        nbIgnored++;
+    }
+    if (nbIgnored > 0)
+      ApplicationTools::displayWarning("On branch " + TextTools::toString(ids[k]) + ", " + TextTools::toString(nbIgnored) + " sites (" + TextTools::toString(ceil(static_cast<double>(nbIgnored * 100) / static_cast<double>(nbSites))) + "%) have been ignored because they are presumably saturated.");
+
+    counts[k].resize(countsf.size());
     for (size_t j = 0; j < countsf.size(); ++j) {
       //if(countsf[j] < 0) {
       //  cout << countsf[j] << "\t" << drtl.getTree().getDistanceToFather(ids[i]) << "\t" << endl;
       //  counts[i][j] = 0;
       //} else {
-        counts[i][j] = static_cast<unsigned int>(floor(countsf[j] + 0.5)); //Round counts
+        counts[k][j] = static_cast<unsigned int>(floor(countsf[j] + 0.5)); //Round counts
       //}
     }
   }
@@ -209,23 +230,26 @@ int main(int args, char ** argv)
         ApplicationTools::displayWarning("No genetic code provided, standard code used.");
       }
       geneticCode.reset(SequenceApplicationTools::getGeneticCode(dynamic_cast<CodonAlphabet*>(alphabet)->getNucleicAlphabet(), code));
-      reg = new DnDsSubstitutionRegister(geneticCode.get());
+      reg = new DnDsSubstitutionRegister(geneticCode.get(), false);
     } else
       throw Exception("DnDs categorization is only available for nucleic alphabet!");
   } else
     throw Exception("Unsupported substitution categorization: " + regType);
 
   //Now perform mapping using a JC model:
-  ReversibleSubstitutionModel* model = 0;
+  SubstitutionModel* model = 0;
   if (AlphabetTools::isNucleicAlphabet(alphabet)) {
     model = new JCnuc(dynamic_cast<NucleicAlphabet*>(alphabet));
   } else if (AlphabetTools::isProteicAlphabet(alphabet)) {
     model = new JCprot(dynamic_cast<ProteicAlphabet*>(alphabet));
   } else if (AlphabetTools::isCodonAlphabet(alphabet)) {
-//    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, mapnh.getParams());
-    model = new CodonNeutralReversibleSubstitutionModel(
-        dynamic_cast<const CodonAlphabet*>(geneticCode->getSourceAlphabet()),
-        new JCnuc(dynamic_cast<CodonAlphabet*>(alphabet)->getNucleicAlphabet()));
+    if (ApplicationTools::parameterExists("model", mapnh.getParams())) {
+      model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, mapnh.getParams());
+    } else {
+      model = new CodonNeutralReversibleSubstitutionModel(
+          dynamic_cast<const CodonAlphabet*>(geneticCode->getSourceAlphabet()),
+          new JCnuc(dynamic_cast<CodonAlphabet*>(alphabet)->getNucleicAlphabet()));
+    }
   }
   else
     throw Exception("Unsupported alphabet!");
@@ -241,8 +265,11 @@ int main(int args, char ** argv)
   //PhylogeneticsApplicationTools::optimizeParameters(&drtl, drtl.getParameters(), mapnh.getParams(), "", true, true);
   
   vector<int> ids = drtl.getTree().getNodesId();
-  ids.pop_back(); //remove root id. 
-  vector< vector<unsigned int> > counts = getCountsPerBranch(drtl, ids, *count);
+  ids.pop_back(); //remove root id.
+  double thresholdSat = ApplicationTools::getDoubleParameter("count.max", mapnh.getParams(), -1);
+  if (thresholdSat > 0)
+    ApplicationTools::displayResult("Saturation threshold used", thresholdSat);
+  vector< vector<unsigned int> > counts = getCountsPerBranch(drtl, ids, *count, thresholdSat);
 
   //Write count trees:
   string treePathPrefix = ApplicationTools::getStringParameter("output.counts.tree.prefix", mapnh.getParams(), "none");
