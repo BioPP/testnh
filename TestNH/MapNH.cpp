@@ -129,10 +129,14 @@ vector< vector<unsigned int> > getCountsPerBranch(
         tmp[t] = (*mapping)(k, i, t);
         s += tmp[t];
       }
-      if (threshold >= 0 && s <= threshold)
+      if (threshold >= 0) {
+        if (s <= threshold)
+          countsf += tmp;
+        else
+          nbIgnored++;
+      } else {
         countsf += tmp;
-      else
-        nbIgnored++;
+      }
     }
     if (nbIgnored > 0)
       ApplicationTools::displayWarning("On branch " + TextTools::toString(ids[k]) + ", " + TextTools::toString(nbIgnored) + " sites (" + TextTools::toString(ceil(static_cast<double>(nbIgnored * 100) / static_cast<double>(nbSites))) + "%) have been ignored because they are presumably saturated.");

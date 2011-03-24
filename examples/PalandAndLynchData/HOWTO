@@ -30,10 +30,10 @@
      We will map non-synonymous substitutions.
 
      We try to cluster nodes freely:
-     mapnh param=MapNH.bpp test.branch.neighbor=no output.cluster_tree.file=PalandAndLynch.cluster_free.dnd
+     mapnh --noninteractive=yes param=MapNH.bpp test.branch.neighbor=no output.cluster_tree.file=PalandAndLynch.cluster_free.dnd >& mapnh_free.out &
 
      And also adding the constraint to cluster only adjacent nodes:
-     mapnh param=MapNH.bpp test.branch.neighbor=yes output.cluster_tree.file=PalandAndLynch.cluster_join.dnd
+     mapnh --noninteractive=yes param=MapNH.bpp test.branch.neighbor=yes output.cluster_tree.file=PalandAndLynch.cluster_join.dnd >& mapnh_join.out &
 
      This will first create a tree in Nhx format, identical to the input one, but with
      node IDs. It then creates a cluster tree in Newick format, with leaves corresponding to node IDs.
