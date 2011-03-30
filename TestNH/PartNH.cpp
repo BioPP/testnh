@@ -342,13 +342,15 @@ int main(int args, char ** argv)
     ApplicationTools::displayResult("BIC", bic);
     ApplicationTools::displayResult("Likelihood comparison method", likelihoodComparison);
       
-    string stopCond = ApplicationTools::getStringParameter("partition.test.stop_condition", partnh.getParams(), "0");
+    string stopCond = ApplicationTools::getStringParameter("partition.test.stop_condition", partnh.getParams(), "1");
     int stop;
     if (stopCond == "all") {
       stop = -log(0); //Inf
       ApplicationTools::displayResult("Stop condition", string("test all nested models and report global best"));
     } else {
       stop = TextTools::toInt(stopCond);
+      if (stop < 1)
+        throw Exception("Stop paraöeter should be at least 1!.");
       ApplicationTools::displayResult("Stop condition", string("test ") + TextTools::toString(stop) + string(" nested models after local best"));
     }
     //Now try more and more complex non-homogeneous models, using the clustering tree set as input.

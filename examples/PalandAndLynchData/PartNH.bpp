@@ -23,7 +23,7 @@ output.partitions.file = Partitions.dnd
 partition.method = auto
 partition.test = BIC #Can be one of LRT, BIC or AIC.
 partition.test.threshold = 0.01 #If LRT is used.
-partition.test.stop_first = yes 
+partition.test.stop_condition = all
 
 alphabet = Codon(letter=DNA, type=InvertebrateMitochondrial)
 input.sequence.file = $(DATA)Concatenate.fasta
