@@ -350,7 +350,7 @@ int main(int args, char ** argv)
     } else {
       stop = TextTools::toInt(stopCond);
       if (stop < 1)
-        throw Exception("Stop paraöeter should be at least 1!.");
+        throw Exception("Stop parameter should be at least 1!.");
       ApplicationTools::displayResult("Stop condition", string("test ") + TextTools::toString(stop) + string(" nested models after local best"));
     }
     //Now try more and more complex non-homogeneous models, using the clustering tree set as input.
@@ -366,6 +366,7 @@ int main(int args, char ** argv)
     double bestAic = aic;
     double bestBic = bic;
     int previousBest = -1;
+    vector< vector<int> > bestGroups;
     while (moveForward && it != sortedHeights.end()) {
       for (vector<const Node*>::iterator it2 = it->second.begin(); it2 != it->second.end(); ++it2) {
         for (unsigned int k = 0; k < (*it2)->getNumberOfSons(); ++k)
@@ -457,6 +458,7 @@ int main(int args, char ** argv)
         bestModelSet = newModelSet->clone();
         bestRDist    = newRDist->clone();
         bestTree     = newTree->clone();
+        bestGroups   = newGroups;
       }
 
       //Moving forward:
@@ -547,8 +549,10 @@ int main(int args, char ** argv)
     }
 
     //Cleaning:
-    if (bestTree)
-      ptree = bestTree;
+    if (bestTree) {
+      ptree  = bestTree;
+      groups = bestGroups;
+    }
     delete bestModelSet;
     delete bestRDist;
   

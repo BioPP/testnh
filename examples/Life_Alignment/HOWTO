@@ -40,7 +40,8 @@
             output.partitions.file=Life_Alignment.partitions_free_BIC.dnd\
             output.model.file=Life_Alignment.model_free_BIC.bpp\
             output.log.file=Life_Alignment.model_free_BIC.log.txt\
-            output.tree.file=Life_Alignment.ml_nh_free_BIC.nhx > partnh_free_BIC.out &
+            output.tree.file=Life_Alignment.ml_nh_free_BIC.nhx\
+            output.parameters.file=Life_Alignment.ml_nh_free_BIC.parameters.csv > partnh_free_BIC.out &
 
      partnh param=PartNH.bpp --noninteractive=yes \
             input.cluster_tree.file=Life_Alignment.cluster_equilibrium_join.dnd\
@@ -52,12 +53,13 @@
             output.parameters.file=Life_Alignment.ml_nh_join_BIC.parameters.csv > partnh_join_BIC.out &
 
      partnh param=PartNH.bpp --noninteractive=yes \
-            input.cluster_tree.file=Life_Alignment.cluster_free.dnd\
+            input.cluster_tree.file=Life_Alignment.cluster_equilibrium_free.dnd\
             partition.test=AIC\
-            output.partitions.file=Partitions_free_AIC.dnd\
-            output.model.file=Model_free_AIC.bpp\
-            output.log.file=Model_free_AIC.log.txt\
-            output.tree.file=Life_Alignment.ml_nh_free_AIC.nhx > partnh_free_AIC.out &
+            output.partitions.file=Life_Alignment.partitions_free_AIC.dnd\
+            output.model.file=Life_Alignment.model_free_AIC.bpp\
+            output.log.file=Life_Alignment.model_free_AIC.log.txt\
+            output.tree.file=Life_Alignment.ml_nh_free_AIC.nhx\
+            output.parameters.file=Life_Alignment.ml_nh_free_AIC.parameters.csv > partnh_free_AIC.out &
 
      partnh param=PartNH.bpp --noninteractive=yes \
             input.cluster_tree.file=Life_Alignment.cluster_equilibrium_join.dnd\
