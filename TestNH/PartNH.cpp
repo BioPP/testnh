@@ -134,7 +134,8 @@ SubstitutionModelSet* buildModelSetFromPartitions(
     const FrequenciesSet* rootFreqs,
     const Tree* tree,
     const vector< vector<int> >& groups,
-    const vector<string>& globalParameterNames
+    const vector<string>& globalParameterNames,
+    std::map<int, ParameterList>& initParameters
   ) throw (AlphabetException, Exception)
 {
   //Check alphabet:
@@ -177,8 +178,9 @@ SubstitutionModelSet* buildModelSetFromPartitions(
     new SubstitutionModelSet(model->getAlphabet(), true);
   //We assign a copy of this model to all nodes in the tree, for each partition, and link all parameters with it.
   for (size_t i = 0; i < groups.size(); ++i) {
-    modelSet->addModel(dynamic_cast<SubstitutionModel*>(model->clone()),
-        groups[i], branchParameters.getParameterNames());
+    SubstitutionModel* modelC = dynamic_cast<SubstitutionModel*>(model->clone());
+    modelC->matchParametersValues(initParameters[groups[i][0]]);
+    modelSet->addModel(modelC, groups[i], branchParameters.getParameterNames());
   }
   vector<int> allIds = tree->getNodesId();
   int rootId = tree->getRootId();
@@ -200,7 +202,7 @@ int main(int args, char ** argv)
   cout << "******************************************************************" << endl;
   cout << "*                     PartNH, version 0.1.0                      *" << endl;
   cout << "* Authors: J. Dutheil                       Created on  09/12/10 *" << endl;
-  cout << "*          B. Boussau                       Last Modif. 20/03/08 *" << endl;
+  cout << "*          B. Boussau                       Last Modif. 08/04/11 *" << endl;
   cout << "******************************************************************" << endl;
   cout << endl;
 
@@ -353,6 +355,17 @@ int main(int args, char ** argv)
         throw Exception("Stop parameter should be at least 1!.");
       ApplicationTools::displayResult("Stop condition", string("test ") + TextTools::toString(stop) + string(" nested models after local best"));
     }
+
+    //In order to save optimization time, we will same parameter estimates after each model was estimated
+    //in order to use smart initial values for the next round...
+    map<int, ParameterList> currentParameters;
+    //At start, all nodes have the same parameter values (homogeneous model):
+    vector<int> ids = ptree->getNodesId();
+    ids.pop_back();
+    for (size_t i = 0; i < ids.size(); ++i) {
+      currentParameters[ids[i]] = model->getParameters();
+    }
+
     //Now try more and more complex non-homogeneous models, using the clustering tree set as input.
     vector<const Node*> candidates;
     bool moveForward = true;
@@ -385,12 +398,11 @@ int main(int args, char ** argv)
         ApplicationTools::displayResult("Partition " + TextTools::toString(i + 1), TextTools::toString(newGroups[i].size()) + " element(s).");
 
       //Now we have to build the corresponding model set:
-      SubstitutionModelSet* newModelSet = buildModelSetFromPartitions(model, rootFreqs, ptree, newGroups, globalParameters);
+      SubstitutionModelSet* newModelSet = buildModelSetFromPartitions(model, rootFreqs, ptree, newGroups, globalParameters, currentParameters);
       DiscreteDistribution* newRDist = rDist->clone();
       
       ParameterList previousParameters = drtl->getBranchLengthsParameters();
       previousParameters.addParameters(drtl->getRateDistributionParameters());
-      //ParameterList previousParameters = drtl->getParameters(); //Here we should set the parameters in a clever way... not that straightforward!
       delete drtl;
       if (dynamic_cast<MixedSubstitutionModel*>(model) == 0)
         drtl = new DRNonHomogeneousTreeLikelihood(*ptree, *sites, newModelSet, newRDist, false);
@@ -475,6 +487,10 @@ int main(int args, char ** argv)
         aic      = newAic;
         bic      = newBic;
         groups   = newGroups;
+        //Save parameters:
+        for (size_t i = 0; i < ids.size(); ++i) {
+          currentParameters[ids[i]] = modelSet->getModelForNode(ids[i])->getParameters();
+        }
       } else {
         delete newModelSet;
         delete newRDist;
@@ -534,8 +550,6 @@ int main(int args, char ** argv)
         }
       } else {
         //All nodes have the same parameters:
-        vector<int> ids = ptree->getNodesId();
-        ids.pop_back();
         ParameterList pl = model->getParameters();
         for (size_t j = 0; j < ids.size(); ++j) {
           paramFile << ids[j];
