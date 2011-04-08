@@ -318,6 +318,11 @@ void EquilibriumSubstitutionCountsComparison::computePValue()
       Snb += nb(i, j);
     }
   }
+  if (Sna == 0 || Snb == 0) {
+    statistic_ = 0.;
+    pvalue_    = 1.;
+    return;
+  }
 
   for (i = 0; i < s; ++i) {
     for (j = 0; j < s; ++j) {

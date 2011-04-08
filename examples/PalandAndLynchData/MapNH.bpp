@@ -24,7 +24,7 @@ test.global = no
 test.branch = yes
 test.branch.neighbor = #yes or no
 test.branch.negbrlen = no
-test.branch.auto_cluster = Marginal(threshold=3)
+test.branch.auto_cluster = Marginal(threshold=1)
  
 output.counts.tree.prefix = CountsTree
 

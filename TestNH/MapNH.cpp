@@ -99,22 +99,17 @@ void help()
   (*ApplicationTools::message << "__________________________________________________________________________").endLine();
 }
 
-//Returns the log probability... but we should use Chisquare instead!
-//double dMultinom(const vector<double>& counts, const vector<double>& probs) {
-//  unsigned int n = VectorTools::sum(counts);
-//  unsigned int l = log(NumTools::fact(n));
-//  for (size_t i = 0; i < counts.size(); ++i)
-//    l += counts[i] * log(probs[i]) - log(NumTools::fact(counts[i]));
-//  return l;
-//}
-
 vector< vector<unsigned int> > getCountsPerBranch(
     DRTreeLikelihood& drtl,
     const vector<int>& ids,
-    SubstitutionCount& count,
+    SubstitutionModel* model,
+    const SubstitutionRegister& reg,
     double threshold = -1)
 {
-  ProbabilisticSubstitutionMapping* mapping = SubstitutionMappingTools::computeSubstitutionVectors(drtl, count, false);
+  auto_ptr<SubstitutionCount> count(new UniformizationSubstitutionCount(model, reg.clone()));
+  //SubstitutionCount* count = new SimpleSubstitutionCount(reg);
+  
+  auto_ptr<ProbabilisticSubstitutionMapping> mapping(SubstitutionMappingTools::computeSubstitutionVectors(drtl, *count, false));
   vector< vector<unsigned int> > counts(ids.size());
   unsigned int nbSites = mapping->getNumberOfSites();
   unsigned int nbTypes = mapping->getNumberOfSubstitutionTypes();
@@ -151,9 +146,58 @@ vector< vector<unsigned int> > getCountsPerBranch(
       //}
     }
   }
-  delete mapping;
   return counts;
 }
+
+//Version for non-stationary models:
+vector< vector<unsigned int> > getCountsPerBranchNS(
+    DRTreeLikelihood& drtl,
+    const vector<int>& ids,
+    SubstitutionModel* model,
+    const CategorySubstitutionRegister& reg,
+    double threshold = 1)
+{
+  if (!reg.allowWithin())
+    throw Exception("Bad substitution register in use with this method.");
+
+  auto_ptr<SubstitutionCount> countF(new UniformizationSubstitutionCount(model, reg.clone()));
+  auto_ptr<SubstitutionCount> countS(new SimpleSubstitutionCount(reg.clone(), true));
+  auto_ptr<ProbabilisticSubstitutionMapping> mappingF(SubstitutionMappingTools::computeSubstitutionVectors(drtl, *countF, false));
+  auto_ptr<ProbabilisticSubstitutionMapping> mappingS(SubstitutionMappingTools::computeSubstitutionVectors(drtl, *countS, false));
+  vector< vector<unsigned int> > counts(ids.size());
+  unsigned int nbSites = mappingF->getNumberOfSites();
+  unsigned int nbTypes = mappingF->getNumberOfSubstitutionTypes();
+  for (size_t k = 0; k < ids.size(); ++k) {
+    vector<double> countsf(nbTypes, 0);
+    vector<double> tmp(nbTypes, 0);
+    unsigned int nbIgnored = 0;
+    for (unsigned int i = 0; i < nbSites; ++i) {
+      double s = 0;
+      for (unsigned int t = 0; t < nbTypes; ++t) {
+        tmp[t] = (*mappingS)(k, i, t);
+        s += (*mappingF)(k, i, t);
+      }
+      if (threshold >= 0) {
+        if (s <= threshold)
+          countsf += tmp;
+        else
+          nbIgnored++;
+      } else {
+        countsf += tmp;
+      }
+    }
+    if (nbIgnored > 0)
+      ApplicationTools::displayWarning("On branch " + TextTools::toString(ids[k]) + ", " + TextTools::toString(nbIgnored) + " sites (" + TextTools::toString(ceil(static_cast<double>(nbIgnored * 100) / static_cast<double>(nbSites))) + "%) have been ignored because they are presumably saturated.");
+
+    counts[k].resize(countsf.size());
+    for (size_t j = 0; j < countsf.size(); ++j) {
+      counts[k][j] = static_cast<unsigned int>(floor(countsf[j] + 0.5)); //Round counts
+    }
+  }
+  return counts;
+}
+
+
 
 void buildCountTree(
     const vector< vector<unsigned int> >& counts,
@@ -212,13 +256,15 @@ int main(int args, char ** argv)
   map<string, string> regArgs;
   KeyvalTools::parseProcedure(regTypeDesc, regType, regArgs);
   auto_ptr<GeneticCode> geneticCode;
-  bool includeZero = false;
-  if (regType == "All")
-    reg = new ExhaustiveSubstitutionRegister(alphabet);
+  bool stationarity = true;
+  if (regType == "All") {
+    stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
+    reg = new ExhaustiveSubstitutionRegister(alphabet, !stationarity);
+  }
   else if (regType == "GC") {
     if (AlphabetTools::isNucleicAlphabet(alphabet)) {
-      includeZero = ApplicationTools::getBooleanParameter("inc_zeros", regArgs, false);
-      reg = new GCSubstitutionRegister(dynamic_cast<NucleicAlphabet*>(alphabet), includeZero);
+      stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
+      reg = new GCSubstitutionRegister(dynamic_cast<NucleicAlphabet*>(alphabet), !stationarity);
     } else
       throw Exception("GC categorization is only available for nucleotide alphabet!");
   } else if (regType == "TsTv") {
@@ -259,8 +305,6 @@ int main(int args, char ** argv)
     throw Exception("Unsupported alphabet!");
 
   DiscreteDistribution* rDist = new ConstantDistribution(1., true);
-  SubstitutionCount* count = new UniformizationSubstitutionCount(model, reg);
-  //SubstitutionCount* count = new SimpleSubstitutionCount(reg);
 
   DRHomogeneousTreeLikelihood drtl(*tree, *sites, model, rDist, false, false);
   drtl.initialize();
@@ -270,10 +314,15 @@ int main(int args, char ** argv)
   
   vector<int> ids = drtl.getTree().getNodesId();
   ids.pop_back(); //remove root id.
-  double thresholdSat = ApplicationTools::getDoubleParameter("count.max", mapnh.getParams(), -1);
-  if (thresholdSat > 0)
-    ApplicationTools::displayResult("Saturation threshold used", thresholdSat);
-  vector< vector<unsigned int> > counts = getCountsPerBranch(drtl, ids, *count, thresholdSat);
+  vector< vector<unsigned int> > counts;
+  if (stationarity) {
+    double thresholdSat = ApplicationTools::getDoubleParameter("count.max", mapnh.getParams(), -1);
+    if (thresholdSat > 0)
+      ApplicationTools::displayResult("Saturation threshold used", thresholdSat);
+    counts = getCountsPerBranch(drtl, ids, model, *reg, thresholdSat);
+  } else {
+    counts = getCountsPerBranchNS(drtl, ids, model, *dynamic_cast<CategorySubstitutionRegister*>(reg), 1.5);
+  }
 
   //Write count trees:
   string treePathPrefix = ApplicationTools::getStringParameter("output.counts.tree.prefix", mapnh.getParams(), "none");
@@ -327,7 +376,15 @@ int main(int args, char ** argv)
     } else if (autoClustName == "Global") {
       double threshold = ApplicationTools::getParameter<unsigned int>("threshold", autoClustParam, 0);
       ApplicationTools::displayResult("Auto-clutering threshold", threshold);
-      autoClust.reset(new SumCountsAutomaticGroupingCondition(threshold));
+      CategorySubstitutionRegister* creg = dynamic_cast<CategorySubstitutionRegister*>(reg);
+      vector<size_t> ignore;
+      if (creg && creg->allowWithin()) {
+        unsigned int n = creg->getNumberOfCategories();
+        for (unsigned int i = 0; i < n; ++i) {
+          ignore.push_back(n * (n - 1) + i);
+        }
+      }
+      autoClust.reset(new SumCountsAutomaticGroupingCondition(threshold, ignore));
     } else if (autoClustName == "Marginal") {
       double threshold = ApplicationTools::getParameter<unsigned int>("threshold", autoClustParam, 0);
       ApplicationTools::displayResult("Auto-clutering threshold", threshold);
@@ -335,19 +392,8 @@ int main(int args, char ** argv)
     } else {
       throw Exception("Unknown automatic clustering option: " + autoClustName);
     }
-    string clustTypeDesc = ApplicationTools::getStringParameter("test.branch.cluster_type", mapnh.getParams(), "simple");
-    short clustType = MultinomialClustering::CLUSTERING_SIMPLE;
-    if (clustTypeDesc == "simple")
-      clustType = MultinomialClustering::CLUSTERING_SIMPLE;
-    else if (clustTypeDesc == "equilibrium") {
-      if (regType != "GC")
-        throw Exception("Equilibirum clustering is only available for GC mapping.");
-      if (!includeZero)
-        throw Exception("Equilibirum clustering can only work with the 'inc_zeros=yes' option.");
-      clustType = MultinomialClustering::CLUSTERING_EQUILIBRIUM;
-      ApplicationTools::displayResult("Clustering type", string("equilibrium"));
-    } else
-      throw Exception("Invalide clustering type option: " + clustTypeDesc);
+
+    short clustType = stationarity ? MultinomialClustering::CLUSTERING_SIMPLE : MultinomialClustering::CLUSTERING_EQUILIBRIUM;
 
     //ChiClustering htest(counts, ids, true);
     MultinomialClustering htest(counts, ids, drtl.getTree(), *autoClust, clustType, testNeighb, testNegBrL, true);
@@ -365,7 +411,7 @@ int main(int args, char ** argv)
   delete tree;
   delete model;
   delete rDist;
-  delete count;
+  delete reg;
   mapnh.done();
 
   }

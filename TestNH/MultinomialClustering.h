@@ -246,17 +246,23 @@ class SumCountsAutomaticGroupingCondition:
 {
   private:
     unsigned int threshold_;
+    vector<size_t> ignore_;
 
   public:
-    SumCountsAutomaticGroupingCondition(unsigned int threshold = 0):
-      threshold_(threshold)
+    SumCountsAutomaticGroupingCondition(unsigned int threshold = 0, const vector<size_t>& ignore = vector<size_t>(0)):
+      threshold_(threshold),
+      ignore_(ignore)
     {}
 
     ~SumCountsAutomaticGroupingCondition() {}
 
   public:
     bool check(const vector<unsigned int>& counts) const {
-      return VectorTools::sum(counts) > threshold_;
+      unsigned int s = 0;
+      for (size_t i = 0; i < counts.size(); ++i)
+        if (!VectorTools::contains(ignore_, i))
+          s += counts[i];
+      return s > threshold_;
     }
 };
 
