@@ -37,6 +37,8 @@
      partnh param=PartNH.bpp --noninteractive=yes \
             input.cluster_tree.file=Life_Alignment.cluster_equilibrium_free.dnd\
             partition.test=BIC\
+            optimization.profiler=Life_Alignment.free_BIC.profile\
+            optimization.message_handler=Life_Alignment.free_BIC.message\
             output.partitions.file=Life_Alignment.partitions_free_BIC.dnd\
             output.model.file=Life_Alignment.model_free_BIC.bpp\
             output.log.file=Life_Alignment.model_free_BIC.log.txt\
@@ -46,6 +48,8 @@
      partnh param=PartNH.bpp --noninteractive=yes \
             input.cluster_tree.file=Life_Alignment.cluster_equilibrium_join.dnd\
             partition.test=BIC\
+            optimization.profiler=Life_Alignment.join_BIC.profile\
+            optimization.message_handler=Life_Alignment.join_BIC.message\
             output.partitions.file=Life_Alignment.partitions_join_BIC.dnd\
             output.model.file=Life_Alignment.model_join_BIC.bpp\
             output.log.file=Life_Alignment.model_join_BIC.log.txt\
@@ -55,6 +59,9 @@
      partnh param=PartNH.bpp --noninteractive=yes \
             input.cluster_tree.file=Life_Alignment.cluster_equilibrium_free.dnd\
             partition.test=AIC\
+            optimization.reparametrization=yes\
+            optimization.profiler=Life_Alignment.free_AIC.profile\
+            optimization.message_handler=Life_Alignment.free_AIC.message\
             output.partitions.file=Life_Alignment.partitions_free_AIC.dnd\
             output.model.file=Life_Alignment.model_free_AIC.bpp\
             output.log.file=Life_Alignment.model_free_AIC.log.txt\
@@ -64,6 +71,8 @@
      partnh param=PartNH.bpp --noninteractive=yes \
             input.cluster_tree.file=Life_Alignment.cluster_equilibrium_join.dnd\
             partition.test=AIC\
+            optimization.profiler=Life_Alignment.join_AIC.profile\
+            optimization.message_handler=Life_Alignment.join_AIC.message\
             output.partitions.file=Life_Alignment.partitions_join_AIC.dnd\
             output.model.file=Life_Alignment.model_join_AIC.bpp\
             output.log.file=Life_Alignment.model_join_AIC.log.txt\

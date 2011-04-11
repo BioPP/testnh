@@ -31,14 +31,12 @@ nonhomogeneous.root_freq = GC(theta=0.5)
 nonhomogeneous.shared_parameters = T92.kappa #Only theta will be "non-homogeneous"
 
 #How to optimize parameters when fitting models:
-optimize = FullD(derivatives=Newton)
 optimization.reparametrization = no
 optimization.verbose = 1
 optimization.max_number_f_eval = 10000
 optimization.tolerance = 0.0001
-optimization.profiler = Life_Alignment.profile
-optimization.message_handler = Life_Alignment.message
-optimization.final = none
+optimization.profiler =
+optimization.message_handler =
 
 #Where to write optimal model (for later use with bppSeqGen or bppAncestor for instance):
 output.model.file = 

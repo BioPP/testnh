@@ -49,6 +49,7 @@ using namespace std;
 #include <Bpp/Phyl/Io/Newick.h>
 #include <Bpp/Phyl/Io/Nhx.h>
 #include <Bpp/Phyl/Likelihood.all>
+#include <Bpp/Phyl/OptimizationTools.h>
 
 // From bpp-seq:
 #include <Bpp/Seq/Alphabet.all>
@@ -197,6 +198,60 @@ SubstitutionModelSet* buildModelSetFromPartitions(
   return modelSet;
 }
 
+ParameterList getParametersToEstimate(const DRTreeLikelihood* drtl, map<string, string>& params) {
+  // Should I ignore some parameters?
+  ParameterList parametersToEstimate = drtl->getParameters();
+  string paramListDesc = ApplicationTools::getStringParameter("optimization.ignore_parameter", params, "", "", true, false);
+  StringTokenizer st(paramListDesc, ",");
+  while (st.hasMoreToken())
+  {
+    try
+    {
+      string param = st.nextToken();
+      size_t starpos;
+      if (param == "BrLen")
+      {
+        vector<string> vs = drtl->getBranchLengthsParameters().getParameterNames();
+        parametersToEstimate.deleteParameters(vs);
+        ApplicationTools::displayResult("Parameter ignored", string("Branch lengths"));
+      }
+      else if ((starpos = param.find("*")) != string::npos)
+      {
+        string pref = param.substr(0, starpos);
+        vector<string> vs;
+        for (unsigned int j = 0; j < parametersToEstimate.size(); j++)
+        {
+          if (parametersToEstimate[j].getName().find(pref) == 0)
+            vs.push_back(parametersToEstimate[j].getName());
+        }
+        for (vector<string>::iterator it = vs.begin(); it != vs.end(); it++)
+        {
+          parametersToEstimate.deleteParameter(*it);
+          ApplicationTools::displayResult("Parameter ignored", *it);
+        }
+      }
+      else
+      {
+        parametersToEstimate.deleteParameter(param);
+        ApplicationTools::displayResult("Parameter ignored", param);
+      }
+    }
+    catch (ParameterNotFoundException& pnfe)
+    {
+      ApplicationTools::displayWarning("Parameter '" + pnfe.getParameter() + "' not found, and so can't be ignored!");
+    }
+  }
+  return parametersToEstimate;
+}
+
+void estimateLikelihood(DRTreeLikelihood* drtl, ParameterList& parametersToEstimate, double tolerance, unsigned int nbEvalMax, OutputStream* messageHandler, OutputStream* profiler, bool reparam, unsigned int verbose) {
+  // Uses Newton-raphson algorithm with numerical derivatives when required.
+  parametersToEstimate.matchParametersValues(drtl->getParameters());
+  OptimizationTools::optimizeNumericalParameters2(
+    dynamic_cast<DiscreteRatesAcrossSitesTreeLikelihood*>(drtl), parametersToEstimate,
+    0, tolerance, nbEvalMax, messageHandler, profiler, reparam, verbose, OptimizationTools::OPTIMIZATION_NEWTON);
+}
+
 int main(int args, char ** argv)
 {
   cout << "******************************************************************" << endl;
@@ -297,7 +352,36 @@ int main(int args, char ** argv)
     }
 
     //Optimize parameters
-    PhylogeneticsApplicationTools::optimizeParameters(drtl, drtl->getParameters(), partnh.getParams(), "", true, true);
+    unsigned int optVerbose = ApplicationTools::getParameter<unsigned int>("optimization.verbose", partnh.getParams(), 2);
+    
+    string mhPath = ApplicationTools::getAFilePath("optimization.message_handler", partnh.getParams(), false, false);
+    auto_ptr<OutputStream> messageHandler(
+      (mhPath == "none") ? 0 :
+      (mhPath == "std") ? ApplicationTools::message :
+      new StlOutputStream(auto_ptr<ostream>(new ofstream(mhPath.c_str(), ios::out))));
+    ApplicationTools::displayResult("Message handler", mhPath + "*");
+
+    string prPath = ApplicationTools::getAFilePath("optimization.profiler", partnh.getParams(), false, false);
+    auto_ptr<OutputStream> profiler(
+      (prPath == "none") ? 0 :
+      (prPath == "std") ? ApplicationTools::message :
+      new StlOutputStream(auto_ptr<ostream>(new ofstream(prPath.c_str(), ios::out))));
+    if (profiler.get()) profiler->setPrecision(20);
+    ApplicationTools::displayResult("Profiler", prPath + "*");
+
+    ParameterList parametersToEstimate = getParametersToEstimate(drtl, partnh.getParams()); 
+
+    unsigned int nbEvalMax = ApplicationTools::getParameter<unsigned int>("optimization.max_number_f_eval", partnh.getParams(), 1000000);
+    ApplicationTools::displayResult("Max # ML evaluations", TextTools::toString(nbEvalMax));
+
+    double tolerance = ApplicationTools::getDoubleParameter("optimization.tolerance", partnh.getParams(), .000001);
+    ApplicationTools::displayResult("Tolerance", TextTools::toString(tolerance));
+
+    bool reparam = ApplicationTools::getBooleanParameter("optimization.reparametrization", partnh.getParams(), false);
+    ApplicationTools::displayResult("Reparametrization", (reparam ? "yes" : "no"));
+    
+    estimateLikelihood(drtl, parametersToEstimate, tolerance, nbEvalMax, messageHandler.get(), profiler.get(), reparam, optVerbose);
+
     double logL = drtl->getValue();
     double df = static_cast<double>(drtl->getParameters().size());
     double aic = 2. * (df + logL);
@@ -380,7 +464,9 @@ int main(int args, char ** argv)
     double bestBic = bic;
     int previousBest = -1;
     vector< vector<int> > bestGroups;
+    unsigned int modelCount = 0;
     while (moveForward && it != sortedHeights.end()) {
+      modelCount++;
       for (vector<const Node*>::iterator it2 = it->second.begin(); it2 != it->second.end(); ++it2) {
         for (unsigned int k = 0; k < (*it2)->getNumberOfSons(); ++k)
           candidates.push_back((*it2)->getSon(k));
@@ -400,7 +486,6 @@ int main(int args, char ** argv)
       //Now we have to build the corresponding model set:
       SubstitutionModelSet* newModelSet = buildModelSetFromPartitions(model, rootFreqs, ptree, newGroups, globalParameters, currentParameters);
       DiscreteDistribution* newRDist = rDist->clone();
-      
       ParameterList previousParameters = drtl->getBranchLengthsParameters();
       previousParameters.addParameters(drtl->getRateDistributionParameters());
       delete drtl;
@@ -411,8 +496,24 @@ int main(int args, char ** argv)
         //drtl = new DRNonHomogeneousMixedTreeLikelihood(*ptree, *sites, modelSet, rDist, true);
       drtl->initialize();
       drtl->matchParametersValues(previousParameters); //This will save some time during optimization!
+      
       //Optimize parameters
-      PhylogeneticsApplicationTools::optimizeParameters(drtl, drtl->getParameters(), partnh.getParams(), "", true, false);
+      messageHandler.reset(
+        (mhPath == "none") ? 0 :
+        (mhPath == "std") ? ApplicationTools::message :
+        new StlOutputStream(auto_ptr<ostream>(new ofstream((mhPath + TextTools::toString(modelCount)).c_str(), ios::out))));
+
+      profiler.reset(
+        (prPath == "none") ? 0 :
+        (prPath == "std") ? ApplicationTools::message :
+        new StlOutputStream(auto_ptr<ostream>(new ofstream((prPath + TextTools::toString(modelCount)).c_str(), ios::out))));
+      if (profiler.get()) profiler->setPrecision(20);
+
+      //Reevaluate parameters, as there might be some change when going to a NH model:
+      parametersToEstimate = getParametersToEstimate(drtl, partnh.getParams()); 
+      
+      estimateLikelihood(drtl, parametersToEstimate, tolerance, nbEvalMax, messageHandler.get(), profiler.get(), reparam, optVerbose);
+
       double newLogL = drtl->getValue();
       double newDf = static_cast<double>(drtl->getParameters().size());
       ApplicationTools::displayResult("* New NH model - LogL", -newLogL);
