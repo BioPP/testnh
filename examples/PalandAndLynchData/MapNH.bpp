@@ -1,10 +1,11 @@
 DATA = PalandAndLynch28
+param=PalandAndLynch28.params_h.bpp
 
 alphabet = Codon(letter=DNA, type=InvertebrateMitochondrial)  #DNA
 
 #Set imput tree file. Original branch lengths will be used for mapping.
 #input.tree.file = $(DATA)Tree.dnd
-input.tree.file=PalandAndLynch28Tree_unrooted.dnd
+input.tree.file=PalandAndLynch28.ml_h.dnd
 input.tree.format = Newick
 #We convert the tree to Nhx format for use with PartNH:
 output.tree_with_id.file = $(DATA).nhx

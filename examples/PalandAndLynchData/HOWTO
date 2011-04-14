@@ -1,7 +1,7 @@
 1) Dn/Ds analysis on Paland and Lynch data set.
 1.1) Fit a homogeneous model, with a single Dn/Ds for all branches:
      
-     bppml param=ML.bpp input.tree.file=PalandAndLynch28UnrootedTree.dnd
+     bppml param=ML.bpp input.tree.file=PalandAndLynch28Tree_unrooted.dnd
      
      This will store optimized parameter in file PalandAndLynch28.params_h.bpp
      and corresponding tree in file              PalandAndLynch28.ml_h.dnd
@@ -47,10 +47,10 @@
             partition.test=BIC\
             optimization.profiler=PalandAndLynch.free_BIC.profile\
             optimization.message_handler=PalandAndLynch.free_BIC.message\
-            output.partitions.file=Partitions_free_BIC.dnd\
-            output.partitions.record=PartitionsRecord_free_BIC.dnd\
-            output.model.file=Model_free_BIC.bpp\
-            output.log.file=Model_free_BIC.log.txt\
+            output.partitions.file=PalandAndLynch.partitions_free_BIC.dnd\
+            output.partitions.record=PalandAndLynch.partitions_record_free_BIC.dnd\
+            output.model.file=PalandAndLynch.model_free_BIC.bpp\
+            output.log.file=PalandAndLynch.model_free_BIC.log.txt\
             output.tree.file=PalandAndLynch.ml_nh_free_BIC.nhx > partnh_free_BIC.out &
 
      The resulting likelihood is -19410.5, for 5 clusters
@@ -60,9 +60,10 @@
             partition.test=BIC\
             optimization.profiler=PalandAndLynch.join_BIC.profile\
             optimization.message_handler=PalandAndLynch.join_BIC.message\
-            output.partitions.file=Partitions_join_BIC.dnd\
-            output.model.file=Model_join_BIC.bpp\
-            output.log.file=Model_join_BIC.log.txt\
+            output.partitions.file=PalandAndLynch.partitions_join_BIC.dnd\
+            output.partitions.record=PalandAndLynch.partitions_record_join_BIC.dnd\
+            output.model.file=PalandAndLynch.model_join_BIC.bpp\
+            output.log.file=PalandAndLynch.model_join_BIC.log.txt\
             output.tree.file=PalandAndLynch.ml_nh_join_BIC.nhx > partnh_join_BIC.out &
 
      The resulting likelihood is -19436.6, for 0 cluster

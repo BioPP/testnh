@@ -3,9 +3,7 @@
 #Patterns of AIC/BIC:
 
 free.aic<-read.table("Life_Alignment.model_free_AIC.log.txt", header=TRUE, sep="\t")
-#free.bic<-read.table("Life_Alignment.model_free_BIC.log.txt", header=TRUE, sep="\t")
 join.aic<-read.table("Life_Alignment.model_join_AIC.log.txt", header=TRUE, sep="\t")
-#join.bic<-read.table("Life_Alignment.model_join_BIC.log.txt", header=TRUE, sep="\t")
 
 plot.ic<-function(data, main) {
   draw.local.min<-function(x, col) {
@@ -104,36 +102,49 @@ read.profile<-function(file) {
 
 join.aic.prf<-read.profile("Life_Alignment.join_AIC.profile")
 free.aic.prf<-read.profile("Life_Alignment.free_AIC.profile")
-join.bic.prf<-read.profile("Life_Alignment.join_BIC.profile")
-free.bic.prf<-read.profile("Life_Alignment.free_BIC.profile")
 
 #Read partition tables:
 brlen<-read.table("Life_Alignment.ml_h.rooted.brlen.txt", sep="\t", header=TRUE, row.names="Id")
 
 join.aic.tbl<-read.table("Life_Alignment.partitions_record_join_AIC.txt", sep="\t")
 free.aic.tbl<-read.table("Life_Alignment.partitions_record_free_AIC.txt", sep="\t")
-join.bic.tbl<-read.table("Life_Alignment.partitions_record_join_BIC.txt", sep="\t")
-free.bic.tbl<-read.table("Life_Alignment.partitions_record_free_BIC.txt", sep="\t")
 
 plot.profile<-function(prf, iterations, thetas, brlen, tbl, ics) {
+  bgcol<-rep(c(grey(0.8), grey(0.9)), length.out=length(iterations))
   layout(matrix(1:2, nrow=2), heights=c(5,3))
-  par(mar=c(0,4.1,0.1,4.1), xaxt="n")
-  plot(T92.theta~Time, prf, type="l", ylim=c(0,1))
+  par(mar=c(0,4.1,0.1,4.1), xaxt="n", bg="white")
+  prf<-subset(prf, Iter %in% iterations)
+  plot.new()
+  plot.window(xlim=range(prf$Time), ylim=c(0,1.1))
+  axis(2)
+  mtext(expression(theta), 2, 3)
+  totwd<-NA
   for (it in iterations) {
     if( !is.null(tbl)) {
       s<-split(tbl[, 1], tbl[, it])
       totalLength<-sapply(s, function(x) sum(brlen[x, "Branch.length"]))
     }
+    time<-prf[prf$Iter == it, "Time"]
+    rect(time[1], -0.5, time[length(time)], 1.5, col=bgcol[it], border=NA)
     for (theta in thetas) {
-      lines(prf[prf$Iter == it, paste("T92.theta", theta, sep="_")]~prf[prf$Iter == it, "Time"], lwd=ifelse(is.null(tbl), 1, 1+totalLength[as.character(theta)]*2))
+      lines(prf[prf$Iter == it, paste("T92.theta", theta, sep="_")]~time, lwd=ifelse(is.null(tbl), 1, 1+totalLength[as.character(theta)]*2))
     }
-    abline(v=prf[prf$Iter == it, "Time"][1], lty="dotted")
-    text(prf[prf$Iter == it, "Time"][1], 1, as.character(it))
+    if (it == 2) {
+      totwd<-ifelse(is.null(tbl), 1, 1+totalLength[as.character(thetas[1])]*2)
+    }
+    #abline(v=time[1], lty="dotted")
+    text(x=mean(time), y=1.1, as.character(it))
   }
+  lines(prf$Time, prf$T92.theta, lwd=totwd)
+  lines(prf$Time, prf$GC.theta, lty="dotted", lwd=2)
 
   #Now plot information criteria:
-  draw.local.min<-function(x, txt, col) {
-    arrows(x0=x, y0=0.9, y1=x, col=col)
+  draw.local.min<-function(x, y, txt, col) {
+    arrows(x0=x, y0=0.9, y1=y, col=col, lty="dotted")
+    text(x=x, y=0.9, txt, col=col, pos=3)
+  }
+  draw.global.min<-function(x, y, txt, col) {
+    arrows(x0=x, y0=0.9, y1=y, col=col, lwd=2)
     text(x=x, y=0.9, txt, col=col, pos=3)
   }
   scale<-function(x, r) { return ((x-r[1])/(r[2] - r[1])) }
@@ -142,21 +153,37 @@ plot.profile<-function(prf, iterations, thetas, brlen, tbl, ics) {
   r.bic=r(ics$BIC, 100)
   sAIC=scale(ics$AIC, r.aic)
   sBIC=scale(ics$BIC, r.bic)
-  par(mar=c(4.1,4.1,1,4.1), xaxt="s")
+  par(mar=c(4.1,4.1,0.1,4.1), xaxt="s", bg="white")
   plot.new()
-  plot.window(xlim=range(prf$Time), ylim=c(0, 1))
+  plot.window(xlim=range(prf$Time), ylim=c(0, 1.1))
   axis(1)
+  mtext("Execution time (seconds)", 1, 3)
+  lAIC<-NULL
+  lBIC<-NULL
   for (it in iterations) {
     x<-range(subset(prf, Iter == it, "Time"))
     lines(x=x, y=rep(sAIC[it],2), lwd=2, col=grey(0.5))
     lines(x=x, y=rep(sBIC[it],2), lwd=2)
-#    if (it > 1 & sAIC[it] < sAIC[it - 1] & sAIC[it] < sAIC[it + 1])
-#      draw.local.min(sAIC[it], ics$NbPartitions[it], grey(0.5))
-#    if (it > 1 & sBIC[it] < sBIC[it - 1] & sBIC[it] < sBIC[it + 1])
-#      draw.local.min(sBIC[it], ics$NbPartitions[it], "black")
-
-
+    if (it > 1 && sAIC[it] < sAIC[it - 1] && sAIC[it] < sAIC[it + 1]) {
+      draw.local.min(mean(x),  sAIC[it], ics$NbPartitions[it], grey(0.5))
+      if (is.null(lAIC))
+        lAIC<-list(x=mean(x), y=sAIC[it], n=ics$NbPartitions[it])
+      else
+        if (sAIC[it] < lAIC$y)
+          lAIC<-list(x=mean(x), y=sAIC[it], n=ics$NbPartitions[it])
+    }
+    if (it > 1 && sBIC[it] < sBIC[it - 1] && sBIC[it] < sBIC[it + 1]) {
+      draw.local.min(mean(x),  sBIC[it], ics$NbPartitions[it], "black")
+      if (is.null(lBIC))
+        lBIC<-list(x=mean(x), y=sBIC[it], n=ics$NbPartitions[it])
+      else
+        if (sBIC[it] < lBIC$y)
+          lBIC<-list(x=mean(x), y=sBIC[it], n=ics$NbPartitions[it])
+    }
   }
+  draw.global.min(lAIC$x, lAIC$y, lAIC$n, grey(0.5))
+  draw.global.min(lBIC$x, lBIC$y, lBIC$n, "black")
+  
   labels<-seq(r.aic[1], r.aic[2], by=100)
   axis(2, at=(0:(length(labels)-1))/(length(labels)-1), labels, col=grey(0.5), col.axis=grey(0.5))
   mtext(side=2, "AIC", col=grey(0.5), line=3)
@@ -165,9 +192,9 @@ plot.profile<-function(prf, iterations, thetas, brlen, tbl, ics) {
   mtext(side=4, "BIC", col="black", line=3)
 }
 
-plot.profile(free.aic.prf, 1:30, 1:35, brlen, free.aic.tbl, free.aic)
+plot.profile(free.aic.prf, 1:34, 1:56, brlen, free.aic.tbl, free.aic)
+dev.print(tiff, file="Figures/FreeGC.tif", width=800, height=500)
 
-  
-plot.profile(join.aic.prf, 1:20, 1:38, brlen, join.aic.tbl)
-plot.profile(free.aic.prf, 1:10, 1:10, brlen, free.aic.tbl)
+plot.profile(join.aic.prf, 1:34, 1:56, brlen, join.aic.tbl, join.aic)
+dev.print(tiff, file="Figures/JoinGC.tif", width=800, height=500)
 

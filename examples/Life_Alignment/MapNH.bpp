@@ -1,5 +1,5 @@
 alphabet = RNA
-
+param=PalandAndLynch28.params_h.bpp
 #Set imput tree file. Original branch lengths will be used for mapping.
 input.tree.file = Life_Alignment.ml_h.rooted.dnd
 input.tree.format = Newick

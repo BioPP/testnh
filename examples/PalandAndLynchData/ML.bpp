@@ -38,7 +38,7 @@ init.brlen.method = Input
 # ----------------------------------------------------------------------------------------
 # See the manual for a description of the syntax and available options.
 #
-model = YN98(genetic_code=InvertebrateMitochondrial, codon_freqs=F3X4)#codon_freqs=F1X4) #codon_freqs=F61)
+model = YN98(genetic_code=InvertebrateMitochondrial, frequencies=F3X4, useObservedFreqs=yes, omega=0.5, kappa=2.)
 
 rate_distribution = Uniform #Gamma(n=4, alpha=0.5)
 

@@ -104,10 +104,19 @@ vector< vector<unsigned int> > getCountsPerBranch(
     const vector<int>& ids,
     SubstitutionModel* model,
     const SubstitutionRegister& reg,
+    bool stationarity = true,
     double threshold = -1)
 {
   auto_ptr<SubstitutionCount> count(new UniformizationSubstitutionCount(model, reg.clone()));
   //SubstitutionCount* count = new SimpleSubstitutionCount(reg);
+  const CategorySubstitutionRegister* creg = 0;
+  if (!stationarity) {
+    try {
+      creg = &dynamic_cast<const CategorySubstitutionRegister&>(reg);
+    } catch (Exception& ex) {
+      throw Exception("The stationarity option can only be used with a category substitution register.");
+    }
+  }
   
   auto_ptr<ProbabilisticSubstitutionMapping> mapping(SubstitutionMappingTools::computeSubstitutionVectors(drtl, *count, false));
   vector< vector<unsigned int> > counts(ids.size());
@@ -118,99 +127,64 @@ vector< vector<unsigned int> > getCountsPerBranch(
     vector<double> countsf(nbTypes, 0);
     vector<double> tmp(nbTypes, 0);
     unsigned int nbIgnored = 0;
-    for (unsigned int i = 0; i < nbSites; ++i) {
+    bool error = false;
+    for (unsigned int i = 0; !error && i < nbSites; ++i) {
       double s = 0;
       for (unsigned int t = 0; t < nbTypes; ++t) {
         tmp[t] = (*mapping)(k, i, t);
+        error = isnan(tmp[t]);
+        if (error)
+          goto ERROR;
         s += tmp[t];
       }
       if (threshold >= 0) {
         if (s <= threshold)
           countsf += tmp;
-        else
+        else {
           nbIgnored++;
+        }
       } else {
         countsf += tmp;
       }
     }
-    if (nbIgnored > 0)
-      ApplicationTools::displayWarning("On branch " + TextTools::toString(ids[k]) + ", " + TextTools::toString(nbIgnored) + " sites (" + TextTools::toString(ceil(static_cast<double>(nbIgnored * 100) / static_cast<double>(nbSites))) + "%) have been ignored because they are presumably saturated.");
+
+ERROR:
+    if (error) {
+      //We do nothing. This happens for small branches.
+      ApplicationTools::displayWarning("On branch " + TextTools::toString(ids[k]) + ", counts could not be computed.");
+      for (unsigned int t = 0; t < nbTypes; ++t)
+        countsf[t] = 0;
+    } else {
+      if (nbIgnored > 0) {
+        ApplicationTools::displayWarning("On branch " + TextTools::toString(ids[k]) + ", " + TextTools::toString(nbIgnored) + " sites (" + TextTools::toString(ceil(static_cast<double>(nbIgnored * 100) / static_cast<double>(nbSites))) + "%) have been ignored because they are presumably saturated.");
+      }
+
+      if (!stationarity) {
+        vector<double> freqs = DRTreeLikelihoodTools::getPosteriorStateFrequencies(drtl, ids[k]);
+        //Compute frequencies for types:
+        vector<double> freqsTypes(creg->getNumberOfCategories());
+        for (size_t i = 0; i < freqs.size(); ++i) {
+          unsigned int c = creg->getCategory(static_cast<int>(i));
+          freqsTypes[c - 1] += freqs[i];
+        }
+        //We devide the counts by the frequencies and rescale:
+        double s = VectorTools::sum(countsf);
+        for (unsigned int t = 0; t < nbTypes; ++t) {
+          countsf[t] /= freqsTypes[creg->getCategoryFrom(t + 1) - 1];
+        }
+        double s2 = VectorTools::sum(countsf);
+        //Scale:
+        (countsf / s2) * s;
+      }
+    }
 
     counts[k].resize(countsf.size());
     for (size_t j = 0; j < countsf.size(); ++j) {
-      //if(countsf[j] < 0) {
-      //  cout << countsf[j] << "\t" << drtl.getTree().getDistanceToFather(ids[i]) << "\t" << endl;
-      //  counts[i][j] = 0;
-      //} else {
-        counts[k][j] = static_cast<unsigned int>(floor(countsf[j] + 0.5)); //Round counts
-      //}
+      counts[k][j] = static_cast<unsigned int>(floor(countsf[j] + 0.5)); //Round counts
     }
   }
   return counts;
 }
-
-//Version for non-stationary models:
-vector< vector<unsigned int> > getCountsPerBranchNS(
-    DRTreeLikelihood& drtl,
-    const vector<int>& ids,
-    SubstitutionModel* model,
-    const CategorySubstitutionRegister& reg,
-    double threshold = 1)
-{
-  if (!reg.allowWithin())
-    throw Exception("Bad substitution register in use with this method.");
-
-  auto_ptr<SubstitutionCount> countF(new UniformizationSubstitutionCount(model, reg.clone()));
-  auto_ptr<SubstitutionCount> countS(new SimpleSubstitutionCount(reg.clone(), true));
-  auto_ptr<ProbabilisticSubstitutionMapping> mappingF(SubstitutionMappingTools::computeSubstitutionVectors(drtl, *countF, false));
-  auto_ptr<ProbabilisticSubstitutionMapping> mappingS(SubstitutionMappingTools::computeSubstitutionVectors(drtl, *countS, false));
-  vector< vector<unsigned int> > counts(ids.size());
-  unsigned int nbSites = mappingF->getNumberOfSites();
-  unsigned int nbTypes = mappingF->getNumberOfSubstitutionTypes();
-  unsigned int nbCats  = reg.getNumberOfCategories();
-  for (size_t k = 0; k < ids.size(); ++k) {
-    vector<double> countsf(nbTypes, 0);
-    vector<double> tmp(nbTypes, 0);
-    unsigned int nbIgnored = 0;
-    for (unsigned int i = 0; i < nbSites; ++i) {
-      double s = 0;
-      for (unsigned int t = 0; t < nbTypes; ++t) {
-        tmp[t] = (*mappingS)(k, i, t);
-        s += (*mappingF)(k, i, t);
-      }
-      if (threshold >= 0) {
-        if (s <= threshold)
-          countsf += tmp;
-        else
-          nbIgnored++;
-      } else {
-        countsf += tmp;
-      }
-    }
-    if (nbIgnored > 0)
-      ApplicationTools::displayWarning("On branch " + TextTools::toString(ids[k]) + ", " + TextTools::toString(nbIgnored) + " sites (" + TextTools::toString(ceil(static_cast<double>(nbIgnored * 100) / static_cast<double>(nbSites))) + "%) have been ignored because they are presumably saturated.");
-
-    //counts[k].resize(countsf.size());
-    //for (size_t j = 0; j < countsf.size(); ++j) {
-    //  counts[k][j] = static_cast<unsigned int>(floor(countsf[j] + 0.5)); //Round counts
-    //}
-    counts[k].resize(nbCats);
-    vector<double> x(nbCats);
-    unsigned int s = 0;
-    for (size_t j = 0; j < nbCats; ++j) {
-      s += countsf[j];
-      x[j] = static_cast<double>(countsf[j]) / static_cast<double>(countsf[j] + countsf[nbCats + j]);
-    }
-    //Scale:
-    double s2 = VectorTools::sum(x);
-    for (size_t j = 0; j < nbCats; ++j) {
-      counts[k][j] = static_cast<unsigned int>(floor((x[j] / s2) * s + 0.5)); //Round counts
-    }
-
-  }
-  return counts;
-}
-
 
 
 void buildCountTree(
@@ -273,12 +247,12 @@ int main(int args, char ** argv)
   bool stationarity = true;
   if (regType == "All") {
     stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
-    reg = new ExhaustiveSubstitutionRegister(alphabet, !stationarity);
+    reg = new ExhaustiveSubstitutionRegister(alphabet, false);
   }
   else if (regType == "GC") {
     if (AlphabetTools::isNucleicAlphabet(alphabet)) {
       stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
-      reg = new GCSubstitutionRegister(dynamic_cast<NucleicAlphabet*>(alphabet), !stationarity);
+      reg = new GCSubstitutionRegister(dynamic_cast<NucleicAlphabet*>(alphabet), false);
     } else
       throw Exception("GC categorization is only available for nucleotide alphabet!");
   } else if (regType == "TsTv") {
@@ -329,14 +303,10 @@ int main(int args, char ** argv)
   vector<int> ids = drtl.getTree().getNodesId();
   ids.pop_back(); //remove root id.
   vector< vector<unsigned int> > counts;
-  if (stationarity) {
-    double thresholdSat = ApplicationTools::getDoubleParameter("count.max", mapnh.getParams(), -1);
-    if (thresholdSat > 0)
-      ApplicationTools::displayResult("Saturation threshold used", thresholdSat);
-    counts = getCountsPerBranch(drtl, ids, model, *reg, thresholdSat);
-  } else {
-    counts = getCountsPerBranchNS(drtl, ids, model, *dynamic_cast<CategorySubstitutionRegister*>(reg), 1.5);
-  }
+  double thresholdSat = ApplicationTools::getDoubleParameter("count.max", mapnh.getParams(), -1);
+  if (thresholdSat > 0)
+    ApplicationTools::displayResult("Saturation threshold used", thresholdSat);
+  counts = getCountsPerBranch(drtl, ids, model, *reg, stationarity, thresholdSat);
 
   //Write count trees:
   string treePathPrefix = ApplicationTools::getStringParameter("output.counts.tree.prefix", mapnh.getParams(), "none");
@@ -407,11 +377,8 @@ int main(int args, char ** argv)
       throw Exception("Unknown automatic clustering option: " + autoClustName);
     }
 
-    //short clustType = stationarity ? MultinomialClustering::CLUSTERING_SIMPLE : MultinomialClustering::CLUSTERING_EQUILIBRIUM;
-    short clustType = MultinomialClustering::CLUSTERING_SIMPLE;
-
     //ChiClustering htest(counts, ids, true);
-    MultinomialClustering htest(counts, ids, drtl.getTree(), *autoClust, clustType, testNeighb, testNegBrL, true);
+    MultinomialClustering htest(counts, ids, drtl.getTree(), *autoClust, testNeighb, testNegBrL, true);
     TreeTemplate<Node>* htree = htest.getTree();
     Newick newick;
     string clusterTreeOut = ApplicationTools::getAFilePath("output.cluster_tree.file", mapnh.getParams(), false, false);
