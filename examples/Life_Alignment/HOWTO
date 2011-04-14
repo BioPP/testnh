@@ -22,10 +22,12 @@
      having rooted it with the midpoint method (bppPhyView).
 
      We try to cluster nodes freely:
-     mapnh param=MapNH.bpp test.branch.neighbor=no output.cluster_tree.file=Life_Alignment.cluster_equilibrium_free.dnd
+     mapnh param=MapNH.bpp "map.type=GC(stationarity=no)" test.branch.neighbor=no output.cluster_tree.file=Life_Alignment.cluster_equilibrium_free.dnd
+     mapnh param=MapNH.bpp "map.type=GC(stationarity=yes)" test.branch.neighbor=no output.cluster_tree.file=Life_Alignment.cluster_free.dnd
 
      And also adding the constraint to cluster only adjacent nodes:
-     mapnh param=MapNH.bpp test.branch.neighbor=yes output.cluster_tree.file=Life_Alignment.cluster_equilibrium_join.dnd
+     mapnh param=MapNH.bpp "map.type=GC(stationarity=no)" test.branch.neighbor=yes output.cluster_tree.file=Life_Alignment.cluster_equilibrium_join.dnd
+     mapnh param=MapNH.bpp "map.type=GC(stationarity=yes)" test.branch.neighbor=yes output.cluster_tree.file=Life_Alignment.cluster_join.dnd
 
      This will first create a tree in Nhx format, identical to the input one, but with
      nodes ID. It then creates a cluster tree in Newick format, with leaves being nodes ID.
