@@ -167,6 +167,7 @@ vector< vector<unsigned int> > getCountsPerBranchNS(
   vector< vector<unsigned int> > counts(ids.size());
   unsigned int nbSites = mappingF->getNumberOfSites();
   unsigned int nbTypes = mappingF->getNumberOfSubstitutionTypes();
+  unsigned int nbCats  = reg.getNumberOfCategories();
   for (size_t k = 0; k < ids.size(); ++k) {
     vector<double> countsf(nbTypes, 0);
     vector<double> tmp(nbTypes, 0);
@@ -189,10 +190,23 @@ vector< vector<unsigned int> > getCountsPerBranchNS(
     if (nbIgnored > 0)
       ApplicationTools::displayWarning("On branch " + TextTools::toString(ids[k]) + ", " + TextTools::toString(nbIgnored) + " sites (" + TextTools::toString(ceil(static_cast<double>(nbIgnored * 100) / static_cast<double>(nbSites))) + "%) have been ignored because they are presumably saturated.");
 
-    counts[k].resize(countsf.size());
-    for (size_t j = 0; j < countsf.size(); ++j) {
-      counts[k][j] = static_cast<unsigned int>(floor(countsf[j] + 0.5)); //Round counts
+    //counts[k].resize(countsf.size());
+    //for (size_t j = 0; j < countsf.size(); ++j) {
+    //  counts[k][j] = static_cast<unsigned int>(floor(countsf[j] + 0.5)); //Round counts
+    //}
+    counts[k].resize(nbCats);
+    vector<double> x(nbCats);
+    unsigned int s = 0;
+    for (size_t j = 0; j < nbCats; ++j) {
+      s += countsf[j];
+      x[j] = static_cast<double>(countsf[j]) / static_cast<double>(countsf[j] + countsf[nbCats + j]);
     }
+    //Scale:
+    double s2 = VectorTools::sum(x);
+    for (size_t j = 0; j < nbCats; ++j) {
+      counts[k][j] = static_cast<unsigned int>(floor((x[j] / s2) * s + 0.5)); //Round counts
+    }
+
   }
   return counts;
 }
@@ -393,7 +407,8 @@ int main(int args, char ** argv)
       throw Exception("Unknown automatic clustering option: " + autoClustName);
     }
 
-    short clustType = stationarity ? MultinomialClustering::CLUSTERING_SIMPLE : MultinomialClustering::CLUSTERING_EQUILIBRIUM;
+    //short clustType = stationarity ? MultinomialClustering::CLUSTERING_SIMPLE : MultinomialClustering::CLUSTERING_EQUILIBRIUM;
+    short clustType = MultinomialClustering::CLUSTERING_SIMPLE;
 
     //ChiClustering htest(counts, ids, true);
     MultinomialClustering htest(counts, ids, drtl.getTree(), *autoClust, clustType, testNeighb, testNegBrL, true);

@@ -13,7 +13,7 @@ input.sequence.file = Life_Alignment.mase
 input.sequence.format = Mase
 input.sequence.sites_to_use = complete
 
-map.type = GC(stationarity=no)
+map.type = GC(stationarity=yes)
 test.global = no
 test.branch = yes
 test.branch.neighbor = #yes or no

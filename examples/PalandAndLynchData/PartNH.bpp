@@ -23,7 +23,7 @@ output.partitions.file = Partitions.dnd
 partition.method = auto
 partition.test = BIC #Can be one of LRT, BIC or AIC.
 partition.test.threshold = 0.01 #If LRT is used.
-partition.test.stop_condition = all
+partition.test.stop_condition = 3
 
 alphabet = Codon(letter=DNA, type=InvertebrateMitochondrial)
 input.sequence.file = $(DATA)Concatenate.fasta
@@ -34,10 +34,10 @@ input.sequence.remove_stop_codons=yes
 
 
 
-model = YN98(genetic_code=InvertebrateMitochondrial, codon_freqs=F3X4, omega=0.16)
+model = YN98(genetic_code=InvertebrateMitochondrial, frequencies=F3X4, omega=0.5, kappa=2, useObservedFreqs=yes)
 rate_distribution = Uniform #Gamma(n=4, alpha=0.5)
 nonhomogeneous.root_freq = None 
-nonhomogeneous.shared_parameters = YN98.kappa, YN98.freq_Word.* 
+nonhomogeneous.shared_parameters = YN98.kappa, YN98.freq* 
 
 #How to optimize parameters when fitting models:
 optimize = FullD(derivatives=Newton)

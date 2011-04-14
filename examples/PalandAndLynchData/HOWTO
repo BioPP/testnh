@@ -45,7 +45,10 @@
      partnh param=PartNH.bpp --noninteractive=yes\
             input.cluster_tree.file=PalandAndLynch.cluster_free.dnd\
             partition.test=BIC\
+            optimization.profiler=PalandAndLynch.free_BIC.profile\
+            optimization.message_handler=PalandAndLynch.free_BIC.message\
             output.partitions.file=Partitions_free_BIC.dnd\
+            output.partitions.record=PartitionsRecord_free_BIC.dnd\
             output.model.file=Model_free_BIC.bpp\
             output.log.file=Model_free_BIC.log.txt\
             output.tree.file=PalandAndLynch.ml_nh_free_BIC.nhx > partnh_free_BIC.out &
@@ -55,6 +58,8 @@
      partnh param=PartNH.bpp --noninteractive=yes\
             input.cluster_tree.file=PalandAndLynch.cluster_join.dnd\
             partition.test=BIC\
+            optimization.profiler=PalandAndLynch.join_BIC.profile\
+            optimization.message_handler=PalandAndLynch.join_BIC.message\
             output.partitions.file=Partitions_join_BIC.dnd\
             output.model.file=Model_join_BIC.bpp\
             output.log.file=Model_join_BIC.log.txt\
@@ -66,6 +71,8 @@
      partnh param=PartNH.bpp --noninteractive=yes\
             input.cluster_tree.file=PalandAndLynch.cluster_free.dnd\
             partition.test=AIC\
+            optimization.profiler=PalandAndLynch.free_AIC.profile\
+            optimization.message_handler=PalandAndLynch.free_AIC.message\
             output.partitions.file=Partitions_free_AIC.dnd\
             output.model.file=Model_free_AIC.bpp\
             output.log.file=Model_free_AIC.log.txt\
@@ -76,6 +83,8 @@
      partnh param=PartNH.bpp --noninteractive=yes\
             input.cluster_tree.file=PalandAndLynch.cluster_join.dnd\
             partition.test=AIC\
+            optimization.profiler=PalandAndLynch.join_AIC.profile\
+            optimization.message_handler=PalandAndLynch.join_AIC.message\
             output.partitions.file=Partitions_join_AIC.dnd\
             output.model.file=Model_join_AIC.bpp\
             output.log.file=Model_join_AIC.log.txt\
@@ -130,22 +139,22 @@ Interestingly, none of the above approaches find more than one cluster in the da
      testnh param=TestNH_nonhomogeneous.bpp\
             param=Model_free_BIC.bpp\
             bootstrap.dist_file=TestNH_nonhomogeneous.null_free_BIC.txt\
-            input.tree.file=Life_Alignment.ml_nh_free_BIC.nhx > testnh_nh_free_BIC.out
+            input.tree.file=PalandAndLynch.ml_nh_free_BIC.nhx > testnh_nh_free_BIC.out
 
      testnh param=TestNH_nonhomogeneous.bpp\
             param=Model_join_BIC.bpp\
             bootstrap.dist_file=TestNH_nonhomogeneous.null_join_BIC.txt\
-            input.tree.file=Life_Alignment.ml_nh_join_BIC.nhx > testnh_nh_join_BIC.out
+            input.tree.file=PalandAndLynch.ml_nh_join_BIC.nhx > testnh_nh_join_BIC.out
 
      testnh param=TestNH_nonhomogeneous.bpp\
             param=Model_free_AIC.bpp\
             bootstrap.dist_file=TestNH_nonhomogeneous.null_free_AIC.txt\
-            input.tree.file=Life_Alignment.ml_nh_free_AIC.nhx > testnh_nh_free_AIC.out
+            input.tree.file=PalandAndLynch.ml_nh_free_AIC.nhx > testnh_nh_free_AIC.out
 
      testnh param=TestNH_nonhomogeneous.bpp\
             param=Model_join_AIC.bpp\
             bootstrap.dist_file=TestNH_nonhomogeneous.null_join_AIC.txt\
-            input.tree.file=Life_Alignment.ml_nh_join_AIC.nhx > testnh_nh_join_AIC.out
+            input.tree.file=PalandAndLynch.ml_nh_join_AIC.nhx > testnh_nh_join_AIC.out
 
     All tests are now not significant!
 

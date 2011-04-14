@@ -64,6 +64,7 @@ using namespace std;
 #include <Bpp/Text/TextTools.h>
 #include <Bpp/Numeric/Prob/DiscreteDistribution.h>
 #include <Bpp/Numeric/Prob/ConstantDistribution.h>
+#include <Bpp/Numeric/DataTable.h>
 
 using namespace bpp;
 
@@ -465,29 +466,42 @@ int main(int args, char ** argv)
     int previousBest = -1;
     vector< vector<int> > bestGroups;
     unsigned int modelCount = 0;
+    map<int, vector<unsigned int> > partRecord;
+
     while (moveForward && it != sortedHeights.end()) {
       modelCount++;
-      for (vector<const Node*>::iterator it2 = it->second.begin(); it2 != it->second.end(); ++it2) {
-        for (unsigned int k = 0; k < (*it2)->getNumberOfSons(); ++k)
-          candidates.push_back((*it2)->getSon(k));
+      if (modelCount == 1 && !stationarity) {
+        candidates.push_back(htree->getRootNode());
+        ApplicationTools::displayBooleanResult("Testing non-stationary model", true);
+      } else {
+        for (vector<const Node*>::iterator it2 = it->second.begin(); it2 != it->second.end(); ++it2) {
+          for (unsigned int k = 0; k < (*it2)->getNumberOfSons(); ++k)
+            candidates.push_back((*it2)->getSon(k));
+        }
+        currentThreshold = it->first;
+        ApplicationTools::displayResult("Current threshold", currentThreshold);
+        it++;
       }
-      currentThreshold = it->first;
-      ApplicationTools::displayResult("Current threshold", currentThreshold);
-      it++;
       
       //Get the corresponding partitions:
       vector< vector<int> > newGroups = getGroups(candidates);
       ApplicationTools::displayResult("Number of real partitions", newGroups.size());
       
-      //Display partitions:
-      for (size_t i = 0; i < newGroups.size(); ++i)
+      //Display and record partitions:
+      for (size_t i = 0; i < newGroups.size(); ++i) {
         ApplicationTools::displayResult("Partition " + TextTools::toString(i + 1), TextTools::toString(newGroups[i].size()) + " element(s).");
+        for (size_t j = 0; j < newGroups[i].size(); ++j) {
+          partRecord[newGroups[i][j]].push_back(i + 1);
+        }
+      }
 
       //Now we have to build the corresponding model set:
       SubstitutionModelSet* newModelSet = buildModelSetFromPartitions(model, rootFreqs, ptree, newGroups, globalParameters, currentParameters);
       DiscreteDistribution* newRDist = rDist->clone();
       ParameterList previousParameters = drtl->getBranchLengthsParameters();
       previousParameters.addParameters(drtl->getRateDistributionParameters());
+      if (!stationarity && modelCount > 1)
+        previousParameters.addParameters(dynamic_cast<DRNonHomogeneousTreeLikelihood*>(drtl)->getSubstitutionModelSet()->getRootFrequenciesParameters());
       delete drtl;
       if (dynamic_cast<MixedSubstitutionModel*>(model) == 0)
         drtl = new DRNonHomogeneousTreeLikelihood(*ptree, *sites, newModelSet, newRDist, false);
@@ -661,6 +675,21 @@ int main(int args, char ** argv)
         }
       }
       paramFile.close();
+    }
+
+    //Print partition record:
+    string partRecordPath = ApplicationTools::getAFilePath("output.partitions.record", partnh.getParams(), false, false);
+    ApplicationTools::displayResult("Output partitions record to", partRecordPath);
+    if (partRecordPath != "none") {
+      ofstream partRecordFile(partRecordPath.c_str(), ios::out);
+      for (map<int, vector<unsigned int> >::iterator pit = partRecord.begin(); pit != partRecord.end(); ++pit) {
+        partRecordFile << pit->first;
+        for (size_t i = 0; i < pit->second.size(); ++i) {
+          partRecordFile << "\t" << pit->second[i];
+        }
+        partRecordFile << endl;
+      }
+      partRecordFile.close();
     }
 
     //Cleaning:
