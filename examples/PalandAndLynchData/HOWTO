@@ -74,9 +74,10 @@
             partition.test=AIC\
             optimization.profiler=PalandAndLynch.free_AIC.profile\
             optimization.message_handler=PalandAndLynch.free_AIC.message\
-            output.partitions.file=Partitions_free_AIC.dnd\
-            output.model.file=Model_free_AIC.bpp\
-            output.log.file=Model_free_AIC.log.txt\
+            output.partitions.file=PalandAndLynch.partitions_free_AIC.dnd\
+            output.partitions.record=PalandAndLynch.partitions_record_free_AIC.dnd\
+            output.model.file=PalandAndLynch.model_free_AIC.bpp\
+            output.log.file=PalandAndLynch.model_free_AIC.log.txt\
             output.tree.file=PalandAndLynch.ml_nh_free_AIC.nhx > partnh_free_AIC.out &
 	    
      The resulting likelihood is -19408.2, for 7 clusters
@@ -86,9 +87,10 @@
             partition.test=AIC\
             optimization.profiler=PalandAndLynch.join_AIC.profile\
             optimization.message_handler=PalandAndLynch.join_AIC.message\
-            output.partitions.file=Partitions_join_AIC.dnd\
-            output.model.file=Model_join_AIC.bpp\
-            output.log.file=Model_join_AIC.log.txt\
+            output.partitions.file=PalandAndLynch.partitions_join_AIC.dnd\
+            output.partitions.record=PalandAndLynch.partitions_record_free_AIC.dnd\
+            output.model.file=PalandAndLynch.model_join_AIC.bpp\
+            output.log.file=PalandAndLynch.model_join_AIC.log.txt\
             output.tree.file=PalandAndLynch.ml_nh_join_AIC.nhx > partnh_join_AIC.out &
 
      The resulting likelihood is -19417.4, for 14 clusters
