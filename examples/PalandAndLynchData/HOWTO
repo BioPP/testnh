@@ -45,26 +45,14 @@
      partnh param=PartNH.bpp --noninteractive=yes\
             input.cluster_tree.file=PalandAndLynch.cluster_free.dnd\
             partition.test=BIC\
-            optimization.profiler=PalandAndLynch.free_BIC.profile\
-            optimization.message_handler=PalandAndLynch.free_BIC.message\
-            output.partitions.file=PalandAndLynch.partitions_free_BIC.dnd\
-            output.partitions.record=PalandAndLynch.partitions_record_free_BIC.dnd\
-            output.model.file=PalandAndLynch.model_free_BIC.bpp\
-            output.log.file=PalandAndLynch.model_free_BIC.log.txt\
-            output.tree.file=PalandAndLynch.ml_nh_free_BIC.nhx > partnh_free_BIC.out &
+            METHOD=free_BIC > partnh_free_BIC.out &
 
      The resulting likelihood is -19410.5, for 5 clusters
 
      partnh param=PartNH.bpp --noninteractive=yes\
             input.cluster_tree.file=PalandAndLynch.cluster_join.dnd\
             partition.test=BIC\
-            optimization.profiler=PalandAndLynch.join_BIC.profile\
-            optimization.message_handler=PalandAndLynch.join_BIC.message\
-            output.partitions.file=PalandAndLynch.partitions_join_BIC.dnd\
-            output.partitions.record=PalandAndLynch.partitions_record_join_BIC.dnd\
-            output.model.file=PalandAndLynch.model_join_BIC.bpp\
-            output.log.file=PalandAndLynch.model_join_BIC.log.txt\
-            output.tree.file=PalandAndLynch.ml_nh_join_BIC.nhx > partnh_join_BIC.out &
+            METHOD=join_BIC > partnh_join_BIC.out &
 
      The resulting likelihood is -19436.6, for 0 cluster
 
@@ -72,69 +60,17 @@
      partnh param=PartNH.bpp --noninteractive=yes\
             input.cluster_tree.file=PalandAndLynch.cluster_free.dnd\
             partition.test=AIC\
-            optimization.profiler=PalandAndLynch.free_AIC.profile\
-            optimization.message_handler=PalandAndLynch.free_AIC.message\
-            output.partitions.file=PalandAndLynch.partitions_free_AIC.dnd\
-            output.partitions.record=PalandAndLynch.partitions_record_free_AIC.dnd\
-            output.model.file=PalandAndLynch.model_free_AIC.bpp\
-            output.log.file=PalandAndLynch.model_free_AIC.log.txt\
-            output.tree.file=PalandAndLynch.ml_nh_free_AIC.nhx > partnh_free_AIC.out &
+            METHOD=free_AIC > partnh_free_AIC.out &
 	    
      The resulting likelihood is -19408.2, for 7 clusters
 
      partnh param=PartNH.bpp --noninteractive=yes\
             input.cluster_tree.file=PalandAndLynch.cluster_join.dnd\
             partition.test=AIC\
-            optimization.profiler=PalandAndLynch.join_AIC.profile\
-            optimization.message_handler=PalandAndLynch.join_AIC.message\
-            output.partitions.file=PalandAndLynch.partitions_join_AIC.dnd\
-            output.partitions.record=PalandAndLynch.partitions_record_free_AIC.dnd\
-            output.model.file=PalandAndLynch.model_join_AIC.bpp\
-            output.log.file=PalandAndLynch.model_join_AIC.log.txt\
-            output.tree.file=PalandAndLynch.ml_nh_join_AIC.nhx > partnh_join_AIC.out &
+            METHOD=join_AIC > partnh_join_AIC.out &
 
      The resulting likelihood is -19417.4, for 14 clusters
 
-Interestingly, none of the above approaches find more than one cluster in the data.
-
-2.3) We try clustering using LRTs, with a generous threshold p-value.
-
-     partnh param=PartNH.bpp\
-            input.cluster_tree.file=PalandAndLynch.cluster_free.dnd\
-            partition.test=LRT\
-	    partition.test.threshold=0.1\ 
-            output.partitions.file=Partitions_free_LRT.dnd\
-            output.model.file=Model_free_LRT.bpp\
-            output.tree.file=PalandAndLynch.ml_nh_free_LRT.nhx\ 
-	    output.model.file=PalandAndLynch.ml_nh_free_LRT.model > partnh_free_LRT.out
-
-     partnh param=PartNH.bpp\
-            input.cluster_tree.file=PalandAndLynch.cluster_join.dnd\
-            partition.test=LRT\
-	    partition.test.threshold=0.1\
-            output.partitions.file=Partitions_join_LRT.dnd\
-            output.model.file=Model_join_LRT.bpp\
-            output.tree.file=PalandAndLynch.ml_nh_join_LRT.nhx 
-            output.model.file=PalandAndLynch.ml_nh_join_LRT.model > partnh_join_LRT.out
-	   
-	   Does not help, only one cluster in the end
-
-2.4) We try with the threshold, not the auto, method.
-     partnh param=PartNH_threshold.bpp\
-            input.cluster_tree.file=PalandAndLynch.cluster_free.dnd\
-            output.partitions.file=Partitions_free_LRT_threshold.dnd\
-            output.model.file=Model_free_LRT_threshold.bpp\
-            output.tree.file=PalandAndLynch.ml_nh_free_LRT_threshold.nhx\
-            output.model.file=PalandAndLynch.ml_nh_free_LRT_threshold.model > partnh_free_LRT_threshold.out
-
-     partnh param=PartNH_threshold.bpp\
-            input.cluster_tree.file=PalandAndLynch.cluster_join.dnd\
-            output.partitions.file=Partitions_join_LRT_threshold.dnd\
-            output.model.file=Model_join_LRT_threshold.bpp\
-            output.tree.file=PalandAndLynch.ml_nh_join_LRT_threshold.nhx
-            output.model.file=PalandAndLynch.ml_nh_join_LRT_threshold.model > partnh_join_LRT_threshold.out
-
- 
 
 3) Test if the resulting non-homogeneous models take into account the underlying non-homogeneity,
    using the Bowker test against the alternative hypothesis (see Dutheil and Boussau 2008):
