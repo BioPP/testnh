@@ -88,24 +88,24 @@
    using the Bowker test against the alternative hypothesis (see Dutheil and Boussau 2008):
 
      testnh param=TestNH_nonhomogeneous.bpp\
-            param=Model_free_BIC.bpp\
+            param=Life_Alignment.model_free_BIC.bpp\
             bootstrap.dist_file=TestNH_nonhomogeneous.null_free_BIC.txt\
-            input.tree.file=Life_Alignment.ml_nh_free_BIC.nhx > testnh_nh_free_BIC.out
+            input.tree.file=Life_Alignment.ml_nh_free_BIC.nhx > testnh_nh_free_BIC.out &
 
      testnh param=TestNH_nonhomogeneous.bpp\
-            param=Model_join_BIC.bpp\
+            param=Life_Alignment.model_join_BIC.bpp\
             bootstrap.dist_file=TestNH_nonhomogeneous.null_join_BIC.txt\
-            input.tree.file=Life_Alignment.ml_nh_join_BIC.nhx > testnh_nh_join_BIC.out
+            input.tree.file=Life_Alignment.ml_nh_join_BIC.nhx > testnh_nh_join_BIC.out &
 
      testnh param=TestNH_nonhomogeneous.bpp\
-            param=Model_free_AIC.bpp\
+            param=Life_Alignment.model_free_AIC.bpp\
             bootstrap.dist_file=TestNH_nonhomogeneous.null_free_AIC.txt\
-            input.tree.file=Life_Alignment.ml_nh_free_AIC.nhx > testnh_nh_free_AIC.out
+            input.tree.file=Life_Alignment.ml_nh_free_AIC.nhx > testnh_nh_free_AIC.out &
 
      testnh param=TestNH_nonhomogeneous.bpp\
-            param=Model_join_AIC.bpp\
+            param=Life_Alignment.model_join_AIC.bpp\
             bootstrap.dist_file=TestNH_nonhomogeneous.null_join_AIC.txt\
-            input.tree.file=Life_Alignment.ml_nh_join_AIC.nhx > testnh_nh_join_AIC.out
+            input.tree.file=Life_Alignment.ml_nh_join_AIC.nhx > testnh_nh_join_AIC.out &
 
     All tests are now not significant!
 

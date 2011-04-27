@@ -1,9 +1,9 @@
 // -------------------------------------
 DATA=Life_Alignment
-//METHOD=free_AIC
+METHOD=free_AIC
 //METHOD=join_AIC
 //METHOD=free_BIC
-METHOD=join_BIC
+//METHOD=join_BIC
 FONT_MAIN=Font(family=courier,style=normal,weight=normal,size=12)
 // -------------------------------------
 
@@ -49,6 +49,11 @@ fig.draw_node_id=no
 fig.draw_branch_length=no
 fig.draw_bootstrap_value=no
 fig.font=$(FONT_MAIN)
+fig.point_size=4
+
+fig.legend.x = 0
+fig.legend.y = 0
+fig.legend.barlen = 
 
 colorset=default
 
