@@ -234,8 +234,10 @@ int main(int args, char ** argv)
   ApplicationTools::displayResult("Number of leaves", TextTools::toString(tree->getNumberOfLeaves()));
   //Convert to NHX if input tree is newick or nexus?
   string treeIdOut = ApplicationTools::getAFilePath("output.tree_with_id.file", mapnh.getParams(), false, false);
-  Nhx nhx(true);
-  nhx.write(*tree, treeIdOut);
+  if (treeIdOut != "none") {
+    Nhx nhx(true);
+    nhx.write(*tree, treeIdOut);
+  }
 
   //Perform the mapping:
   SubstitutionRegister* reg = 0;
