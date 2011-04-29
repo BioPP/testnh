@@ -330,7 +330,7 @@ int main(int args, char ** argv)
     for (size_t i = counts2.size(); i > 0; --i) {
       if (VectorTools::sum(counts2[i - 1]) == 0) {
         ApplicationTools::displayResult("Remove branch with no substitution", ids[i - 1]);
-        counts.erase(counts2.begin() + i - 1);
+        counts2.erase(counts2.begin() + i - 1);
         //ids.erase(ids.begin() + i - 1);
       }
     }
