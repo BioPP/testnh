@@ -30,6 +30,41 @@ double SimpleSubstitutionCountsComparison::multinomLogL(const vector<unsigned in
   return l;
 }
 
+double SimpleSubstitutionCountsComparison::multinomialTest(const vector< vector<unsigned int> >& counts)
+{
+  size_t nbCounts = counts.size();
+  size_t countsSize = counts[0].size();
+  vector<unsigned int> sumCounts(countsSize);
+  //Compute likelihood of independent model:
+  double logL1 = 0;
+  for (size_t i = 0; i < nbCounts; ++i) {
+    unsigned int s = VectorTools::sum(counts[i]);
+    if (s == 0)
+      throw Exception("SimpleSubstitutionCountsComparison::multinomialTest. Counts with zero observation can't be accounted for.");
+    sumCounts += counts[i];
+    vector<double> p(countsSize);
+    for (size_t j = 0; j < countsSize; ++j) {
+      p[j] = static_cast<double>(counts[i][j]) / static_cast<double>(s);
+    }
+    logL1 += multinomLogL(counts[i], p);
+  }
+  //Compute likelihood of shared model:
+  double logL2 = 0;
+  vector<double> p(countsSize);
+  unsigned int s = VectorTools::sum(sumCounts);
+  for (size_t j = 0; j < countsSize; ++j) {
+    p[j] = static_cast<double>(sumCounts[j]) / static_cast<double>(s);
+  }
+  for (size_t i = 0; i < nbCounts; ++i) {
+    logL2 += multinomLogL(counts[i], p);
+  }
+  //Now compare models:
+  double statistic = -2 * (logL2 - logL1);
+  //cout << logL2 << "\t" << logL1 << "\t" << statistic << "\t" << (countsSize - 1) * (nbCounts - 1) << endl;
+  double pvalue = 1. - RandomTools::pChisq(statistic, (countsSize - 1) * (nbCounts - 1));
+  return pvalue;
+}
+
 void SimpleSubstitutionCountsComparison::computePValue() {
   unsigned int s1 = VectorTools::sum(counts1_);
   unsigned int s2 = VectorTools::sum(counts2_);
@@ -60,7 +95,7 @@ MultinomialClustering::MultinomialClustering(
     const Tree& tree,
     const AutomaticGroupingCondition& autoGroup,
     bool neighborsOnly, bool negativeBrlen, bool verbose):
-  AbstractAgglomerativeDistanceMethod(verbose), counts_(counts), neighborsOnly_(neighborsOnly), negativeBrlen_(negativeBrlen), test_()
+  AbstractAgglomerativeDistanceMethod(verbose), counts_(counts), neighborsOnly_(neighborsOnly), negativeBrlen_(negativeBrlen), test_(), pvalues_()
 {
   test_.reset(new SimpleSubstitutionCountsComparison());
   unsigned int n = counts.size();
@@ -226,6 +261,7 @@ Node* MultinomialClustering::getParentNode(int id, Node* son1, Node* son2)
 double MultinomialClustering::getDist(const vector<unsigned int>& v1, const vector<unsigned int>&v2)
 {
   test_->setCounts(v1, v2);
+  pvalues_.push_back(test_->getPValue());
   return 1. - test_->getPValue();
 }
 

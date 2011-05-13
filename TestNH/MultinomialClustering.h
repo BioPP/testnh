@@ -79,6 +79,8 @@ class SimpleSubstitutionCountsComparison:
 
   protected:
     void computePValue();
+
+  public:
     static double logFact(unsigned int x) {
       double f = 0;
       for (unsigned int i = 1; i <= x; ++i)
@@ -87,6 +89,8 @@ class SimpleSubstitutionCountsComparison:
     }
 
     static double multinomLogL(const vector<unsigned int>& v, const vector<double>& p);
+
+    static double multinomialTest(const vector< vector<unsigned int> >& counts);
     
 };
 
@@ -167,6 +171,7 @@ class MultinomialClustering :
     bool neighborsOnly_;
     bool negativeBrlen_;
     bpp_ptr<SubstitutionCountsComparison> test_;
+    vector<double> pvalues_;
 	
   public:
 		MultinomialClustering(
@@ -182,6 +187,10 @@ class MultinomialClustering :
 
 	public:
 		TreeTemplate<Node>* getTree() const;
+    /**
+     * @return The list of pvalues, by order of clusters.
+     */
+    const vector<double> getPValues() const { return pvalues_; }
 
 	protected:
 		/**

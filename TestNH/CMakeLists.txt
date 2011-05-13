@@ -8,7 +8,7 @@ TARGET_LINK_LIBRARIES(testnh ${LIBS})
 ADD_EXECUTABLE(stepnh StepNH.cpp)
 TARGET_LINK_LIBRARIES(stepnh ${LIBS})
 
-ADD_EXECUTABLE(mapnh ChiClustering.cpp MultinomialClustering.cpp MapNH.cpp)
+ADD_EXECUTABLE(mapnh MultinomialClustering.cpp MapNH.cpp)
 TARGET_LINK_LIBRARIES(mapnh ${LIBS})
 
 ADD_EXECUTABLE(partnh PartNH.cpp)

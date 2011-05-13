@@ -37,7 +37,6 @@ The fact that you are presently reading this means that you have had
 knowledge of the CeCILL license and that you accept its terms.
 */
 
-#include "ChiClustering.h"
 #include "MultinomialClustering.h"
 
 // From the STL:
@@ -78,12 +77,13 @@ using namespace std;
 #include <Bpp/Numeric/Matrix/MatrixTools.h>
 #include <Bpp/Numeric/VectorTools.h>
 #include <Bpp/Numeric/AutoParameter.h>
-#include <Bpp/Numeric/Stat/ContingencyTableTest.h>
+#include <Bpp/Numeric/Stat/StatTools.h>
 #include <Bpp/App/BppApplication.h>
 #include <Bpp/App/ApplicationTools.h>
 #include <Bpp/Io/FileTools.h>
 #include <Bpp/Text/TextTools.h>
 #include <Bpp/Text/KeyvalTools.h>
+#include <Bpp/Numeric/Stat/ContingencyTableTest.h>
 
 using namespace bpp;
 
@@ -174,7 +174,7 @@ ERROR:
         }
         double s2 = VectorTools::sum(countsf);
         //Scale:
-        (countsf / s2) * s;
+        countsf = (countsf / s2) * s;
       }
     }
 
@@ -249,7 +249,7 @@ int main(int args, char ** argv)
   bool stationarity = true;
   if (regType == "All") {
     stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
-    reg = new ExhaustiveSubstitutionRegister(alphabet, false);
+    reg = new ComprehensiveSubstitutionRegister(alphabet, false);
   }
   else if (regType == "GC") {
     if (AlphabetTools::isNucleicAlphabet(alphabet)) {
@@ -337,10 +337,12 @@ int main(int args, char ** argv)
       }
     }
     ApplicationTools::displayResult("Nb. of branches included in test", counts2.size());
-
+    
     ContingencyTableTest test(counts2, 2000);
     ApplicationTools::displayResult("Global Chi2", test.getStatistic());
     ApplicationTools::displayResult("Global Chi2, p-value", test.getPValue());
+    double pvalue = SimpleSubstitutionCountsComparison::multinomialTest(counts2);
+    ApplicationTools::displayResult("Global heterogeneity test p-value", pvalue);
   }
 
   //Branch test!
@@ -381,6 +383,8 @@ int main(int args, char ** argv)
 
     //ChiClustering htest(counts, ids, true);
     MultinomialClustering htest(counts, ids, drtl.getTree(), *autoClust, testNeighb, testNegBrL, true);
+    ApplicationTools::displayResult("P-value at root node", *(htest.getPValues().rbegin()));
+    ApplicationTools::displayResult("Number of tests performed", htest.getPValues().size());
     TreeTemplate<Node>* htree = htest.getTree();
     Newick newick;
     string clusterTreeOut = ApplicationTools::getAFilePath("output.cluster_tree.file", mapnh.getParams(), false, false);
