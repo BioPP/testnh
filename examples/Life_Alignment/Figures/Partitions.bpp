@@ -1,9 +1,9 @@
 // -------------------------------------
 DATA=Life_Alignment
-METHOD=free_AIC
+//METHOD=free_AIC
 //METHOD=join_AIC
 //METHOD=free_BIC
-//METHOD=join_BIC
+METHOD=join_BIC
 FONT_MAIN=Font(family=courier,style=normal,weight=normal,size=12)
 // -------------------------------------
 
