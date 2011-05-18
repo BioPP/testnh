@@ -278,21 +278,20 @@ int main(int args, char ** argv)
 
   //Now perform mapping using a JC model:
   SubstitutionModel* model = 0;
-  if (AlphabetTools::isNucleicAlphabet(alphabet)) {
-    model = new JCnuc(dynamic_cast<NucleicAlphabet*>(alphabet));
-  } else if (AlphabetTools::isProteicAlphabet(alphabet)) {
-    model = new JCprot(dynamic_cast<ProteicAlphabet*>(alphabet));
-  } else if (AlphabetTools::isCodonAlphabet(alphabet)) {
-    if (ApplicationTools::parameterExists("model", mapnh.getParams())) {
-      model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, mapnh.getParams());
-    } else {
+  if (ApplicationTools::parameterExists("model", mapnh.getParams())) {
+    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, mapnh.getParams());
+  } else {
+    if (AlphabetTools::isNucleicAlphabet(alphabet)) {
+      model = new JCnuc(dynamic_cast<NucleicAlphabet*>(alphabet));
+    } else if (AlphabetTools::isProteicAlphabet(alphabet)) {
+      model = new JCprot(dynamic_cast<ProteicAlphabet*>(alphabet));
+    } else if (AlphabetTools::isCodonAlphabet(alphabet)) {
       model = new CodonNeutralReversibleSubstitutionModel(
           dynamic_cast<const CodonAlphabet*>(geneticCode->getSourceAlphabet()),
           new JCnuc(dynamic_cast<CodonAlphabet*>(alphabet)->getNucleicAlphabet()));
-    }
+    } else
+      throw Exception("Unsupported alphabet!");
   }
-  else
-    throw Exception("Unsupported alphabet!");
 
   DiscreteDistribution* rDist = new ConstantDistribution(1., true);
 
