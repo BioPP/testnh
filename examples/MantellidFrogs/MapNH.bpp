@@ -1,0 +1,31 @@
+DATA = MantellidDataset
+#param=PalandAndLynch28.params_h.bpp
+#$(DATA).params_h.bpp
+
+alphabet = Codon(letter=DNA, type=VertebrateMitochondrial)  #DNA
+
+#Set imput tree file. Original branch lengths will be used for mapping.
+input.tree.file=$(DATA)_tree.tree
+input.tree.format = Newick
+#We convert the tree to Nhx format for use with PartNH:
+output.tree_with_id.file = $(DATA).nhx
+#Where to output cluster tree:
+output.cluster_tree.file = $(DATA).cluster_join.dnd
+
+input.sequence.file = $(DATA).faln
+input.sequence.format = Fasta
+input.sequence.sites_to_use = all
+# Remove stop codons
+input.sequence.remove_stop_codons = yes
+
+
+map.type = DnDs(code=VertebrateMitochondrial)
+count.max = 3
+test.global = no
+test.branch = yes
+test.branch.neighbor = #yes or no
+test.branch.negbrlen = no
+test.branch.auto_cluster = Marginal(threshold=1)
+ 
+output.counts.tree.prefix = CountsTree
+

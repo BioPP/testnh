@@ -1,0 +1,45 @@
+1) Cluster nodes using substitution mapping.
+     We will map non-synonymous substitutions.
+
+     We try to cluster nodes freely:
+     ../../TestNH/mapnh --noninteractive=yes param=MapNH.bpp test.branch.neighbor=no output.cluster_tree.file=Mantellid.cluster_free.dnd >& mapnh_free.out &
+
+     And also adding the constraint to cluster only adjacent nodes:
+     ../../TestNH/mapnh --noninteractive=yes param=MapNH.bpp test.branch.neighbor=yes output.cluster_tree.file=Mantellid.cluster_join.dnd >& mapnh_join.out & 
+
+     This will first create a tree in Nhx format, identical to the input one, but with
+     node IDs. It then creates a cluster tree in Newick format, with leaves corresponding to node IDs.
+
+2) Use the clustering tree to define partitions, and test them using model testing.
+     We test both the clustering with nodes constrained to be adjacent or not in clustering,
+     and use two model selection criteria (AIC and BIC):
+     
+     ../../TestNH/partnh param=PartNH.bpp --noninteractive=yes\
+            input.cluster_tree.file=Mantellid.cluster_free.dnd\
+            partition.test=BIC\
+            METHOD=free_BIC > partnh_free_BIC.out &
+
+     The resulting likelihood is -, for  clusters
+
+     ../../TestNH/partnh param=PartNH.bpp --noninteractive=yes\
+            input.cluster_tree.file=Mantellid.cluster_join.dnd\
+            partition.test=BIC\
+            METHOD=join_BIC > partnh_join_BIC.out &
+
+     The resulting likelihood is -, for  cluster
+
+
+     ../../TestNH/partnh param=PartNH.bpp --noninteractive=yes\
+            input.cluster_tree.file=Mantellid.cluster_free.dnd\
+            partition.test=AIC\
+            METHOD=free_AIC > partnh_free_AIC.out &
+            
+     The resulting likelihood is , for  clusters
+
+     ../../TestNH/partnh param=PartNH.bpp --noninteractive=yes\
+            input.cluster_tree.file=Mantellid.cluster_join.dnd\
+            partition.test=AIC\
+            METHOD=join_AIC > partnh_join_AIC.out &
+
+     The resulting likelihood is , for  clusters
+
