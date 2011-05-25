@@ -30,14 +30,14 @@ read.profile<-function(file) {
   return(prf[order(prf$Time),])
 }
 
-join.aic.prf<-read.profile("PalandAndLynch28.join_AIC.profile")
 free.aic.prf<-read.profile("PalandAndLynch28.free_AIC.profile")
+join.aic.prf<-read.profile("PalandAndLynch28.join_AIC.profile")
 
 #Read partition tables:
 brlen<-read.table("PalandAndLynch28.ml_h.rooted.brlen.txt", sep="\t", header=TRUE, row.names="Id")
 
-join.aic.tbl<-read.table("PalandAndLynch28.partitions_record_join_AIC.txt", sep="\t")
 free.aic.tbl<-read.table("PalandAndLynch28.partitions_record_free_AIC.txt", sep="\t")
+join.aic.tbl<-read.table("PalandAndLynch28.partitions_record_join_AIC.txt", sep="\t")
 
 
 plot.profile<-function(prf, iterations, omegas, brlen, tbl, ics) {

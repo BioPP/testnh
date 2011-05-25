@@ -37,7 +37,6 @@ The fact that you are presently reading this means that you have had
 knowledge of the CeCILL license and that you accept its terms.
 */
 
-#include "ChiClustering.h"
 #include "MultinomialClustering.h"
 
 // From the STL:
@@ -78,12 +77,13 @@ using namespace std;
 #include <Bpp/Numeric/Matrix/MatrixTools.h>
 #include <Bpp/Numeric/VectorTools.h>
 #include <Bpp/Numeric/AutoParameter.h>
-#include <Bpp/Numeric/Stat/ContingencyTableTest.h>
+#include <Bpp/Numeric/Stat/StatTools.h>
 #include <Bpp/App/BppApplication.h>
 #include <Bpp/App/ApplicationTools.h>
 #include <Bpp/Io/FileTools.h>
 #include <Bpp/Text/TextTools.h>
 #include <Bpp/Text/KeyvalTools.h>
+#include <Bpp/Numeric/Stat/ContingencyTableTest.h>
 
 using namespace bpp;
 
@@ -174,7 +174,7 @@ ERROR:
         }
         double s2 = VectorTools::sum(countsf);
         //Scale:
-        (countsf / s2) * s;
+        countsf = (countsf / s2) * s;
       }
     }
 
@@ -234,12 +234,14 @@ int main(int args, char ** argv)
   ApplicationTools::displayResult("Number of leaves", TextTools::toString(tree->getNumberOfLeaves()));
   //Convert to NHX if input tree is newick or nexus?
   string treeIdOut = ApplicationTools::getAFilePath("output.tree_with_id.file", mapnh.getParams(), false, false);
-  Nhx nhx(true);
-  nhx.write(*tree, treeIdOut);
+  if (treeIdOut != "none") {
+    Nhx nhx(true);
+    nhx.write(*tree, treeIdOut);
+  }
 
   //Perform the mapping:
   SubstitutionRegister* reg = 0;
-  string regTypeDesc = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "all", "", true, false);
+  string regTypeDesc = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "All", "", true, false);
   string regType = "";
   map<string, string> regArgs;
   KeyvalTools::parseProcedure(regTypeDesc, regType, regArgs);
@@ -247,7 +249,7 @@ int main(int args, char ** argv)
   bool stationarity = true;
   if (regType == "All") {
     stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
-    reg = new ExhaustiveSubstitutionRegister(alphabet, false);
+    reg = new ComprehensiveSubstitutionRegister(alphabet, false);
   }
   else if (regType == "GC") {
     if (AlphabetTools::isNucleicAlphabet(alphabet)) {
@@ -276,21 +278,20 @@ int main(int args, char ** argv)
 
   //Now perform mapping using a JC model:
   SubstitutionModel* model = 0;
-  if (AlphabetTools::isNucleicAlphabet(alphabet)) {
-    model = new JCnuc(dynamic_cast<NucleicAlphabet*>(alphabet));
-  } else if (AlphabetTools::isProteicAlphabet(alphabet)) {
-    model = new JCprot(dynamic_cast<ProteicAlphabet*>(alphabet));
-  } else if (AlphabetTools::isCodonAlphabet(alphabet)) {
-    if (ApplicationTools::parameterExists("model", mapnh.getParams())) {
-      model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, mapnh.getParams());
-    } else {
+  if (ApplicationTools::parameterExists("model", mapnh.getParams())) {
+    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, mapnh.getParams());
+  } else {
+    if (AlphabetTools::isNucleicAlphabet(alphabet)) {
+      model = new JCnuc(dynamic_cast<NucleicAlphabet*>(alphabet));
+    } else if (AlphabetTools::isProteicAlphabet(alphabet)) {
+      model = new JCprot(dynamic_cast<ProteicAlphabet*>(alphabet));
+    } else if (AlphabetTools::isCodonAlphabet(alphabet)) {
       model = new CodonNeutralReversibleSubstitutionModel(
           dynamic_cast<const CodonAlphabet*>(geneticCode->getSourceAlphabet()),
           new JCnuc(dynamic_cast<CodonAlphabet*>(alphabet)->getNucleicAlphabet()));
-    }
+    } else
+      throw Exception("Unsupported alphabet!");
   }
-  else
-    throw Exception("Unsupported alphabet!");
 
   DiscreteDistribution* rDist = new ConstantDistribution(1., true);
 
@@ -330,15 +331,17 @@ int main(int args, char ** argv)
     for (size_t i = counts2.size(); i > 0; --i) {
       if (VectorTools::sum(counts2[i - 1]) == 0) {
         ApplicationTools::displayResult("Remove branch with no substitution", ids[i - 1]);
-        counts.erase(counts2.begin() + i - 1);
+        counts2.erase(counts2.begin() + i - 1);
         //ids.erase(ids.begin() + i - 1);
       }
     }
     ApplicationTools::displayResult("Nb. of branches included in test", counts2.size());
-
+    
     ContingencyTableTest test(counts2, 2000);
     ApplicationTools::displayResult("Global Chi2", test.getStatistic());
     ApplicationTools::displayResult("Global Chi2, p-value", test.getPValue());
+    double pvalue = SimpleSubstitutionCountsComparison::multinomialTest(counts2);
+    ApplicationTools::displayResult("Global heterogeneity test p-value", pvalue);
   }
 
   //Branch test!
@@ -379,6 +382,8 @@ int main(int args, char ** argv)
 
     //ChiClustering htest(counts, ids, true);
     MultinomialClustering htest(counts, ids, drtl.getTree(), *autoClust, testNeighb, testNegBrL, true);
+    ApplicationTools::displayResult("P-value at root node", *(htest.getPValues().rbegin()));
+    ApplicationTools::displayResult("Number of tests performed", htest.getPValues().size());
     TreeTemplate<Node>* htree = htest.getTree();
     Newick newick;
     string clusterTreeOut = ApplicationTools::getAFilePath("output.cluster_tree.file", mapnh.getParams(), false, false);

@@ -100,14 +100,14 @@ read.profile<-function(file) {
   return(prf[order(prf$Time),])
 }
 
-join.aic.prf<-read.profile("Life_Alignment.join_AIC.profile")
 free.aic.prf<-read.profile("Life_Alignment.free_AIC.profile")
+join.aic.prf<-read.profile("Life_Alignment.join_AIC.profile")
 
 #Read partition tables:
 brlen<-read.table("Life_Alignment.ml_h.rooted.brlen.txt", sep="\t", header=TRUE, row.names="Id")
 
-join.aic.tbl<-read.table("Life_Alignment.partitions_record_join_AIC.txt", sep="\t")
 free.aic.tbl<-read.table("Life_Alignment.partitions_record_free_AIC.txt", sep="\t")
+join.aic.tbl<-read.table("Life_Alignment.partitions_record_join_AIC.txt", sep="\t")
 
 plot.profile<-function(prf, iterations, thetas, brlen, tbl, ics) {
   bgcol<-rep(c(grey(0.8), grey(0.9)), length.out=length(iterations))
@@ -192,7 +192,7 @@ plot.profile<-function(prf, iterations, thetas, brlen, tbl, ics) {
   mtext(side=4, "BIC", col="black", line=3)
 }
 
-plot.profile(free.aic.prf, 1:34, 1:56, brlen, free.aic.tbl, free.aic)
+plot.profile(free.aic.prf, 1:26, 1:56, brlen, free.aic.tbl, free.aic)
 dev.print(tiff, file="Figures/FreeGC.tif", width=1000, height=500)
 
 plot.profile(join.aic.prf, 1:34, 1:75, brlen, join.aic.tbl, join.aic)

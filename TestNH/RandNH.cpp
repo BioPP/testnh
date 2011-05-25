@@ -93,7 +93,7 @@ int main(int args, char ** argv)
   cout << "******************************************************************" << endl;
   cout << "*                     RandNH, version 0.1.0                      *" << endl;
   cout << "* Authors: J. Dutheil                       Created on  25/01/11 *" << endl;
-  cout << "*          B. Boussau                       Last Modif. 2(/01/1 *" << endl;
+  cout << "*          B. Boussau                       Last Modif. 28/04/11 *" << endl;
   cout << "******************************************************************" << endl;
   cout << endl;
 
@@ -125,25 +125,39 @@ int main(int args, char ** argv)
 
   vector<int> ids = tree->getNodesId();
   ids.pop_back();
-  vector<int> partRootIds(nbParts - 1);
-  RandomTools::getSample(ids, partRootIds);
 
-  //we have to make sure we get the larger partition first:
-  multiset<CandidatePart, CandidatePartComp> depths;
-  for (unsigned int i = 0; i < nbParts - 1; ++i) {
-    depths.insert(CandidatePart(partRootIds[i], TreeTools::getDepth(*tree, partRootIds[i])));
-  }
   map<int, unsigned int> partitionsIndex;
-  for (size_t i = 0; i < ids.size(); ++i)
-    partitionsIndex[ids[i]] = 0;
-  unsigned int p = 1;
-  for (set<CandidatePart>::iterator it = depths.begin(); it != depths.end(); ++it) {
-    cout << it->id << "\t" << it->depth << endl;
-    vector<int> subids = TreeTools::getNodesId(*tree, it->id);
-    for (size_t i = 0; i < subids.size(); ++i)
-      partitionsIndex[subids[i]] = p;
-    p++;
+  
+  string modelType = ApplicationTools::getStringParameter("nonhomogeneous.type_of_model", randnh.getParams(), "join");
+
+  if (modelType == "join")
+  {
+    vector<int> partRootIds(nbParts - 1);
+    RandomTools::getSample(ids, partRootIds);
+
+    //we have to make sure we get the larger partition first:
+    multiset<CandidatePart, CandidatePartComp> depths;
+    for (unsigned int i = 0; i < nbParts - 1; ++i) {
+      depths.insert(CandidatePart(partRootIds[i], TreeTools::getDepth(*tree, partRootIds[i])));
+    }
+    for (size_t i = 0; i < ids.size(); ++i)
+      partitionsIndex[ids[i]] = 0;
+    unsigned int p = 1;
+    for (set<CandidatePart>::iterator it = depths.begin(); it != depths.end(); ++it) {
+      cout << it->id << "\t" << it->depth << endl;
+      vector<int> subids = TreeTools::getNodesId(*tree, it->id);
+      for (size_t i = 0; i < subids.size(); ++i)
+        partitionsIndex[subids[i]] = p;
+      p++;
+    }
   }
+  else if (modelType == "free")
+  {
+    //For now we assume that all partitions are equally likely.
+    for (size_t i = 0; i < ids.size(); ++i)
+      partitionsIndex[ids[i]] = RandomTools::giveIntRandomNumberBetweenZeroAndEntry(nbParts);
+  }
+  else throw Exception("Model type should be one of 'free' or 'join'");
 
   map<unsigned int, vector<int> > partitions;
   for (map<int, unsigned int>::iterator it = partitionsIndex.begin(); it != partitionsIndex.end(); ++it) {
