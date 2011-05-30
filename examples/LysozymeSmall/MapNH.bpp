@@ -12,15 +12,16 @@ output.cluster_tree.file = $(DATA).cluster_join.dnd
 
 input.sequence.file = $(DATA).fasta
 input.sequence.format = Fasta
-input.sequence.sites_to_use = complete
-input.sequence.remove_stop_codons=yes
+input.sequence.sites_to_use = all
+input.sequence.remove_stop_codons = yes
 
 map.type = DnDs(code=Standard)
+count.max = 3
 test.global = no
 test.branch = yes
 test.branch.neighbor = #yes or no
 test.branch.negbrlen = no
-test.branch.auto_cluster = Marginal(threshold=0)
+test.branch.auto_cluster = Marginal(threshold=1)
  
 output.counts.tree.prefix = CountsTree
 

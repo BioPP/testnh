@@ -253,6 +253,34 @@ void estimateLikelihood(DRTreeLikelihood* drtl, ParameterList& parametersToEstim
     0, tolerance, nbEvalMax, messageHandler, profiler, reparam, verbose, OptimizationTools::OPTIMIZATION_NEWTON);
 }
 
+void outputNHModel(const string& modelPath, double likelihood, const SubstitutionModelSet* modelSet, const DiscreteDistribution* rDist) {
+  StlOutputStream out(auto_ptr<ostream>(new ofstream(modelPath.c_str(), ios::out)));
+  out << "# Log likelihood = ";
+  out.setPrecision(20) << likelihood;
+  out.endLine();
+  out.endLine();
+  out << "# Substitution model parameters:";
+  out.endLine();
+  PhylogeneticsApplicationTools::printParameters(modelSet, out);
+  out.endLine();
+  PhylogeneticsApplicationTools::printParameters(rDist   , out);
+  out.endLine();
+}
+
+void outputHModel(const string& modelPath, double likelihood, const SubstitutionModel* model, const DiscreteDistribution* rDist) {
+  StlOutputStream out(auto_ptr<ostream>(new ofstream(modelPath.c_str(), ios::out)));
+  out << "# Log likelihood = ";
+  out.setPrecision(20) << likelihood;
+  out.endLine();
+  out.endLine();
+  out << "# Substitution model parameters:";
+  out.endLine();
+  PhylogeneticsApplicationTools::printParameters(model, out);
+  out.endLine();
+  PhylogeneticsApplicationTools::printParameters(rDist, out);
+  out.endLine();
+}
+
 int main(int args, char ** argv)
 {
   cout << "******************************************************************" << endl;
@@ -344,6 +372,8 @@ int main(int args, char ** argv)
     
     //We get this now, so that it does not fail after having done the full optimization!!
     string modelPath = ApplicationTools::getAFilePath("output.model.file", partnh.getParams(), true, false);
+    bool outputIntermediateModels = ApplicationTools::getBooleanParameter("output.intermediate.models", partnh.getParams(), false);
+    ApplicationTools::displayBooleanResult("Output intermediate models", outputIntermediateModels);
     string logPath = ApplicationTools::getAFilePath("output.log.file", partnh.getParams(), false, false);
     ApplicationTools::displayResult("Output log to", logPath);
     auto_ptr<ofstream> logout;
@@ -527,7 +557,7 @@ int main(int args, char ** argv)
       parametersToEstimate = getParametersToEstimate(drtl, partnh.getParams()); 
       
       estimateLikelihood(drtl, parametersToEstimate, tolerance, nbEvalMax, messageHandler.get(), profiler.get(), reparam, optVerbose);
-
+        
       double newLogL = drtl->getValue();
       double newDf = static_cast<double>(drtl->getParameters().size());
       ApplicationTools::displayResult("* New NH model - LogL", -newLogL);
@@ -535,6 +565,11 @@ int main(int args, char ** argv)
       double newAic = 2. * (newDf + newLogL);
       double newBic = 2. * newLogL + newDf * log(nbSites);
       TreeTemplate<Node>* newTree = new TreeTemplate<Node>(drtl->getTree());
+      
+      //Print model:
+      if (outputIntermediateModels) {
+        outputNHModel(modelPath + TextTools::toString(modelCount), -newLogL, newModelSet, newRDist);
+      }
 
       double d = 2 * (logL - newLogL);
       double pvalue = 1. - RandomTools::pChisq(d, newDf - df);
@@ -616,29 +651,9 @@ int main(int args, char ** argv)
     ApplicationTools::displayResult("Model description output to file", modelPath);
     //We have to distinguish two cases...
     if (bestModelSet) {
-      StlOutputStream out(auto_ptr<ostream>(new ofstream(modelPath.c_str(), ios::out)));
-      out << "# Log likelihood = ";
-      out.setPrecision(20) << (-drtl->getValue());
-      out.endLine();
-      out.endLine();
-      out << "# Substitution model parameters:";
-      out.endLine();
-      PhylogeneticsApplicationTools::printParameters(bestModelSet, out);
-      out.endLine();
-      PhylogeneticsApplicationTools::printParameters(bestRDist   , out);
-      out.endLine();
+      outputNHModel(modelPath, -drtl->getValue(), bestModelSet, bestRDist);
     } else {
-      StlOutputStream out(auto_ptr<ostream>(new ofstream(modelPath.c_str(), ios::out)));
-      out << "# Log likelihood = ";
-      out.setPrecision(20) << (-drtl->getValue());
-      out.endLine();
-      out.endLine();
-      out << "# Substitution model parameters:";
-      out.endLine();
-      PhylogeneticsApplicationTools::printParameters(model, out);
-      out.endLine();
-      PhylogeneticsApplicationTools::printParameters(rDist, out);
-      out.endLine();
+      outputHModel(modelPath, -drtl->getValue(), model, rDist);
     }
 
     //Write parameter estimates per node:

@@ -27,7 +27,7 @@
 
 2) Try to find a better non-homogeneous model to describe the data.
 2.1) Cluster nodes using substitution mapping.
-     We will map non-synonymous substitutions.
+     We will map synonymous and non-synonymous substitutions.
 
      We try to cluster nodes freely:
      mapnh --noninteractive=yes param=MapNH.bpp test.branch.neighbor=no output.cluster_tree.file=PalandAndLynch.cluster_free.dnd >& mapnh_free.out &
@@ -70,33 +70,4 @@
             METHOD=join_AIC > partnh_join_AIC.out &
 
      The resulting likelihood is -19417.4, for 14 clusters
-
-
-3) Test if the resulting non-homogeneous models take into account the underlying non-homogeneity,
-   using the Bowker test against the alternative hypothesis (see Dutheil and Boussau 2008):
-
-     testnh param=TestNH_nonhomogeneous.bpp\
-            param=Model_free_BIC.bpp\
-            bootstrap.dist_file=TestNH_nonhomogeneous.null_free_BIC.txt\
-            input.tree.file=PalandAndLynch.ml_nh_free_BIC.nhx > testnh_nh_free_BIC.out
-
-     testnh param=TestNH_nonhomogeneous.bpp\
-            param=Model_join_BIC.bpp\
-            bootstrap.dist_file=TestNH_nonhomogeneous.null_join_BIC.txt\
-            input.tree.file=PalandAndLynch.ml_nh_join_BIC.nhx > testnh_nh_join_BIC.out
-
-     testnh param=TestNH_nonhomogeneous.bpp\
-            param=Model_free_AIC.bpp\
-            bootstrap.dist_file=TestNH_nonhomogeneous.null_free_AIC.txt\
-            input.tree.file=PalandAndLynch.ml_nh_free_AIC.nhx > testnh_nh_free_AIC.out
-
-     testnh param=TestNH_nonhomogeneous.bpp\
-            param=Model_join_AIC.bpp\
-            bootstrap.dist_file=TestNH_nonhomogeneous.null_join_AIC.txt\
-            input.tree.file=PalandAndLynch.ml_nh_join_AIC.nhx > testnh_nh_join_AIC.out
-
-    All tests are now not significant!
-
-
-
 
