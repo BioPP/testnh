@@ -1,4 +1,12 @@
-1) Cluster nodes using substitution mapping.
+1) Fit a homogeneous model:
+     
+     bppml --noninteractive=yes param=ML.bpp >& bppml_h.out
+     
+     This will store optimized parameter in file MantellidDataset.mh_h.params.txt
+     and corresponding tree in file              MantellidDataset.ml_h.txt.
+     A YN98 substitution model is used.
+
+2) Cluster nodes using substitution mapping.
      We will map non-synonymous substitutions.
 
      We try to cluster nodes freely:
