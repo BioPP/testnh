@@ -1,0 +1,551 @@
+******************************************************************
+*                     PartNH, version 0.1.0                      *
+* Authors: J. Dutheil                       Created on  09/12/10 *
+*          B. Boussau                       Last Modif. 08/04/11 *
+******************************************************************
+
+Parsing options:
+Parsing file PartNH.bpp for options.
+Input cluster tree.....................: PalandAndLynch.cluster_join.dnd
+Input tree file........................: PalandAndLynch28.nhx
+Alphabet type .........................: Codon(DNA)
+Sequence format .......................: Fasta
+Sequence file .........................: PalandAndLynch28Concatenate.fasta
+Sites to use...........................: all
+WARNING!!! Parameter input.sequence.max_gap_allowed not specified. Default used instead: 100%
+Remove Stop Codons.....................: yes
+Number of sequences....................: 28
+Number of sites........................: 3681
+Use observed frequencies for model.....: yes
+WARNING!!! Parameter YN98.useObservedFreqs.pseudoCount not specified. Default used instead: 0
+Parameter found........................: YN98.kappa=2
+Parameter found........................: YN98.omega=0.5
+Parameter found........................: YN98.freq_Codon.1_Full.theta=0.446594
+Parameter found........................: YN98.freq_Codon.1_Full.theta1=0.46971
+Parameter found........................: YN98.freq_Codon.1_Full.theta2=0.567696
+Parameter found........................: YN98.freq_Codon.2_Full.theta=0.374549
+Parameter found........................: YN98.freq_Codon.2_Full.theta1=0.277684
+Parameter found........................: YN98.freq_Codon.2_Full.theta2=0.44014
+Parameter found........................: YN98.freq_Codon.3_Full.theta=0.366634
+Parameter found........................: YN98.freq_Codon.3_Full.theta1=0.421688
+Parameter found........................: YN98.freq_Codon.3_Full.theta2=0.443592
+Rate distribution......................: Uniform
+Number of classes......................: 1
+- Category 0 (Pr = 1) rate.............: 1
+Initializing data structure............: Done.
+Number of distinct sites...............: 773
+WARNING!!! Parameter output.intermediate.models not specified. Default used instead: 0
+Output intermediate models.............: no
+Output log to..........................: PalandAndLynch28.model_join_AIC.log.txt
+Message handler........................: PalandAndLynch28.join_AIC.message*
+Profiler...............................: PalandAndLynch28.join_AIC.profile*
+Max # ML evaluations...................: 1000
+Tolerance..............................: 1e-06
+Reparametrization......................: no
+************
+
+* Homogeneous model - LogL.............: -19440.8
+                    - df...............: 64
+Stationarity assumed...................: yes
+Global parameter.......................: YN98.kappa
+Global parameter.......................: YN98.freq*
+AIC....................................: 39009.6
+BIC....................................: 39407.1
+Likelihood comparison method...........: AIC
+Stop condition.........................: test 10 nested models after local best
+Current threshold......................: 0.00105839
+Number of real partitions..............: 2
+Partition 1............................: 52 element(s).
+Partition 2............................: 1 element(s).
+********
+
+* New NH model - LogL..................: -19435.5
+               - df....................: 65
+               - LRT p-value...........: 0.00104554
+               - AIC...................: 39000.9
+               - BIC...................: 39404.6
+Current threshold......................: 0.00635429
+Number of real partitions..............: 3
+Partition 1............................: 1 element(s).
+Partition 2............................: 47 element(s).
+Partition 3............................: 5 element(s).
+*******
+
+* New NH model - LogL..................: -19432
+               - df....................: 66
+               - LRT p-value...........: 0.00855602
+               - AIC...................: 38996
+               - BIC...................: 39405.9
+Current threshold......................: 0.0395635
+Number of real partitions..............: 4
+Partition 1............................: 1 element(s).
+Partition 2............................: 5 element(s).
+Partition 3............................: 46 element(s).
+Partition 4............................: 1 element(s).
+*******
+
+* New NH model - LogL..................: -19429.9
+               - df....................: 67
+               - LRT p-value...........: 0.0395559
+               - AIC...................: 38993.8
+               - BIC...................: 39409.9
+Current threshold......................: 0.0747791
+Number of real partitions..............: 5
+Partition 1............................: 1 element(s).
+Partition 2............................: 5 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 45 element(s).
+Partition 5............................: 1 element(s).
+******
+
+* New NH model - LogL..................: -19428.2
+               - df....................: 68
+               - LRT p-value...........: 0.0686168
+               - AIC...................: 38992.4
+               - BIC...................: 39414.8
+Current threshold......................: 0.0869426
+Number of real partitions..............: 7
+Partition 1............................: 1 element(s).
+Partition 2............................: 5 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 1 element(s).
+Partition 5............................: 43 element(s).
+Partition 6............................: 1 element(s).
+Partition 7............................: 1 element(s).
+******
+
+* New NH model - LogL..................: -19425.2
+               - df....................: 70
+               - LRT p-value...........: 0.0481895
+               - AIC...................: 38990.4
+               - BIC...................: 39425.1
+Current threshold......................: 0.0893467
+Number of real partitions..............: 9
+Partition 1............................: 1 element(s).
+Partition 2............................: 5 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 1 element(s).
+Partition 5............................: 1 element(s).
+Partition 6............................: 1 element(s).
+Partition 7............................: 1 element(s).
+Partition 8............................: 41 element(s).
+Partition 9............................: 1 element(s).
+******
+
+* New NH model - LogL..................: -19423
+               - df....................: 72
+               - LRT p-value...........: 0.113993
+               - AIC...................: 38990
+               - BIC...................: 39437.2
+Current threshold......................: 0.126416
+Number of real partitions..............: 10
+Partition 1............................: 1 element(s).
+Partition 2............................: 5 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 1 element(s).
+Partition 5............................: 1 element(s).
+Partition 6............................: 1 element(s).
+Partition 7............................: 1 element(s).
+Partition 8............................: 1 element(s).
+Partition 9............................: 30 element(s).
+Partition 10...........................: 11 element(s).
+******
+
+* New NH model - LogL..................: -19422.1
+               - df....................: 73
+               - LRT p-value...........: 0.175573
+               - AIC...................: 38990.2
+               - BIC...................: 39443.6
+Current threshold......................: 0.126416
+Number of real partitions..............: 11
+Partition 1............................: 1 element(s).
+Partition 2............................: 5 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 1 element(s).
+Partition 5............................: 1 element(s).
+Partition 6............................: 1 element(s).
+Partition 7............................: 1 element(s).
+Partition 8............................: 1 element(s).
+Partition 9............................: 30 element(s).
+Partition 10...........................: 10 element(s).
+Partition 11...........................: 1 element(s).
+****
+
+* New NH model - LogL..................: -19421
+               - df....................: 74
+               - LRT p-value...........: 0.131864
+               - AIC...................: 38989.9
+               - BIC...................: 39449.5
+Current threshold......................: 0.128324
+Number of real partitions..............: 18
+Partition 1............................: 1 element(s).
+Partition 2............................: 5 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 1 element(s).
+Partition 5............................: 1 element(s).
+Partition 6............................: 1 element(s).
+Partition 7............................: 1 element(s).
+Partition 8............................: 1 element(s).
+Partition 9............................: 10 element(s).
+Partition 10...........................: 1 element(s).
+Partition 11...........................: 2 element(s).
+Partition 12...........................: 1 element(s).
+Partition 13...........................: 1 element(s).
+Partition 14...........................: 10 element(s).
+Partition 15...........................: 1 element(s).
+Partition 16...........................: 3 element(s).
+Partition 17...........................: 11 element(s).
+Partition 18...........................: 1 element(s).
+**********
+
+* New NH model - LogL..................: -19416.2
+               - df....................: 81
+               - LRT p-value...........: 0.219583
+               - AIC...................: 38994.4
+               - BIC...................: 39497.5
+Current threshold......................: 0.167743
+Number of real partitions..............: 19
+Partition 1............................: 1 element(s).
+Partition 2............................: 5 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 1 element(s).
+Partition 5............................: 1 element(s).
+Partition 6............................: 1 element(s).
+Partition 7............................: 1 element(s).
+Partition 8............................: 1 element(s).
+Partition 9............................: 10 element(s).
+Partition 10...........................: 1 element(s).
+Partition 11...........................: 2 element(s).
+Partition 12...........................: 1 element(s).
+Partition 13...........................: 1 element(s).
+Partition 14...........................: 1 element(s).
+Partition 15...........................: 3 element(s).
+Partition 16...........................: 11 element(s).
+Partition 17...........................: 1 element(s).
+Partition 18...........................: 9 element(s).
+Partition 19...........................: 1 element(s).
+******
+
+* New NH model - LogL..................: -19415.2
+               - df....................: 82
+               - LRT p-value...........: 0.160397
+               - AIC...................: 38994.5
+               - BIC...................: 39503.8
+Current threshold......................: 0.20249
+Number of real partitions..............: 20
+Partition 1............................: 1 element(s).
+Partition 2............................: 1 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 1 element(s).
+Partition 5............................: 1 element(s).
+Partition 6............................: 1 element(s).
+Partition 7............................: 1 element(s).
+Partition 8............................: 10 element(s).
+Partition 9............................: 1 element(s).
+Partition 10...........................: 2 element(s).
+Partition 11...........................: 1 element(s).
+Partition 12...........................: 1 element(s).
+Partition 13...........................: 1 element(s).
+Partition 14...........................: 3 element(s).
+Partition 15...........................: 11 element(s).
+Partition 16...........................: 1 element(s).
+Partition 17...........................: 9 element(s).
+Partition 18...........................: 1 element(s).
+Partition 19...........................: 1 element(s).
+Partition 20...........................: 4 element(s).
+********
+
+* New NH model - LogL..................: -19414.3
+               - df....................: 83
+               - LRT p-value...........: 0.181273
+               - AIC...................: 38994.7
+               - BIC...................: 39510.2
+Current threshold......................: 0.246594
+Number of real partitions..............: 21
+Partition 1............................: 1 element(s).
+Partition 2............................: 1 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 1 element(s).
+Partition 5............................: 1 element(s).
+Partition 6............................: 1 element(s).
+Partition 7............................: 1 element(s).
+Partition 8............................: 10 element(s).
+Partition 9............................: 1 element(s).
+Partition 10...........................: 2 element(s).
+Partition 11...........................: 1 element(s).
+Partition 12...........................: 1 element(s).
+Partition 13...........................: 1 element(s).
+Partition 14...........................: 3 element(s).
+Partition 15...........................: 11 element(s).
+Partition 16...........................: 1 element(s).
+Partition 17...........................: 9 element(s).
+Partition 18...........................: 1 element(s).
+Partition 19...........................: 1 element(s).
+Partition 20...........................: 1 element(s).
+Partition 21...........................: 3 element(s).
+*******
+
+* New NH model - LogL..................: -19413.6
+               - df....................: 84
+               - LRT p-value...........: 0.220839
+               - AIC...................: 38995.2
+               - BIC...................: 39516.9
+Current threshold......................: 0.25125
+Number of real partitions..............: 27
+Partition 1............................: 1 element(s).
+Partition 2............................: 1 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 1 element(s).
+Partition 5............................: 1 element(s).
+Partition 6............................: 1 element(s).
+Partition 7............................: 1 element(s).
+Partition 8............................: 10 element(s).
+Partition 9............................: 1 element(s).
+Partition 10...........................: 2 element(s).
+Partition 11...........................: 1 element(s).
+Partition 12...........................: 1 element(s).
+Partition 13...........................: 1 element(s).
+Partition 14...........................: 3 element(s).
+Partition 15...........................: 11 element(s).
+Partition 16...........................: 1 element(s).
+Partition 17...........................: 1 element(s).
+Partition 18...........................: 1 element(s).
+Partition 19...........................: 1 element(s).
+Partition 20...........................: 3 element(s).
+Partition 21...........................: 1 element(s).
+Partition 22...........................: 3 element(s).
+Partition 23...........................: 1 element(s).
+Partition 24...........................: 1 element(s).
+Partition 25...........................: 1 element(s).
+Partition 26...........................: 1 element(s).
+Partition 27...........................: 1 element(s).
+****
+
+* New NH model - LogL..................: -19412.4
+               - df....................: 90
+               - LRT p-value...........: 0.874632
+               - AIC...................: 39004.7
+               - BIC...................: 39563.7
+Current threshold......................: 0.283312
+Number of real partitions..............: 31
+Partition 1............................: 1 element(s).
+Partition 2............................: 1 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 1 element(s).
+Partition 5............................: 1 element(s).
+Partition 6............................: 1 element(s).
+Partition 7............................: 1 element(s).
+Partition 8............................: 10 element(s).
+Partition 9............................: 1 element(s).
+Partition 10...........................: 2 element(s).
+Partition 11...........................: 1 element(s).
+Partition 12...........................: 1 element(s).
+Partition 13...........................: 1 element(s).
+Partition 14...........................: 3 element(s).
+Partition 15...........................: 1 element(s).
+Partition 16...........................: 1 element(s).
+Partition 17...........................: 1 element(s).
+Partition 18...........................: 1 element(s).
+Partition 19...........................: 3 element(s).
+Partition 20...........................: 1 element(s).
+Partition 21...........................: 3 element(s).
+Partition 22...........................: 1 element(s).
+Partition 23...........................: 1 element(s).
+Partition 24...........................: 1 element(s).
+Partition 25...........................: 1 element(s).
+Partition 26...........................: 1 element(s).
+Partition 27...........................: 1 element(s).
+Partition 28...........................: 1 element(s).
+Partition 29...........................: 1 element(s).
+Partition 30...........................: 1 element(s).
+Partition 31...........................: 7 element(s).
+********
+
+* New NH model - LogL..................: -19411.1
+               - df....................: 94
+               - LRT p-value...........: 0.640613
+               - AIC...................: 39010.2
+               - BIC...................: 39594
+Current threshold......................: 0.296713
+Number of real partitions..............: 32
+Partition 1............................: 1 element(s).
+Partition 2............................: 1 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 1 element(s).
+Partition 5............................: 1 element(s).
+Partition 6............................: 1 element(s).
+Partition 7............................: 1 element(s).
+Partition 8............................: 1 element(s).
+Partition 9............................: 2 element(s).
+Partition 10...........................: 1 element(s).
+Partition 11...........................: 1 element(s).
+Partition 12...........................: 1 element(s).
+Partition 13...........................: 3 element(s).
+Partition 14...........................: 1 element(s).
+Partition 15...........................: 1 element(s).
+Partition 16...........................: 1 element(s).
+Partition 17...........................: 1 element(s).
+Partition 18...........................: 3 element(s).
+Partition 19...........................: 1 element(s).
+Partition 20...........................: 3 element(s).
+Partition 21...........................: 1 element(s).
+Partition 22...........................: 1 element(s).
+Partition 23...........................: 1 element(s).
+Partition 24...........................: 1 element(s).
+Partition 25...........................: 1 element(s).
+Partition 26...........................: 1 element(s).
+Partition 27...........................: 1 element(s).
+Partition 28...........................: 1 element(s).
+Partition 29...........................: 1 element(s).
+Partition 30...........................: 7 element(s).
+Partition 31...........................: 9 element(s).
+Partition 32...........................: 1 element(s).
+*******
+
+* New NH model - LogL..................: -19410.5
+               - df....................: 95
+               - LRT p-value...........: 0.273235
+               - AIC...................: 39011
+               - BIC...................: 39601.1
+Current threshold......................: 0.353509
+Number of real partitions..............: 35
+Partition 1............................: 1 element(s).
+Partition 2............................: 1 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 1 element(s).
+Partition 5............................: 1 element(s).
+Partition 6............................: 1 element(s).
+Partition 7............................: 1 element(s).
+Partition 8............................: 1 element(s).
+Partition 9............................: 2 element(s).
+Partition 10...........................: 1 element(s).
+Partition 11...........................: 1 element(s).
+Partition 12...........................: 1 element(s).
+Partition 13...........................: 3 element(s).
+Partition 14...........................: 1 element(s).
+Partition 15...........................: 1 element(s).
+Partition 16...........................: 1 element(s).
+Partition 17...........................: 1 element(s).
+Partition 18...........................: 3 element(s).
+Partition 19...........................: 1 element(s).
+Partition 20...........................: 3 element(s).
+Partition 21...........................: 1 element(s).
+Partition 22...........................: 1 element(s).
+Partition 23...........................: 1 element(s).
+Partition 24...........................: 1 element(s).
+Partition 25...........................: 1 element(s).
+Partition 26...........................: 1 element(s).
+Partition 27...........................: 1 element(s).
+Partition 28...........................: 1 element(s).
+Partition 29...........................: 1 element(s).
+Partition 30...........................: 7 element(s).
+Partition 31...........................: 1 element(s).
+Partition 32...........................: 1 element(s).
+Partition 33...........................: 3 element(s).
+Partition 34...........................: 4 element(s).
+Partition 35...........................: 1 element(s).
+*****
+
+* New NH model - LogL..................: -19409.8
+               - df....................: 98
+               - LRT p-value...........: 0.683456
+               - AIC...................: 39015.5
+               - BIC...................: 39624.2
+Current threshold......................: 0.479398
+Number of real partitions..............: 36
+Partition 1............................: 1 element(s).
+Partition 2............................: 1 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 1 element(s).
+Partition 5............................: 1 element(s).
+Partition 6............................: 1 element(s).
+Partition 7............................: 1 element(s).
+Partition 8............................: 1 element(s).
+Partition 9............................: 2 element(s).
+Partition 10...........................: 1 element(s).
+Partition 11...........................: 1 element(s).
+Partition 12...........................: 1 element(s).
+Partition 13...........................: 1 element(s).
+Partition 14...........................: 1 element(s).
+Partition 15...........................: 1 element(s).
+Partition 16...........................: 1 element(s).
+Partition 17...........................: 3 element(s).
+Partition 18...........................: 1 element(s).
+Partition 19...........................: 3 element(s).
+Partition 20...........................: 1 element(s).
+Partition 21...........................: 1 element(s).
+Partition 22...........................: 1 element(s).
+Partition 23...........................: 1 element(s).
+Partition 24...........................: 1 element(s).
+Partition 25...........................: 1 element(s).
+Partition 26...........................: 1 element(s).
+Partition 27...........................: 1 element(s).
+Partition 28...........................: 1 element(s).
+Partition 29...........................: 7 element(s).
+Partition 30...........................: 1 element(s).
+Partition 31...........................: 1 element(s).
+Partition 32...........................: 3 element(s).
+Partition 33...........................: 4 element(s).
+Partition 34...........................: 1 element(s).
+Partition 35...........................: 2 element(s).
+Partition 36...........................: 1 element(s).
+*******
+
+* New NH model - LogL..................: -19409.5
+               - df....................: 99
+               - LRT p-value...........: 0.493025
+               - AIC...................: 39017
+               - BIC...................: 39631.9
+Current threshold......................: 0.574956
+Number of real partitions..............: 37
+Partition 1............................: 1 element(s).
+Partition 2............................: 1 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 1 element(s).
+Partition 5............................: 1 element(s).
+Partition 6............................: 1 element(s).
+Partition 7............................: 1 element(s).
+Partition 8............................: 1 element(s).
+Partition 9............................: 2 element(s).
+Partition 10...........................: 1 element(s).
+Partition 11...........................: 1 element(s).
+Partition 12...........................: 1 element(s).
+Partition 13...........................: 1 element(s).
+Partition 14...........................: 1 element(s).
+Partition 15...........................: 1 element(s).
+Partition 16...........................: 1 element(s).
+Partition 17...........................: 1 element(s).
+Partition 18...........................: 3 element(s).
+Partition 19...........................: 1 element(s).
+Partition 20...........................: 1 element(s).
+Partition 21...........................: 1 element(s).
+Partition 22...........................: 1 element(s).
+Partition 23...........................: 1 element(s).
+Partition 24...........................: 1 element(s).
+Partition 25...........................: 1 element(s).
+Partition 26...........................: 1 element(s).
+Partition 27...........................: 1 element(s).
+Partition 28...........................: 7 element(s).
+Partition 29...........................: 1 element(s).
+Partition 30...........................: 1 element(s).
+Partition 31...........................: 3 element(s).
+Partition 32...........................: 4 element(s).
+Partition 33...........................: 1 element(s).
+Partition 34...........................: 2 element(s).
+Partition 35...........................: 1 element(s).
+Partition 36...........................: 1 element(s).
+Partition 37...........................: 2 element(s).
+******
+
+* New NH model - LogL..................: -19409.3
+               - df....................: 100
+               - LRT p-value...........: 0.544765
+               - AIC...................: 39018.7
+               - BIC...................: 39639.8
+Model description output to file.......: PalandAndLynch28.model_join_AIC.bpp
+Output parameter table to..............: PalandAndLynch28.ml_nh_join_AIC.parameters.csv
+Output partitions record to............: PalandAndLynch28.partitions_record_join_AIC.txt
+Wrote tree to file ....................: PalandAndLynch28.ml_nh_join_AIC.nhx
+Partitions output to file..............: PalandAndLynch28.partitions_join_AIC.dnd
+PartNH's done. Bye.
+Total execution time: 0.000000d, 2.000000h, 41.000000m, 42.000000s.
