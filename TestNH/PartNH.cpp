@@ -491,6 +491,7 @@ int main(int args, char ** argv)
     SubstitutionModelSet* bestModelSet = 0;
     DiscreteDistribution* bestRDist = 0;
     TreeTemplate<Node>*   bestTree = 0;
+    double bestLogL = logL;
     double bestAic = aic;
     double bestBic = bic;
     int previousBest = -1;
@@ -621,6 +622,7 @@ int main(int args, char ** argv)
         bestRDist    = newRDist->clone();
         bestTree     = newTree->clone();
         bestGroups   = newGroups;
+        bestLogL     = newLogL;
       }
 
       //Moving forward:
@@ -651,9 +653,9 @@ int main(int args, char ** argv)
     ApplicationTools::displayResult("Model description output to file", modelPath);
     //We have to distinguish two cases...
     if (bestModelSet) {
-      outputNHModel(modelPath, -drtl->getValue(), bestModelSet, bestRDist);
+      outputNHModel(modelPath, bestLogL, bestModelSet, bestRDist);
     } else {
-      outputHModel(modelPath, -drtl->getValue(), model, rDist);
+      outputHModel(modelPath, bestLogL, model, rDist);
     }
 
     //Write parameter estimates per node:
