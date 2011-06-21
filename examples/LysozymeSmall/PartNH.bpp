@@ -23,7 +23,7 @@ output.partitions.file = Partitions.dnd
 partition.method = auto
 partition.test = BIC #Can be one of LRT, BIC or AIC.
 partition.test.threshold = 0.01 #If LRT is used.
-partition.test.stop_first = yes 
+partition.test.stop_condition = 10 
 
 alphabet = Codon(letter=DNA, type=Standard)
 input.sequence.file = $(DATA).fasta
@@ -32,20 +32,18 @@ input.sequence.sites_to_use = complete
 # Remove stop codons
 input.sequence.remove_stop_codons = yes
 
-param = lysozymeSmall.ml_h.params.bpp
+model = YN98(genetic_code=Standard, frequencies=F3X4, omega=0.5, kappa=2, useObservedFreqs=yes)
 rate_distribution = Uniform #Gamma(n=4, alpha=0.5)
 nonhomogeneous.stationarity = yes
 nonhomogeneous.shared_parameters = YN98.kappa, YN98.freq* 
 
 #How to optimize parameters when fitting models:
-optimize = FullD(derivatives=Newton)
 optimization.reparametrization = no
 optimization.verbose = 1
 optimization.max_number_f_eval = 1000
 optimization.tolerance = 0.000001
-optimization.profiler = $(DATA).profile
-optimization.message_handler = $(DATA).messages
-optimization.final = none
+optimization.profiler = $(DATA).$(METHOD).profile
+optimization.message_handler = $(DATA).$(METHOD).message
 optimization.ignore_parameter = YN98.freq*
 
 #Where to write optimal model (for later use with bppSeqGen or bppAncestor for instance):

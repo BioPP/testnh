@@ -22,16 +22,12 @@ Output counts of type 2 to file........: CountsTree2.dnd
 Perform branch clustering..............: yes
 Cluster only neighbor nodes............: yes
 Allow len < 0 in clustering............: no
-Auto-clustering........................: Marginal
+Auto-clustering........................: Global
 Auto-clutering threshold...............: 1
-[Automatically cluster node.............: 0 with 2
-=====Automatically cluster node.............: 5 with 7
-=Automatically cluster node.............: 6 with 7
-===Automatically cluster node.............: 9 with 10
-=============================]Done.
+[======================================]Done.
 [>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>]Done.
 P-value at root node...................: 0.00711646
-Number of tests performed..............: 35
+Number of tests performed..............: 42
 Output cluster tree to.................: lysozymeLarge.cluster_join.dnd
 MapNH's done. Bye.
-Total execution time: 0.000000d, 0.000000h, 0.000000m, 2.000000s.
+Total execution time: 0.000000d, 0.000000h, 0.000000m, 16.000000s.
