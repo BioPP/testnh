@@ -2,8 +2,8 @@
 
 ########################################
 # Profiling:
-free.aic<-read.table("MantellidDataset.model_free_BIC.log.txt", header=TRUE, sep="\t")
-join.aic<-read.table("PalandAndLynch28.model_join_AIC.log.txt", header=TRUE, sep="\t")
+free.aic<-read.table("MantellidDataset.model_free_AIC.log.txt", header=TRUE, sep="\t")
+join.aic<-read.table("MantellidDataset.model_join_AIC.log.txt", header=TRUE, sep="\t")
 
 
 read.profile<-function(file) {
@@ -30,14 +30,14 @@ read.profile<-function(file) {
   return(prf[order(prf$Time),])
 }
 
-free.aic.prf<-read.profile("PalandAndLynch28.free_AIC.profile")
-join.aic.prf<-read.profile("PalandAndLynch28.join_AIC.profile")
+free.aic.prf<-read.profile("MantellidDataset.free_AIC.profile")
+join.aic.prf<-read.profile("MantellidDataset.join_AIC.profile")
 
 #Read partition tables:
-brlen<-read.table("PalandAndLynch28.ml_h.rooted.brlen.txt", sep="\t", header=TRUE, row.names="Id")
+brlen<-read.table("MantellidDataset.ml_h.rooted.brlen.txt", sep="\t", header=TRUE, row.names="Id")
 
-free.aic.tbl<-read.table("PalandAndLynch28.partitions_record_free_AIC.txt", sep="\t")
-join.aic.tbl<-read.table("PalandAndLynch28.partitions_record_join_AIC.txt", sep="\t")
+free.aic.tbl<-read.table("MantellidDataset.partitions_record_free_AIC.txt", sep="\t")
+join.aic.tbl<-read.table("MantellidDataset.partitions_record_join_AIC.txt", sep="\t")
 
 
 plot.profile<-function(prf, iterations, omegas, brlen, tbl, ics) {
