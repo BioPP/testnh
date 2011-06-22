@@ -15,7 +15,7 @@ Remove Stop Codons.....................: yes
 Number of sequences....................: 7
 Number of sites........................: 130
 Tree file..............................: lysozymeSmall.ml_h.dnd
-Number of leaves.......................: 7
+Number of leaves.......................: 6
 Saturation threshold used..............: 3
 Output counts of type 1 to file........: CountsTree1.dnd
 Output counts of type 2 to file........: CountsTree2.dnd
@@ -26,8 +26,8 @@ Auto-clustering........................: Global
 Auto-clutering threshold...............: 1
 [======================================]Done.
 [>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>]Done.
-P-value at root node...................: 0.00711646
-Number of tests performed..............: 42
-Output cluster tree to.................: lysozymeLarge.cluster_join.dnd
+P-value at root node...................: 0.0242601
+Number of tests performed..............: 27
+Output cluster tree to.................: lysozymeSmall.cluster_join.dnd
 MapNH's done. Bye.
-Total execution time: 0.000000d, 0.000000h, 0.000000m, 16.000000s.
+Total execution time: 0.000000d, 0.000000h, 0.000000m, 2.000000s.
