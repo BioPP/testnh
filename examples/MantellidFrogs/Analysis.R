@@ -34,7 +34,7 @@ free.aic.prf<-read.profile("MantellidDataset.free_AIC.profile")
 join.aic.prf<-read.profile("MantellidDataset.join_AIC.profile")
 
 #Read partition tables:
-brlen<-read.table("MantellidDataset.ml_h.rooted.brlen.txt", sep="\t", header=TRUE, row.names="Id")
+brlen<-read.table("MantellidDataset.ml_h.brlen.txt", sep="\t", header=TRUE, row.names="Id")
 
 free.aic.tbl<-read.table("MantellidDataset.partitions_record_free_AIC.txt", sep="\t")
 join.aic.tbl<-read.table("MantellidDataset.partitions_record_join_AIC.txt", sep="\t")
@@ -46,7 +46,7 @@ plot.profile<-function(prf, iterations, omegas, brlen, tbl, ics) {
   par(mar=c(0,4.1,0.1,4.1), xaxt="n", bg="white")
   prf<-subset(prf, Iter %in% iterations)
   plot.new()
-  plot.window(xlim=range(prf$Time), ylim=c(0,1.1))
+  plot.window(xlim=range(prf$Time), ylim=c(0,0.4))
   axis(2)
   mtext(expression(omega), 2, 3)
   totwd<-NA
@@ -58,10 +58,10 @@ plot.profile<-function(prf, iterations, omegas, brlen, tbl, ics) {
     time<-prf[prf$Iter == it, "Time"]
     rect(time[1], -0.5, time[length(time)], 1.5, col=bgcol[it], border=NA)
     for (omega in omegas) {
-      lines(prf[prf$Iter == it, paste("YN98.omega", omega, sep="_")]~time, lwd=ifelse(is.null(tbl), 1, 1+totalLength[as.character(omega)]*50))
+      lines(prf[prf$Iter == it, paste("YN98.omega", omega, sep="_")]~time, lwd=ifelse(is.null(tbl), 1, 1+totalLength[as.character(omega)]*0.5))
     }
     if (it == 2) {
-      totwd<-ifelse(is.null(tbl), 1, 1+totalLength[as.character(omegas[1])]*50)
+      totwd<-ifelse(is.null(tbl), 1, 1+totalLength[as.character(omegas[1])]*0.5)
     }
     #abline(v=time[1], lty="dotted")
     text(x=mean(time), y=1.1, as.character(it))
@@ -122,10 +122,10 @@ plot.profile<-function(prf, iterations, omegas, brlen, tbl, ics) {
   mtext(side=4, "BIC", col="black", line=3)
 }
 
-plot.profile(free.aic.prf, 1:15, 1:17, brlen, free.aic.tbl, free.aic)
-dev.print(tiff, file="Figures/FreePL.tif", width=1000, height=500)
+plot.profile(free.aic.prf, 1:20, 1:21, brlen, free.aic.tbl, free.aic)
+dev.print(tiff, file="Figures/FreeMantellid.tif", width=1000, height=500)
 
-plot.profile(join.aic.prf, 1:18, 1:37, brlen, join.aic.tbl, join.aic)
-dev.print(tiff, file="Figures/JoinPL.tif", width=1000, height=500)
+plot.profile(join.aic.prf, 1:22, 1:31, brlen, join.aic.tbl, join.aic)
+dev.print(tiff, file="Figures/JoinMantellid.tif", width=1000, height=500)
 
 
