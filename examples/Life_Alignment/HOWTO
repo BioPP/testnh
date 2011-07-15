@@ -23,11 +23,9 @@
 
      We try to cluster nodes freely:
      mapnh param=MapNH.bpp "map.type=GC(stationarity=no)" test.branch.neighbor=no output.cluster_tree.file=Life_Alignment.cluster_equilibrium_free.dnd
-     mapnh param=MapNH.bpp "map.type=GC(stationarity=yes)" test.branch.neighbor=no output.cluster_tree.file=Life_Alignment.cluster_free.dnd
 
      And also adding the constraint to cluster only adjacent nodes:
      mapnh param=MapNH.bpp "map.type=GC(stationarity=no)" test.branch.neighbor=yes output.cluster_tree.file=Life_Alignment.cluster_equilibrium_join.dnd
-     mapnh param=MapNH.bpp "map.type=GC(stationarity=yes)" test.branch.neighbor=yes output.cluster_tree.file=Life_Alignment.cluster_join.dnd
 
      This will first create a tree in Nhx format, identical to the input one, but with
      nodes ID. It then creates a cluster tree in Newick format, with leaves being nodes ID.
@@ -39,50 +37,22 @@
      partnh param=PartNH.bpp --noninteractive=yes \
             input.cluster_tree.file=Life_Alignment.cluster_equilibrium_free.dnd\
             partition.test=BIC\
-            optimization.profiler=Life_Alignment.free_BIC.profile\
-            optimization.message_handler=Life_Alignment.free_BIC.message\
-            output.partitions.file=Life_Alignment.partitions_free_BIC.dnd\
-            output.partitions.record=Life_Alignment.partitions_record_free_BIC.txt\
-            output.model.file=Life_Alignment.model_free_BIC.bpp\
-            output.log.file=Life_Alignment.model_free_BIC.log.txt\
-            output.tree.file=Life_Alignment.ml_nh_free_BIC.nhx\
-            output.parameters.file=Life_Alignment.ml_nh_free_BIC.parameters.csv > partnh_free_BIC.out &
+            METHOD=free_BIC > partnh_free_BIC.out &
 
      partnh param=PartNH.bpp --noninteractive=yes \
             input.cluster_tree.file=Life_Alignment.cluster_equilibrium_join.dnd\
             partition.test=BIC\
-            optimization.profiler=Life_Alignment.join_BIC.profile\
-            optimization.message_handler=Life_Alignment.join_BIC.message\
-            output.partitions.file=Life_Alignment.partitions_join_BIC.dnd\
-            output.partitions.record=Life_Alignment.partitions_record_join_BIC.txt\
-            output.model.file=Life_Alignment.model_join_BIC.bpp\
-            output.log.file=Life_Alignment.model_join_BIC.log.txt\
-            output.tree.file=Life_Alignment.ml_nh_join_BIC.nhx\
-            output.parameters.file=Life_Alignment.ml_nh_join_BIC.parameters.csv > partnh_join_BIC.out &
+            METHOD=join_BIC > partnh_join_BIC.out &
 
      partnh param=PartNH.bpp --noninteractive=yes \
             input.cluster_tree.file=Life_Alignment.cluster_equilibrium_free.dnd\
             partition.test=AIC\
-            optimization.profiler=Life_Alignment.free_AIC.profile\
-            optimization.message_handler=Life_Alignment.free_AIC.message\
-            output.partitions.file=Life_Alignment.partitions_free_AIC.dnd\
-            output.partitions.record=Life_Alignment.partitions_record_free_AIC.txt\
-            output.model.file=Life_Alignment.model_free_AIC.bpp\
-            output.log.file=Life_Alignment.model_free_AIC.log.txt\
-            output.tree.file=Life_Alignment.ml_nh_free_AIC.nhx\
-            output.parameters.file=Life_Alignment.ml_nh_free_AIC.parameters.csv > partnh_free_AIC.out &
+            METHOD=free_AIC > partnh_free_AIC.out &
 
      partnh param=PartNH.bpp --noninteractive=yes \
             input.cluster_tree.file=Life_Alignment.cluster_equilibrium_join.dnd\
             partition.test=AIC\
-            optimization.profiler=Life_Alignment.join_AIC.profile\
-            optimization.message_handler=Life_Alignment.join_AIC.message\
-            output.partitions.file=Life_Alignment.partitions_join_AIC.dnd\
-            output.partitions.record=Life_Alignment.partitions_record_join_AIC.txt\
-            output.model.file=Life_Alignment.model_join_AIC.bpp\
-            output.log.file=Life_Alignment.model_join_AIC.log.txt\
-            output.tree.file=Life_Alignment.ml_nh_join_AIC.nhx\
-            output.parameters.file=Life_Alignment.ml_nh_join_AIC.parameters.csv > partnh_join_AIC.out &
+            METHOD=join_AIC > partnh_join_AIC.out &
 
 3) Test if the resulting non-homogeneous models take into account the underlying non-homogeneity,
    using the Bowker test against the alternative hypothesis (see Dutheil and Boussau 2008):

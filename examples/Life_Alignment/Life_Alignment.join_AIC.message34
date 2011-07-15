@@ -1,545 +1,1484 @@
 !!! Second order derivative is negative for parameter BrLen14(1e-06). No move performed.
-Constraint match at parameter BrLen14, badValue = -0.860785 [ 1e-06, +inf] 
+Constraint match at parameter BrLen14, badValue = -0.860881 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen15(1e-06). No move performed.
-Constraint match at parameter BrLen15, badValue = -0.860785 [ 1e-06, +inf] 
+Constraint match at parameter BrLen15, badValue = -0.860881 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen16(1e-06). No move performed.
-Constraint match at parameter BrLen16, badValue = -0.862867 [ 1e-06, +inf] 
-Constraint match at parameter BrLen21, badValue = -0.002285 [ 1e-06, +inf] 
-Constraint match at parameter BrLen32, badValue = -0.248618 [ 1e-06, +inf] 
+Constraint match at parameter BrLen16, badValue = -0.862962 [ 1e-06, +inf] 
+Constraint match at parameter BrLen21, badValue = -0.002244 [ 1e-06, +inf] 
+Constraint match at parameter BrLen32, badValue = -0.248582 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen47(1e-06). No move performed.
-Constraint match at parameter BrLen47, badValue = -1.040951 [ 1e-06, +inf] 
+Constraint match at parameter BrLen47, badValue = -1.040996 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen48(1e-06). No move performed.
-Constraint match at parameter BrLen48, badValue = -1.040951 [ 1e-06, +inf] 
-Constraint match at parameter BrLen79, badValue = -0.071305 [ 1e-06, +inf] 
+Constraint match at parameter BrLen48, badValue = -1.040996 [ 1e-06, +inf] 
+Constraint match at parameter BrLen79, badValue = -0.071319 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen116(1e-06). No move performed.
-Constraint match at parameter BrLen116, badValue = -1.020706 [ 1e-06, +inf] 
+Constraint match at parameter BrLen116, badValue = -1.020744 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen126(1e-06). No move performed.
-Constraint match at parameter BrLen126, badValue = -1.024451 [ 1e-06, +inf] 
-Constraint match at parameter BrLen129, badValue = -0.005086 [ 1e-06, +inf] 
-Constraint match at parameter BrLen155, badValue = -0.001812 [ 1e-06, +inf] 
+Constraint match at parameter BrLen126, badValue = -1.024497 [ 1e-06, +inf] 
+Constraint match at parameter BrLen129, badValue = -0.005087 [ 1e-06, +inf] 
+Constraint match at parameter BrLen155, badValue = -0.001814 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen162(1e-06). No move performed.
-Constraint match at parameter BrLen162, badValue = -1.037575 [ 1e-06, +inf] 
+Constraint match at parameter BrLen162, badValue = -1.037622 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen163(1e-06). No move performed.
-Constraint match at parameter BrLen163, badValue = -1.037575 [ 1e-06, +inf] 
-Constraint match at parameter BrLen172, badValue = -0.007728 [ 1e-06, +inf] 
-Constraint match at parameter BrLen180, badValue = -0.025947 [ 1e-06, +inf] 
-Constraint match at parameter T92.theta_8, badValue = 1.102989 ]0, 1[
-Constraint match at parameter T92.theta_11, badValue = -0.017605 ]0, 1[
-Constraint match at parameter T92.theta_17, badValue = -0.042328 ]0, 1[
-Constraint match at parameter T92.theta_20, badValue = -0.037635 ]0, 1[
-Constraint match at parameter T92.theta_27, badValue = 1.031658 ]0, 1[
-Constraint match at parameter T92.theta_28, badValue = -0.031224 ]0, 1[
-Constraint match at parameter T92.theta_46, badValue = -0.015859 ]0, 1[
-Constraint match at parameter T92.theta_50, badValue = 1.025871 ]0, 1[
-Constraint match at parameter T92.theta_51, badValue = 1.029779 ]0, 1[
-!!! Second order derivative is negative for parameter T92.theta_52(0.274637). No move performed.
-Constraint match at parameter T92.theta_53, badValue = -0.034772 ]0, 1[
-Constraint match at parameter T92.theta_54, badValue = 1.029155 ]0, 1[
-Constraint match at parameter T92.theta_61, badValue = -0.008857 ]0, 1[
+Constraint match at parameter BrLen163, badValue = -1.037622 [ 1e-06, +inf] 
+Constraint match at parameter BrLen172, badValue = -0.007729 [ 1e-06, +inf] 
+Constraint match at parameter BrLen180, badValue = -0.025981 [ 1e-06, +inf] 
+Constraint match at parameter T92.theta_8, badValue = 1.102913 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_11, badValue = -0.017583 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_17, badValue = -0.042318 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_22, badValue = -0.037621 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_27, badValue = 1.031638 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_29, badValue = -0.031208 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_45, badValue = -0.015851 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_50, badValue = 1.025846 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_51, badValue = 1.029760 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_53, badValue = -0.034755 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_54, badValue = 1.029132 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_63, badValue = -0.008845 ]1e-06, 0.999999[
 !!! Second order derivative is negative for parameter BrLen14(1e-06). No move performed.
-Constraint match at parameter BrLen14, badValue = -0.851172 [ 1e-06, +inf] 
+Constraint match at parameter BrLen14, badValue = -0.851237 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen15(1e-06). No move performed.
-Constraint match at parameter BrLen15, badValue = -0.851172 [ 1e-06, +inf] 
+Constraint match at parameter BrLen15, badValue = -0.851237 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen16(1e-06). No move performed.
-Constraint match at parameter BrLen16, badValue = -0.852251 [ 1e-06, +inf] 
-Constraint match at parameter BrLen21, badValue = -0.002016 [ 1e-06, +inf] 
-Constraint match at parameter BrLen32, badValue = -0.253552 [ 1e-06, +inf] 
+Constraint match at parameter BrLen16, badValue = -0.852311 [ 1e-06, +inf] 
+Constraint match at parameter BrLen21, badValue = -0.001986 [ 1e-06, +inf] 
+Constraint match at parameter BrLen32, badValue = -0.253479 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen47(1e-06). No move performed.
-Constraint match at parameter BrLen47, badValue = -1.026988 [ 1e-06, +inf] 
+Constraint match at parameter BrLen47, badValue = -1.027059 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen48(1e-06). No move performed.
-Constraint match at parameter BrLen48, badValue = -1.026988 [ 1e-06, +inf] 
-Constraint match at parameter BrLen79, badValue = -0.071842 [ 1e-06, +inf] 
+Constraint match at parameter BrLen48, badValue = -1.027059 [ 1e-06, +inf] 
+Constraint match at parameter BrLen79, badValue = -0.071839 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen116(1e-06). No move performed.
-Constraint match at parameter BrLen116, badValue = -1.005647 [ 1e-06, +inf] 
+Constraint match at parameter BrLen116, badValue = -1.005709 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen126(1e-06). No move performed.
-Constraint match at parameter BrLen126, badValue = -1.010588 [ 1e-06, +inf] 
-Constraint match at parameter BrLen129, badValue = -0.003578 [ 1e-06, +inf] 
+Constraint match at parameter BrLen126, badValue = -1.010666 [ 1e-06, +inf] 
+Constraint match at parameter BrLen129, badValue = -0.004577 [ 1e-06, +inf] 
 Constraint match at parameter BrLen155, badValue = -0.002100 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen162(1e-06). No move performed.
-Constraint match at parameter BrLen162, badValue = -1.023645 [ 1e-06, +inf] 
+Constraint match at parameter BrLen162, badValue = -1.023703 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen163(1e-06). No move performed.
-Constraint match at parameter BrLen163, badValue = -1.023645 [ 1e-06, +inf] 
+Constraint match at parameter BrLen163, badValue = -1.023703 [ 1e-06, +inf] 
 Constraint match at parameter BrLen172, badValue = -0.007709 [ 1e-06, +inf] 
-Constraint match at parameter BrLen180, badValue = -0.026868 [ 1e-06, +inf] 
-Constraint match at parameter T92.theta_8, badValue = 1.075581 ]0, 1[
-Constraint match at parameter T92.theta_11, badValue = -0.007049 ]0, 1[
-Constraint match at parameter T92.theta_17, badValue = -0.028629 ]0, 1[
-Constraint match at parameter T92.theta_20, badValue = -0.024900 ]0, 1[
-Constraint match at parameter T92.theta_27, badValue = 1.020266 ]0, 1[
-Constraint match at parameter T92.theta_28, badValue = -0.019574 ]0, 1[
-Constraint match at parameter T92.theta_46, badValue = -0.007177 ]0, 1[
-Constraint match at parameter T92.theta_50, badValue = 1.014592 ]0, 1[
-Constraint match at parameter T92.theta_51, badValue = 1.018532 ]0, 1[
-Constraint match at parameter T92.theta_53, badValue = -0.022984 ]0, 1[
-Constraint match at parameter T92.theta_54, badValue = 1.017619 ]0, 1[
-Constraint match at parameter T92.theta_61, badValue = -0.000125 ]0, 1[
+Constraint match at parameter BrLen180, badValue = -0.026849 [ 1e-06, +inf] 
+Constraint match at parameter T92.theta_8, badValue = 1.075622 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_11, badValue = -0.007058 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_17, badValue = -0.028647 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_22, badValue = -0.024908 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_27, badValue = 1.020276 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_29, badValue = -0.019582 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_45, badValue = -0.007179 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_50, badValue = 1.014605 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_51, badValue = 1.018547 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_53, badValue = -0.022994 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_54, badValue = 1.017633 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_63, badValue = -0.000105 ]1e-06, 0.999999[
 !!! Second order derivative is negative for parameter BrLen14(1e-06). No move performed.
-Constraint match at parameter BrLen14, badValue = -0.850510 [ 1e-06, +inf] 
+Constraint match at parameter BrLen14, badValue = -0.850602 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen15(1e-06). No move performed.
-Constraint match at parameter BrLen15, badValue = -0.850510 [ 1e-06, +inf] 
+Constraint match at parameter BrLen15, badValue = -0.850602 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen16(1e-06). No move performed.
-Constraint match at parameter BrLen16, badValue = -0.851970 [ 1e-06, +inf] 
-Constraint match at parameter BrLen21, badValue = -0.002081 [ 1e-06, +inf] 
-Constraint match at parameter BrLen32, badValue = -0.254913 [ 1e-06, +inf] 
+Constraint match at parameter BrLen16, badValue = -0.852063 [ 1e-06, +inf] 
+Constraint match at parameter BrLen21, badValue = -0.002043 [ 1e-06, +inf] 
+Constraint match at parameter BrLen32, badValue = -0.254900 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen47(1e-06). No move performed.
-Constraint match at parameter BrLen47, badValue = -1.026703 [ 1e-06, +inf] 
+Constraint match at parameter BrLen47, badValue = -1.026743 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen48(1e-06). No move performed.
-Constraint match at parameter BrLen48, badValue = -1.026703 [ 1e-06, +inf] 
-Constraint match at parameter BrLen79, badValue = -0.072071 [ 1e-06, +inf] 
+Constraint match at parameter BrLen48, badValue = -1.026743 [ 1e-06, +inf] 
+Constraint match at parameter BrLen79, badValue = -0.072087 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen116(1e-06). No move performed.
-Constraint match at parameter BrLen116, badValue = -1.005357 [ 1e-06, +inf] 
+Constraint match at parameter BrLen116, badValue = -1.005395 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen126(1e-06). No move performed.
-Constraint match at parameter BrLen126, badValue = -1.010462 [ 1e-06, +inf] 
-Constraint match at parameter BrLen129, badValue = -0.004966 [ 1e-06, +inf] 
-Constraint match at parameter BrLen155, badValue = -0.001938 [ 1e-06, +inf] 
+Constraint match at parameter BrLen126, badValue = -1.010495 [ 1e-06, +inf] 
+Constraint match at parameter BrLen129, badValue = -0.004796 [ 1e-06, +inf] 
+Constraint match at parameter BrLen155, badValue = -0.001940 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen162(1e-06). No move performed.
-Constraint match at parameter BrLen162, badValue = -1.023321 [ 1e-06, +inf] 
+Constraint match at parameter BrLen162, badValue = -1.023366 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen163(1e-06). No move performed.
-Constraint match at parameter BrLen163, badValue = -1.023321 [ 1e-06, +inf] 
+Constraint match at parameter BrLen163, badValue = -1.023366 [ 1e-06, +inf] 
+Constraint match at parameter BrLen172, badValue = -0.007643 [ 1e-06, +inf] 
+Constraint match at parameter BrLen180, badValue = -0.026249 [ 1e-06, +inf] 
+Constraint match at parameter T92.theta_8, badValue = 1.090900 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_11, badValue = -0.011398 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_17, badValue = -0.034451 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_22, badValue = -0.029551 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_27, badValue = 1.024664 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_29, badValue = -0.024057 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_45, badValue = -0.010492 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_50, badValue = 1.020002 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_51, badValue = 1.022923 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_53, badValue = -0.027356 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_54, badValue = 1.022399 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_63, badValue = -0.004470 ]1e-06, 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). No move performed.
+Constraint match at parameter BrLen14, badValue = -0.849861 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen15(1e-06). No move performed.
+Constraint match at parameter BrLen15, badValue = -0.849861 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). No move performed.
+Constraint match at parameter BrLen16, badValue = -0.851139 [ 1e-06, +inf] 
+Constraint match at parameter BrLen21, badValue = -0.001949 [ 1e-06, +inf] 
+Constraint match at parameter BrLen32, badValue = -0.256052 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). No move performed.
+Constraint match at parameter BrLen47, badValue = -1.025485 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). No move performed.
+Constraint match at parameter BrLen48, badValue = -1.025485 [ 1e-06, +inf] 
+Constraint match at parameter BrLen79, badValue = -0.072124 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). No move performed.
+Constraint match at parameter BrLen116, badValue = -1.004099 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). No move performed.
+Constraint match at parameter BrLen126, badValue = -1.009275 [ 1e-06, +inf] 
+Constraint match at parameter BrLen129, badValue = -0.005039 [ 1e-06, +inf] 
+Constraint match at parameter BrLen155, badValue = -0.002045 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). No move performed.
+Constraint match at parameter BrLen162, badValue = -1.022121 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). No move performed.
+Constraint match at parameter BrLen163, badValue = -1.022121 [ 1e-06, +inf] 
 Constraint match at parameter BrLen172, badValue = -0.007641 [ 1e-06, +inf] 
-Constraint match at parameter BrLen180, badValue = -0.026208 [ 1e-06, +inf] 
-Constraint match at parameter T92.theta_8, badValue = 1.090959 ]0, 1[
-Constraint match at parameter T92.theta_11, badValue = -0.011411 ]0, 1[
-Constraint match at parameter T92.theta_17, badValue = -0.034457 ]0, 1[
-Constraint match at parameter T92.theta_20, badValue = -0.029556 ]0, 1[
-Constraint match at parameter T92.theta_27, badValue = 1.024674 ]0, 1[
-Constraint match at parameter T92.theta_28, badValue = -0.024063 ]0, 1[
-Constraint match at parameter T92.theta_46, badValue = -0.010492 ]0, 1[
-Constraint match at parameter T92.theta_50, badValue = 1.020021 ]0, 1[
-Constraint match at parameter T92.theta_51, badValue = 1.022942 ]0, 1[
-Constraint match at parameter T92.theta_53, badValue = -0.027364 ]0, 1[
-Constraint match at parameter T92.theta_54, badValue = 1.022412 ]0, 1[
-Constraint match at parameter T92.theta_61, badValue = -0.004452 ]0, 1[
+Constraint match at parameter BrLen180, badValue = -0.026927 [ 1e-06, +inf] 
+Constraint match at parameter T92.theta_8, badValue = 1.082854 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_11, badValue = -0.010806 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_17, badValue = -0.032436 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_22, badValue = -0.029141 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_27, badValue = 1.024152 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_29, badValue = -0.023504 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_45, badValue = -0.010624 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_50, badValue = 1.018229 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_51, badValue = 1.022413 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_53, badValue = -0.026841 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_54, badValue = 1.021264 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_63, badValue = -0.003171 ]1e-06, 0.999999[
 !!! Second order derivative is negative for parameter BrLen14(1e-06). No move performed.
-Constraint match at parameter BrLen14, badValue = -0.849826 [ 1e-06, +inf] 
+Constraint match at parameter BrLen14, badValue = -0.849645 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen15(1e-06). No move performed.
-Constraint match at parameter BrLen15, badValue = -0.849826 [ 1e-06, +inf] 
+Constraint match at parameter BrLen15, badValue = -0.849645 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen16(1e-06). No move performed.
-Constraint match at parameter BrLen16, badValue = -0.851111 [ 1e-06, +inf] 
-Constraint match at parameter BrLen21, badValue = -0.001971 [ 1e-06, +inf] 
-Constraint match at parameter BrLen32, badValue = -0.256125 [ 1e-06, +inf] 
+Constraint match at parameter BrLen16, badValue = -0.850932 [ 1e-06, +inf] 
+Constraint match at parameter BrLen21, badValue = -0.002061 [ 1e-06, +inf] 
+Constraint match at parameter BrLen32, badValue = -0.256576 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen47(1e-06). No move performed.
-Constraint match at parameter BrLen47, badValue = -1.025427 [ 1e-06, +inf] 
+Constraint match at parameter BrLen47, badValue = -1.025764 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen48(1e-06). No move performed.
-Constraint match at parameter BrLen48, badValue = -1.025427 [ 1e-06, +inf] 
-Constraint match at parameter BrLen79, badValue = -0.072134 [ 1e-06, +inf] 
+Constraint match at parameter BrLen48, badValue = -1.025764 [ 1e-06, +inf] 
+Constraint match at parameter BrLen79, badValue = -0.072175 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen116(1e-06). No move performed.
-Constraint match at parameter BrLen116, badValue = -1.004048 [ 1e-06, +inf] 
+Constraint match at parameter BrLen116, badValue = -1.004357 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen126(1e-06). No move performed.
-Constraint match at parameter BrLen126, badValue = -1.009215 [ 1e-06, +inf] 
-Constraint match at parameter BrLen129, badValue = -0.005131 [ 1e-06, +inf] 
-Constraint match at parameter BrLen155, badValue = -0.002047 [ 1e-06, +inf] 
+Constraint match at parameter BrLen126, badValue = -1.009554 [ 1e-06, +inf] 
+Constraint match at parameter BrLen129, badValue = -0.005105 [ 1e-06, +inf] 
+Constraint match at parameter BrLen155, badValue = -0.001974 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen162(1e-06). No move performed.
-Constraint match at parameter BrLen162, badValue = -1.022064 [ 1e-06, +inf] 
+Constraint match at parameter BrLen162, badValue = -1.022388 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen163(1e-06). No move performed.
-Constraint match at parameter BrLen163, badValue = -1.022064 [ 1e-06, +inf] 
-Constraint match at parameter BrLen172, badValue = -0.007642 [ 1e-06, +inf] 
-Constraint match at parameter BrLen180, badValue = -0.026962 [ 1e-06, +inf] 
-Constraint match at parameter T92.theta_8, badValue = 1.082800 ]0, 1[
-Constraint match at parameter T92.theta_11, badValue = -0.010796 ]0, 1[
-Constraint match at parameter T92.theta_17, badValue = -0.032423 ]0, 1[
-Constraint match at parameter T92.theta_20, badValue = -0.029134 ]0, 1[
-Constraint match at parameter T92.theta_27, badValue = 1.024143 ]0, 1[
-Constraint match at parameter T92.theta_28, badValue = -0.023499 ]0, 1[
-Constraint match at parameter T92.theta_46, badValue = -0.010627 ]0, 1[
-Constraint match at parameter T92.theta_50, badValue = 1.018213 ]0, 1[
-Constraint match at parameter T92.theta_51, badValue = 1.022404 ]0, 1[
-Constraint match at parameter T92.theta_53, badValue = -0.026837 ]0, 1[
-Constraint match at parameter T92.theta_54, badValue = 1.021249 ]0, 1[
-Constraint match at parameter T92.theta_61, badValue = -0.003197 ]0, 1[
-!!! Second order derivative is negative for parameter BrLen14(1e-06). No move performed.
-Constraint match at parameter BrLen14, badValue = -0.849559 [ 1e-06, +inf] 
-!!! Second order derivative is negative for parameter BrLen15(1e-06). No move performed.
-Constraint match at parameter BrLen15, badValue = -0.849559 [ 1e-06, +inf] 
-!!! Second order derivative is negative for parameter BrLen16(1e-06). No move performed.
-Constraint match at parameter BrLen16, badValue = -0.850841 [ 1e-06, +inf] 
-Constraint match at parameter BrLen21, badValue = -0.002100 [ 1e-06, +inf] 
-Constraint match at parameter BrLen32, badValue = -0.256560 [ 1e-06, +inf] 
-!!! Second order derivative is negative for parameter BrLen47(1e-06). No move performed.
-Constraint match at parameter BrLen47, badValue = -1.025744 [ 1e-06, +inf] 
-!!! Second order derivative is negative for parameter BrLen48(1e-06). No move performed.
-Constraint match at parameter BrLen48, badValue = -1.025744 [ 1e-06, +inf] 
-Constraint match at parameter BrLen79, badValue = -0.072153 [ 1e-06, +inf] 
-!!! Second order derivative is negative for parameter BrLen116(1e-06). No move performed.
-Constraint match at parameter BrLen116, badValue = -1.004337 [ 1e-06, +inf] 
-!!! Second order derivative is negative for parameter BrLen126(1e-06). No move performed.
-Constraint match at parameter BrLen126, badValue = -1.009537 [ 1e-06, +inf] 
-Constraint match at parameter BrLen129, badValue = -0.005125 [ 1e-06, +inf] 
-Constraint match at parameter BrLen155, badValue = -0.001971 [ 1e-06, +inf] 
-!!! Second order derivative is negative for parameter BrLen162(1e-06). No move performed.
-Constraint match at parameter BrLen162, badValue = -1.022365 [ 1e-06, +inf] 
-!!! Second order derivative is negative for parameter BrLen163(1e-06). No move performed.
-Constraint match at parameter BrLen163, badValue = -1.022365 [ 1e-06, +inf] 
-Constraint match at parameter BrLen172, badValue = -0.007633 [ 1e-06, +inf] 
-Constraint match at parameter BrLen180, badValue = -0.026093 [ 1e-06, +inf] 
-Constraint match at parameter T92.theta_8, badValue = 1.087634 ]0, 1[
-Constraint match at parameter T92.theta_11, badValue = -0.011360 ]0, 1[
-Constraint match at parameter T92.theta_17, badValue = -0.033520 ]0, 1[
-Constraint match at parameter T92.theta_20, badValue = -0.029514 ]0, 1[
-Constraint match at parameter T92.theta_27, badValue = 1.024591 ]0, 1[
-Constraint match at parameter T92.theta_28, badValue = -0.023964 ]0, 1[
-Constraint match at parameter T92.theta_46, badValue = -0.010458 ]0, 1[
-Constraint match at parameter T92.theta_50, badValue = 1.019458 ]0, 1[
-Constraint match at parameter T92.theta_51, badValue = 1.022852 ]0, 1[
-Constraint match at parameter T92.theta_53, badValue = -0.027263 ]0, 1[
-Constraint match at parameter T92.theta_54, badValue = 1.022328 ]0, 1[
-Constraint match at parameter T92.theta_61, badValue = -0.004430 ]0, 1[
+Constraint match at parameter BrLen163, badValue = -1.022388 [ 1e-06, +inf] 
+Constraint match at parameter BrLen172, badValue = -0.007634 [ 1e-06, +inf] 
+Constraint match at parameter BrLen180, badValue = -0.026149 [ 1e-06, +inf] 
+Constraint match at parameter T92.theta_8, badValue = 1.087561 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_11, badValue = -0.011342 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_17, badValue = -0.033510 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_22, badValue = -0.029506 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_27, badValue = 1.024577 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_29, badValue = -0.023955 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_45, badValue = -0.010457 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_50, badValue = 1.019434 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_51, badValue = 1.022838 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_53, badValue = -0.027256 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_54, badValue = 1.022307 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_63, badValue = -0.004441 ]1e-06, 0.999999[
 !!! Function at new point is greater than at current point: 13865.3>13865.3. Applying Felsenstein-Churchill correction.
 Name:	Value:	Constraint:
 _________________________________________________
-BrLen0	0.029826	[ 1e-06, +inf] 
-BrLen1	0.029214	[ 1e-06, +inf] 
+BrLen0	0.029843	[ 1e-06, +inf] 
+BrLen1	0.029216	[ 1e-06, +inf] 
 BrLen2	0.000661	[ 1e-06, +inf] 
-BrLen3	0.005135	[ 1e-06, +inf] 
-BrLen4	0.046815	[ 1e-06, +inf] 
-BrLen5	0.051107	[ 1e-06, +inf] 
-BrLen6	0.021677	[ 1e-06, +inf] 
-BrLen7	0.032418	[ 1e-06, +inf] 
-BrLen8	0.021742	[ 1e-06, +inf] 
-BrLen9	0.079516	[ 1e-06, +inf] 
-BrLen10	0.032729	[ 1e-06, +inf] 
-BrLen11	0.158178	[ 1e-06, +inf] 
-BrLen12	0.011768	[ 1e-06, +inf] 
-BrLen13	0.013247	[ 1e-06, +inf] 
+BrLen3	0.004917	[ 1e-06, +inf] 
+BrLen4	0.046872	[ 1e-06, +inf] 
+BrLen5	0.051148	[ 1e-06, +inf] 
+BrLen6	0.021657	[ 1e-06, +inf] 
+BrLen7	0.032422	[ 1e-06, +inf] 
+BrLen8	0.021736	[ 1e-06, +inf] 
+BrLen9	0.079515	[ 1e-06, +inf] 
+BrLen10	0.032727	[ 1e-06, +inf] 
+BrLen11	0.158171	[ 1e-06, +inf] 
+BrLen12	0.011757	[ 1e-06, +inf] 
+BrLen13	0.013248	[ 1e-06, +inf] 
 BrLen14	0.000001	[ 1e-06, +inf] 
 BrLen15	0.000001	[ 1e-06, +inf] 
 BrLen16	0.000001	[ 1e-06, +inf] 
-BrLen17	0.003573	[ 1e-06, +inf] 
+BrLen17	0.003572	[ 1e-06, +inf] 
 BrLen18	0.003518	[ 1e-06, +inf] 
-BrLen19	0.040101	[ 1e-06, +inf] 
-BrLen20	0.059092	[ 1e-06, +inf] 
+BrLen19	0.040100	[ 1e-06, +inf] 
+BrLen20	0.059091	[ 1e-06, +inf] 
 BrLen21	0.000001	[ 1e-06, +inf] 
-BrLen22	0.051842	[ 1e-06, +inf] 
-BrLen23	0.062125	[ 1e-06, +inf] 
-BrLen24	0.039247	[ 1e-06, +inf] 
-BrLen25	0.010263	[ 1e-06, +inf] 
-BrLen26	0.052762	[ 1e-06, +inf] 
-BrLen27	0.028970	[ 1e-06, +inf] 
+BrLen22	0.051845	[ 1e-06, +inf] 
+BrLen23	0.062128	[ 1e-06, +inf] 
+BrLen24	0.039249	[ 1e-06, +inf] 
+BrLen25	0.010264	[ 1e-06, +inf] 
+BrLen26	0.052766	[ 1e-06, +inf] 
+BrLen27	0.028972	[ 1e-06, +inf] 
 BrLen28	0.010406	[ 1e-06, +inf] 
-BrLen29	0.130425	[ 1e-06, +inf] 
-BrLen30	0.030955	[ 1e-06, +inf] 
-BrLen31	0.048811	[ 1e-06, +inf] 
+BrLen29	0.130432	[ 1e-06, +inf] 
+BrLen30	0.030958	[ 1e-06, +inf] 
+BrLen31	0.048816	[ 1e-06, +inf] 
 BrLen32	0.000001	[ 1e-06, +inf] 
-BrLen33	0.209672	[ 1e-06, +inf] 
+BrLen33	0.209685	[ 1e-06, +inf] 
 BrLen34	0.002810	[ 1e-06, +inf] 
-BrLen35	0.042628	[ 1e-06, +inf] 
-BrLen36	0.014670	[ 1e-06, +inf] 
-BrLen37	0.030871	[ 1e-06, +inf] 
+BrLen35	0.042635	[ 1e-06, +inf] 
+BrLen36	0.014671	[ 1e-06, +inf] 
+BrLen37	0.030874	[ 1e-06, +inf] 
 BrLen38	0.003285	[ 1e-06, +inf] 
-BrLen39	0.087664	[ 1e-06, +inf] 
-BrLen40	0.039889	[ 1e-06, +inf] 
-BrLen41	0.009118	[ 1e-06, +inf] 
-BrLen42	0.074285	[ 1e-06, +inf] 
-BrLen43	0.074571	[ 1e-06, +inf] 
-BrLen44	0.098239	[ 1e-06, +inf] 
-BrLen45	0.010780	[ 1e-06, +inf] 
-BrLen46	0.056151	[ 1e-06, +inf] 
+BrLen39	0.087669	[ 1e-06, +inf] 
+BrLen40	0.039886	[ 1e-06, +inf] 
+BrLen41	0.009115	[ 1e-06, +inf] 
+BrLen42	0.074123	[ 1e-06, +inf] 
+BrLen43	0.074576	[ 1e-06, +inf] 
+BrLen44	0.098245	[ 1e-06, +inf] 
+BrLen45	0.010782	[ 1e-06, +inf] 
+BrLen46	0.056158	[ 1e-06, +inf] 
 BrLen47	0.000001	[ 1e-06, +inf] 
 BrLen48	0.000001	[ 1e-06, +inf] 
-BrLen49	0.121091	[ 1e-06, +inf] 
-BrLen50	0.059596	[ 1e-06, +inf] 
-BrLen51	0.064878	[ 1e-06, +inf] 
-BrLen52	0.104609	[ 1e-06, +inf] 
-BrLen53	0.024803	[ 1e-06, +inf] 
-BrLen54	0.116653	[ 1e-06, +inf] 
-BrLen55	0.011685	[ 1e-06, +inf] 
-BrLen56	0.015467	[ 1e-06, +inf] 
-BrLen57	0.049204	[ 1e-06, +inf] 
+BrLen49	0.121099	[ 1e-06, +inf] 
+BrLen50	0.059601	[ 1e-06, +inf] 
+BrLen51	0.064882	[ 1e-06, +inf] 
+BrLen52	0.104617	[ 1e-06, +inf] 
+BrLen53	0.024806	[ 1e-06, +inf] 
+BrLen54	0.116663	[ 1e-06, +inf] 
+BrLen55	0.011686	[ 1e-06, +inf] 
+BrLen56	0.015469	[ 1e-06, +inf] 
+BrLen57	0.049206	[ 1e-06, +inf] 
 BrLen58	0.008211	[ 1e-06, +inf] 
-BrLen59	0.043213	[ 1e-06, +inf] 
+BrLen59	0.043217	[ 1e-06, +inf] 
 BrLen60	0.000262	[ 1e-06, +inf] 
-BrLen61	0.036309	[ 1e-06, +inf] 
-BrLen62	0.012347	[ 1e-06, +inf] 
-BrLen63	0.044982	[ 1e-06, +inf] 
-BrLen64	0.020739	[ 1e-06, +inf] 
-BrLen65	0.043181	[ 1e-06, +inf] 
-BrLen66	0.033449	[ 1e-06, +inf] 
-BrLen67	0.077669	[ 1e-06, +inf] 
-BrLen68	0.020104	[ 1e-06, +inf] 
-BrLen69	0.043970	[ 1e-06, +inf] 
-BrLen70	0.069162	[ 1e-06, +inf] 
-BrLen71	0.035525	[ 1e-06, +inf] 
-BrLen72	0.013967	[ 1e-06, +inf] 
-BrLen73	0.062755	[ 1e-06, +inf] 
-BrLen74	0.070975	[ 1e-06, +inf] 
-BrLen75	0.098503	[ 1e-06, +inf] 
-BrLen76	0.091006	[ 1e-06, +inf] 
-BrLen77	0.025426	[ 1e-06, +inf] 
-BrLen78	0.024524	[ 1e-06, +inf] 
+BrLen61	0.036312	[ 1e-06, +inf] 
+BrLen62	0.012348	[ 1e-06, +inf] 
+BrLen63	0.044985	[ 1e-06, +inf] 
+BrLen64	0.020741	[ 1e-06, +inf] 
+BrLen65	0.043184	[ 1e-06, +inf] 
+BrLen66	0.033452	[ 1e-06, +inf] 
+BrLen67	0.077675	[ 1e-06, +inf] 
+BrLen68	0.020106	[ 1e-06, +inf] 
+BrLen69	0.043973	[ 1e-06, +inf] 
+BrLen70	0.069166	[ 1e-06, +inf] 
+BrLen71	0.035528	[ 1e-06, +inf] 
+BrLen72	0.013968	[ 1e-06, +inf] 
+BrLen73	0.062760	[ 1e-06, +inf] 
+BrLen74	0.070979	[ 1e-06, +inf] 
+BrLen75	0.098510	[ 1e-06, +inf] 
+BrLen76	0.091013	[ 1e-06, +inf] 
+BrLen77	0.025429	[ 1e-06, +inf] 
+BrLen78	0.024526	[ 1e-06, +inf] 
 BrLen79	0.000001	[ 1e-06, +inf] 
-BrLen80	0.059650	[ 1e-06, +inf] 
-BrLen81	0.066932	[ 1e-06, +inf] 
-BrLen82	0.036397	[ 1e-06, +inf] 
-BrLen83	0.010755	[ 1e-06, +inf] 
-BrLen84	0.032204	[ 1e-06, +inf] 
-BrLen85	0.054870	[ 1e-06, +inf] 
-BrLen86	0.119457	[ 1e-06, +inf] 
-BrLen87	0.005101	[ 1e-06, +inf] 
-BrLen88	0.137120	[ 1e-06, +inf] 
-BrLen89	0.031975	[ 1e-06, +inf] 
-BrLen90	0.028676	[ 1e-06, +inf] 
-BrLen91	0.052668	[ 1e-06, +inf] 
-BrLen92	0.038289	[ 1e-06, +inf] 
-BrLen93	0.024091	[ 1e-06, +inf] 
-BrLen94	0.012533	[ 1e-06, +inf] 
-BrLen95	0.021702	[ 1e-06, +inf] 
-BrLen96	0.005099	[ 1e-06, +inf] 
-BrLen97	0.084647	[ 1e-06, +inf] 
-BrLen98	0.019113	[ 1e-06, +inf] 
-BrLen99	0.052612	[ 1e-06, +inf] 
-BrLen100	0.015408	[ 1e-06, +inf] 
-BrLen101	0.003062	[ 1e-06, +inf] 
-BrLen102	0.042744	[ 1e-06, +inf] 
-BrLen103	0.038042	[ 1e-06, +inf] 
-BrLen104	0.078348	[ 1e-06, +inf] 
-BrLen105	0.024784	[ 1e-06, +inf] 
-BrLen106	0.026857	[ 1e-06, +inf] 
-BrLen107	0.025085	[ 1e-06, +inf] 
-BrLen108	0.071117	[ 1e-06, +inf] 
-BrLen109	0.150162	[ 1e-06, +inf] 
-BrLen111	0.096023	[ 1e-06, +inf] 
-BrLen112	0.022161	[ 1e-06, +inf] 
+BrLen80	0.059656	[ 1e-06, +inf] 
+BrLen81	0.066938	[ 1e-06, +inf] 
+BrLen82	0.036401	[ 1e-06, +inf] 
+BrLen83	0.010756	[ 1e-06, +inf] 
+BrLen84	0.032207	[ 1e-06, +inf] 
+BrLen85	0.054875	[ 1e-06, +inf] 
+BrLen86	0.119467	[ 1e-06, +inf] 
+BrLen87	0.005102	[ 1e-06, +inf] 
+BrLen88	0.137129	[ 1e-06, +inf] 
+BrLen89	0.031979	[ 1e-06, +inf] 
+BrLen90	0.028678	[ 1e-06, +inf] 
+BrLen91	0.052671	[ 1e-06, +inf] 
+BrLen92	0.038291	[ 1e-06, +inf] 
+BrLen93	0.024093	[ 1e-06, +inf] 
+BrLen94	0.012534	[ 1e-06, +inf] 
+BrLen95	0.021704	[ 1e-06, +inf] 
+BrLen96	0.005100	[ 1e-06, +inf] 
+BrLen97	0.084654	[ 1e-06, +inf] 
+BrLen98	0.019116	[ 1e-06, +inf] 
+BrLen99	0.052616	[ 1e-06, +inf] 
+BrLen100	0.015409	[ 1e-06, +inf] 
+BrLen101	0.003064	[ 1e-06, +inf] 
+BrLen102	0.042747	[ 1e-06, +inf] 
+BrLen103	0.038045	[ 1e-06, +inf] 
+BrLen104	0.078354	[ 1e-06, +inf] 
+BrLen105	0.024786	[ 1e-06, +inf] 
+BrLen106	0.026862	[ 1e-06, +inf] 
+BrLen107	0.025093	[ 1e-06, +inf] 
+BrLen108	0.071125	[ 1e-06, +inf] 
+BrLen109	0.150255	[ 1e-06, +inf] 
+BrLen111	0.096029	[ 1e-06, +inf] 
+BrLen112	0.022163	[ 1e-06, +inf] 
 BrLen113	0.003213	[ 1e-06, +inf] 
-BrLen114	0.088675	[ 1e-06, +inf] 
+BrLen114	0.088680	[ 1e-06, +inf] 
 BrLen115	0.004406	[ 1e-06, +inf] 
 BrLen116	0.000001	[ 1e-06, +inf] 
-BrLen117	0.083645	[ 1e-06, +inf] 
-BrLen118	0.013064	[ 1e-06, +inf] 
-BrLen119	0.011394	[ 1e-06, +inf] 
-BrLen120	0.030724	[ 1e-06, +inf] 
-BrLen121	0.033451	[ 1e-06, +inf] 
-BrLen122	0.025168	[ 1e-06, +inf] 
+BrLen117	0.083650	[ 1e-06, +inf] 
+BrLen118	0.013065	[ 1e-06, +inf] 
+BrLen119	0.011395	[ 1e-06, +inf] 
+BrLen120	0.030727	[ 1e-06, +inf] 
+BrLen121	0.033453	[ 1e-06, +inf] 
+BrLen122	0.025170	[ 1e-06, +inf] 
 BrLen123	0.003888	[ 1e-06, +inf] 
 BrLen124	0.002625	[ 1e-06, +inf] 
 BrLen125	0.004490	[ 1e-06, +inf] 
 BrLen126	0.000001	[ 1e-06, +inf] 
 BrLen127	0.001720	[ 1e-06, +inf] 
-BrLen128	0.014093	[ 1e-06, +inf] 
+BrLen128	0.014094	[ 1e-06, +inf] 
 BrLen129	0.000001	[ 1e-06, +inf] 
 BrLen130	0.000841	[ 1e-06, +inf] 
 BrLen131	0.000943	[ 1e-06, +inf] 
 BrLen132	0.002325	[ 1e-06, +inf] 
-BrLen133	0.024034	[ 1e-06, +inf] 
-BrLen134	0.011653	[ 1e-06, +inf] 
-BrLen135	0.003588	[ 1e-06, +inf] 
+BrLen133	0.024035	[ 1e-06, +inf] 
+BrLen134	0.011654	[ 1e-06, +inf] 
+BrLen135	0.003590	[ 1e-06, +inf] 
 BrLen136	0.000962	[ 1e-06, +inf] 
 BrLen137	0.013514	[ 1e-06, +inf] 
-BrLen138	0.007777	[ 1e-06, +inf] 
-BrLen139	0.017340	[ 1e-06, +inf] 
-BrLen140	0.010416	[ 1e-06, +inf] 
-BrLen141	0.047597	[ 1e-06, +inf] 
-BrLen142	0.023584	[ 1e-06, +inf] 
-BrLen143	0.009163	[ 1e-06, +inf] 
-BrLen144	0.065405	[ 1e-06, +inf] 
-BrLen145	0.098060	[ 1e-06, +inf] 
-BrLen146	0.015556	[ 1e-06, +inf] 
-BrLen147	0.057398	[ 1e-06, +inf] 
+BrLen138	0.007778	[ 1e-06, +inf] 
+BrLen139	0.017341	[ 1e-06, +inf] 
+BrLen140	0.010417	[ 1e-06, +inf] 
+BrLen141	0.047600	[ 1e-06, +inf] 
+BrLen142	0.023586	[ 1e-06, +inf] 
+BrLen143	0.009164	[ 1e-06, +inf] 
+BrLen144	0.065410	[ 1e-06, +inf] 
+BrLen145	0.098066	[ 1e-06, +inf] 
+BrLen146	0.015558	[ 1e-06, +inf] 
+BrLen147	0.057401	[ 1e-06, +inf] 
 BrLen148	0.005233	[ 1e-06, +inf] 
-BrLen149	0.060187	[ 1e-06, +inf] 
-BrLen150	0.022445	[ 1e-06, +inf] 
-BrLen151	0.004896	[ 1e-06, +inf] 
-BrLen152	0.002049	[ 1e-06, +inf] 
+BrLen149	0.060193	[ 1e-06, +inf] 
+BrLen150	0.022447	[ 1e-06, +inf] 
+BrLen151	0.004897	[ 1e-06, +inf] 
+BrLen152	0.002050	[ 1e-06, +inf] 
 BrLen153	0.002570	[ 1e-06, +inf] 
-BrLen154	0.037914	[ 1e-06, +inf] 
+BrLen154	0.037918	[ 1e-06, +inf] 
 BrLen155	0.000001	[ 1e-06, +inf] 
-BrLen156	0.019003	[ 1e-06, +inf] 
-BrLen157	0.005713	[ 1e-06, +inf] 
-BrLen158	0.089945	[ 1e-06, +inf] 
-BrLen159	0.026849	[ 1e-06, +inf] 
-BrLen160	0.025114	[ 1e-06, +inf] 
-BrLen161	0.009010	[ 1e-06, +inf] 
+BrLen156	0.019006	[ 1e-06, +inf] 
+BrLen157	0.005714	[ 1e-06, +inf] 
+BrLen158	0.089950	[ 1e-06, +inf] 
+BrLen159	0.026850	[ 1e-06, +inf] 
+BrLen160	0.025117	[ 1e-06, +inf] 
+BrLen161	0.009011	[ 1e-06, +inf] 
 BrLen162	0.000001	[ 1e-06, +inf] 
 BrLen163	0.000001	[ 1e-06, +inf] 
-BrLen164	0.003671	[ 1e-06, +inf] 
-BrLen165	0.007109	[ 1e-06, +inf] 
-BrLen166	0.080415	[ 1e-06, +inf] 
-BrLen167	0.030208	[ 1e-06, +inf] 
-BrLen168	0.043465	[ 1e-06, +inf] 
-BrLen169	0.065767	[ 1e-06, +inf] 
-BrLen170	0.273608	[ 1e-06, +inf] 
-BrLen171	0.015429	[ 1e-06, +inf] 
+BrLen164	0.003672	[ 1e-06, +inf] 
+BrLen165	0.007112	[ 1e-06, +inf] 
+BrLen166	0.080422	[ 1e-06, +inf] 
+BrLen167	0.030215	[ 1e-06, +inf] 
+BrLen168	0.043472	[ 1e-06, +inf] 
+BrLen169	0.065773	[ 1e-06, +inf] 
+BrLen170	0.273653	[ 1e-06, +inf] 
+BrLen171	0.015435	[ 1e-06, +inf] 
 BrLen172	0.000001	[ 1e-06, +inf] 
-BrLen173	0.008657	[ 1e-06, +inf] 
-BrLen174	0.131693	[ 1e-06, +inf] 
-BrLen175	0.145671	[ 1e-06, +inf] 
-BrLen176	0.091288	[ 1e-06, +inf] 
-BrLen177	0.022445	[ 1e-06, +inf] 
-BrLen178	0.139639	[ 1e-06, +inf] 
-BrLen179	0.108344	[ 1e-06, +inf] 
+BrLen173	0.008658	[ 1e-06, +inf] 
+BrLen174	0.131703	[ 1e-06, +inf] 
+BrLen175	0.145682	[ 1e-06, +inf] 
+BrLen176	0.091297	[ 1e-06, +inf] 
+BrLen177	0.022452	[ 1e-06, +inf] 
+BrLen178	0.139652	[ 1e-06, +inf] 
+BrLen179	0.108353	[ 1e-06, +inf] 
 BrLen180	0.000001	[ 1e-06, +inf] 
-BrLenRoot	1.464513	[ 1e-06, +inf] 
-RootPosition	0.258931	]0, 1[
-GC.theta	0.463424	[ 0, 1] 
-T92.theta_1	0.487444	]0, 1[
-T92.theta_2	0.806607	]0, 1[
-T92.theta_3	0.699003	]0, 1[
-T92.theta_4	0.476545	]0, 1[
-T92.theta_5	0.904623	]0, 1[
-T92.theta_6	0.664628	]0, 1[
-T92.theta_7	0.178244	]0, 1[
-T92.theta_8	1.000000	]0, 1[
-T92.theta_9	0.374454	]0, 1[
-T92.theta_10	0.606724	]0, 1[
-T92.theta_11	0.000000	]0, 1[
-T92.theta_12	0.634626	]0, 1[
-T92.theta_13	0.580643	]0, 1[
-T92.theta_14	0.484964	]0, 1[
-T92.theta_15	0.772585	]0, 1[
-T92.theta_16	0.272238	]0, 1[
-T92.theta_17	0.000000	]0, 1[
-T92.theta_18	0.649782	]0, 1[
-T92.theta_19	0.372873	]0, 1[
-T92.theta_20	0.000000	]0, 1[
-T92.theta_21	0.475061	]0, 1[
-T92.theta_22	0.495941	]0, 1[
-T92.theta_23	0.446878	]0, 1[
-T92.theta_24	0.245451	]0, 1[
-T92.theta_25	0.434653	]0, 1[
-T92.theta_26	0.820406	]0, 1[
-T92.theta_27	1.000000	]0, 1[
-T92.theta_28	0.000000	]0, 1[
-T92.theta_29	0.499995	]0, 1[
-T92.theta_30	0.501809	]0, 1[
-T92.theta_31	0.707512	]0, 1[
-T92.theta_32	0.753992	]0, 1[
-T92.theta_33	0.456153	]0, 1[
-T92.theta_34	0.486408	]0, 1[
-T92.theta_35	0.613402	]0, 1[
-T92.theta_36	0.750776	]0, 1[
-T92.theta_37	0.320010	]0, 1[
-T92.theta_38	0.375482	]0, 1[
-T92.theta_39	0.791811	]0, 1[
-T92.theta_40	0.604376	]0, 1[
-T92.theta_41	0.475931	]0, 1[
-T92.theta_42	0.590929	]0, 1[
-T92.theta_43	0.593083	]0, 1[
-T92.theta_44	0.527042	]0, 1[
-T92.theta_45	0.527042	]0, 1[
-T92.theta_46	0.000000	]0, 1[
-T92.theta_47	0.572130	]0, 1[
-T92.theta_48	0.101061	]0, 1[
-T92.theta_49	0.664463	]0, 1[
-T92.theta_50	1.000000	]0, 1[
-T92.theta_51	1.000000	]0, 1[
-T92.theta_52	0.274550	]0, 1[
-T92.theta_53	0.000000	]0, 1[
-T92.theta_54	1.000000	]0, 1[
-T92.theta_55	0.471919	]0, 1[
-T92.theta_56	0.844954	]0, 1[
-T92.theta_57	0.588782	]0, 1[
-T92.theta_58	0.689606	]0, 1[
-T92.theta_59	0.366034	]0, 1[
-T92.theta_60	0.669903	]0, 1[
-T92.theta_61	0.000000	]0, 1[
-T92.theta_62	0.142170	]0, 1[
-T92.theta_63	0.694176	]0, 1[
-T92.theta_64	0.497224	]0, 1[
-T92.theta_65	0.646453	]0, 1[
-T92.theta_66	0.821335	]0, 1[
-T92.theta_67	0.795499	]0, 1[
-T92.theta_68	0.373866	]0, 1[
-T92.theta_69	0.354606	]0, 1[
-T92.kappa_1	3.188591	]0, +inf] 
-Gamma.alpha	0.622391	[ 0.05, +inf] 
-Constraint match at parameter BrLen14, badValue = -0.424779 [ 1e-06, +inf] 
-Constraint match at parameter BrLen15, badValue = -0.424779 [ 1e-06, +inf] 
-Constraint match at parameter BrLen16, badValue = -0.425420 [ 1e-06, +inf] 
-Constraint match at parameter BrLen21, badValue = -0.001049 [ 1e-06, +inf] 
-Constraint match at parameter BrLen32, badValue = -0.128279 [ 1e-06, +inf] 
-Constraint match at parameter BrLen47, badValue = -0.512872 [ 1e-06, +inf] 
-Constraint match at parameter BrLen48, badValue = -0.512872 [ 1e-06, +inf] 
-Constraint match at parameter BrLen79, badValue = -0.036076 [ 1e-06, +inf] 
-Constraint match at parameter BrLen116, badValue = -0.502168 [ 1e-06, +inf] 
-Constraint match at parameter BrLen126, badValue = -0.504768 [ 1e-06, +inf] 
-Constraint match at parameter BrLen129, badValue = -0.002562 [ 1e-06, +inf] 
-Constraint match at parameter BrLen155, badValue = -0.000985 [ 1e-06, +inf] 
-Constraint match at parameter BrLen162, badValue = -0.511182 [ 1e-06, +inf] 
-Constraint match at parameter BrLen163, badValue = -0.511182 [ 1e-06, +inf] 
-Constraint match at parameter BrLen172, badValue = -0.003816 [ 1e-06, +inf] 
-Constraint match at parameter BrLen180, badValue = -0.013046 [ 1e-06, +inf] 
-Constraint match at parameter T92.theta_8, badValue = 1.043817 ]0, 1[
-Constraint match at parameter T92.theta_11, badValue = -0.005680 ]0, 1[
-Constraint match at parameter T92.theta_17, badValue = -0.016760 ]0, 1[
-Constraint match at parameter T92.theta_20, badValue = -0.014757 ]0, 1[
-Constraint match at parameter T92.theta_27, badValue = 1.012295 ]0, 1[
-Constraint match at parameter T92.theta_28, badValue = -0.011982 ]0, 1[
-Constraint match at parameter T92.theta_46, badValue = -0.005229 ]0, 1[
-Constraint match at parameter T92.theta_50, badValue = 1.009729 ]0, 1[
-Constraint match at parameter T92.theta_51, badValue = 1.011426 ]0, 1[
-Constraint match at parameter T92.theta_53, badValue = -0.013632 ]0, 1[
-Constraint match at parameter T92.theta_54, badValue = 1.011164 ]0, 1[
-Constraint match at parameter T92.theta_61, badValue = -0.002215 ]0, 1[
+BrLenRoot	1.463449	[ 1e-06, +inf] 
+RootPosition	0.258724	]0, 1[
+GC.theta	0.463301	[ 0, 1] 
+T92.theta_1	0.487442	]1e-06, 0.999999[
+T92.theta_2	0.806617	]1e-06, 0.999999[
+T92.theta_3	0.476546	]1e-06, 0.999999[
+T92.theta_4	0.699010	]1e-06, 0.999999[
+T92.theta_5	0.904638	]1e-06, 0.999999[
+T92.theta_6	0.664640	]1e-06, 0.999999[
+T92.theta_7	0.178243	]1e-06, 0.999999[
+T92.theta_8	0.999999	]1e-06, 0.999999[
+T92.theta_9	0.374443	]1e-06, 0.999999[
+T92.theta_10	0.606725	]1e-06, 0.999999[
+T92.theta_11	0.000001	]1e-06, 0.999999[
+T92.theta_12	0.634588	]1e-06, 0.999999[
+T92.theta_13	0.580643	]1e-06, 0.999999[
+T92.theta_14	0.484962	]1e-06, 0.999999[
+T92.theta_15	0.772594	]1e-06, 0.999999[
+T92.theta_16	0.272232	]1e-06, 0.999999[
+T92.theta_17	0.000001	]1e-06, 0.999999[
+T92.theta_18	0.649783	]1e-06, 0.999999[
+T92.theta_19	0.495938	]1e-06, 0.999999[
+T92.theta_20	0.446846	]1e-06, 0.999999[
+T92.theta_21	0.372863	]1e-06, 0.999999[
+T92.theta_22	0.000001	]1e-06, 0.999999[
+T92.theta_23	0.475059	]1e-06, 0.999999[
+T92.theta_24	0.245440	]1e-06, 0.999999[
+T92.theta_25	0.434648	]1e-06, 0.999999[
+T92.theta_26	0.820410	]1e-06, 0.999999[
+T92.theta_27	0.999999	]1e-06, 0.999999[
+T92.theta_28	0.499983	]1e-06, 0.999999[
+T92.theta_29	0.000001	]1e-06, 0.999999[
+T92.theta_30	0.501806	]1e-06, 0.999999[
+T92.theta_31	0.707516	]1e-06, 0.999999[
+T92.theta_32	0.753989	]1e-06, 0.999999[
+T92.theta_33	0.456149	]1e-06, 0.999999[
+T92.theta_34	0.486405	]1e-06, 0.999999[
+T92.theta_35	0.613386	]1e-06, 0.999999[
+T92.theta_36	0.750778	]1e-06, 0.999999[
+T92.theta_37	0.319991	]1e-06, 0.999999[
+T92.theta_38	0.375477	]1e-06, 0.999999[
+T92.theta_39	0.791814	]1e-06, 0.999999[
+T92.theta_40	0.604374	]1e-06, 0.999999[
+T92.theta_41	0.475929	]1e-06, 0.999999[
+T92.theta_42	0.590932	]1e-06, 0.999999[
+T92.theta_43	0.593085	]1e-06, 0.999999[
+T92.theta_44	0.101091	]1e-06, 0.999999[
+T92.theta_45	0.000001	]1e-06, 0.999999[
+T92.theta_46	0.572133	]1e-06, 0.999999[
+T92.theta_47	0.527022	]1e-06, 0.999999[
+T92.theta_48	0.527022	]1e-06, 0.999999[
+T92.theta_49	0.664469	]1e-06, 0.999999[
+T92.theta_50	0.999999	]1e-06, 0.999999[
+T92.theta_51	0.999999	]1e-06, 0.999999[
+T92.theta_52	0.273806	]1e-06, 0.999999[
+T92.theta_53	0.000001	]1e-06, 0.999999[
+T92.theta_54	0.999999	]1e-06, 0.999999[
+T92.theta_55	0.471915	]1e-06, 0.999999[
+T92.theta_56	0.844960	]1e-06, 0.999999[
+T92.theta_57	0.588780	]1e-06, 0.999999[
+T92.theta_58	0.689604	]1e-06, 0.999999[
+T92.theta_59	0.366027	]1e-06, 0.999999[
+T92.theta_60	0.669903	]1e-06, 0.999999[
+T92.theta_61	0.131218	]1e-06, 0.999999[
+T92.theta_62	0.694500	]1e-06, 0.999999[
+T92.theta_63	0.000001	]1e-06, 0.999999[
+T92.theta_64	0.497214	]1e-06, 0.999999[
+T92.theta_65	0.646454	]1e-06, 0.999999[
+T92.theta_66	0.821206	]1e-06, 0.999999[
+T92.theta_67	0.795321	]1e-06, 0.999999[
+T92.theta_68	0.373864	]1e-06, 0.999999[
+T92.theta_69	0.354596	]1e-06, 0.999999[
+T92.kappa_1	3.188495	]0, +inf] 
+Gamma.alpha	0.622359	[ 0.05, +inf] 
+Constraint match at parameter BrLen14, badValue = -0.424822 [ 1e-06, +inf] 
+Constraint match at parameter BrLen15, badValue = -0.424822 [ 1e-06, +inf] 
+Constraint match at parameter BrLen16, badValue = -0.425465 [ 1e-06, +inf] 
+Constraint match at parameter BrLen21, badValue = -0.001030 [ 1e-06, +inf] 
+Constraint match at parameter BrLen32, badValue = -0.128288 [ 1e-06, +inf] 
+Constraint match at parameter BrLen47, badValue = -0.512881 [ 1e-06, +inf] 
+Constraint match at parameter BrLen48, badValue = -0.512881 [ 1e-06, +inf] 
+Constraint match at parameter BrLen79, badValue = -0.036087 [ 1e-06, +inf] 
+Constraint match at parameter BrLen116, badValue = -0.502178 [ 1e-06, +inf] 
+Constraint match at parameter BrLen126, badValue = -0.504777 [ 1e-06, +inf] 
+Constraint match at parameter BrLen129, badValue = -0.002552 [ 1e-06, +inf] 
+Constraint match at parameter BrLen155, badValue = -0.000986 [ 1e-06, +inf] 
+Constraint match at parameter BrLen162, badValue = -0.511193 [ 1e-06, +inf] 
+Constraint match at parameter BrLen163, badValue = -0.511193 [ 1e-06, +inf] 
+Constraint match at parameter BrLen172, badValue = -0.003817 [ 1e-06, +inf] 
+Constraint match at parameter BrLen180, badValue = -0.013074 [ 1e-06, +inf] 
+Constraint match at parameter T92.theta_8, badValue = 1.043780 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_11, badValue = -0.005671 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_17, badValue = -0.016755 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_22, badValue = -0.014752 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_27, badValue = 1.012288 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_29, badValue = -0.011977 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_45, badValue = -0.005228 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_50, badValue = 1.009717 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_51, badValue = 1.011418 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_53, badValue = -0.013628 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_54, badValue = 1.011153 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_63, badValue = -0.002220 ]1e-06, 0.999999[
 !!! Second order derivative is negative for parameter BrLen14(1e-06). No move performed.
-Constraint match at parameter BrLen14, badValue = -0.849637 [ 1e-06, +inf] 
+Constraint match at parameter BrLen14, badValue = -0.849682 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen15(1e-06). No move performed.
-Constraint match at parameter BrLen15, badValue = -0.849637 [ 1e-06, +inf] 
+Constraint match at parameter BrLen15, badValue = -0.849682 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen16(1e-06). No move performed.
-Constraint match at parameter BrLen16, badValue = -0.850942 [ 1e-06, +inf] 
-Constraint match at parameter BrLen21, badValue = -0.002024 [ 1e-06, +inf] 
-Constraint match at parameter BrLen32, badValue = -0.256685 [ 1e-06, +inf] 
+Constraint match at parameter BrLen16, badValue = -0.850985 [ 1e-06, +inf] 
+Constraint match at parameter BrLen21, badValue = -0.001998 [ 1e-06, +inf] 
+Constraint match at parameter BrLen32, badValue = -0.256651 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen47(1e-06). No move performed.
-Constraint match at parameter BrLen47, badValue = -1.025489 [ 1e-06, +inf] 
+Constraint match at parameter BrLen47, badValue = -1.025526 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen48(1e-06). No move performed.
-Constraint match at parameter BrLen48, badValue = -1.025489 [ 1e-06, +inf] 
-Constraint match at parameter BrLen79, badValue = -0.072218 [ 1e-06, +inf] 
+Constraint match at parameter BrLen48, badValue = -1.025526 [ 1e-06, +inf] 
+Constraint match at parameter BrLen79, badValue = -0.072219 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen116(1e-06). No move performed.
-Constraint match at parameter BrLen116, badValue = -1.004092 [ 1e-06, +inf] 
+Constraint match at parameter BrLen116, badValue = -1.004125 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen126(1e-06). No move performed.
-Constraint match at parameter BrLen126, badValue = -1.009286 [ 1e-06, +inf] 
-Constraint match at parameter BrLen129, badValue = -0.005151 [ 1e-06, +inf] 
-Constraint match at parameter BrLen155, badValue = -0.001999 [ 1e-06, +inf] 
+Constraint match at parameter BrLen126, badValue = -1.009321 [ 1e-06, +inf] 
+Constraint match at parameter BrLen129, badValue = -0.005104 [ 1e-06, +inf] 
+Constraint match at parameter BrLen155, badValue = -0.002000 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen162(1e-06). No move performed.
-Constraint match at parameter BrLen162, badValue = -1.022120 [ 1e-06, +inf] 
+Constraint match at parameter BrLen162, badValue = -1.022155 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen163(1e-06). No move performed.
-Constraint match at parameter BrLen163, badValue = -1.022120 [ 1e-06, +inf] 
+Constraint match at parameter BrLen163, badValue = -1.022155 [ 1e-06, +inf] 
 Constraint match at parameter BrLen172, badValue = -0.007639 [ 1e-06, +inf] 
-Constraint match at parameter BrLen180, badValue = -0.026572 [ 1e-06, +inf] 
-Constraint match at parameter T92.theta_8, badValue = 1.086084 ]0, 1[
-Constraint match at parameter T92.theta_11, badValue = -0.011190 ]0, 1[
-Constraint match at parameter T92.theta_17, badValue = -0.033315 ]0, 1[
-Constraint match at parameter T92.theta_20, badValue = -0.029413 ]0, 1[
-Constraint match at parameter T92.theta_27, badValue = 1.024447 ]0, 1[
-Constraint match at parameter T92.theta_28, badValue = -0.023834 ]0, 1[
-Constraint match at parameter T92.theta_46, badValue = -0.010598 ]0, 1[
-Constraint match at parameter T92.theta_50, badValue = 1.019086 ]0, 1[
-Constraint match at parameter T92.theta_51, badValue = 1.022709 ]0, 1[
-Constraint match at parameter T92.theta_53, badValue = -0.027164 ]0, 1[
-Constraint match at parameter T92.theta_54, badValue = 1.021928 ]0, 1[
-Constraint match at parameter T92.theta_61, badValue = -0.003903 ]0, 1[
+Constraint match at parameter BrLen180, badValue = -0.026571 [ 1e-06, +inf] 
+Constraint match at parameter T92.theta_8, badValue = 1.086093 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_11, badValue = -0.011190 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_17, badValue = -0.033319 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_22, badValue = -0.029412 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_27, badValue = 1.024448 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_29, badValue = -0.023834 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_45, badValue = -0.010598 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_50, badValue = 1.019087 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_51, badValue = 1.022710 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_53, badValue = -0.027163 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_54, badValue = 1.021929 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_63, badValue = -0.003899 ]1e-06, 0.999999[
 !!! Second order derivative is negative for parameter BrLen14(1e-06). No move performed.
-Constraint match at parameter BrLen14, badValue = -0.849496 [ 1e-06, +inf] 
+Constraint match at parameter BrLen14, badValue = -0.849544 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen15(1e-06). No move performed.
-Constraint match at parameter BrLen15, badValue = -0.849496 [ 1e-06, +inf] 
+Constraint match at parameter BrLen15, badValue = -0.849544 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen16(1e-06). No move performed.
-Constraint match at parameter BrLen16, badValue = -0.850785 [ 1e-06, +inf] 
-Constraint match at parameter BrLen21, badValue = -0.002038 [ 1e-06, +inf] 
-Constraint match at parameter BrLen32, badValue = -0.256713 [ 1e-06, +inf] 
+Constraint match at parameter BrLen16, badValue = -0.850833 [ 1e-06, +inf] 
+Constraint match at parameter BrLen21, badValue = -0.002010 [ 1e-06, +inf] 
+Constraint match at parameter BrLen32, badValue = -0.256697 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen47(1e-06). No move performed.
-Constraint match at parameter BrLen47, badValue = -1.025435 [ 1e-06, +inf] 
+Constraint match at parameter BrLen47, badValue = -1.025461 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen48(1e-06). No move performed.
-Constraint match at parameter BrLen48, badValue = -1.025435 [ 1e-06, +inf] 
-Constraint match at parameter BrLen79, badValue = -0.072200 [ 1e-06, +inf] 
+Constraint match at parameter BrLen48, badValue = -1.025461 [ 1e-06, +inf] 
+Constraint match at parameter BrLen79, badValue = -0.072206 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen116(1e-06). No move performed.
-Constraint match at parameter BrLen116, badValue = -1.004021 [ 1e-06, +inf] 
+Constraint match at parameter BrLen116, badValue = -1.004044 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen126(1e-06). No move performed.
-Constraint match at parameter BrLen126, badValue = -1.009236 [ 1e-06, +inf] 
-Constraint match at parameter BrLen129, badValue = -0.005126 [ 1e-06, +inf] 
+Constraint match at parameter BrLen126, badValue = -1.009259 [ 1e-06, +inf] 
+Constraint match at parameter BrLen129, badValue = -0.005110 [ 1e-06, +inf] 
+Constraint match at parameter BrLen155, badValue = -0.002003 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). No move performed.
+Constraint match at parameter BrLen162, badValue = -1.022092 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). No move performed.
+Constraint match at parameter BrLen163, badValue = -1.022092 [ 1e-06, +inf] 
+Constraint match at parameter BrLen172, badValue = -0.007637 [ 1e-06, +inf] 
+Constraint match at parameter BrLen180, badValue = -0.026552 [ 1e-06, +inf] 
+Constraint match at parameter T92.theta_8, badValue = 1.085708 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_11, badValue = -0.011199 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_17, badValue = -0.033258 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_22, badValue = -0.029415 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_27, badValue = 1.024452 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_29, badValue = -0.023826 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_45, badValue = -0.010605 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_50, badValue = 1.019008 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_51, badValue = 1.022714 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_53, badValue = -0.027150 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_54, badValue = 1.021912 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_63, badValue = -0.003894 ]1e-06, 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). No move performed.
+Constraint match at parameter BrLen14, badValue = -0.849572 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen15(1e-06). No move performed.
+Constraint match at parameter BrLen15, badValue = -0.849572 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). No move performed.
+Constraint match at parameter BrLen16, badValue = -0.850876 [ 1e-06, +inf] 
+Constraint match at parameter BrLen21, badValue = -0.001996 [ 1e-06, +inf] 
+Constraint match at parameter BrLen32, badValue = -0.256885 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). No move performed.
+Constraint match at parameter BrLen47, badValue = -1.025417 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). No move performed.
+Constraint match at parameter BrLen48, badValue = -1.025417 [ 1e-06, +inf] 
+Constraint match at parameter BrLen79, badValue = -0.072256 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). No move performed.
+Constraint match at parameter BrLen116, badValue = -1.004002 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). No move performed.
+Constraint match at parameter BrLen126, badValue = -1.009217 [ 1e-06, +inf] 
+Constraint match at parameter BrLen129, badValue = -0.005139 [ 1e-06, +inf] 
 Constraint match at parameter BrLen155, badValue = -0.002002 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen162(1e-06). No move performed.
-Constraint match at parameter BrLen162, badValue = -1.022066 [ 1e-06, +inf] 
+Constraint match at parameter BrLen162, badValue = -1.022045 [ 1e-06, +inf] 
 !!! Second order derivative is negative for parameter BrLen163(1e-06). No move performed.
-Constraint match at parameter BrLen163, badValue = -1.022066 [ 1e-06, +inf] 
-Constraint match at parameter BrLen172, badValue = -0.007636 [ 1e-06, +inf] 
-Constraint match at parameter BrLen180, badValue = -0.026540 [ 1e-06, +inf] 
-Constraint match at parameter T92.theta_8, badValue = 1.085718 ]0, 1[
-Constraint match at parameter T92.theta_11, badValue = -0.011204 ]0, 1[
-Constraint match at parameter T92.theta_17, badValue = -0.033258 ]0, 1[
-Constraint match at parameter T92.theta_20, badValue = -0.029417 ]0, 1[
-Constraint match at parameter T92.theta_27, badValue = 1.024456 ]0, 1[
-Constraint match at parameter T92.theta_28, badValue = -0.023828 ]0, 1[
-Constraint match at parameter T92.theta_46, badValue = -0.010606 ]0, 1[
-Constraint match at parameter T92.theta_50, badValue = 1.019013 ]0, 1[
-Constraint match at parameter T92.theta_51, badValue = 1.022717 ]0, 1[
-Constraint match at parameter T92.theta_53, badValue = -0.027153 ]0, 1[
-Constraint match at parameter T92.theta_54, badValue = 1.021916 ]0, 1[
-Constraint match at parameter T92.theta_61, badValue = -0.003901 ]0, 1[
+Constraint match at parameter BrLen163, badValue = -1.022045 [ 1e-06, +inf] 
+Constraint match at parameter BrLen172, badValue = -0.007640 [ 1e-06, +inf] 
+Constraint match at parameter BrLen180, badValue = -0.026621 [ 1e-06, +inf] 
+Constraint match at parameter T92.theta_8, badValue = 1.085865 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_11, badValue = -0.011195 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_17, badValue = -0.033320 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_22, badValue = -0.029413 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_27, badValue = 1.024445 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_29, badValue = -0.023834 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_45, badValue = -0.010593 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_50, badValue = 1.019031 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_51, badValue = 1.022707 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_53, badValue = -0.027153 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_54, badValue = 1.021935 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_63, badValue = -0.003900 ]1e-06, 0.999999[
+!!! Function at new point is greater than at current point: 13865.3>13865.3. Applying Felsenstein-Churchill correction.
+Name:	Value:	Constraint:
+_________________________________________________
+BrLen0	0.029817	[ 1e-06, +inf] 
+BrLen1	0.029224	[ 1e-06, +inf] 
+BrLen2	0.000662	[ 1e-06, +inf] 
+BrLen3	0.004977	[ 1e-06, +inf] 
+BrLen4	0.046906	[ 1e-06, +inf] 
+BrLen5	0.051173	[ 1e-06, +inf] 
+BrLen6	0.021647	[ 1e-06, +inf] 
+BrLen7	0.032397	[ 1e-06, +inf] 
+BrLen8	0.021706	[ 1e-06, +inf] 
+BrLen9	0.079511	[ 1e-06, +inf] 
+BrLen10	0.032660	[ 1e-06, +inf] 
+BrLen11	0.158041	[ 1e-06, +inf] 
+BrLen12	0.011686	[ 1e-06, +inf] 
+BrLen13	0.013245	[ 1e-06, +inf] 
+BrLen14	0.000001	[ 1e-06, +inf] 
+BrLen15	0.000001	[ 1e-06, +inf] 
+BrLen16	0.000001	[ 1e-06, +inf] 
+BrLen17	0.003568	[ 1e-06, +inf] 
+BrLen18	0.003519	[ 1e-06, +inf] 
+BrLen19	0.040071	[ 1e-06, +inf] 
+BrLen20	0.059036	[ 1e-06, +inf] 
+BrLen21	0.000001	[ 1e-06, +inf] 
+BrLen22	0.051841	[ 1e-06, +inf] 
+BrLen23	0.062128	[ 1e-06, +inf] 
+BrLen24	0.039245	[ 1e-06, +inf] 
+BrLen25	0.010256	[ 1e-06, +inf] 
+BrLen26	0.052762	[ 1e-06, +inf] 
+BrLen27	0.028969	[ 1e-06, +inf] 
+BrLen28	0.010407	[ 1e-06, +inf] 
+BrLen29	0.130445	[ 1e-06, +inf] 
+BrLen30	0.030943	[ 1e-06, +inf] 
+BrLen31	0.048817	[ 1e-06, +inf] 
+BrLen32	0.000001	[ 1e-06, +inf] 
+BrLen33	0.209695	[ 1e-06, +inf] 
+BrLen34	0.002810	[ 1e-06, +inf] 
+BrLen35	0.042777	[ 1e-06, +inf] 
+BrLen36	0.014693	[ 1e-06, +inf] 
+BrLen37	0.030869	[ 1e-06, +inf] 
+BrLen38	0.003281	[ 1e-06, +inf] 
+BrLen39	0.087669	[ 1e-06, +inf] 
+BrLen40	0.039875	[ 1e-06, +inf] 
+BrLen41	0.009070	[ 1e-06, +inf] 
+BrLen42	0.073754	[ 1e-06, +inf] 
+BrLen43	0.074547	[ 1e-06, +inf] 
+BrLen44	0.098264	[ 1e-06, +inf] 
+BrLen45	0.010801	[ 1e-06, +inf] 
+BrLen46	0.056186	[ 1e-06, +inf] 
+BrLen47	0.000001	[ 1e-06, +inf] 
+BrLen48	0.000001	[ 1e-06, +inf] 
+BrLen49	0.121062	[ 1e-06, +inf] 
+BrLen50	0.059581	[ 1e-06, +inf] 
+BrLen51	0.064872	[ 1e-06, +inf] 
+BrLen52	0.104606	[ 1e-06, +inf] 
+BrLen53	0.024794	[ 1e-06, +inf] 
+BrLen54	0.116617	[ 1e-06, +inf] 
+BrLen55	0.011656	[ 1e-06, +inf] 
+BrLen56	0.015479	[ 1e-06, +inf] 
+BrLen57	0.049198	[ 1e-06, +inf] 
+BrLen58	0.008211	[ 1e-06, +inf] 
+BrLen59	0.043228	[ 1e-06, +inf] 
+BrLen60	0.000247	[ 1e-06, +inf] 
+BrLen61	0.036324	[ 1e-06, +inf] 
+BrLen62	0.012349	[ 1e-06, +inf] 
+BrLen63	0.044984	[ 1e-06, +inf] 
+BrLen64	0.020740	[ 1e-06, +inf] 
+BrLen65	0.043177	[ 1e-06, +inf] 
+BrLen66	0.033438	[ 1e-06, +inf] 
+BrLen67	0.077663	[ 1e-06, +inf] 
+BrLen68	0.020103	[ 1e-06, +inf] 
+BrLen69	0.043966	[ 1e-06, +inf] 
+BrLen70	0.069169	[ 1e-06, +inf] 
+BrLen71	0.035519	[ 1e-06, +inf] 
+BrLen72	0.013954	[ 1e-06, +inf] 
+BrLen73	0.062743	[ 1e-06, +inf] 
+BrLen74	0.070975	[ 1e-06, +inf] 
+BrLen75	0.098498	[ 1e-06, +inf] 
+BrLen76	0.091000	[ 1e-06, +inf] 
+BrLen77	0.025390	[ 1e-06, +inf] 
+BrLen78	0.024532	[ 1e-06, +inf] 
+BrLen79	0.000001	[ 1e-06, +inf] 
+BrLen80	0.059691	[ 1e-06, +inf] 
+BrLen81	0.066929	[ 1e-06, +inf] 
+BrLen82	0.036423	[ 1e-06, +inf] 
+BrLen83	0.010770	[ 1e-06, +inf] 
+BrLen84	0.032231	[ 1e-06, +inf] 
+BrLen85	0.054902	[ 1e-06, +inf] 
+BrLen86	0.119531	[ 1e-06, +inf] 
+BrLen87	0.005120	[ 1e-06, +inf] 
+BrLen88	0.137147	[ 1e-06, +inf] 
+BrLen89	0.032039	[ 1e-06, +inf] 
+BrLen90	0.028679	[ 1e-06, +inf] 
+BrLen91	0.052671	[ 1e-06, +inf] 
+BrLen92	0.038293	[ 1e-06, +inf] 
+BrLen93	0.024111	[ 1e-06, +inf] 
+BrLen94	0.012547	[ 1e-06, +inf] 
+BrLen95	0.021703	[ 1e-06, +inf] 
+BrLen96	0.005105	[ 1e-06, +inf] 
+BrLen97	0.084703	[ 1e-06, +inf] 
+BrLen98	0.019145	[ 1e-06, +inf] 
+BrLen99	0.052618	[ 1e-06, +inf] 
+BrLen100	0.015436	[ 1e-06, +inf] 
+BrLen101	0.003089	[ 1e-06, +inf] 
+BrLen102	0.042745	[ 1e-06, +inf] 
+BrLen103	0.038044	[ 1e-06, +inf] 
+BrLen104	0.078376	[ 1e-06, +inf] 
+BrLen105	0.024860	[ 1e-06, +inf] 
+BrLen106	0.026901	[ 1e-06, +inf] 
+BrLen107	0.025112	[ 1e-06, +inf] 
+BrLen108	0.071120	[ 1e-06, +inf] 
+BrLen109	0.149830	[ 1e-06, +inf] 
+BrLen111	0.096030	[ 1e-06, +inf] 
+BrLen112	0.022186	[ 1e-06, +inf] 
+BrLen113	0.003216	[ 1e-06, +inf] 
+BrLen114	0.088675	[ 1e-06, +inf] 
+BrLen115	0.004406	[ 1e-06, +inf] 
+BrLen116	0.000001	[ 1e-06, +inf] 
+BrLen117	0.083645	[ 1e-06, +inf] 
+BrLen118	0.013061	[ 1e-06, +inf] 
+BrLen119	0.011412	[ 1e-06, +inf] 
+BrLen120	0.030733	[ 1e-06, +inf] 
+BrLen121	0.033449	[ 1e-06, +inf] 
+BrLen122	0.025158	[ 1e-06, +inf] 
+BrLen123	0.003906	[ 1e-06, +inf] 
+BrLen124	0.002625	[ 1e-06, +inf] 
+BrLen125	0.004490	[ 1e-06, +inf] 
+BrLen126	0.000001	[ 1e-06, +inf] 
+BrLen127	0.001720	[ 1e-06, +inf] 
+BrLen128	0.014095	[ 1e-06, +inf] 
+BrLen129	0.000001	[ 1e-06, +inf] 
+BrLen130	0.000841	[ 1e-06, +inf] 
+BrLen131	0.000943	[ 1e-06, +inf] 
+BrLen132	0.002326	[ 1e-06, +inf] 
+BrLen133	0.024037	[ 1e-06, +inf] 
+BrLen134	0.011695	[ 1e-06, +inf] 
+BrLen135	0.003618	[ 1e-06, +inf] 
+BrLen136	0.000962	[ 1e-06, +inf] 
+BrLen137	0.013514	[ 1e-06, +inf] 
+BrLen138	0.007782	[ 1e-06, +inf] 
+BrLen139	0.017338	[ 1e-06, +inf] 
+BrLen140	0.010437	[ 1e-06, +inf] 
+BrLen141	0.047587	[ 1e-06, +inf] 
+BrLen142	0.023588	[ 1e-06, +inf] 
+BrLen143	0.009162	[ 1e-06, +inf] 
+BrLen144	0.065427	[ 1e-06, +inf] 
+BrLen145	0.098065	[ 1e-06, +inf] 
+BrLen146	0.015555	[ 1e-06, +inf] 
+BrLen147	0.057393	[ 1e-06, +inf] 
+BrLen148	0.005266	[ 1e-06, +inf] 
+BrLen149	0.060229	[ 1e-06, +inf] 
+BrLen150	0.022458	[ 1e-06, +inf] 
+BrLen151	0.004900	[ 1e-06, +inf] 
+BrLen152	0.002052	[ 1e-06, +inf] 
+BrLen153	0.002572	[ 1e-06, +inf] 
+BrLen154	0.037937	[ 1e-06, +inf] 
+BrLen155	0.000001	[ 1e-06, +inf] 
+BrLen156	0.019016	[ 1e-06, +inf] 
+BrLen157	0.005720	[ 1e-06, +inf] 
+BrLen158	0.089939	[ 1e-06, +inf] 
+BrLen159	0.026941	[ 1e-06, +inf] 
+BrLen160	0.025004	[ 1e-06, +inf] 
+BrLen161	0.009036	[ 1e-06, +inf] 
+BrLen162	0.000001	[ 1e-06, +inf] 
+BrLen163	0.000001	[ 1e-06, +inf] 
+BrLen164	0.003669	[ 1e-06, +inf] 
+BrLen165	0.007158	[ 1e-06, +inf] 
+BrLen166	0.080390	[ 1e-06, +inf] 
+BrLen167	0.030218	[ 1e-06, +inf] 
+BrLen168	0.043544	[ 1e-06, +inf] 
+BrLen169	0.065805	[ 1e-06, +inf] 
+BrLen170	0.274084	[ 1e-06, +inf] 
+BrLen171	0.015583	[ 1e-06, +inf] 
+BrLen172	0.000001	[ 1e-06, +inf] 
+BrLen173	0.008658	[ 1e-06, +inf] 
+BrLen174	0.131721	[ 1e-06, +inf] 
+BrLen175	0.145658	[ 1e-06, +inf] 
+BrLen176	0.091254	[ 1e-06, +inf] 
+BrLen177	0.022544	[ 1e-06, +inf] 
+BrLen178	0.139676	[ 1e-06, +inf] 
+BrLen179	0.108413	[ 1e-06, +inf] 
+BrLen180	0.000001	[ 1e-06, +inf] 
+BrLenRoot	1.460234	[ 1e-06, +inf] 
+RootPosition	0.256228	]0, 1[
+GC.theta	0.462593	[ 0, 1] 
+T92.theta_1	0.487581	]1e-06, 0.999999[
+T92.theta_2	0.806908	]1e-06, 0.999999[
+T92.theta_3	0.476655	]1e-06, 0.999999[
+T92.theta_4	0.698977	]1e-06, 0.999999[
+T92.theta_5	0.904940	]1e-06, 0.999999[
+T92.theta_6	0.665006	]1e-06, 0.999999[
+T92.theta_7	0.177436	]1e-06, 0.999999[
+T92.theta_8	0.999999	]1e-06, 0.999999[
+T92.theta_9	0.374616	]1e-06, 0.999999[
+T92.theta_10	0.606657	]1e-06, 0.999999[
+T92.theta_11	0.000001	]1e-06, 0.999999[
+T92.theta_12	0.634650	]1e-06, 0.999999[
+T92.theta_13	0.580733	]1e-06, 0.999999[
+T92.theta_14	0.485060	]1e-06, 0.999999[
+T92.theta_15	0.772705	]1e-06, 0.999999[
+T92.theta_16	0.272236	]1e-06, 0.999999[
+T92.theta_17	0.000001	]1e-06, 0.999999[
+T92.theta_18	0.649793	]1e-06, 0.999999[
+T92.theta_19	0.495863	]1e-06, 0.999999[
+T92.theta_20	0.445920	]1e-06, 0.999999[
+T92.theta_21	0.372639	]1e-06, 0.999999[
+T92.theta_22	0.000001	]1e-06, 0.999999[
+T92.theta_23	0.475064	]1e-06, 0.999999[
+T92.theta_24	0.245339	]1e-06, 0.999999[
+T92.theta_25	0.434717	]1e-06, 0.999999[
+T92.theta_26	0.820589	]1e-06, 0.999999[
+T92.theta_27	0.999999	]1e-06, 0.999999[
+T92.theta_28	0.499983	]1e-06, 0.999999[
+T92.theta_29	0.000001	]1e-06, 0.999999[
+T92.theta_30	0.501812	]1e-06, 0.999999[
+T92.theta_31	0.707596	]1e-06, 0.999999[
+T92.theta_32	0.754225	]1e-06, 0.999999[
+T92.theta_33	0.456271	]1e-06, 0.999999[
+T92.theta_34	0.486424	]1e-06, 0.999999[
+T92.theta_35	0.613734	]1e-06, 0.999999[
+T92.theta_36	0.750783	]1e-06, 0.999999[
+T92.theta_37	0.319828	]1e-06, 0.999999[
+T92.theta_38	0.375570	]1e-06, 0.999999[
+T92.theta_39	0.791868	]1e-06, 0.999999[
+T92.theta_40	0.604427	]1e-06, 0.999999[
+T92.theta_41	0.476059	]1e-06, 0.999999[
+T92.theta_42	0.590945	]1e-06, 0.999999[
+T92.theta_43	0.593013	]1e-06, 0.999999[
+T92.theta_44	0.099948	]1e-06, 0.999999[
+T92.theta_45	0.000001	]1e-06, 0.999999[
+T92.theta_46	0.571617	]1e-06, 0.999999[
+T92.theta_47	0.527049	]1e-06, 0.999999[
+T92.theta_48	0.527049	]1e-06, 0.999999[
+T92.theta_49	0.664787	]1e-06, 0.999999[
+T92.theta_50	0.999999	]1e-06, 0.999999[
+T92.theta_51	0.999999	]1e-06, 0.999999[
+T92.theta_52	0.275363	]1e-06, 0.999999[
+T92.theta_53	0.000001	]1e-06, 0.999999[
+T92.theta_54	0.999999	]1e-06, 0.999999[
+T92.theta_55	0.471922	]1e-06, 0.999999[
+T92.theta_56	0.845663	]1e-06, 0.999999[
+T92.theta_57	0.588650	]1e-06, 0.999999[
+T92.theta_58	0.689493	]1e-06, 0.999999[
+T92.theta_59	0.365969	]1e-06, 0.999999[
+T92.theta_60	0.669800	]1e-06, 0.999999[
+T92.theta_61	0.128463	]1e-06, 0.999999[
+T92.theta_62	0.694569	]1e-06, 0.999999[
+T92.theta_63	0.000001	]1e-06, 0.999999[
+T92.theta_64	0.497382	]1e-06, 0.999999[
+T92.theta_65	0.646497	]1e-06, 0.999999[
+T92.theta_66	0.820822	]1e-06, 0.999999[
+T92.theta_67	0.795115	]1e-06, 0.999999[
+T92.theta_68	0.373850	]1e-06, 0.999999[
+T92.theta_69	0.352321	]1e-06, 0.999999[
+T92.kappa_1	3.190597	]0, +inf] 
+Gamma.alpha	0.622073	[ 0.05, +inf] 
+Constraint match at parameter BrLen14, badValue = -0.424785 [ 1e-06, +inf] 
+Constraint match at parameter BrLen15, badValue = -0.424785 [ 1e-06, +inf] 
+Constraint match at parameter BrLen16, badValue = -0.425437 [ 1e-06, +inf] 
+Constraint match at parameter BrLen21, badValue = -0.000997 [ 1e-06, +inf] 
+Constraint match at parameter BrLen32, badValue = -0.128442 [ 1e-06, +inf] 
+Constraint match at parameter BrLen47, badValue = -0.512708 [ 1e-06, +inf] 
+Constraint match at parameter BrLen48, badValue = -0.512708 [ 1e-06, +inf] 
+Constraint match at parameter BrLen79, badValue = -0.036127 [ 1e-06, +inf] 
+Constraint match at parameter BrLen116, badValue = -0.502001 [ 1e-06, +inf] 
+Constraint match at parameter BrLen126, badValue = -0.504608 [ 1e-06, +inf] 
+Constraint match at parameter BrLen129, badValue = -0.002569 [ 1e-06, +inf] 
+Constraint match at parameter BrLen155, badValue = -0.001000 [ 1e-06, +inf] 
+Constraint match at parameter BrLen162, badValue = -0.511022 [ 1e-06, +inf] 
+Constraint match at parameter BrLen163, badValue = -0.511022 [ 1e-06, +inf] 
+Constraint match at parameter BrLen172, badValue = -0.003819 [ 1e-06, +inf] 
+Constraint match at parameter BrLen180, badValue = -0.013310 [ 1e-06, +inf] 
+Constraint match at parameter T92.theta_8, badValue = 1.042932 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_11, badValue = -0.005597 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_17, badValue = -0.016660 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_22, badValue = -0.014706 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_27, badValue = 1.012222 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_29, badValue = -0.011917 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_45, badValue = -0.005296 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_50, badValue = 1.009515 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_51, badValue = 1.011353 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_53, badValue = -0.013576 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_54, badValue = 1.010967 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_63, badValue = -0.001949 ]1e-06, 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). No move performed.
+Constraint match at parameter BrLen14, badValue = -0.849523 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen15(1e-06). No move performed.
+Constraint match at parameter BrLen15, badValue = -0.849523 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). No move performed.
+Constraint match at parameter BrLen16, badValue = -0.850820 [ 1e-06, +inf] 
+Constraint match at parameter BrLen21, badValue = -0.002006 [ 1e-06, +inf] 
+Constraint match at parameter BrLen32, badValue = -0.256834 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). No move performed.
+Constraint match at parameter BrLen47, badValue = -1.025425 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). No move performed.
+Constraint match at parameter BrLen48, badValue = -1.025425 [ 1e-06, +inf] 
+Constraint match at parameter BrLen79, badValue = -0.072238 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). No move performed.
+Constraint match at parameter BrLen116, badValue = -1.004003 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). No move performed.
+Constraint match at parameter BrLen126, badValue = -1.009225 [ 1e-06, +inf] 
+Constraint match at parameter BrLen129, badValue = -0.005132 [ 1e-06, +inf] 
+Constraint match at parameter BrLen155, badValue = -0.002001 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). No move performed.
+Constraint match at parameter BrLen162, badValue = -1.022054 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). No move performed.
+Constraint match at parameter BrLen163, badValue = -1.022054 [ 1e-06, +inf] 
+Constraint match at parameter BrLen172, badValue = -0.007638 [ 1e-06, +inf] 
+Constraint match at parameter BrLen180, badValue = -0.026590 [ 1e-06, +inf] 
+Constraint match at parameter T92.theta_8, badValue = 1.085866 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_11, badValue = -0.011207 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_17, badValue = -0.033335 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_22, badValue = -0.029420 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_27, badValue = 1.024456 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_29, badValue = -0.023839 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_45, badValue = -0.010601 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_50, badValue = 1.019040 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_51, badValue = 1.022718 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_53, badValue = -0.027160 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_54, badValue = 1.021941 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_63, badValue = -0.003906 ]1e-06, 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). No move performed.
+Constraint match at parameter BrLen14, badValue = -0.849511 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen15(1e-06). No move performed.
+Constraint match at parameter BrLen15, badValue = -0.849511 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). No move performed.
+Constraint match at parameter BrLen16, badValue = -0.850812 [ 1e-06, +inf] 
+Constraint match at parameter BrLen21, badValue = -0.002004 [ 1e-06, +inf] 
+Constraint match at parameter BrLen32, badValue = -0.256872 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). No move performed.
+Constraint match at parameter BrLen47, badValue = -1.025406 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). No move performed.
+Constraint match at parameter BrLen48, badValue = -1.025406 [ 1e-06, +inf] 
+Constraint match at parameter BrLen79, badValue = -0.072247 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). No move performed.
+Constraint match at parameter BrLen116, badValue = -1.003982 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). No move performed.
+Constraint match at parameter BrLen126, badValue = -1.009209 [ 1e-06, +inf] 
+Constraint match at parameter BrLen129, badValue = -0.005120 [ 1e-06, +inf] 
+Constraint match at parameter BrLen155, badValue = -0.002002 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). No move performed.
+Constraint match at parameter BrLen162, badValue = -1.022036 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). No move performed.
+Constraint match at parameter BrLen163, badValue = -1.022036 [ 1e-06, +inf] 
+Constraint match at parameter BrLen172, badValue = -0.007639 [ 1e-06, +inf] 
+Constraint match at parameter BrLen180, badValue = -0.026619 [ 1e-06, +inf] 
+Constraint match at parameter T92.theta_8, badValue = 1.085817 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_11, badValue = -0.011203 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_17, badValue = -0.033342 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_22, badValue = -0.029416 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_27, badValue = 1.024452 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_29, badValue = -0.023836 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_45, badValue = -0.010598 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_50, badValue = 1.019026 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_51, badValue = 1.022714 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_53, badValue = -0.027152 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_54, badValue = 1.021935 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_63, badValue = -0.003904 ]1e-06, 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). No move performed.
+Constraint match at parameter BrLen14, badValue = -0.849490 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen15(1e-06). No move performed.
+Constraint match at parameter BrLen15, badValue = -0.849490 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). No move performed.
+Constraint match at parameter BrLen16, badValue = -0.850789 [ 1e-06, +inf] 
+Constraint match at parameter BrLen21, badValue = -0.002007 [ 1e-06, +inf] 
+Constraint match at parameter BrLen32, badValue = -0.256877 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). No move performed.
+Constraint match at parameter BrLen47, badValue = -1.025407 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). No move performed.
+Constraint match at parameter BrLen48, badValue = -1.025407 [ 1e-06, +inf] 
+Constraint match at parameter BrLen79, badValue = -0.072245 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). No move performed.
+Constraint match at parameter BrLen116, badValue = -1.003979 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). No move performed.
+Constraint match at parameter BrLen126, badValue = -1.009208 [ 1e-06, +inf] 
+Constraint match at parameter BrLen129, badValue = -0.005122 [ 1e-06, +inf] 
+Constraint match at parameter BrLen155, badValue = -0.002000 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). No move performed.
+Constraint match at parameter BrLen162, badValue = -1.022038 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). No move performed.
+Constraint match at parameter BrLen163, badValue = -1.022038 [ 1e-06, +inf] 
+Constraint match at parameter BrLen172, badValue = -0.007638 [ 1e-06, +inf] 
+Constraint match at parameter BrLen180, badValue = -0.026612 [ 1e-06, +inf] 
+Constraint match at parameter T92.theta_8, badValue = 1.085857 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_11, badValue = -0.011210 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_17, badValue = -0.033363 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_22, badValue = -0.029417 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_27, badValue = 1.024457 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_29, badValue = -0.023839 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_45, badValue = -0.010598 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_50, badValue = 1.019036 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_51, badValue = 1.022720 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_53, badValue = -0.027156 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_54, badValue = 1.021947 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_63, badValue = -0.003908 ]1e-06, 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). No move performed.
+Constraint match at parameter BrLen14, badValue = -0.849495 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen15(1e-06). No move performed.
+Constraint match at parameter BrLen15, badValue = -0.849495 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). No move performed.
+Constraint match at parameter BrLen16, badValue = -0.850797 [ 1e-06, +inf] 
+Constraint match at parameter BrLen21, badValue = -0.002004 [ 1e-06, +inf] 
+Constraint match at parameter BrLen32, badValue = -0.256904 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). No move performed.
+Constraint match at parameter BrLen47, badValue = -1.025394 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). No move performed.
+Constraint match at parameter BrLen48, badValue = -1.025394 [ 1e-06, +inf] 
+Constraint match at parameter BrLen79, badValue = -0.072254 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). No move performed.
+Constraint match at parameter BrLen116, badValue = -1.003966 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). No move performed.
+Constraint match at parameter BrLen126, badValue = -1.009195 [ 1e-06, +inf] 
+Constraint match at parameter BrLen129, badValue = -0.005124 [ 1e-06, +inf] 
+Constraint match at parameter BrLen155, badValue = -0.002001 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). No move performed.
+Constraint match at parameter BrLen162, badValue = -1.022024 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). No move performed.
+Constraint match at parameter BrLen163, badValue = -1.022024 [ 1e-06, +inf] 
+Constraint match at parameter BrLen172, badValue = -0.007639 [ 1e-06, +inf] 
+Constraint match at parameter BrLen180, badValue = -0.026643 [ 1e-06, +inf] 
+Constraint match at parameter T92.theta_8, badValue = 1.085818 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_11, badValue = -0.011203 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_17, badValue = -0.033365 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_22, badValue = -0.029413 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_27, badValue = 1.024451 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_29, badValue = -0.023835 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_45, badValue = -0.010596 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_50, badValue = 1.019024 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_51, badValue = 1.022713 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_53, badValue = -0.027151 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_54, badValue = 1.021938 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_63, badValue = -0.003905 ]1e-06, 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). No move performed.
+Constraint match at parameter BrLen14, badValue = -0.849474 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen15(1e-06). No move performed.
+Constraint match at parameter BrLen15, badValue = -0.849474 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). No move performed.
+Constraint match at parameter BrLen16, badValue = -0.850773 [ 1e-06, +inf] 
+Constraint match at parameter BrLen21, badValue = -0.002009 [ 1e-06, +inf] 
+Constraint match at parameter BrLen32, badValue = -0.256889 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). No move performed.
+Constraint match at parameter BrLen47, badValue = -1.025402 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). No move performed.
+Constraint match at parameter BrLen48, badValue = -1.025402 [ 1e-06, +inf] 
+Constraint match at parameter BrLen79, badValue = -0.072246 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). No move performed.
+Constraint match at parameter BrLen116, badValue = -1.003970 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). No move performed.
+Constraint match at parameter BrLen126, badValue = -1.009202 [ 1e-06, +inf] 
+Constraint match at parameter BrLen129, badValue = -0.005126 [ 1e-06, +inf] 
+Constraint match at parameter BrLen155, badValue = -0.002000 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). No move performed.
+Constraint match at parameter BrLen162, badValue = -1.022032 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). No move performed.
+Constraint match at parameter BrLen163, badValue = -1.022032 [ 1e-06, +inf] 
+Constraint match at parameter BrLen172, badValue = -0.007638 [ 1e-06, +inf] 
+Constraint match at parameter BrLen180, badValue = -0.026624 [ 1e-06, +inf] 
+Constraint match at parameter T92.theta_8, badValue = 1.085859 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_11, badValue = -0.011212 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_17, badValue = -0.033379 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_22, badValue = -0.029416 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_27, badValue = 1.024458 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_29, badValue = -0.023839 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_45, badValue = -0.010596 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_50, badValue = 1.019036 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_51, badValue = 1.022720 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_53, badValue = -0.027152 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_54, badValue = 1.021951 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_63, badValue = -0.003909 ]1e-06, 0.999999[
+!!! Function at new point is greater than at current point: 13865.3>13865.3. Applying Felsenstein-Churchill correction.
+Name:	Value:	Constraint:
+_________________________________________________
+BrLen0	0.029818	[ 1e-06, +inf] 
+BrLen1	0.029226	[ 1e-06, +inf] 
+BrLen2	0.000662	[ 1e-06, +inf] 
+BrLen3	0.004983	[ 1e-06, +inf] 
+BrLen4	0.046904	[ 1e-06, +inf] 
+BrLen5	0.051173	[ 1e-06, +inf] 
+BrLen6	0.021650	[ 1e-06, +inf] 
+BrLen7	0.032399	[ 1e-06, +inf] 
+BrLen8	0.021710	[ 1e-06, +inf] 
+BrLen9	0.079512	[ 1e-06, +inf] 
+BrLen10	0.032664	[ 1e-06, +inf] 
+BrLen11	0.158056	[ 1e-06, +inf] 
+BrLen12	0.011695	[ 1e-06, +inf] 
+BrLen13	0.013245	[ 1e-06, +inf] 
+BrLen14	0.000001	[ 1e-06, +inf] 
+BrLen15	0.000001	[ 1e-06, +inf] 
+BrLen16	0.000001	[ 1e-06, +inf] 
+BrLen17	0.003569	[ 1e-06, +inf] 
+BrLen18	0.003518	[ 1e-06, +inf] 
+BrLen19	0.040076	[ 1e-06, +inf] 
+BrLen20	0.059038	[ 1e-06, +inf] 
+BrLen21	0.000001	[ 1e-06, +inf] 
+BrLen22	0.051841	[ 1e-06, +inf] 
+BrLen23	0.062129	[ 1e-06, +inf] 
+BrLen24	0.039245	[ 1e-06, +inf] 
+BrLen25	0.010254	[ 1e-06, +inf] 
+BrLen26	0.052761	[ 1e-06, +inf] 
+BrLen27	0.028969	[ 1e-06, +inf] 
+BrLen28	0.010408	[ 1e-06, +inf] 
+BrLen29	0.130448	[ 1e-06, +inf] 
+BrLen30	0.030941	[ 1e-06, +inf] 
+BrLen31	0.048814	[ 1e-06, +inf] 
+BrLen32	0.000001	[ 1e-06, +inf] 
+BrLen33	0.209700	[ 1e-06, +inf] 
+BrLen34	0.002811	[ 1e-06, +inf] 
+BrLen35	0.042794	[ 1e-06, +inf] 
+BrLen36	0.014694	[ 1e-06, +inf] 
+BrLen37	0.030867	[ 1e-06, +inf] 
+BrLen38	0.003281	[ 1e-06, +inf] 
+BrLen39	0.087671	[ 1e-06, +inf] 
+BrLen40	0.039880	[ 1e-06, +inf] 
+BrLen41	0.009074	[ 1e-06, +inf] 
+BrLen42	0.073901	[ 1e-06, +inf] 
+BrLen43	0.074542	[ 1e-06, +inf] 
+BrLen44	0.098266	[ 1e-06, +inf] 
+BrLen45	0.010801	[ 1e-06, +inf] 
+BrLen46	0.056184	[ 1e-06, +inf] 
+BrLen47	0.000001	[ 1e-06, +inf] 
+BrLen48	0.000001	[ 1e-06, +inf] 
+BrLen49	0.121061	[ 1e-06, +inf] 
+BrLen50	0.059578	[ 1e-06, +inf] 
+BrLen51	0.064869	[ 1e-06, +inf] 
+BrLen52	0.104605	[ 1e-06, +inf] 
+BrLen53	0.024792	[ 1e-06, +inf] 
+BrLen54	0.116613	[ 1e-06, +inf] 
+BrLen55	0.011652	[ 1e-06, +inf] 
+BrLen56	0.015486	[ 1e-06, +inf] 
+BrLen57	0.049191	[ 1e-06, +inf] 
+BrLen58	0.008211	[ 1e-06, +inf] 
+BrLen59	0.043236	[ 1e-06, +inf] 
+BrLen60	0.000232	[ 1e-06, +inf] 
+BrLen61	0.036333	[ 1e-06, +inf] 
+BrLen62	0.012352	[ 1e-06, +inf] 
+BrLen63	0.044983	[ 1e-06, +inf] 
+BrLen64	0.020742	[ 1e-06, +inf] 
+BrLen65	0.043173	[ 1e-06, +inf] 
+BrLen66	0.033437	[ 1e-06, +inf] 
+BrLen67	0.077658	[ 1e-06, +inf] 
+BrLen68	0.020106	[ 1e-06, +inf] 
+BrLen69	0.043965	[ 1e-06, +inf] 
+BrLen70	0.069171	[ 1e-06, +inf] 
+BrLen71	0.035517	[ 1e-06, +inf] 
+BrLen72	0.013951	[ 1e-06, +inf] 
+BrLen73	0.062741	[ 1e-06, +inf] 
+BrLen74	0.070974	[ 1e-06, +inf] 
+BrLen75	0.098497	[ 1e-06, +inf] 
+BrLen76	0.091001	[ 1e-06, +inf] 
+BrLen77	0.025379	[ 1e-06, +inf] 
+BrLen78	0.024534	[ 1e-06, +inf] 
+BrLen79	0.000001	[ 1e-06, +inf] 
+BrLen80	0.059693	[ 1e-06, +inf] 
+BrLen81	0.066926	[ 1e-06, +inf] 
+BrLen82	0.036423	[ 1e-06, +inf] 
+BrLen83	0.010770	[ 1e-06, +inf] 
+BrLen84	0.032232	[ 1e-06, +inf] 
+BrLen85	0.054903	[ 1e-06, +inf] 
+BrLen86	0.119538	[ 1e-06, +inf] 
+BrLen87	0.005120	[ 1e-06, +inf] 
+BrLen88	0.137151	[ 1e-06, +inf] 
+BrLen89	0.032041	[ 1e-06, +inf] 
+BrLen90	0.028678	[ 1e-06, +inf] 
+BrLen91	0.052671	[ 1e-06, +inf] 
+BrLen92	0.038293	[ 1e-06, +inf] 
+BrLen93	0.024112	[ 1e-06, +inf] 
+BrLen94	0.012547	[ 1e-06, +inf] 
+BrLen95	0.021701	[ 1e-06, +inf] 
+BrLen96	0.005105	[ 1e-06, +inf] 
+BrLen97	0.084707	[ 1e-06, +inf] 
+BrLen98	0.019146	[ 1e-06, +inf] 
+BrLen99	0.052618	[ 1e-06, +inf] 
+BrLen100	0.015438	[ 1e-06, +inf] 
+BrLen101	0.003088	[ 1e-06, +inf] 
+BrLen102	0.042743	[ 1e-06, +inf] 
+BrLen103	0.038044	[ 1e-06, +inf] 
+BrLen104	0.078377	[ 1e-06, +inf] 
+BrLen105	0.024864	[ 1e-06, +inf] 
+BrLen106	0.026902	[ 1e-06, +inf] 
+BrLen107	0.025107	[ 1e-06, +inf] 
+BrLen108	0.071123	[ 1e-06, +inf] 
+BrLen109	0.149784	[ 1e-06, +inf] 
+BrLen111	0.096030	[ 1e-06, +inf] 
+BrLen112	0.022188	[ 1e-06, +inf] 
+BrLen113	0.003216	[ 1e-06, +inf] 
+BrLen114	0.088673	[ 1e-06, +inf] 
+BrLen115	0.004406	[ 1e-06, +inf] 
+BrLen116	0.000001	[ 1e-06, +inf] 
+BrLen117	0.083642	[ 1e-06, +inf] 
+BrLen118	0.013060	[ 1e-06, +inf] 
+BrLen119	0.011416	[ 1e-06, +inf] 
+BrLen120	0.030737	[ 1e-06, +inf] 
+BrLen121	0.033448	[ 1e-06, +inf] 
+BrLen122	0.025153	[ 1e-06, +inf] 
+BrLen123	0.003909	[ 1e-06, +inf] 
+BrLen124	0.002625	[ 1e-06, +inf] 
+BrLen125	0.004490	[ 1e-06, +inf] 
+BrLen126	0.000001	[ 1e-06, +inf] 
+BrLen127	0.001720	[ 1e-06, +inf] 
+BrLen128	0.014095	[ 1e-06, +inf] 
+BrLen129	0.000001	[ 1e-06, +inf] 
+BrLen130	0.000841	[ 1e-06, +inf] 
+BrLen131	0.000943	[ 1e-06, +inf] 
+BrLen132	0.002325	[ 1e-06, +inf] 
+BrLen133	0.024038	[ 1e-06, +inf] 
+BrLen134	0.011699	[ 1e-06, +inf] 
+BrLen135	0.003628	[ 1e-06, +inf] 
+BrLen136	0.000962	[ 1e-06, +inf] 
+BrLen137	0.013514	[ 1e-06, +inf] 
+BrLen138	0.007783	[ 1e-06, +inf] 
+BrLen139	0.017337	[ 1e-06, +inf] 
+BrLen140	0.010443	[ 1e-06, +inf] 
+BrLen141	0.047583	[ 1e-06, +inf] 
+BrLen142	0.023579	[ 1e-06, +inf] 
+BrLen143	0.009158	[ 1e-06, +inf] 
+BrLen144	0.065424	[ 1e-06, +inf] 
+BrLen145	0.098067	[ 1e-06, +inf] 
+BrLen146	0.015553	[ 1e-06, +inf] 
+BrLen147	0.057386	[ 1e-06, +inf] 
+BrLen148	0.005268	[ 1e-06, +inf] 
+BrLen149	0.060227	[ 1e-06, +inf] 
+BrLen150	0.022456	[ 1e-06, +inf] 
+BrLen151	0.004900	[ 1e-06, +inf] 
+BrLen152	0.002052	[ 1e-06, +inf] 
+BrLen153	0.002572	[ 1e-06, +inf] 
+BrLen154	0.037933	[ 1e-06, +inf] 
+BrLen155	0.000001	[ 1e-06, +inf] 
+BrLen156	0.019013	[ 1e-06, +inf] 
+BrLen157	0.005719	[ 1e-06, +inf] 
+BrLen158	0.089923	[ 1e-06, +inf] 
+BrLen159	0.027001	[ 1e-06, +inf] 
+BrLen160	0.024911	[ 1e-06, +inf] 
+BrLen161	0.009056	[ 1e-06, +inf] 
+BrLen162	0.000001	[ 1e-06, +inf] 
+BrLen163	0.000001	[ 1e-06, +inf] 
+BrLen164	0.003668	[ 1e-06, +inf] 
+BrLen165	0.007169	[ 1e-06, +inf] 
+BrLen166	0.080338	[ 1e-06, +inf] 
+BrLen167	0.030169	[ 1e-06, +inf] 
+BrLen168	0.043544	[ 1e-06, +inf] 
+BrLen169	0.065806	[ 1e-06, +inf] 
+BrLen170	0.274058	[ 1e-06, +inf] 
+BrLen171	0.015634	[ 1e-06, +inf] 
+BrLen172	0.000001	[ 1e-06, +inf] 
+BrLen173	0.008659	[ 1e-06, +inf] 
+BrLen174	0.131737	[ 1e-06, +inf] 
+BrLen175	0.145651	[ 1e-06, +inf] 
+BrLen176	0.091213	[ 1e-06, +inf] 
+BrLen177	0.022556	[ 1e-06, +inf] 
+BrLen178	0.139662	[ 1e-06, +inf] 
+BrLen179	0.108422	[ 1e-06, +inf] 
+BrLen180	0.000001	[ 1e-06, +inf] 
+BrLenRoot	1.461995	[ 1e-06, +inf] 
+RootPosition	0.256351	]0, 1[
+GC.theta	0.462758	[ 0, 1] 
+T92.theta_1	0.487583	]1e-06, 0.999999[
+T92.theta_2	0.806932	]1e-06, 0.999999[
+T92.theta_3	0.476688	]1e-06, 0.999999[
+T92.theta_4	0.698961	]1e-06, 0.999999[
+T92.theta_5	0.904923	]1e-06, 0.999999[
+T92.theta_6	0.665006	]1e-06, 0.999999[
+T92.theta_7	0.177462	]1e-06, 0.999999[
+T92.theta_8	0.999999	]1e-06, 0.999999[
+T92.theta_9	0.374677	]1e-06, 0.999999[
+T92.theta_10	0.606618	]1e-06, 0.999999[
+T92.theta_11	0.000001	]1e-06, 0.999999[
+T92.theta_12	0.634678	]1e-06, 0.999999[
+T92.theta_13	0.580750	]1e-06, 0.999999[
+T92.theta_14	0.485076	]1e-06, 0.999999[
+T92.theta_15	0.772714	]1e-06, 0.999999[
+T92.theta_16	0.272235	]1e-06, 0.999999[
+T92.theta_17	0.000001	]1e-06, 0.999999[
+T92.theta_18	0.649799	]1e-06, 0.999999[
+T92.theta_19	0.495821	]1e-06, 0.999999[
+T92.theta_20	0.445644	]1e-06, 0.999999[
+T92.theta_21	0.372600	]1e-06, 0.999999[
+T92.theta_22	0.000001	]1e-06, 0.999999[
+T92.theta_23	0.475045	]1e-06, 0.999999[
+T92.theta_24	0.245333	]1e-06, 0.999999[
+T92.theta_25	0.434752	]1e-06, 0.999999[
+T92.theta_26	0.820604	]1e-06, 0.999999[
+T92.theta_27	0.999999	]1e-06, 0.999999[
+T92.theta_28	0.499978	]1e-06, 0.999999[
+T92.theta_29	0.000001	]1e-06, 0.999999[
+T92.theta_30	0.501806	]1e-06, 0.999999[
+T92.theta_31	0.707578	]1e-06, 0.999999[
+T92.theta_32	0.754249	]1e-06, 0.999999[
+T92.theta_33	0.456291	]1e-06, 0.999999[
+T92.theta_34	0.486437	]1e-06, 0.999999[
+T92.theta_35	0.613794	]1e-06, 0.999999[
+T92.theta_36	0.750795	]1e-06, 0.999999[
+T92.theta_37	0.319860	]1e-06, 0.999999[
+T92.theta_38	0.375594	]1e-06, 0.999999[
+T92.theta_39	0.791867	]1e-06, 0.999999[
+T92.theta_40	0.604428	]1e-06, 0.999999[
+T92.theta_41	0.476073	]1e-06, 0.999999[
+T92.theta_42	0.590941	]1e-06, 0.999999[
+T92.theta_43	0.592997	]1e-06, 0.999999[
+T92.theta_44	0.100213	]1e-06, 0.999999[
+T92.theta_45	0.000001	]1e-06, 0.999999[
+T92.theta_46	0.571121	]1e-06, 0.999999[
+T92.theta_47	0.527021	]1e-06, 0.999999[
+T92.theta_48	0.527021	]1e-06, 0.999999[
+T92.theta_49	0.664737	]1e-06, 0.999999[
+T92.theta_50	0.999999	]1e-06, 0.999999[
+T92.theta_51	0.999999	]1e-06, 0.999999[
+T92.theta_52	0.274866	]1e-06, 0.999999[
+T92.theta_53	0.000001	]1e-06, 0.999999[
+T92.theta_54	0.999999	]1e-06, 0.999999[
+T92.theta_55	0.471889	]1e-06, 0.999999[
+T92.theta_56	0.845533	]1e-06, 0.999999[
+T92.theta_57	0.588564	]1e-06, 0.999999[
+T92.theta_58	0.689406	]1e-06, 0.999999[
+T92.theta_59	0.365927	]1e-06, 0.999999[
+T92.theta_60	0.669744	]1e-06, 0.999999[
+T92.theta_61	0.128818	]1e-06, 0.999999[
+T92.theta_62	0.694564	]1e-06, 0.999999[
+T92.theta_63	0.000001	]1e-06, 0.999999[
+T92.theta_64	0.497415	]1e-06, 0.999999[
+T92.theta_65	0.646493	]1e-06, 0.999999[
+T92.theta_66	0.821015	]1e-06, 0.999999[
+T92.theta_67	0.795280	]1e-06, 0.999999[
+T92.theta_68	0.373731	]1e-06, 0.999999[
+T92.theta_69	0.350606	]1e-06, 0.999999[
+T92.kappa_1	3.190846	]0, +inf] 
+Gamma.alpha	0.622090	[ 0.05, +inf] 
+Constraint match at parameter BrLen14, badValue = -0.424736 [ 1e-06, +inf] 
+Constraint match at parameter BrLen15, badValue = -0.424736 [ 1e-06, +inf] 
+Constraint match at parameter BrLen16, badValue = -0.425386 [ 1e-06, +inf] 
+Constraint match at parameter BrLen21, badValue = -0.001004 [ 1e-06, +inf] 
+Constraint match at parameter BrLen32, badValue = -0.128444 [ 1e-06, +inf] 
+Constraint match at parameter BrLen47, badValue = -0.512700 [ 1e-06, +inf] 
+Constraint match at parameter BrLen48, badValue = -0.512700 [ 1e-06, +inf] 
+Constraint match at parameter BrLen79, badValue = -0.036122 [ 1e-06, +inf] 
+Constraint match at parameter BrLen116, badValue = -0.501984 [ 1e-06, +inf] 
+Constraint match at parameter BrLen126, badValue = -0.504600 [ 1e-06, +inf] 
+Constraint match at parameter BrLen129, badValue = -0.002562 [ 1e-06, +inf] 
+Constraint match at parameter BrLen155, badValue = -0.001000 [ 1e-06, +inf] 
+Constraint match at parameter BrLen162, badValue = -0.511015 [ 1e-06, +inf] 
+Constraint match at parameter BrLen163, badValue = -0.511015 [ 1e-06, +inf] 
+Constraint match at parameter BrLen172, badValue = -0.003819 [ 1e-06, +inf] 
+Constraint match at parameter BrLen180, badValue = -0.013312 [ 1e-06, +inf] 
+Constraint match at parameter T92.theta_8, badValue = 1.042929 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_11, badValue = -0.005605 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_17, badValue = -0.016689 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_22, badValue = -0.014708 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_27, badValue = 1.012229 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_29, badValue = -0.011919 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_45, badValue = -0.005298 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_50, badValue = 1.009517 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_51, badValue = 1.011360 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_53, badValue = -0.013576 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_54, badValue = 1.010975 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_63, badValue = -0.001954 ]1e-06, 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). No move performed.
+Constraint match at parameter BrLen14, badValue = -0.849482 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen15(1e-06). No move performed.
+Constraint match at parameter BrLen15, badValue = -0.849482 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). No move performed.
+Constraint match at parameter BrLen16, badValue = -0.850784 [ 1e-06, +inf] 
+Constraint match at parameter BrLen21, badValue = -0.002006 [ 1e-06, +inf] 
+Constraint match at parameter BrLen32, badValue = -0.256905 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). No move performed.
+Constraint match at parameter BrLen47, badValue = -1.025394 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). No move performed.
+Constraint match at parameter BrLen48, badValue = -1.025394 [ 1e-06, +inf] 
+Constraint match at parameter BrLen79, badValue = -0.072252 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). No move performed.
+Constraint match at parameter BrLen116, badValue = -1.003963 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). No move performed.
+Constraint match at parameter BrLen126, badValue = -1.009196 [ 1e-06, +inf] 
+Constraint match at parameter BrLen129, badValue = -0.005111 [ 1e-06, +inf] 
+Constraint match at parameter BrLen155, badValue = -0.002001 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). No move performed.
+Constraint match at parameter BrLen162, badValue = -1.022023 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). No move performed.
+Constraint match at parameter BrLen163, badValue = -1.022023 [ 1e-06, +inf] 
+Constraint match at parameter BrLen172, badValue = -0.007639 [ 1e-06, +inf] 
+Constraint match at parameter BrLen180, badValue = -0.026643 [ 1e-06, +inf] 
+Constraint match at parameter T92.theta_8, badValue = 1.085834 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_11, badValue = -0.011207 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_17, badValue = -0.033377 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_22, badValue = -0.029413 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_27, badValue = 1.024454 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_29, badValue = -0.023837 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_45, badValue = -0.010595 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_50, badValue = 1.019028 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_51, badValue = 1.022716 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_53, badValue = -0.027151 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_54, badValue = 1.021944 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_63, badValue = -0.003907 ]1e-06, 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). No move performed.
+Constraint match at parameter BrLen14, badValue = -0.849476 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen15(1e-06). No move performed.
+Constraint match at parameter BrLen15, badValue = -0.849476 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). No move performed.
+Constraint match at parameter BrLen16, badValue = -0.850778 [ 1e-06, +inf] 
+Constraint match at parameter BrLen21, badValue = -0.002007 [ 1e-06, +inf] 
+Constraint match at parameter BrLen32, badValue = -0.256905 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). No move performed.
+Constraint match at parameter BrLen47, badValue = -1.025394 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). No move performed.
+Constraint match at parameter BrLen48, badValue = -1.025394 [ 1e-06, +inf] 
+Constraint match at parameter BrLen79, badValue = -0.072251 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). No move performed.
+Constraint match at parameter BrLen116, badValue = -1.003962 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). No move performed.
+Constraint match at parameter BrLen126, badValue = -1.009195 [ 1e-06, +inf] 
+Constraint match at parameter BrLen129, badValue = -0.005121 [ 1e-06, +inf] 
+Constraint match at parameter BrLen155, badValue = -0.002001 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). No move performed.
+Constraint match at parameter BrLen162, badValue = -1.022024 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). No move performed.
+Constraint match at parameter BrLen163, badValue = -1.022024 [ 1e-06, +inf] 
+Constraint match at parameter BrLen172, badValue = -0.007639 [ 1e-06, +inf] 
+Constraint match at parameter BrLen180, badValue = -0.026644 [ 1e-06, +inf] 
+Constraint match at parameter T92.theta_8, badValue = 1.085839 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_11, badValue = -0.011208 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_17, badValue = -0.033383 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_22, badValue = -0.029413 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_27, badValue = 1.024455 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_29, badValue = -0.023837 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_45, badValue = -0.010595 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_50, badValue = 1.019030 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_51, badValue = 1.022717 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_53, badValue = -0.027152 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_54, badValue = 1.021945 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_63, badValue = -0.003908 ]1e-06, 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). No move performed.
+Constraint match at parameter BrLen14, badValue = -0.849478 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen15(1e-06). No move performed.
+Constraint match at parameter BrLen15, badValue = -0.849478 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). No move performed.
+Constraint match at parameter BrLen16, badValue = -0.850780 [ 1e-06, +inf] 
+Constraint match at parameter BrLen21, badValue = -0.002006 [ 1e-06, +inf] 
+Constraint match at parameter BrLen32, badValue = -0.256913 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). No move performed.
+Constraint match at parameter BrLen47, badValue = -1.025391 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). No move performed.
+Constraint match at parameter BrLen48, badValue = -1.025391 [ 1e-06, +inf] 
+Constraint match at parameter BrLen79, badValue = -0.072253 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). No move performed.
+Constraint match at parameter BrLen116, badValue = -1.003958 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). No move performed.
+Constraint match at parameter BrLen126, badValue = -1.009191 [ 1e-06, +inf] 
+Constraint match at parameter BrLen129, badValue = -0.005123 [ 1e-06, +inf] 
+Constraint match at parameter BrLen155, badValue = -0.002001 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). No move performed.
+Constraint match at parameter BrLen162, badValue = -1.022021 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). No move performed.
+Constraint match at parameter BrLen163, badValue = -1.022021 [ 1e-06, +inf] 
+Constraint match at parameter BrLen172, badValue = -0.007639 [ 1e-06, +inf] 
+Constraint match at parameter BrLen180, badValue = -0.026653 [ 1e-06, +inf] 
+Constraint match at parameter T92.theta_8, badValue = 1.085832 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_11, badValue = -0.011206 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_17, badValue = -0.033385 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_22, badValue = -0.029412 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_27, badValue = 1.024453 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_29, badValue = -0.023837 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_45, badValue = -0.010595 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_50, badValue = 1.019027 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_51, badValue = 1.022715 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_53, badValue = -0.027152 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_54, badValue = 1.021944 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_63, badValue = -0.003907 ]1e-06, 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). No move performed.
+Constraint match at parameter BrLen14, badValue = -0.849472 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen15(1e-06). No move performed.
+Constraint match at parameter BrLen15, badValue = -0.849472 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). No move performed.
+Constraint match at parameter BrLen16, badValue = -0.850773 [ 1e-06, +inf] 
+Constraint match at parameter BrLen21, badValue = -0.002008 [ 1e-06, +inf] 
+Constraint match at parameter BrLen32, badValue = -0.256909 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). No move performed.
+Constraint match at parameter BrLen47, badValue = -1.025392 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). No move performed.
+Constraint match at parameter BrLen48, badValue = -1.025392 [ 1e-06, +inf] 
+Constraint match at parameter BrLen79, badValue = -0.072251 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). No move performed.
+Constraint match at parameter BrLen116, badValue = -1.003959 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). No move performed.
+Constraint match at parameter BrLen126, badValue = -1.009193 [ 1e-06, +inf] 
+Constraint match at parameter BrLen129, badValue = -0.005124 [ 1e-06, +inf] 
+Constraint match at parameter BrLen155, badValue = -0.002001 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). No move performed.
+Constraint match at parameter BrLen162, badValue = -1.022023 [ 1e-06, +inf] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). No move performed.
+Constraint match at parameter BrLen163, badValue = -1.022023 [ 1e-06, +inf] 
+Constraint match at parameter BrLen172, badValue = -0.007639 [ 1e-06, +inf] 
+Constraint match at parameter BrLen180, badValue = -0.026650 [ 1e-06, +inf] 
+Constraint match at parameter T92.theta_8, badValue = 1.085841 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_11, badValue = -0.011208 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_17, badValue = -0.033388 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_22, badValue = -0.029413 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_27, badValue = 1.024455 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_29, badValue = -0.023837 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_45, badValue = -0.010595 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_50, badValue = 1.019030 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_51, badValue = 1.022717 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_53, badValue = -0.027152 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_54, badValue = 1.021946 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_63, badValue = -0.003908 ]1e-06, 0.999999[

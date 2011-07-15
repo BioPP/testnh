@@ -177,7 +177,7 @@ SubstitutionModelSet* buildModelSetFromPartitions(
   }
   SubstitutionModelSet* modelSet = rootFreqs ?
     new SubstitutionModelSet(model->getAlphabet(), rootFreqs->clone()) :
-    new SubstitutionModelSet(model->getAlphabet(), true);
+    new SubstitutionModelSet(model->getAlphabet());
   //We assign a copy of this model to all nodes in the tree, for each partition, and link all parameters with it.
   for (size_t i = 0; i < groups.size(); ++i) {
     SubstitutionModel* modelC = dynamic_cast<SubstitutionModel*>(model->clone());
@@ -245,12 +245,12 @@ ParameterList getParametersToEstimate(const DRTreeLikelihood* drtl, map<string, 
   return parametersToEstimate;
 }
 
-void estimateLikelihood(DRTreeLikelihood* drtl, ParameterList& parametersToEstimate, double tolerance, unsigned int nbEvalMax, OutputStream* messageHandler, OutputStream* profiler, bool reparam, unsigned int verbose) {
+void estimateLikelihood(DRTreeLikelihood* drtl, ParameterList& parametersToEstimate, double tolerance, unsigned int nbEvalMax, OutputStream* messageHandler, OutputStream* profiler, bool reparam, bool useClock, unsigned int verbose) {
   // Uses Newton-raphson algorithm with numerical derivatives when required.
   parametersToEstimate.matchParametersValues(drtl->getParameters());
   OptimizationTools::optimizeNumericalParameters2(
     dynamic_cast<DiscreteRatesAcrossSitesTreeLikelihood*>(drtl), parametersToEstimate,
-    0, tolerance, nbEvalMax, messageHandler, profiler, reparam, verbose, OptimizationTools::OPTIMIZATION_NEWTON);
+    0, tolerance, nbEvalMax, messageHandler, profiler, reparam, useClock, verbose, OptimizationTools::OPTIMIZATION_NEWTON);
 }
 
 void outputNHModel(const string& modelPath, double likelihood, const SubstitutionModelSet* modelSet, const DiscreteDistribution* rDist) {
@@ -411,7 +411,10 @@ int main(int args, char ** argv)
     bool reparam = ApplicationTools::getBooleanParameter("optimization.reparametrization", partnh.getParams(), false);
     ApplicationTools::displayResult("Reparametrization", (reparam ? "yes" : "no"));
     
-    estimateLikelihood(drtl, parametersToEstimate, tolerance, nbEvalMax, messageHandler.get(), profiler.get(), reparam, optVerbose);
+    bool useClock = ApplicationTools::getBooleanParameter("optimization.clock", partnh.getParams(), false, "", true, false);
+    ApplicationTools::displayResult("Assume molecular clock", (useClock ? "yes" : "no"));
+
+    estimateLikelihood(drtl, parametersToEstimate, tolerance, nbEvalMax, messageHandler.get(), profiler.get(), reparam, useClock, optVerbose);
 
     double logL = drtl->getValue();
     double df = static_cast<double>(drtl->getParameters().size());
@@ -557,7 +560,7 @@ int main(int args, char ** argv)
       //Reevaluate parameters, as there might be some change when going to a NH model:
       parametersToEstimate = getParametersToEstimate(drtl, partnh.getParams()); 
       
-      estimateLikelihood(drtl, parametersToEstimate, tolerance, nbEvalMax, messageHandler.get(), profiler.get(), reparam, optVerbose);
+      estimateLikelihood(drtl, parametersToEstimate, tolerance, nbEvalMax, messageHandler.get(), profiler.get(), reparam, useClock, optVerbose);
         
       double newLogL = drtl->getValue();
       double newDf = static_cast<double>(drtl->getParameters().size());
