@@ -411,8 +411,11 @@ int main(int args, char ** argv)
     bool reparam = ApplicationTools::getBooleanParameter("optimization.reparametrization", partnh.getParams(), false);
     ApplicationTools::displayResult("Reparametrization", (reparam ? "yes" : "no"));
     
-    bool useClock = ApplicationTools::getBooleanParameter("optimization.clock", partnh.getParams(), false, "", true, false);
-    ApplicationTools::displayResult("Assume molecular clock", (useClock ? "yes" : "no"));
+    string clock = ApplicationTools::getStringParameter("optimization.clock", partnh.getParams(), "None", "", true, false);
+    if (clock != "None" || clock != "Global")
+      throw Exception("Molecular clock option not recognized, should be one of 'Global' or 'None'.");
+    bool useClock = (clock == "Global");
+    ApplicationTools::displayResult("Molecular clock", clock);
 
     estimateLikelihood(drtl, parametersToEstimate, tolerance, nbEvalMax, messageHandler.get(), profiler.get(), reparam, useClock, optVerbose);
 
