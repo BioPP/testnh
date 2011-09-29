@@ -1,0 +1,86 @@
+******************************************************************
+*       Bio++ Maximum Likelihood Computation, version 1.5.0      *
+*                                                                *
+* Authors: J. Dutheil                       Last Modif. 07/02/11 *
+*          B. Boussau                                            *
+*          L. Gueguen                                            *
+******************************************************************
+
+Parsing options:
+Parsing file ML.bpp for options.
+Alphabet type .........................: RNA
+Sequence format .......................: Mase
+Sequence file .........................: Life_Alignment.mase
+Sites to use...........................: complete
+Complete sites.........................: 527
+Number of sequences....................: 92
+Number of sites........................: 527
+Input tree.............................: user
+Tree file..............................: Life_Alignment.dnd
+Number of leaves.......................: 92
+Wrote tree to file ....................: Life_Alignment.ml_h.dnd
+Branch lengths.........................: Input
+Heterogeneous model....................: no
+Substitution model.....................: T92
+Use observed frequencies for model.....: no
+Parameter found........................: T92.kappa=2
+Parameter found........................: T92.theta=0.5
+Rate distribution......................: Gamma
+Number of classes......................: 4
+Parameter found........................: Gamma.alpha=0.5
+- Category 0 (Pr = 0.25) rate..........: 0.033388
+- Category 1 (Pr = 0.25) rate..........: 0.251917
+- Category 2 (Pr = 0.25) rate..........: 0.820269
+- Category 3 (Pr = 0.25) rate..........: 2.89443
+Likelihood recursion...................: simple
+Likelihood data compression............: recursive
+Initializing data structure............: Done.
+Number of distinct sites...............: 417
+Initial log likelihood.................: -14360.5270176487
+Message handler........................: Life_Alignment_h.messages
+Profiler...............................: Life_Alignment_h.profile
+Max # ML evaluations...................: 10000
+Tolerance..............................: 1e-06
+Optimize topology......................: no
+Optimization method....................: FullD
+Algorithm used for derivable parameters: Newton
+Reparametrization......................: no
+Molecular clock........................: None
+*****************************************
+
+Performed..............................: 42 function evaluations.
+Wrote tree to file ....................: Life_Alignment.ml_h.dnd
+Log likelihood.........................: -14122.120992882
+T92.kappa..............................: 3.06975
+T92.theta..............................: 0.556538
+Gamma.alpha............................: 0.640424
+WARNING!!! This parameter has a value close to the boundary: BrLen5(1e-06).
+WARNING!!! This parameter has a value close to the boundary: BrLen15(1e-06).
+WARNING!!! This parameter has a value close to the boundary: BrLen18(1e-06).
+WARNING!!! This parameter has a value close to the boundary: BrLen44(1e-06).
+WARNING!!! This parameter has a value close to the boundary: BrLen51(1e-06).
+WARNING!!! This parameter has a value close to the boundary: BrLen52(1e-06).
+WARNING!!! This parameter has a value close to the boundary: BrLen61(1e-06).
+WARNING!!! This parameter has a value close to the boundary: BrLen69(1e-06).
+WARNING!!! This parameter has a value close to the boundary: BrLen85(1e-06).
+WARNING!!! This parameter has a value close to the boundary: BrLen86(1e-06).
+WARNING!!! This parameter has a value close to the boundary: BrLen87(1e-06).
+WARNING!!! This parameter has a value close to the boundary: BrLen92(1e-06).
+WARNING!!! This parameter has a value close to the boundary: BrLen103(1e-06).
+WARNING!!! This parameter has a value close to the boundary: BrLen119(1e-06).
+WARNING!!! This parameter has a value close to the boundary: BrLen120(1e-06).
+WARNING!!! This parameter has a value close to the boundary: BrLen132(1e-06).
+WARNING!!! This parameter has a value close to the boundary: BrLen151(1e-06).
+Output estimates to file...............: Life_Alignment.params_h.bpp
+
+Posterior rate distribution for dataset:
+
+Pr(0.061538) = 0.307400
+Pr(0.334010) = 0.225806
+Pr(0.900619) = 0.297913
+Pr(2.703832) = 0.168880
+
+
+Alignment information logfile..........: Life_Alignment_h.infos
+BppML's done. Bye.
+Total execution time: 0.000000d, 0.000000h, 0.000000m, 28.000000s.

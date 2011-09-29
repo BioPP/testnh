@@ -193,8 +193,10 @@ plot.profile<-function(prf, iterations, thetas, brlen, tbl, ics) {
 }
 
 plot.profile(free.aic.prf, 1:26, 1:56, brlen, free.aic.tbl, free.aic)
-dev.print(tiff, file="Figures/FreeGC.tif", width=1000, height=500)
+#dev.print(tiff, file="Figures/FreeGC.tif", width=1000, height=500)
+dev.print(pdf, file="Figures/FreeGC.pdf", width=14, height=7)
 
 plot.profile(join.aic.prf, 1:34, 1:75, brlen, join.aic.tbl, join.aic)
-dev.print(tiff, file="Figures/JoinGC.tif", width=1000, height=500)
+#dev.print(tiff, file="Figures/JoinGC.tif", width=1000, height=500)
+dev.print(pdf, file="Figures/JoinGC.pdf", width=14, height=7)
 

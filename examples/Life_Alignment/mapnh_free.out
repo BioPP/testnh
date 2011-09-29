@@ -1,0 +1,102 @@
+******************************************************************
+*                     Map NH, version 0.1.0                      *
+* Authors: J. Dutheil                       Created on  09/12/10 *
+*          B. Boussau                       Last Modif. 20/03/08 *
+******************************************************************
+
+Parsing options:
+Parsing file MapNH.bpp for options.
+Alphabet type .........................: RNA
+Sequence format .......................: Mase
+Sequence file .........................: Life_Alignment.mase
+Sites to use...........................: complete
+Complete sites.........................: 527
+Number of sequences....................: 92
+Number of sites........................: 527
+Tree file..............................: Life_Alignment.ml_h.rooted.dnd
+Number of leaves.......................: 92
+WARNING!!! Parameter count.max not specified. Default used instead: -1
+Output counts of type 1 to file........: Life_Alignment.counts1.dnd
+Output counts of type 2 to file........: Life_Alignment.counts2.dnd
+Perform branch clustering..............: yes
+Cluster only neighbor nodes............: no
+Allow len < 0 in clustering............: no
+Auto-clustering........................: Marginal
+Auto-clutering threshold...............: 1
+[Automatically cluster node.............: 1 with 3
+Automatically cluster node.............: 2 with 3
+Automatically cluster node.............: 3 with 5
+=Automatically cluster node.............: 8 with 10
+=Automatically cluster node.............: 12 with 42
+Automatically cluster node.............: 13 with 17
+Automatically cluster node.............: 14 with 16
+=Automatically cluster node.............: 15 with 16
+Automatically cluster node.............: 16 with 17
+Automatically cluster node.............: 17 with 19
+Automatically cluster node.............: 18 with 19
+=Automatically cluster node.............: 21 with 41
+=Automatically cluster node.............: 25 with 29
+Automatically cluster node.............: 28 with 29
+=Automatically cluster node.............: 32 with 34
+Automatically cluster node.............: 34 with 38
+=Automatically cluster node.............: 36 with 37
+Automatically cluster node.............: 38 with 40
+=Automatically cluster node.............: 41 with 42
+=Automatically cluster node.............: 45 with 46
+Automatically cluster node.............: 47 with 49
+Automatically cluster node.............: 48 with 49
+==Automatically cluster node.............: 58 with 60
+=Automatically cluster node.............: 60 with 62
+Automatically cluster node.............: 62 with 64
+===Automatically cluster node.............: 79 with 83
+=Automatically cluster node.............: 83 with 87
+=Automatically cluster node.............: 87 with 89
+Automatically cluster node.............: 89 with 101
+=Automatically cluster node.............: 93 with 94
+Automatically cluster node.............: 94 with 96
+=Automatically cluster node.............: 96 with 98
+=Automatically cluster node.............: 101 with 105
+=Automatically cluster node.............: 106 with 107
+=Automatically cluster node.............: 113 with 119
+=Automatically cluster node.............: 115 with 117
+Automatically cluster node.............: 116 with 117
+Automatically cluster node.............: 119 with 123
+=Automatically cluster node.............: 123 with 135
+Automatically cluster node.............: 124 with 126
+=Automatically cluster node.............: 125 with 126
+Automatically cluster node.............: 126 with 128
+Automatically cluster node.............: 127 with 128
+Automatically cluster node.............: 128 with 132
+Automatically cluster node.............: 129 with 131
+=Automatically cluster node.............: 130 with 131
+Automatically cluster node.............: 131 with 132
+Automatically cluster node.............: 132 with 134
+Automatically cluster node.............: 134 with 135
+=Automatically cluster node.............: 135 with 143
+Automatically cluster node.............: 136 with 138
+Automatically cluster node.............: 138 with 140
+=Automatically cluster node.............: 140 with 142
+Automatically cluster node.............: 143 with 159
+=Automatically cluster node.............: 148 with 158
+=Automatically cluster node.............: 151 with 152
+Automatically cluster node.............: 152 with 154
+Automatically cluster node.............: 153 with 154
+=Automatically cluster node.............: 155 with 157
+Automatically cluster node.............: 157 with 158
+=Automatically cluster node.............: 161 with 167
+Automatically cluster node.............: 162 with 164
+Automatically cluster node.............: 163 with 164
+Automatically cluster node.............: 164 with 166
+=Automatically cluster node.............: 165 with 166
+Automatically cluster node.............: 168 with 170
+=Automatically cluster node.............: 172 with 174
+Automatically cluster node.............: 173 with 174
+=Automatically cluster node.............: 177 with 181
+=Automatically cluster node.............: 180 with 181
+==]Done.
+[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>]Done.
+P-value at root node...................: 9.99201e-16
+Number of tests performed..............: 26074
+Output cluster tree to.................: Life_Alignment.cluster_equilibrium_free.dnd
+MapNH's done. Bye.
+Total execution time: 0.000000d, 0.000000h, 0.000000m, 1.000000s.

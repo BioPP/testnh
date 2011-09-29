@@ -16,7 +16,7 @@ input.sequence.format = Fasta
 # all, nogap or complete (=only resolved chars)
 input.sequence.sites_to_use = all #complete
 # Specify a maximum amount of gaps: may be an absolute number or a percentage.
-input.sequence.max_gap_allowed = 50%
+input.sequence.max_gap_allowed = 
 # Remove stop codons
 input.sequence.remove_stop_codons=yes
 
@@ -38,7 +38,7 @@ init.brlen.method = Input
 # ----------------------------------------------------------------------------------------
 # See the manual for a description of the syntax and available options.
 #
-model = YN98(genetic_code=InvertebrateMitochondrial, frequencies=F3X4, useObservedFreqs=yes, omega=0.5, kappa=2.)
+model = YN98(genetic_code=VertebrateMitochondrial, frequencies=F3X4, useObservedFreqs=yes, omega=0.5, kappa=2.)
 
 rate_distribution = Uniform #Gamma(n=4, alpha=0.5)
 
@@ -84,7 +84,7 @@ optimization.final = none
 optimization.verbose = 3
 
 # Parameters to ignore (for instance equilibrium frequencies)
-optimization.ignore_parameter =
+optimization.ignore_parameter = YN98.freq*
 
 # Maximum number of likelihood evaluations:
 optimization.max_number_f_eval = 10000

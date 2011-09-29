@@ -64,7 +64,7 @@ using namespace std;
 #include <Bpp/Phyl/Model/JCnuc.h>
 #include <Bpp/Phyl/Model/HKY85.h>
 #include <Bpp/Phyl/Model/JCprot.h>
-#include <Bpp/Phyl/Model/CodonNeutralReversibleSubstitutionModel.h>
+#include <Bpp/Phyl/Model/CodonRateSubstitutionModel.h>
 #include <Bpp/Phyl/Model/YN98.h>
 #include <Bpp/Phyl/Model/SubstitutionModelSet.h>
 #include <Bpp/Phyl/Model/SubstitutionModelSetTools.h>
@@ -286,7 +286,7 @@ int main(int args, char ** argv)
     } else if (AlphabetTools::isProteicAlphabet(alphabet)) {
       model = new JCprot(dynamic_cast<ProteicAlphabet*>(alphabet));
     } else if (AlphabetTools::isCodonAlphabet(alphabet)) {
-      model = new CodonNeutralReversibleSubstitutionModel(
+      model = new CodonRateSubstitutionModel(
           dynamic_cast<const CodonAlphabet*>(geneticCode->getSourceAlphabet()),
           new JCnuc(dynamic_cast<CodonAlphabet*>(alphabet)->getNucleicAlphabet()));
     } else

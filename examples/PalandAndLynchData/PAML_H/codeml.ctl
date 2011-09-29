@@ -1,5 +1,5 @@
-      seqfile = PalandAndLynch28ConcatenateNoStop.phy  * sequence data filename
-     treefile = PalandAndLynch28UnrootedTree.dnd      * tree structure file name
+      seqfile = ../PalandAndLynch28ConcatenateNoStop.phy  * sequence data filename
+     treefile = ../PalandAndLynch28Tree_unrooted.dnd      * tree structure file name
       outfile = mlc           * main result file name
 
         noisy = 9  * 0,1,2,3,9: how much rubbish on the screen
