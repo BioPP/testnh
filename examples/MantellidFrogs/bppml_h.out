@@ -27,15 +27,15 @@ Use observed frequencies for model.....: yes
 WARNING!!! Parameter YN98.useObservedFreqs.pseudoCount not specified. Default used instead: 0
 Parameter found........................: YN98.kappa=2
 Parameter found........................: YN98.omega=0.5
-Parameter found........................: YN98.freq_Codon.1_Full.theta=0.460548
-Parameter found........................: YN98.freq_Codon.1_Full.theta1=0.569985
-Parameter found........................: YN98.freq_Codon.1_Full.theta2=0.480782
-Parameter found........................: YN98.freq_Codon.2_Full.theta=0.405271
-Parameter found........................: YN98.freq_Codon.2_Full.theta1=0.317366
-Parameter found........................: YN98.freq_Codon.2_Full.theta2=0.279906
-Parameter found........................: YN98.freq_Codon.3_Full.theta=0.352878
-Parameter found........................: YN98.freq_Codon.3_Full.theta1=0.540054
-Parameter found........................: YN98.freq_Codon.3_Full.theta2=0.125294
+Parameter found........................: YN98.freq_Codon1_Full.theta=0.460548
+Parameter found........................: YN98.freq_Codon1_Full.theta1=0.569985
+Parameter found........................: YN98.freq_Codon1_Full.theta2=0.480782
+Parameter found........................: YN98.freq_Codon2_Full.theta=0.405271
+Parameter found........................: YN98.freq_Codon2_Full.theta1=0.317366
+Parameter found........................: YN98.freq_Codon2_Full.theta2=0.279906
+Parameter found........................: YN98.freq_Codon3_Full.theta=0.352878
+Parameter found........................: YN98.freq_Codon3_Full.theta1=0.540054
+Parameter found........................: YN98.freq_Codon3_Full.theta2=0.125294
 Rate distribution......................: Uniform
 Number of classes......................: 1
 - Category 0 (Pr = 1) rate.............: 1
@@ -46,15 +46,15 @@ Number of distinct sites...............: 1491
 Initial log likelihood.................: -50287.4786308177
 Message handler........................: MantellidDataset_h.messages
 Profiler...............................: MantellidDataset_h.profile
-Parameter ignored......................: YN98.freq_Codon.1_Full.theta
-Parameter ignored......................: YN98.freq_Codon.1_Full.theta1
-Parameter ignored......................: YN98.freq_Codon.1_Full.theta2
-Parameter ignored......................: YN98.freq_Codon.2_Full.theta
-Parameter ignored......................: YN98.freq_Codon.2_Full.theta1
-Parameter ignored......................: YN98.freq_Codon.2_Full.theta2
-Parameter ignored......................: YN98.freq_Codon.3_Full.theta
-Parameter ignored......................: YN98.freq_Codon.3_Full.theta1
-Parameter ignored......................: YN98.freq_Codon.3_Full.theta2
+Parameter ignored......................: YN98.freq_Codon1_Full.theta
+Parameter ignored......................: YN98.freq_Codon1_Full.theta1
+Parameter ignored......................: YN98.freq_Codon1_Full.theta2
+Parameter ignored......................: YN98.freq_Codon2_Full.theta
+Parameter ignored......................: YN98.freq_Codon2_Full.theta1
+Parameter ignored......................: YN98.freq_Codon2_Full.theta2
+Parameter ignored......................: YN98.freq_Codon3_Full.theta
+Parameter ignored......................: YN98.freq_Codon3_Full.theta1
+Parameter ignored......................: YN98.freq_Codon3_Full.theta2
 Max # ML evaluations...................: 10000
 Tolerance..............................: 1e-06
 Optimize topology......................: no
@@ -66,18 +66,18 @@ Molecular clock........................: None
 
 Performed..............................: 35 function evaluations.
 Wrote tree to file ....................: MantellidDataset.ml_h.dnd
-Log likelihood.........................: -44799.2881010281
+Log likelihood.........................: -44799.288101026
 YN98.kappa.............................: 2.94975
 YN98.omega.............................: 0.0546374
-YN98.freq_Codon.1_Full.theta...........: 0.460548
-YN98.freq_Codon.1_Full.theta1..........: 0.569985
-YN98.freq_Codon.1_Full.theta2..........: 0.480782
-YN98.freq_Codon.2_Full.theta...........: 0.405271
-YN98.freq_Codon.2_Full.theta1..........: 0.317366
-YN98.freq_Codon.2_Full.theta2..........: 0.279906
-YN98.freq_Codon.3_Full.theta...........: 0.352878
-YN98.freq_Codon.3_Full.theta1..........: 0.540054
-YN98.freq_Codon.3_Full.theta2..........: 0.125294
+YN98.freq_Codon1_Full.theta............: 0.460548
+YN98.freq_Codon1_Full.theta1...........: 0.569985
+YN98.freq_Codon1_Full.theta2...........: 0.480782
+YN98.freq_Codon2_Full.theta............: 0.405271
+YN98.freq_Codon2_Full.theta1...........: 0.317366
+YN98.freq_Codon2_Full.theta2...........: 0.279906
+YN98.freq_Codon3_Full.theta............: 0.352878
+YN98.freq_Codon3_Full.theta1...........: 0.540054
+YN98.freq_Codon3_Full.theta2...........: 0.125294
 Output estimates to file...............: MantellidDataset.params_h.bpp
 
 Posterior rate distribution for dataset:
@@ -87,4 +87,4 @@ Pr(1.000000) = 1.000000
 
 Alignment information logfile..........: MantellidDataset_h.infos
 BppML's done. Bye.
-Total execution time: 0.000000d, 0.000000h, 3.000000m, 12.000000s.
+Total execution time: 0.000000d, 0.000000h, 3.000000m, 11.000000s.

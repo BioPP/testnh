@@ -37,14 +37,14 @@
             partition.test=BIC\
             METHOD=free_BIC > partnh_free_BIC.out &
 
-     The resulting likelihood is -, for  clusters
+     The resulting log likelihood is -45388.43914054020569892600, for 2 clusters
 
      ../../TestNH/partnh param=PartNH.bpp --noninteractive=yes\
             input.cluster_tree.file=Mantellid.cluster_join.dnd\
             partition.test=BIC\
             METHOD=join_BIC > partnh_join_BIC.out &
 
-     The resulting likelihood is -, for  cluster
+     The resulting log likelihood is -45388.08342856747913174331, for 5 clusters
 
 
      ../../TestNH/partnh param=PartNH.bpp --noninteractive=yes\
@@ -52,12 +52,12 @@
             partition.test=AIC\
             METHOD=free_AIC > partnh_free_AIC.out &
             
-     The resulting likelihood is , for  clusters
+     The resulting loge likelihood is -45364.23772318652481772006 for 11 clusters
 
      ../../TestNH/partnh param=PartNH.bpp --noninteractive=yes\
             input.cluster_tree.file=Mantellid.cluster_join.dnd\
             partition.test=AIC\
             METHOD=join_AIC > partnh_join_AIC.out &
 
-     The resulting likelihood is , for  clusters
+     The resulting log likelihood is -45370.00438022504386026412 for 12 clusters
 

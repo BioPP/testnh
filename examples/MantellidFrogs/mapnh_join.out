@@ -18,17 +18,17 @@ Number of sites........................: 1606
 Tree file..............................: MantellidDataset.ml_h.dnd
 Number of leaves.......................: 17
 Use observed frequencies for model.....: no
-Parameter found........................: YN98.kappa=2.94977
-Parameter found........................: YN98.omega=0.0546372
-Parameter found........................: YN98.freq_Codon.1_Full.theta=0.460548
-Parameter found........................: YN98.freq_Codon.1_Full.theta1=0.569985
-Parameter found........................: YN98.freq_Codon.1_Full.theta2=0.480782
-Parameter found........................: YN98.freq_Codon.2_Full.theta=0.405271
-Parameter found........................: YN98.freq_Codon.2_Full.theta1=0.317366
-Parameter found........................: YN98.freq_Codon.2_Full.theta2=0.279906
-Parameter found........................: YN98.freq_Codon.3_Full.theta=0.352878
-Parameter found........................: YN98.freq_Codon.3_Full.theta1=0.540054
-Parameter found........................: YN98.freq_Codon.3_Full.theta2=0.125294
+Parameter found........................: YN98.kappa=2.94975
+Parameter found........................: YN98.omega=0.0546374
+Parameter found........................: YN98.freq_Codon1_Full.theta=0.460548
+Parameter found........................: YN98.freq_Codon1_Full.theta1=0.569985
+Parameter found........................: YN98.freq_Codon1_Full.theta2=0.480782
+Parameter found........................: YN98.freq_Codon2_Full.theta=0.405271
+Parameter found........................: YN98.freq_Codon2_Full.theta1=0.317366
+Parameter found........................: YN98.freq_Codon2_Full.theta2=0.279906
+Parameter found........................: YN98.freq_Codon3_Full.theta=0.352878
+Parameter found........................: YN98.freq_Codon3_Full.theta1=0.540054
+Parameter found........................: YN98.freq_Codon3_Full.theta2=0.125294
 Saturation threshold used..............: 3
 WARNING!!! On branch 1, 28 sites (2%) have been ignored because they are presumably saturated.
 WARNING!!! On branch 3, 4 sites (1%) have been ignored because they are presumably saturated.
@@ -38,10 +38,10 @@ WARNING!!! On branch 9, 3 sites (1%) have been ignored because they are presumab
 WARNING!!! On branch 16, 26 sites (2%) have been ignored because they are presumably saturated.
 WARNING!!! On branch 18, 8 sites (1%) have been ignored because they are presumably saturated.
 WARNING!!! On branch 19, 1 sites (1%) have been ignored because they are presumably saturated.
-WARNING!!! On branch 25, 5 sites (1%) have been ignored because they are presumably saturated.
-WARNING!!! On branch 26, 19 sites (2%) have been ignored because they are presumably saturated.
-WARNING!!! On branch 27, 2 sites (1%) have been ignored because they are presumably saturated.
-WARNING!!! On branch 29, 136 sites (9%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 24, 5 sites (1%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 25, 19 sites (2%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 26, 2 sites (1%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 28, 136 sites (9%) have been ignored because they are presumably saturated.
 Output counts of type 1 to file........: CountsTree1.dnd
 Output counts of type 2 to file........: CountsTree2.dnd
 Perform branch clustering..............: yes
@@ -51,8 +51,8 @@ Auto-clustering........................: Global
 Auto-clutering threshold...............: 1
 [======================================]Done.
 [>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>]Done.
-P-value at root node...................: 1.91374e-10
-Number of tests performed..............: 123
+P-value at root node...................: 6.30453e-09
+Number of tests performed..............: 136
 Output cluster tree to.................: Mantellid.cluster_join.dnd
 MapNH's done. Bye.
-Total execution time: 0.000000d, 0.000000h, 0.000000m, 18.000000s.
+Total execution time: 0.000000d, 0.000000h, 0.000000m, 17.000000s.
