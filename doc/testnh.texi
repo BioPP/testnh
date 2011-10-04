@@ -1,0 +1,71 @@
+\input texinfo   @c -*-texinfo-*-
+@c %**start of header
+@setfilename testnh.info
+@settitle TestNH Manual 0.1.0
+@documentencoding UTF-8
+@afourpaper
+@dircategory Science Biology Genetics
+@direntry
+* testnh: (testnh)              XXXX.
+* mapnh: (mapnh)                XXXX.
+* partnh: (partnh)              XXXX.
+* randnh: (randnh)              XXXX.
+@end direntry
+@c %**end of header
+
+@include version.texi
+
+@copying
+This is the manual of the Bio++ Program Suite, version @value{VERSION}, @value{UPDATED}.
+
+Copyright @copyright{} 2011 Bastien Boussau and Julien Dutheil
+@end copying
+
+@titlepage
+@title TestNH Manual
+@author Bastien Boussau, Julien Dutheil
+@author @email{julien.dutheil@@univ-montp2.fr}
+
+@c The following two commands start the copyright page.
+@page
+@vskip 0pt plus 1fill1
+@insertcopying
+@end titlepage
+
+@c Output the table of contents at the beginning.
+@contents
+
+@ifnottex
+@node Top, Introduction, (dir), (dir)
+@top The TestNH Manual
+
+@insertcopying
+@end ifnottex
+
+@menu
+* Introduction::                Introducing the TestNH package and this manual.                
+
+@detailmenu
+
+@end detailmenu
+@end menu
+
+@c ------------------------------------------------------------------------------------------------------------------
+
+@node Introduction, Syntax, Top, Top
+@chapter Introduction
+
+
+@c ------------------------------------------------------------------------------------------------------------------
+
+@c ------------------------------------------------------------------------------------------------------------------
+
+@c ------------------------------------------------------------------------------------------------------------------
+@c end of document
+
+@c @node Index,  , Reference, Top
+@c @unnumbered Index
+@c
+@c @printindex cp
+
+@bye
