@@ -1,0 +1,37 @@
+.TH PARTNH 1 LOCAL
+
+.SH NAME
+
+partnh - Fit and select non-homogeneous models of sequence evolution from a branch clustering tree.
+
+.SH SYNOPSIS
+
+.B partnh [options]
+
+.SH AVAILABILITY
+
+All UNIX flavors
+
+.SH DESCRIPTION
+
+partnh takes as input a clustering tree of branches and use it to define partitions in the phylogenetic tree with distinct substitution models.
+
+.SH OPTIONS
+
+You should refer to 'info testnh' or to the online manual of testnh for a complete list of available options.
+
+.TP 5
+
+--noninteractive
+
+generates output for redirection in a file.
+
+.TP
+
+param=file
+
+reads a file for loading options
+
+.SH AUTHOR
+
+Bastien Boussau and Julien Dutheil.

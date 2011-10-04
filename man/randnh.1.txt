@@ -1,0 +1,37 @@
+.TH RANDNH 1 LOCAL
+
+.SH NAME
+
+randnh - Performs Bowker's test for non-stationary evolution
+
+.SH SYNOPSIS
+
+.B randnh [options]
+
+.SH AVAILABILITY
+
+All UNIX flavors
+
+.SH DESCRIPTION
+
+randnh generate options files describing a random non-homogeneous model of sequence evolution.
+
+.SH OPTIONS
+
+You should refer to 'info testnh' or to the online manual of testnh for a complete list of available options.
+
+.TP 5
+
+--noninteractive
+
+generates output for redirection in a file.
+
+.TP
+
+param=file
+
+reads a file for loading options
+
+.SH AUTHOR
+
+Bastien Boussau and Julien Dutheil.
