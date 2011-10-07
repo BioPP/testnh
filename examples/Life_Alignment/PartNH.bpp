@@ -24,6 +24,7 @@ partition.method = auto
 partition.test = BIC #Can be one of LRT, BIC or AIC.
 partition.test.threshold = 0.01 #If LRT is used.
 partition.test.stop_condition = 20 
+
 alphabet = RNA
 input.sequence.file = $(DATA).mase
 input.sequence.format = Mase
@@ -44,8 +45,6 @@ optimization.message_handler = $(DATA).$(METHOD).message
 
 
 #Where to write optimal model (for later use with bppSeqGen or bppAncestor for instance):
-output.model.file = 
-output.log.file = 
 output.tree.file = $(DATA).ml_nh_$(METHOD).nhx
 output.tree.format = NHX
 output.partitions.file = $(DATA).partitions_$(METHOD).dnd

@@ -45,9 +45,9 @@ IF(BUILD_STATIC)
 ENDIF()
 
 #build info?
-#IF(NOT DEFINED INFO)
-#  SET(INFO UNIX)
-#ENDIF(NOT DEFINED INFO)
+IF(NOT DEFINED INFO)
+  SET(INFO UNIX)
+ENDIF(NOT DEFINED INFO)
 
 #build man pages?
 IF(NOT DEFINED MAN)
@@ -55,7 +55,7 @@ IF(NOT DEFINED MAN)
 ENDIF(NOT DEFINED MAN)
 
 #find executables for documentation
-#FIND_PROGRAM(MAKEINFO_EXE NAMES makeinfo)
+FIND_PROGRAM(MAKEINFO_EXE NAMES makeinfo)
 FIND_PROGRAM(PDFTEX_EXE NAMES pdftex)
 FIND_PROGRAM(NROFF_EXE NAMES nroff)
 
@@ -116,12 +116,12 @@ IF(MAKEINFO_EXE)
 
   ADD_CUSTOM_TARGET(info
     ${ADD_INFO_TO}
-    COMMAND ${MAKEINFO_EXE} bppsuite.texi
+    COMMAND ${MAKEINFO_EXE} testnh.texi
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/doc
     )
 
   ADD_CUSTOM_TARGET(html
-    COMMAND ${MAKEINFO_EXE} --html --css-ref=http://www.w3.org/StyleSheets/Core/Steely bppsuite.texi
+    COMMAND ${MAKEINFO_EXE} --html --css-ref=http://www.w3.org/StyleSheets/Core/Oldstyle testnh.texi
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/doc
     )
 ENDIF(MAKEINFO_EXE)
@@ -131,10 +131,10 @@ IF(PDFTEX_EXE)
   MESSAGE("   Adding target: pdf")
 
   ADD_CUSTOM_TARGET(pdf
-    COMMAND ${PDFTEX_EXE} bppsuite.texi
+    COMMAND ${PDFTEX_EXE} testnh.texi
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/doc
     )
-  SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "doc/bppsuite.pdf;doc/bppsuite.aux;doc/bppsuite.cp;doc/bppsuite.fn;doc/bppsuite.info;doc/bppsuite.ky;doc/bppsuite.log;doc/bppsuite.pg;doc/bppsuite.toc;doc/bppsuite.tp;doc/bppsuite.vr")
+  SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "doc/testnh.pdf;doc/testnh.aux;doc/testnh.cp;doc/testnh.fn;doc/testnh.info;doc/testnh.ky;doc/testnh.log;doc/testnh.pg;doc/testnh.toc;doc/testnh.tp;doc/testnh.vr")
 ENDIF(PDFTEX_EXE)
 
 IF(NROFF_EXE)

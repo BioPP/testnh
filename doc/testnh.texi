@@ -6,17 +6,16 @@
 @afourpaper
 @dircategory Science Biology Genetics
 @direntry
-* testnh: (testnh)              XXXX.
-* mapnh: (mapnh)                XXXX.
-* partnh: (partnh)              XXXX.
-* randnh: (randnh)              XXXX.
+* testnh: (testnh)              TestNH.
+* mapnh: (mapnh)                MapNH.
+* partnh: (partnh)              PartNH.
+* randnh: (randnh)              RandNH.
 @end direntry
 @c %**end of header
 
-@include version.texi
 
 @copying
-This is the manual of the Bio++ Program Suite, version @value{VERSION}, @value{UPDATED}.
+This is the manual of the TestNH package, version 0.1.0.
 
 Copyright @copyright{} 2011 Bastien Boussau and Julien Dutheil
 @end copying
@@ -43,24 +42,272 @@ Copyright @copyright{} 2011 Bastien Boussau and Julien Dutheil
 @end ifnottex
 
 @menu
-* Introduction::                Introducing the TestNH package and this manual.                
+* Introduction::                
+* testnh::                      
+* mapnh::                       
+* partnh::                      
+* randnh::                      
 
 @detailmenu
+ --- The Detailed Node Listing ---
+
+Introduction
+
+* Description::                 
+* Run::                         
 
 @end detailmenu
 @end menu
 
 @c ------------------------------------------------------------------------------------------------------------------
 
-@node Introduction, Syntax, Top, Top
+@node Introduction, testnh, Top, Top
 @chapter Introduction
 
+TestNH is a package for studying the non-homogeneous process of sequence evolution. It is written on the Bio++ libraries, and uses the command line syntax common to the Bio++ Program Suite (BppSuite). Part of this manual will therefore link to the corresponding manual of BppSuite where needed, and only describe options
+specific to the TestNH package.
+
+Note that several detailed examples are provided along with the source code of the program, and can serve as good training starts. This manual intends to provide an exhaustive description of the options used in these examples.
 
 @c ------------------------------------------------------------------------------------------------------------------
 
-@c ------------------------------------------------------------------------------------------------------------------
+@menu
+* Description::                 
+* Run::                         
+@end menu
+
+@node Description, Run, Introduction, Introduction
+@section Description of the programs
+
+The TestNH package contains four programs:
+
+@table @samp
+
+@item testnh
+performs the Bowker test for non-stationarity. Note that although the test was described in the literature as testing non-homogeneity, it can only detect non-stationary processes.
+
+@item mapnh
+maps substitutions onto a phylogenetic tree, and counts types of substitutions per branch of the tree. The resulting counts are used as input of a clustering procedure to output groups of branches with similar substitution processes.
+
+@item partnh
+test and select non-homogeneous substitution models of sequence evolution. It takes as input a branch-clustering tree, typically output by @samp{mapnh} in order to design partitions. @samp{partnh} can also perform model selection according to various criteria, like AIC, BIC or LRT.
+
+@item randnh
+generate model description files (to be used with @samp{bppml}) with random partitions.
+
+@end table
 
 @c ------------------------------------------------------------------------------------------------------------------
+
+@node Run,  , Description, Introduction
+@section How to run the programs
+
+All programs in the TestNH package follow the @samp{bppSuite} syntax. They are command line driven, and take as input options with the form @samp{name}=@samp{value}. These options can be gathered into a file, and loaded using @command{param=optionfile}. Please refer to the Bio++ Program Suite manual for more details, including the use of variables, priority of option values, etc.
+
+@c ------------------------------------------------------------------------------------------------------------------
+
+@node testnh, mapnh, Introduction, Top
+@chapter Testing non-stationarity with TestNH
+
+TestNH reads an alignment file using the same syntax as all bppSuite programs (@ref{Sequences, , , bppsuite, @uref{http://home.gna.org/bppsuite/doc/Sequences.html#Sequences}}). All formats are supported, as well as sequence filtering options. It performs the Bowker test for all pairs of sequences, and compute the respective p-values. Two statistics are then computed, based on the pairwise tests: The median of all pairwise statistics, and the number of significant tests, given a certain threshold, specified with the option:
+@table @command
+@item bowker_test.threshold = @{float>0@}
+The threshold to consider pairwise tests significant.
+@end table
+
+In order to evaluate the global significance of the test for the full alignment, the statistics have to be compared to their null expectation. This is achieved using a parametric bootstrap approach, where sequences are simulated under a homogeneous model of evolution.
+Such a model requires a phylogenetic tree to be input, using the syntax described in the bppSuite manual (@ref{Tree, , , bppsuite, @uref{http://home.gna.org/bppsuite/doc/Tree.html#Tree}}). Any model of bppSuite can then be used (@ref{Model, , , bppsuite, @uref{http://home.gna.org/bppsuite/doc/Model.html#Model}}). As a null hypothesis a homogeneous model should be used, but it is possible to test any alternative hypothesis, as performed in Dutheil and Boussau (2008). Note: when a nonhomogeneous model is specified, which involves nodes id specification, it is safer to use the NHX input format for trees, which allows to explicitly records the ids for each node. Alternatively, nodes will be numbered sequentially while parsed.
+The number of simulations to perform is specified using option
+@table @command
+@item bootstrap.number = @{int > 0@}
+The number of bootstrap replicates to perform.
+@end table
+TestNH will then report a p-value based on these simulations for the two global statistics (median of pairwise statistics and number of pairwise significant tests). The p-value is computed as @math{(N_{great} + 1)/(N_{tot} + 1)}, where @math{N_{great}} is the number of replicates for which the statistics was greater or equal to the one of the real data set, and @math{N_{tot}} is the total number of replicates.
+In addition, the statistic for each replicate can be output in a separate file, for visual inspection of the distribution:
+@table @command
+@item bootstrap.dist_file = @{path@}
+The file where to output detailed simulation results (in text format, one simulation per line).
+@end table
+
+@c ------------------------------------------------------------------------------------------------------------------
+
+@node mapnh, partnh, testnh, Top
+@chapter Clustering branches through substitution mapping with MapNH
+
+@section Data import
+
+MapNH takes as input a sequence alignment, as described in the bppSuite manual 
+(@ref{Sequences, , , bppsuite, @uref{http://home.gna.org/bppsuite/doc/Sequences.html#Sequences}}). It then performs substitution mapping to count substitutions for each site of the alignment and each branch of a phylogenetic tree, input using the bppSuite syntax (@ref{Tree, , , bppsuite, @uref{http://home.gna.org/bppsuite/doc/Tree.html#Tree}}).
+
+@section Substitution mapping
+
+The substitution mapping procedure requires a model of sequence evolution. As the procedure is robust to the type of model used, a Jukes-Cantor model is used by default. It is recommended however to use a less coarse model whenever possible (particularly for large alphabets like codon alphabets). All non-mixed models available in bppSuite are supported (@ref{Model, , , bppsuite, @uref{http://home.gna.org/bppsuite/doc/Model.html#Model}}). A homogeneous model (like GTR for nucleotide, JTT92 for proteins and YN98 for codons) is usually a good start.
+
+MapNH can perform several types of substitution mapping, which determine which type of substitution have to be counted and used for clustering branches. This is specified with option
+
+@table @command
+@item map.type = @{All|GC|TsTv|DnDs@}
+Type of substitutions to map:
+@table @var
+@item All
+Map all @math{n(n-1)} possible substitutions. This option should be only used for small alphabet sizes like DNA or RNA, as it uses a large amount of memory and dilutes the information.
+@item GC [nucleotides]
+Map two types of substitutions: @samp{AT to GC} and @samp{GC to AT}. This option takes as input an optional argument telling if the counts should be corrected for nonstationarity: @command{GC(stationarity=no)} (yes by default) will normalize the counts by the ancestral frequencies of the corresponding node.
+@item TsTv [nucleotides]
+Counts transitions and transversions.
+@item DnDs [codons]
+Counts nonsynonymous and synonymous substitutions.
+@end table
+@end table
+It is possible to output the counts in a file, as a newick tree file with branch lengths. One tree file will be generated for each count:
+@table @command
+@item output.counts.tree.prefix = @{string@}
+The prefix name for all counts tree files. Tree file for counts of type 1 will be named @samp{prefix2}, for type 2 @samp{prefix2} and so on.
+@end table
+
+Based on this counts, MapNH can make a global test to assess if there is heterogeneity between branches:
+@table @command
+@item test.global = @{boolean@}
+Tell if global tests should be performed. If yes, two test will be done: a chi square contingency table, and a multinomial test. Note that both tests are indicative only, as the assumptions mode for computing the p-values may be incorrect.
+@end table
+
+@section Branch clustering
+
+Finally, MapNH can group branches in the tree with similar substitution processes, using a clustering approach. This is enabled with option:
+@table @command
+@item test.branch = @{boolean@}
+Tell if branch clustering should be performed.
+@end table
+
+The clustering procedure recognizes a few more options. First one can restrain the search by only allowing neighbor branches to have the same substitution process (the so(called @samp{join} model, as opposed to the @samp{free} model where any branch can be clustered with any other branch in the tree). This is set up with option
+@table @command
+@item test.branch.neighbor = @{boolean@}
+Tell if only neighbor branches are allowed to be clustered.
+@end table
+
+Then come two optional corrections for the clustering:
+@table @command
+@item test.branch.negbrlen = @{boolean@}
+Say if negative branches in the clustering tree are allowed. Leaving this option to @samp{no}, the default, is recommended.
+@item test.branch.auto_cluster = @{Marginal|Global@}
+Parametrize when branches should be automatically clustered with their parent branch. Two methods are available:
+@table @var
+@item Marginal(threshold=@{int>=0@})
+Will systematically cluster all nodes for which at least one count is below the given threshold value.
+@item Global(threshold=@{int>=0@})
+Will systematically cluster all nodes for which the sum of counts is below the given threshold value.
+@end table
+@end table
+
+The resulting cluster tree will be output in newick format, with nodes ids from the input phylogenetic tree as leave names:
+@table @command
+@item output.cluster_tree.file = @{path@}
+The path toward the output clustering tree.
+@end table
+
+@section Tree format conversion (for convenience)
+
+For convenience, MapNH also provide the possibility to output the phylogenetic tree in Nhx format, if it was provided in another format. The Nhx format warranties that nodes id will be correctly saved.
+@table @command
+@item output.tree_with_id.file = @{path@}
+The path toward the tree file to save (in Nhx format).
+@end table
+
+@c ------------------------------------------------------------------------------------------------------------------
+
+@node partnh, randnh, mapnh, Top
+@chapter Testing partitions with nonhomogeneous models using PartNH
+
+PartNH retrieves branch partitions from a clustering tree. Partitions can be specified by a threshold on the clustering tree, or by model selection using various criteria.
+
+@section Data loading
+
+As MapNH, PartNH takes as input a sequence alignment, as described in the bppSuite manual 
+(@ref{Sequences, , , bppsuite, @uref{http://home.gna.org/bppsuite/doc/Sequences.html#Sequences}}). It also requires a clustering tree, in Newick parenthetic format:
+@table @command
+@item input.cluster_tree.file = @{path@}
+Input clustering tree, with nodes id as leave labels (this tree is typically produced by MapNH).
+@end table
+
+@section Generating partitions
+
+Then one has to specified the method used for retrieving partitions:
+@table @command
+@item partition.method = @{threshold|auto@}
+Method to retrieve partitions.
+@end table
+With the @command{threshold} option, partitions will be deduced from the tree given a certain threshold (the units of which depending on the clustering tree. If MapNH was using, the threshold is a p-value from the multinomial test). The threshold is set using:
+@table @command
+@item partition.threshold = @{float>0@}
+The threshold to use to define partitions.
+@end table
+With the @command{auto} option, PartNH will test several levels of partitioning and compare them using a model selection approach. In order to do so, PartNH needs the corresponding phylogenetic tree to which the clustering tree refers to, in Nhx format in order to ensure matching of id names. This is provided by
+@table @command
+@item input.tree.file = @{path@}
+The input phylogenetic tree in Nhx format. Recall that MapNH can convert trees to Nhx.
+@end table
+When performing model selection, the criterion for model selection should be set:
+@table @command
+@item partition.test = @{AIC,BIC,LRT@}
+The criterion to use for selecting the best model. Should be one of Akaike's Information Criterion (AIC), Bayesian Information Criterion (BIC) or Likelihood Ratio Test (LRT).
+@item partition.test.threshold = @{0<float<1@}
+The threshold p-value to use for the LRT test
+@item partition.test.stop_condition = @{int>0@}
+Tell how many models should be tested after a local minimum was found. Only applies for AIC and BIC.
+@end table
+
+The last step for the model selection procedure is to set a model family. For now, PartNH can only test models with the same model (yet with distinct parameter values) for all branches, and with only one common partition for all parameters.
+Models can be specified using the syntax of the bppSuite programs (@ref{Model, , , bppsuite, @uref{http://home.gna.org/bppsuite/doc/Model.html#Model}}). More precisely, the syntax for non-homogeneous models is the same as for the @samp{one_per_branch} model type.
+It is possible to specify some parameters which will not be partitioned, using
+@table @command
+@item nonhomogeneous.shared_parameters = @{list@}
+List of names of parameters which should not be partitioned. The syntax is the same as option @samp{nonhomogeneous_one_per_branch.shared_parameters} for the bppSuite programs.
+@end table
+Non stationary models will also require a @samp{root_frequencies} arguments, as described in the bppSuite manual. See also the example data sets distributed with the source code of this package.
+ 
+@section Output files
+
+PartNH can output several files, with different information content.
+The most general output is a tree file with nodes labeled according to their partition number:
+@table @command
+@item output.partitions.file = @{path@}
+Output tree with partition labels.
+@end table
+
+In case an automatic model selection has been performed, more information can be output:
+@table @command
+@item output.model.file = @{path@}
+The selected model will be written using the bppSuite syntax (@ref{Model, , , bppsuite, @uref{http://home.gna.org/bppsuite/doc/Model.html#Model}})
+@item output.intermediate.models = @{boolean@}
+Tells if all tested models should be output, in addition to the best one. Models will be written into file with names @samp{output.model.file} with a number as a suffix.
+@item output.log.file = @{path@}
+A log file in tabular format, containing information on each portioning tested (corresponding threshold, number of partitions, log likelihood, number of degrees of freedom, AIC and BIC).
+@item output.tree.file = @{path@}
+The phylogenetic tree with branch lengths computed from the selected model. Syntax follows the bppSuite format (@ref{Tree, , , bppsuite, @uref{http://home.gna.org/bppsuite/doc/Tree.html#Tree}}).
+@item output.partitions.record = @{path@}
+A tabular file with all partitions tested. Each row corresponds to one node of the phylogenetic tree, and each column contains the corresponding cluster numbers the node was assigned to.
+@item output.parameters.file = @{path@}
+Output estimated parameters for all nodes in a tabular file, one row per node and one column per parameter.
+@end table
+
+@c ------------------------------------------------------------------------------------------------------------------
+
+@node randnh,  , partnh, Top
+@chapter Simulation random partitions using RandNH
+
+RandNH is an helper programs which generates random partitions in order to simulate nonhomogeneous data. It should therefore be used in combination with the bppSeqGen program from the bppSuite package.
+The program takes as input a phylogenetic tree file (@ref{Tree, , , bppsuite, @uref{http://home.gna.org/bppsuite/doc/Tree.html#Tree}}), which it can converts to Nhx format for preserving nodes ids, using the @samp{output.tree.file} option.
+Model file will be written to the path specified by option @samp{output.model.file}, in the bppSuite syntax (@ref{Model, , , bppsuite, @uref{http://home.gna.org/bppsuite/doc/Model.html#Model}}).
+Finally, the type of model can be configured with two options:
+@table @command
+@item nonhomogeneous.number_of_models = @{int > 1@}
+Specify the number of node clusters to generate
+@item nonhomogeneous.type_of_model = @{free|join@}
+Tell if partitions should be generated according to the @samp{free} (each node has a random partition number) or @samp{join} (clusters contain only connected nodes) models.
+@end table
+
+@c ------------------------------------------------------------------------------------------------------------------
+
 @c end of document
 
 @c @node Index,  , Reference, Top
