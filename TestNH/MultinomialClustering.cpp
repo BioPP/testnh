@@ -111,29 +111,34 @@ MultinomialClustering::MultinomialClustering(
     //Check for small counts:
     if (autoGroup.check(counts_[i])) {
       for (size_t j = 0; j < i; ++j) {
-        if (neighborsOnly_) {
-          if (tree.getFatherId(ids[i]) == ids[j])
+        if (matrix_(i, j) > 0) {
+          if (neighborsOnly_) {
+            if (tree.getFatherId(ids[i]) == ids[j])
+              matrix_(i, j) = matrix_(j, i) = getDist(counts_[i], counts_[j]);
+            if (tree.getFatherId(ids[j]) == ids[i])
+              matrix_(i, j) = matrix_(j, i) = getDist(counts_[i], counts_[j]);
+            if (tree.getFatherId(ids[i]) == tree.getRootId()
+             && tree.getFatherId(ids[j]) == tree.getRootId())
+              matrix_(i, j) = matrix_(j, i) = getDist(counts_[i], counts_[j]);
+          } else {
             matrix_(i, j) = matrix_(j, i) = getDist(counts_[i], counts_[j]);
-          if (tree.getFatherId(ids[j]) == ids[i])
-            matrix_(i, j) = matrix_(j, i) = getDist(counts_[i], counts_[j]);
-          if (tree.getFatherId(ids[i]) == tree.getRootId()
-           && tree.getFatherId(ids[j]) == tree.getRootId())
-            matrix_(i, j) = matrix_(j, i) = getDist(counts_[i], counts_[j]);
-        } else {
-          matrix_(i, j) = matrix_(j, i) = getDist(counts_[i], counts_[j]);
-        }
+          }
+        }//else distance was already assigned because of autoclustering.
       }
     } else {
-      //node i has distance 0 with his father, 1. with brothers and sons and 2. with all others
+      //node i has distance -1 with his father, 1. with brothers and sons and 2. with all others
       for (size_t j = 0; j < n; ++j) {
         if (j != i) {
           int fatherId_i = tree.getFatherId(ids[i]);
           int fatherId_j = tree.getFatherId(ids[j]);
           if (fatherId_i == ids[j]) {
-            matrix_(i, j) = matrix_(j, i) = 0.;
+            matrix_(i, j) = matrix_(j, i) = -1.;
             ApplicationTools::displayResult("Automatically cluster node", names[i] + " with " + names[j]);
-          } else if (fatherId_i == fatherId_j || ids[i] == fatherId_j)
-            matrix_(i, j) = matrix_(j, i) = 1.;
+          } else if (fatherId_i == fatherId_j || ids[i] == fatherId_j) {
+            if (matrix_(i, j) > 0) {
+              matrix_(i, j) = matrix_(j, i) = 1.;
+            } //otherwise son node was also automatically assigned!
+          }
           //else remains 2.
         }
       }
@@ -181,7 +186,7 @@ vector<unsigned int> MultinomialClustering::getBestPair() throw (Exception)
 vector<double> MultinomialClustering::computeBranchLengthsForPair(const vector<unsigned int>& pair)
 {
   vector<double> d(2);
-  double dist = matrix_(pair[0], pair[1]) / 2.;
+  double dist = max(0., matrix_(pair[0], pair[1])) / 2.; //In case of automatic clustering, -1 corresponds to a distance of 0.
   double d1 = dynamic_cast<NodeTemplate<ClusterInfos>*>(currentNodes_[pair[0]])->getInfos().length; 
   double d2 = dynamic_cast<NodeTemplate<ClusterInfos>*>(currentNodes_[pair[1]])->getInfos().length; 
   if (negativeBrlen_) {
@@ -199,11 +204,15 @@ vector<double> MultinomialClustering::computeBranchLengthsForPair(const vector<u
 
 double MultinomialClustering::computeDistancesFromPair(const vector<unsigned int>& pair, const vector<double>& branchLengths, unsigned int pos)
 {
+  //Check if nodes are neighbors:
+  if (matrix_(pair[0], pos) > 1. && matrix_(pair[1], pos) > 1.) return 2.;
+  //Check if nodes are automatically clustered;
+  if (matrix_(pair[0], pos) < 0. || matrix_(pair[1], pos) < 0.) {
+    return -1.;
+  }
   //Perform a multinomial LRT:
   vector<unsigned int>* v1 = &counts_[pos];
   vector<unsigned int>* v2 = &counts_[pair[0]];
-  //Check if nodes are neighbors:
-  if (matrix_(pair[0], pos) > 1. && matrix_(pair[1], pos) > 1.) return 2.;
   return getDist(*v1, *v2);
 }
 

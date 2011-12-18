@@ -89,8 +89,41 @@
 
     All tests are now not significant!
 
-4) Compare with nhml estimates:
+4) Assess the robustness of substitution mapping:
+     We rerun the substitution mapping procedure and clustering of branches using the model selected using BIC, for both the free and join approach:
 
+     mapnh --noninteractive=yes\
+           param=MapNH.bpp\
+           param=Life_Alignment.model_free_BIC.bpp\
+           input.tree.file=Life_Alignment.ml_nh_free_BIC.nhx\
+           input.tree.format=NHX\
+           "map.type=GC(stationarity=no)"\
+           test.branch.neighbor=no\
+           output.counts.tree.prefix=Life_Alignment.counts_post\
+           output.cluster_tree.file=Life_Alignment.cluster_equilibrium_free_post.dnd > mapnh_free_post.out &
+
+     partnh param=PartNH.bpp --noninteractive=yes \
+            input.cluster_tree.file=Life_Alignment.cluster_equilibrium_free_post.dnd\
+            partition.test=BIC\
+            partition.test.stop_condition=3\
+            METHOD=free_BIC_post > partnh_free_BIC_post.out &
+
+
+     mapnh --noninteractive=yes\
+           param=MapNH.bpp\
+           param=Life_Alignment.model_join_BIC.bpp\
+           input.tree.file=Life_Alignment.ml_nh_join_BIC.nhx\
+           input.tree.format=NHX\
+           "map.type=GC(stationarity=no)"\
+           test.branch.neighbor=yes\
+           output.counts.tree.prefix=Life_Alignment.counts_post\
+           output.cluster_tree.file=Life_Alignment.cluster_equilibrium_join_post.dnd > mapnh_join_post.out &
+
+     partnh param=PartNH.bpp --noninteractive=yes \
+            input.cluster_tree.file=Life_Alignment.cluster_equilibrium_join_post.dnd\
+            partition.test=BIC\
+            partition.test.stop_condition=3\
+            METHOD=join_BIC_post > partnh_join_BIC_post.out &
 
 
 

@@ -141,7 +141,11 @@ MapNH takes as input a sequence alignment, as described in the bppSuite manual
 
 @section Substitution mapping
 
-The substitution mapping procedure requires a model of sequence evolution. As the procedure is robust to the type of model used, a Jukes-Cantor model is used by default. It is recommended however to use a less coarse model whenever possible (particularly for large alphabets like codon alphabets). All non-mixed models available in bppSuite are supported (@ref{Model, , , bppsuite, @uref{http://home.gna.org/bppsuite/doc/Model.html#Model}}). A homogeneous model (like GTR for nucleotide, JTT92 for proteins and YN98 for codons) is usually a good start.
+The substitution mapping procedure requires a model of sequence evolution. As the procedure is robust to the type of model used, a Jukes-Cantor model is used by default.
+It is recommended however to use a less coarse model whenever possible (particularly for large alphabets like codon alphabets).
+All non-mixed models available in bppSuite are supported (@ref{Model, , , bppsuite, @uref{http://home.gna.org/bppsuite/doc/Model.html#Model}}).
+A homogeneous model (like GTR for nucleotide, JTT92 for proteins and YN98 for codons) is usually a good start.
+Non homogeneous models are also supported, mainly for a posteriori validation of mapping robustness (to be used with PartNH for instance).
 
 MapNH can perform several types of substitution mapping, which determine which type of substitution have to be counted and used for clustering branches. This is specified with option
 
@@ -151,11 +155,11 @@ Type of substitutions to map:
 @table @var
 @item All
 Map all @math{n(n-1)} possible substitutions. This option should be only used for small alphabet sizes like DNA or RNA, as it uses a large amount of memory and dilutes the information.
-@item GC [nucleotides]
+@item GC @{alphabet=nucleotides@}
 Map two types of substitutions: @samp{AT to GC} and @samp{GC to AT}. This option takes as input an optional argument telling if the counts should be corrected for nonstationarity: @command{GC(stationarity=no)} (yes by default) will normalize the counts by the ancestral frequencies of the corresponding node.
-@item TsTv [nucleotides]
+@item TsTv @{alphabet=nucleotides@}
 Counts transitions and transversions.
-@item DnDs [codons]
+@item DnDs @{alphabet=codons@}
 Counts nonsynonymous and synonymous substitutions.
 @end table
 @end table
