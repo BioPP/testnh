@@ -86,3 +86,21 @@
 
      The resulting likelihood is -19445.28772075131928431801, for 11 clusters
 
+
+3) Assess the robustness of substitution mapping:
+     mapnh --noninteractive=yes\
+           param=MapNH.bpp\
+           param=PalandAndLynch28.model_free_BIC.bpp\
+           input.tree.file=PalandAndLynch28.ml_nh_free_BIC.nhx\
+           input.tree.format=NHX\
+           test.branch.neighbor=no\
+           output.counts.tree.prefix=PalandAndLynch.counts_post\
+           output.cluster_tree.file=PalandAndLynch.cluster_equilibrium_free_post.dnd > mapnh_free_post.out &
+
+     partnh param=PartNH.bpp --noninteractive=yes \
+            input.cluster_tree.file=PalandAndLynch.cluster_equilibrium_free_post.dnd\
+            partition.test=BIC\
+            partition.test.stop_condition=3\
+            METHOD=free_BIC_post > partnh_free_BIC_post.out &
+
+
