@@ -1,0 +1,161 @@
+******************************************************************
+*                     PartNH, version 0.1.0                      *
+* Authors: J. Dutheil                       Created on  09/12/10 *
+*          B. Boussau                       Last Modif. 08/04/11 *
+******************************************************************
+
+Parsing options:
+Parsing file PartNH.bpp for options.
+Input cluster tree.....................: Life_Alignment.cluster_equilibrium_free_post.dnd
+Input tree file........................: Life_Alignment.nhx
+Alphabet type .........................: RNA
+Sequence format .......................: Mase
+Sequence file .........................: Life_Alignment.mase
+Sites to use...........................: complete
+Complete sites.........................: 527
+Number of sequences....................: 92
+Number of sites........................: 527
+Substitution model.....................: T92
+Frequencies initialization for model...: None
+Parameter found........................: T92.kappa=2
+Parameter found........................: T92.theta=0.5
+Rate distribution......................: Gamma
+Number of classes......................: 4
+Parameter found........................: Gamma.alpha=0.5
+- Category 0 (Pr = 0.25) rate..........: 0.033388
+- Category 1 (Pr = 0.25) rate..........: 0.251917
+- Category 2 (Pr = 0.25) rate..........: 0.820269
+- Category 3 (Pr = 0.25) rate..........: 2.89443
+WARNING!!! Tree has been unrooted.
+Initializing data structure............: Done.
+Number of distinct sites...............: 417
+Output intermediate models.............: yes
+Output log to..........................: Life_Alignment.model_free_BIC_post.log.txt
+Message handler........................: Life_Alignment.free_BIC_post.message*
+Profiler...............................: Life_Alignment.free_BIC_post.profile*
+Max # ML evaluations...................: 10000
+Tolerance..............................: 1e-06
+Reparametrization......................: no
+Molecular clock........................: None
+***********************************************************
+
+* Homogeneous model - LogL.............: -14122.1
+                    - df...............: 184
+Parameter found........................: GC.theta=0.5
+Root frequencies ......................: GC
+Stationarity assumed...................: no
+Global parameter.......................: T92.kappa
+AIC....................................: 28612.2
+BIC....................................: 29397.4
+Likelihood comparison method...........: BIC
+Stop condition.........................: test 3 nested models after local best
+Testing non-stationary model...........: yes
+Number of real partitions..............: 1
+Partition 1............................: 182 element(s).
+****************************************************
+
+* New NH model - LogL..................: -14117.5
+               - df....................: 186
+               - LRT p-value...........: 0.00993165
+               - AIC...................: 28607
+               - BIC...................: 29400.7
+Current threshold......................: 0
+Number of real partitions..............: 4
+Partition 1............................: 66 element(s).
+Partition 2............................: 35 element(s).
+Partition 3............................: 33 element(s).
+Partition 4............................: 48 element(s).
+***************************************
+
+* New NH model - LogL..................: -13942.9
+               - df....................: 189
+               - LRT p-value...........: 0
+               - AIC...................: 28263.8
+               - BIC...................: 29070.3
+Current threshold......................: 1.76e-05
+Number of real partitions..............: 5
+Partition 1............................: 66 element(s).
+Partition 2............................: 33 element(s).
+Partition 3............................: 48 element(s).
+Partition 4............................: 33 element(s).
+Partition 5............................: 2 element(s).
+********************
+
+* New NH model - LogL..................: -13935.7
+               - df....................: 190
+               - LRT p-value...........: 0.000154806
+               - AIC...................: 28251.5
+               - BIC...................: 29062.2
+Current threshold......................: 0.0039688
+Number of real partitions..............: 6
+Partition 1............................: 33 element(s).
+Partition 2............................: 48 element(s).
+Partition 3............................: 33 element(s).
+Partition 4............................: 2 element(s).
+Partition 5............................: 22 element(s).
+Partition 6............................: 44 element(s).
+**************************
+
+* New NH model - LogL..................: -13932.2
+               - df....................: 191
+               - LRT p-value...........: 0.0079425
+               - AIC...................: 28246.4
+               - BIC...................: 29061.4
+Current threshold......................: 0.0298608
+Number of real partitions..............: 7
+Partition 1............................: 48 element(s).
+Partition 2............................: 33 element(s).
+Partition 3............................: 2 element(s).
+Partition 4............................: 22 element(s).
+Partition 5............................: 44 element(s).
+Partition 6............................: 18 element(s).
+Partition 7............................: 15 element(s).
+********************
+
+* New NH model - LogL..................: -13932.2
+               - df....................: 192
+               - LRT p-value...........: 0.827316
+               - AIC...................: 28248.4
+               - BIC...................: 29067.7
+Current threshold......................: 0.0388178
+Number of real partitions..............: 8
+Partition 1............................: 33 element(s).
+Partition 2............................: 2 element(s).
+Partition 3............................: 22 element(s).
+Partition 4............................: 44 element(s).
+Partition 5............................: 18 element(s).
+Partition 6............................: 15 element(s).
+Partition 7............................: 30 element(s).
+Partition 8............................: 18 element(s).
+************
+
+* New NH model - LogL..................: -13932
+               - df....................: 193
+               - LRT p-value...........: 0.549327
+               - AIC...................: 28250
+               - BIC...................: 29073.6
+Current threshold......................: 0.0768686
+Number of real partitions..............: 9
+Partition 1............................: 33 element(s).
+Partition 2............................: 2 element(s).
+Partition 3............................: 22 element(s).
+Partition 4............................: 18 element(s).
+Partition 5............................: 15 element(s).
+Partition 6............................: 30 element(s).
+Partition 7............................: 18 element(s).
+Partition 8............................: 11 element(s).
+Partition 9............................: 33 element(s).
+******************************
+
+* New NH model - LogL..................: -13930.1
+               - df....................: 194
+               - LRT p-value...........: 0.0497751
+               - AIC...................: 28248.1
+               - BIC...................: 29076
+Model description output to file.......: Life_Alignment.model_free_BIC_post.bpp
+Output parameter table to..............: Life_Alignment.ml_nh_free_BIC_post.parameters.csv
+Output partitions record to............: Life_Alignment.partitions_record_free_BIC_post.txt
+Wrote tree to file ....................: Life_Alignment.ml_nh_free_BIC_post.nhx
+Partitions output to file..............: Life_Alignment.partitions_free_BIC_post.dnd
+PartNH's done. Bye.
+Total execution time: 0.000000d, 0.000000h, 4.000000m, 24.000000s.
