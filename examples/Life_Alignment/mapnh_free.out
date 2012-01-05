@@ -1,7 +1,7 @@
 ******************************************************************
 *                     Map NH, version 0.1.0                      *
 * Authors: J. Dutheil                       Created on  09/12/10 *
-*          B. Boussau                       Last Modif. 20/03/08 *
+*          B. Boussau                       Last Modif. 17/12/11 *
 ******************************************************************
 
 Parsing options:
@@ -15,6 +15,7 @@ Number of sequences....................: 92
 Number of sites........................: 527
 Tree file..............................: Life_Alignment.ml_h.rooted.dnd
 Number of leaves.......................: 92
+Heterogeneous model....................: no
 WARNING!!! Parameter count.max not specified. Default used instead: -1
 Output counts of type 1 to file........: Life_Alignment.counts1.dnd
 Output counts of type 2 to file........: Life_Alignment.counts2.dnd
@@ -95,8 +96,8 @@ Automatically cluster node.............: 173 with 174
 =Automatically cluster node.............: 180 with 181
 ==]Done.
 [>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>]Done.
-P-value at root node...................: 9.99201e-16
-Number of tests performed..............: 26074
+P-value at root node...................: 0.0284498
+Number of tests performed..............: 25968
 Output cluster tree to.................: Life_Alignment.cluster_equilibrium_free.dnd
 MapNH's done. Bye.
 Total execution time: 0.000000d, 0.000000h, 0.000000m, 1.000000s.

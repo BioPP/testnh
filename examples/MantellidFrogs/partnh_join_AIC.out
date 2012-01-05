@@ -16,18 +16,27 @@ WARNING!!! Parameter input.sequence.max_gap_allowed not specified. Default used 
 Remove Stop Codons.....................: yes
 Number of sequences....................: 17
 Number of sites........................: 1606
-Use observed frequencies for model.....: yes
-WARNING!!! Parameter YN98.useObservedFreqs.pseudoCount not specified. Default used instead: 0
+Frequencies initialization for model...: observed
+WARNING!!! Parameter YN98.initFreqs.observedPseudoCount not specified. Default used instead: 0
 Parameter found........................: YN98.kappa=2
 Parameter found........................: YN98.omega=0.5
+WARNING!!! Parameter YN98.freq_Codon1_Full.theta not specified. Default used instead: 0.459638
 Parameter found........................: YN98.freq_Codon1_Full.theta=0.459638
+WARNING!!! Parameter YN98.freq_Codon1_Full.theta1 not specified. Default used instead: 0.569686
 Parameter found........................: YN98.freq_Codon1_Full.theta1=0.569686
+WARNING!!! Parameter YN98.freq_Codon1_Full.theta2 not specified. Default used instead: 0.479348
 Parameter found........................: YN98.freq_Codon1_Full.theta2=0.479348
+WARNING!!! Parameter YN98.freq_Codon2_Full.theta not specified. Default used instead: 0.404291
 Parameter found........................: YN98.freq_Codon2_Full.theta=0.404291
+WARNING!!! Parameter YN98.freq_Codon2_Full.theta1 not specified. Default used instead: 0.316323
 Parameter found........................: YN98.freq_Codon2_Full.theta1=0.316323
+WARNING!!! Parameter YN98.freq_Codon2_Full.theta2 not specified. Default used instead: 0.279422
 Parameter found........................: YN98.freq_Codon2_Full.theta2=0.279422
+WARNING!!! Parameter YN98.freq_Codon3_Full.theta not specified. Default used instead: 0.35275
 Parameter found........................: YN98.freq_Codon3_Full.theta=0.35275
+WARNING!!! Parameter YN98.freq_Codon3_Full.theta1 not specified. Default used instead: 0.539301
 Parameter found........................: YN98.freq_Codon3_Full.theta1=0.539301
+WARNING!!! Parameter YN98.freq_Codon3_Full.theta2 not specified. Default used instead: 0.125542
 Parameter found........................: YN98.freq_Codon3_Full.theta2=0.125542
 Rate distribution......................: Uniform
 Number of classes......................: 1
@@ -85,10 +94,10 @@ Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
 Current threshold......................: 0.000552
 Number of real partitions..............: 5
 Partition 1............................: 7 element(s).
-Partition 2............................: 7 element(s).
-Partition 3............................: 11 element(s).
-Partition 4............................: 1 element(s).
-Partition 5............................: 5 element(s).
+Partition 2............................: 11 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 5 element(s).
+Partition 5............................: 7 element(s).
 Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
 Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
 Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
@@ -107,10 +116,10 @@ Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
                - BIC...................: 91115.7
 Current threshold......................: 0.0065698
 Number of real partitions..............: 7
-Partition 1............................: 7 element(s).
-Partition 2............................: 11 element(s).
-Partition 3............................: 1 element(s).
-Partition 4............................: 5 element(s).
+Partition 1............................: 11 element(s).
+Partition 2............................: 1 element(s).
+Partition 3............................: 5 element(s).
+Partition 4............................: 7 element(s).
 Partition 5............................: 1 element(s).
 Partition 6............................: 5 element(s).
 Partition 7............................: 1 element(s).
@@ -132,10 +141,10 @@ Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
                - BIC...................: 91116.3
 Current threshold......................: 0.12166
 Number of real partitions..............: 9
-Partition 1............................: 7 element(s).
-Partition 2............................: 11 element(s).
-Partition 3............................: 1 element(s).
-Partition 4............................: 5 element(s).
+Partition 1............................: 11 element(s).
+Partition 2............................: 1 element(s).
+Partition 3............................: 5 element(s).
+Partition 4............................: 7 element(s).
 Partition 5............................: 1 element(s).
 Partition 6............................: 1 element(s).
 Partition 7............................: 1 element(s).
@@ -159,9 +168,9 @@ Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
                - BIC...................: 91122.8
 Current threshold......................: 0.211854
 Number of real partitions..............: 11
-Partition 1............................: 7 element(s).
-Partition 2............................: 1 element(s).
-Partition 3............................: 5 element(s).
+Partition 1............................: 1 element(s).
+Partition 2............................: 5 element(s).
+Partition 3............................: 7 element(s).
 Partition 4............................: 1 element(s).
 Partition 5............................: 1 element(s).
 Partition 6............................: 1 element(s).
@@ -188,9 +197,9 @@ Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
                - BIC...................: 91127.6
 Current threshold......................: 0.225042
 Number of real partitions..............: 12
-Partition 1............................: 7 element(s).
-Partition 2............................: 1 element(s).
-Partition 3............................: 5 element(s).
+Partition 1............................: 1 element(s).
+Partition 2............................: 5 element(s).
+Partition 3............................: 7 element(s).
 Partition 4............................: 1 element(s).
 Partition 5............................: 1 element(s).
 Partition 6............................: 1 element(s).
@@ -218,9 +227,9 @@ Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
                - BIC...................: 91131.2
 Current threshold......................: 0.245656
 Number of real partitions..............: 13
-Partition 1............................: 7 element(s).
-Partition 2............................: 1 element(s).
-Partition 3............................: 5 element(s).
+Partition 1............................: 1 element(s).
+Partition 2............................: 5 element(s).
+Partition 3............................: 7 element(s).
 Partition 4............................: 1 element(s).
 Partition 5............................: 1 element(s).
 Partition 6............................: 1 element(s).
@@ -249,9 +258,9 @@ Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
                - BIC...................: 91138.2
 Current threshold......................: 0.444636
 Number of real partitions..............: 14
-Partition 1............................: 7 element(s).
-Partition 2............................: 1 element(s).
-Partition 3............................: 5 element(s).
+Partition 1............................: 1 element(s).
+Partition 2............................: 5 element(s).
+Partition 3............................: 7 element(s).
 Partition 4............................: 1 element(s).
 Partition 5............................: 1 element(s).
 Partition 6............................: 1 element(s).
@@ -281,8 +290,8 @@ Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
                - BIC...................: 91145.4
 Current threshold......................: 0.473002
 Number of real partitions..............: 16
-Partition 1............................: 7 element(s).
-Partition 2............................: 1 element(s).
+Partition 1............................: 1 element(s).
+Partition 2............................: 7 element(s).
 Partition 3............................: 1 element(s).
 Partition 4............................: 1 element(s).
 Partition 5............................: 1 element(s).
@@ -315,8 +324,8 @@ Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
                - BIC...................: 91158.9
 Current threshold......................: 0.54448
 Number of real partitions..............: 19
-Partition 1............................: 7 element(s).
-Partition 2............................: 1 element(s).
+Partition 1............................: 1 element(s).
+Partition 2............................: 7 element(s).
 Partition 3............................: 1 element(s).
 Partition 4............................: 1 element(s).
 Partition 5............................: 1 element(s).
@@ -370,9 +379,9 @@ Partition 15...........................: 1 element(s).
 Partition 16...........................: 1 element(s).
 Partition 17...........................: 2 element(s).
 Partition 18...........................: 3 element(s).
-Partition 19...........................: 4 element(s).
-Partition 20...........................: 2 element(s).
-Partition 21...........................: 1 element(s).
+Partition 19...........................: 1 element(s).
+Partition 20...........................: 4 element(s).
+Partition 21...........................: 2 element(s).
 Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
 Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
 Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
@@ -409,8 +418,8 @@ Partition 15...........................: 1 element(s).
 Partition 16...........................: 1 element(s).
 Partition 17...........................: 2 element(s).
 Partition 18...........................: 3 element(s).
-Partition 19...........................: 4 element(s).
-Partition 20...........................: 1 element(s).
+Partition 19...........................: 1 element(s).
+Partition 20...........................: 4 element(s).
 Partition 21...........................: 1 element(s).
 Partition 22...........................: 1 element(s).
 Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
@@ -448,8 +457,8 @@ Partition 14...........................: 1 element(s).
 Partition 15...........................: 1 element(s).
 Partition 16...........................: 2 element(s).
 Partition 17...........................: 3 element(s).
-Partition 18...........................: 4 element(s).
-Partition 19...........................: 1 element(s).
+Partition 18...........................: 1 element(s).
+Partition 19...........................: 4 element(s).
 Partition 20...........................: 1 element(s).
 Partition 21...........................: 1 element(s).
 Partition 22...........................: 1 element(s).
@@ -488,8 +497,8 @@ Partition 13...........................: 1 element(s).
 Partition 14...........................: 1 element(s).
 Partition 15...........................: 1 element(s).
 Partition 16...........................: 2 element(s).
-Partition 17...........................: 4 element(s).
-Partition 18...........................: 1 element(s).
+Partition 17...........................: 1 element(s).
+Partition 18...........................: 4 element(s).
 Partition 19...........................: 1 element(s).
 Partition 20...........................: 1 element(s).
 Partition 21...........................: 1 element(s).
@@ -529,8 +538,8 @@ Partition 12...........................: 1 element(s).
 Partition 13...........................: 1 element(s).
 Partition 14...........................: 1 element(s).
 Partition 15...........................: 2 element(s).
-Partition 16...........................: 4 element(s).
-Partition 17...........................: 1 element(s).
+Partition 16...........................: 1 element(s).
+Partition 17...........................: 4 element(s).
 Partition 18...........................: 1 element(s).
 Partition 19...........................: 1 element(s).
 Partition 20...........................: 1 element(s).
@@ -598,7 +607,7 @@ Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
 
 * New NH model - LogL..................: -45356.4
                - df....................: 69
-               - LRT p-value...........: 0.186238
+               - LRT p-value...........: 0.186237
                - AIC...................: 90850.8
                - BIC...................: 91222.1
 Model description output to file.......: MantellidDataset.model_join_AIC.bpp
@@ -607,4 +616,4 @@ Output partitions record to............: MantellidDataset.partitions_record_join
 Wrote tree to file ....................: MantellidDataset.ml_nh_join_AIC.nhx
 Partitions output to file..............: MantellidDataset.partitions_join_AIC.dnd
 PartNH's done. Bye.
-Total execution time: 0.000000d, 15.000000h, 36.000000m, 33.000000s.
+Total execution time: 0.000000d, 14.000000h, 28.000000m, 3.000000s.

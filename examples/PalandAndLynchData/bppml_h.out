@@ -22,19 +22,28 @@ Number of leaves.......................: 28
 Wrote tree to file ....................: PalandAndLynch28.ml_h.dnd
 Branch lengths.........................: Input
 Heterogeneous model....................: no
-Use observed frequencies for model.....: yes
-WARNING!!! Parameter YN98.useObservedFreqs.pseudoCount not specified. Default used instead: 0
+Frequencies initialization for model...: observed
+WARNING!!! Parameter YN98.initFreqs.observedPseudoCount not specified. Default used instead: 0
 Parameter found........................: YN98.kappa=2
 Parameter found........................: YN98.omega=0.5
-Parameter found........................: YN98.freq_Codon.1_Full.theta=0.446594
-Parameter found........................: YN98.freq_Codon.1_Full.theta1=0.46971
-Parameter found........................: YN98.freq_Codon.1_Full.theta2=0.567696
-Parameter found........................: YN98.freq_Codon.2_Full.theta=0.374549
-Parameter found........................: YN98.freq_Codon.2_Full.theta1=0.277684
-Parameter found........................: YN98.freq_Codon.2_Full.theta2=0.44014
-Parameter found........................: YN98.freq_Codon.3_Full.theta=0.366634
-Parameter found........................: YN98.freq_Codon.3_Full.theta1=0.421688
-Parameter found........................: YN98.freq_Codon.3_Full.theta2=0.443592
+WARNING!!! Parameter YN98.freq_Codon1_Full.theta not specified. Default used instead: 0.446594
+Parameter found........................: YN98.freq_Codon1_Full.theta=0.446594
+WARNING!!! Parameter YN98.freq_Codon1_Full.theta1 not specified. Default used instead: 0.46971
+Parameter found........................: YN98.freq_Codon1_Full.theta1=0.46971
+WARNING!!! Parameter YN98.freq_Codon1_Full.theta2 not specified. Default used instead: 0.567696
+Parameter found........................: YN98.freq_Codon1_Full.theta2=0.567696
+WARNING!!! Parameter YN98.freq_Codon2_Full.theta not specified. Default used instead: 0.374549
+Parameter found........................: YN98.freq_Codon2_Full.theta=0.374549
+WARNING!!! Parameter YN98.freq_Codon2_Full.theta1 not specified. Default used instead: 0.277684
+Parameter found........................: YN98.freq_Codon2_Full.theta1=0.277684
+WARNING!!! Parameter YN98.freq_Codon2_Full.theta2 not specified. Default used instead: 0.44014
+Parameter found........................: YN98.freq_Codon2_Full.theta2=0.44014
+WARNING!!! Parameter YN98.freq_Codon3_Full.theta not specified. Default used instead: 0.366634
+Parameter found........................: YN98.freq_Codon3_Full.theta=0.366634
+WARNING!!! Parameter YN98.freq_Codon3_Full.theta1 not specified. Default used instead: 0.421688
+Parameter found........................: YN98.freq_Codon3_Full.theta1=0.421688
+WARNING!!! Parameter YN98.freq_Codon3_Full.theta2 not specified. Default used instead: 0.443592
+Parameter found........................: YN98.freq_Codon3_Full.theta2=0.443592
 Rate distribution......................: Uniform
 Number of classes......................: 1
 - Category 0 (Pr = 1) rate.............: 1
@@ -51,15 +60,15 @@ WARNING!!! Branch length 43 is too small: 0. Value is set to 1e-06
 Initial log likelihood.................: -20077.6277175037
 Message handler........................: PalandAndLynch28_h.messages
 Profiler...............................: PalandAndLynch28_h.profile
-Parameter ignored......................: YN98.freq_Codon.1_Full.theta
-Parameter ignored......................: YN98.freq_Codon.1_Full.theta1
-Parameter ignored......................: YN98.freq_Codon.1_Full.theta2
-Parameter ignored......................: YN98.freq_Codon.2_Full.theta
-Parameter ignored......................: YN98.freq_Codon.2_Full.theta1
-Parameter ignored......................: YN98.freq_Codon.2_Full.theta2
-Parameter ignored......................: YN98.freq_Codon.3_Full.theta
-Parameter ignored......................: YN98.freq_Codon.3_Full.theta1
-Parameter ignored......................: YN98.freq_Codon.3_Full.theta2
+Parameter ignored......................: YN98.freq_Codon1_Full.theta
+Parameter ignored......................: YN98.freq_Codon1_Full.theta1
+Parameter ignored......................: YN98.freq_Codon1_Full.theta2
+Parameter ignored......................: YN98.freq_Codon2_Full.theta
+Parameter ignored......................: YN98.freq_Codon2_Full.theta1
+Parameter ignored......................: YN98.freq_Codon2_Full.theta2
+Parameter ignored......................: YN98.freq_Codon3_Full.theta
+Parameter ignored......................: YN98.freq_Codon3_Full.theta1
+Parameter ignored......................: YN98.freq_Codon3_Full.theta2
 Max # ML evaluations...................: 10000
 Tolerance..............................: 1e-06
 Optimize topology......................: no
@@ -71,18 +80,18 @@ Molecular clock........................: None
 
 Performed..............................: 13 function evaluations.
 Wrote tree to file ....................: PalandAndLynch28.ml_h.dnd
-Log likelihood.........................: -19467.60877771
-YN98.kappa.............................: 12.4917
+Log likelihood.........................: -19467.6087777095
+YN98.kappa.............................: 12.4916
 YN98.omega.............................: 0.161245
-YN98.freq_Codon.1_Full.theta...........: 0.446594
-YN98.freq_Codon.1_Full.theta1..........: 0.46971
-YN98.freq_Codon.1_Full.theta2..........: 0.567696
-YN98.freq_Codon.2_Full.theta...........: 0.374549
-YN98.freq_Codon.2_Full.theta1..........: 0.277684
-YN98.freq_Codon.2_Full.theta2..........: 0.44014
-YN98.freq_Codon.3_Full.theta...........: 0.366634
-YN98.freq_Codon.3_Full.theta1..........: 0.421688
-YN98.freq_Codon.3_Full.theta2..........: 0.443592
+YN98.freq_Codon1_Full.theta............: 0.446594
+YN98.freq_Codon1_Full.theta1...........: 0.46971
+YN98.freq_Codon1_Full.theta2...........: 0.567696
+YN98.freq_Codon2_Full.theta............: 0.374549
+YN98.freq_Codon2_Full.theta1...........: 0.277684
+YN98.freq_Codon2_Full.theta2...........: 0.44014
+YN98.freq_Codon3_Full.theta............: 0.366634
+YN98.freq_Codon3_Full.theta1...........: 0.421688
+YN98.freq_Codon3_Full.theta2...........: 0.443592
 WARNING!!! This parameter has a value close to the boundary: BrLen3(1e-06).
 WARNING!!! This parameter has a value close to the boundary: BrLen11(1e-06).
 WARNING!!! This parameter has a value close to the boundary: BrLen21(1e-06).
@@ -100,4 +109,4 @@ Pr(1.000000) = 1.000000
 
 Alignment information logfile..........: PalandAndLynch28_h.infos
 BppML's done. Bye.
-Total execution time: 0.000000d, 0.000000h, 1.000000m, 10.000000s.
+Total execution time: 0.000000d, 0.000000h, 1.000000m, 9.000000s.

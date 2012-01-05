@@ -23,18 +23,27 @@ Number of leaves.......................: 17
 Wrote tree to file ....................: MantellidDataset.ml_h.dnd
 Branch lengths.........................: Input
 Heterogeneous model....................: no
-Use observed frequencies for model.....: yes
-WARNING!!! Parameter YN98.useObservedFreqs.pseudoCount not specified. Default used instead: 0
+Frequencies initialization for model...: observed
+WARNING!!! Parameter YN98.initFreqs.observedPseudoCount not specified. Default used instead: 0
 Parameter found........................: YN98.kappa=2
 Parameter found........................: YN98.omega=0.5
+WARNING!!! Parameter YN98.freq_Codon1_Full.theta not specified. Default used instead: 0.460548
 Parameter found........................: YN98.freq_Codon1_Full.theta=0.460548
+WARNING!!! Parameter YN98.freq_Codon1_Full.theta1 not specified. Default used instead: 0.569985
 Parameter found........................: YN98.freq_Codon1_Full.theta1=0.569985
+WARNING!!! Parameter YN98.freq_Codon1_Full.theta2 not specified. Default used instead: 0.480782
 Parameter found........................: YN98.freq_Codon1_Full.theta2=0.480782
+WARNING!!! Parameter YN98.freq_Codon2_Full.theta not specified. Default used instead: 0.405271
 Parameter found........................: YN98.freq_Codon2_Full.theta=0.405271
+WARNING!!! Parameter YN98.freq_Codon2_Full.theta1 not specified. Default used instead: 0.317366
 Parameter found........................: YN98.freq_Codon2_Full.theta1=0.317366
+WARNING!!! Parameter YN98.freq_Codon2_Full.theta2 not specified. Default used instead: 0.279906
 Parameter found........................: YN98.freq_Codon2_Full.theta2=0.279906
+WARNING!!! Parameter YN98.freq_Codon3_Full.theta not specified. Default used instead: 0.352878
 Parameter found........................: YN98.freq_Codon3_Full.theta=0.352878
+WARNING!!! Parameter YN98.freq_Codon3_Full.theta1 not specified. Default used instead: 0.540054
 Parameter found........................: YN98.freq_Codon3_Full.theta1=0.540054
+WARNING!!! Parameter YN98.freq_Codon3_Full.theta2 not specified. Default used instead: 0.125294
 Parameter found........................: YN98.freq_Codon3_Full.theta2=0.125294
 Rate distribution......................: Uniform
 Number of classes......................: 1
@@ -87,4 +96,4 @@ Pr(1.000000) = 1.000000
 
 Alignment information logfile..........: MantellidDataset_h.infos
 BppML's done. Bye.
-Total execution time: 0.000000d, 0.000000h, 3.000000m, 11.000000s.
+Total execution time: 0.000000d, 0.000000h, 3.000000m, 10.000000s.

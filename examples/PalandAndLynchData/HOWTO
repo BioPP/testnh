@@ -104,3 +104,19 @@
             METHOD=free_BIC_post > partnh_free_BIC_post.out &
 
 
+     mapnh --noninteractive=yes\
+           param=MapNH.bpp\
+           param=PalandAndLynch28.model_join_BIC.bpp\
+           input.tree.file=PalandAndLynch28.ml_nh_join_BIC.nhx\
+           input.tree.format=NHX\
+           test.branch.neighbor=yes\
+           output.counts.tree.prefix=PalandAndLynch.counts_post\
+           output.cluster_tree.file=PalandAndLynch.cluster_equilibrium_join_post.dnd > mapnh_join_post.out &
+
+     partnh param=PartNH.bpp --noninteractive=yes \
+            input.cluster_tree.file=PalandAndLynch.cluster_equilibrium_join_post.dnd\
+            partition.test=BIC\
+            partition.test.stop_condition=3\
+            METHOD=join_BIC_post > partnh_join_BIC_post.out &
+
+

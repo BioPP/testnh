@@ -16,18 +16,27 @@ WARNING!!! Parameter input.sequence.max_gap_allowed not specified. Default used 
 Remove Stop Codons.....................: yes
 Number of sequences....................: 17
 Number of sites........................: 1606
-Use observed frequencies for model.....: yes
-WARNING!!! Parameter YN98.useObservedFreqs.pseudoCount not specified. Default used instead: 0
+Frequencies initialization for model...: observed
+WARNING!!! Parameter YN98.initFreqs.observedPseudoCount not specified. Default used instead: 0
 Parameter found........................: YN98.kappa=2
 Parameter found........................: YN98.omega=0.5
+WARNING!!! Parameter YN98.freq_Codon1_Full.theta not specified. Default used instead: 0.459638
 Parameter found........................: YN98.freq_Codon1_Full.theta=0.459638
+WARNING!!! Parameter YN98.freq_Codon1_Full.theta1 not specified. Default used instead: 0.569686
 Parameter found........................: YN98.freq_Codon1_Full.theta1=0.569686
+WARNING!!! Parameter YN98.freq_Codon1_Full.theta2 not specified. Default used instead: 0.479348
 Parameter found........................: YN98.freq_Codon1_Full.theta2=0.479348
+WARNING!!! Parameter YN98.freq_Codon2_Full.theta not specified. Default used instead: 0.404291
 Parameter found........................: YN98.freq_Codon2_Full.theta=0.404291
+WARNING!!! Parameter YN98.freq_Codon2_Full.theta1 not specified. Default used instead: 0.316323
 Parameter found........................: YN98.freq_Codon2_Full.theta1=0.316323
+WARNING!!! Parameter YN98.freq_Codon2_Full.theta2 not specified. Default used instead: 0.279422
 Parameter found........................: YN98.freq_Codon2_Full.theta2=0.279422
+WARNING!!! Parameter YN98.freq_Codon3_Full.theta not specified. Default used instead: 0.35275
 Parameter found........................: YN98.freq_Codon3_Full.theta=0.35275
+WARNING!!! Parameter YN98.freq_Codon3_Full.theta1 not specified. Default used instead: 0.539301
 Parameter found........................: YN98.freq_Codon3_Full.theta1=0.539301
+WARNING!!! Parameter YN98.freq_Codon3_Full.theta2 not specified. Default used instead: 0.125542
 Parameter found........................: YN98.freq_Codon3_Full.theta2=0.125542
 Rate distribution......................: Uniform
 Number of classes......................: 1
@@ -658,4 +667,4 @@ Output partitions record to............: MantellidDataset.partitions_record_free
 Wrote tree to file ....................: MantellidDataset.ml_nh_free_AIC.nhx
 Partitions output to file..............: MantellidDataset.partitions_free_AIC.dnd
 PartNH's done. Bye.
-Total execution time: 0.000000d, 13.000000h, 41.000000m, 23.000000s.
+Total execution time: 0.000000d, 12.000000h, 28.000000m, 49.000000s.

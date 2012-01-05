@@ -22,7 +22,7 @@ Wrote tree to file ....................: Life_Alignment.ml_h.dnd
 Branch lengths.........................: Input
 Heterogeneous model....................: no
 Substitution model.....................: T92
-Use observed frequencies for model.....: no
+Frequencies initialization for model...: None
 Parameter found........................: T92.kappa=2
 Parameter found........................: T92.theta=0.5
 Rate distribution......................: Gamma
@@ -83,4 +83,4 @@ Pr(2.703832) = 0.168880
 
 Alignment information logfile..........: Life_Alignment_h.infos
 BppML's done. Bye.
-Total execution time: 0.000000d, 0.000000h, 0.000000m, 28.000000s.
+Total execution time: 0.000000d, 0.000000h, 0.000000m, 18.000000s.

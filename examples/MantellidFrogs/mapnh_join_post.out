@@ -1,0 +1,119 @@
+******************************************************************
+*                     Map NH, version 0.1.0                      *
+* Authors: J. Dutheil                       Created on  09/12/10 *
+*          B. Boussau                       Last Modif. 17/12/11 *
+******************************************************************
+
+Parsing options:
+Parsing file MapNH.bpp for options.
+Parsing file MantellidDataset.params_h.bpp for options.
+Parsing file MantellidDataset.model_join_BIC.bpp for options.
+Alphabet type .........................: Codon(DNA)
+Sequence format .......................: Fasta
+Sequence file .........................: MantellidDataset.faln
+Sites to use...........................: all
+WARNING!!! Parameter input.sequence.max_gap_allowed not specified. Default used instead: 100%
+Remove Stop Codons.....................: yes
+Number of sequences....................: 17
+Number of sites........................: 1606
+Tree file..............................: MantellidDataset.ml_nh_join_BIC.nhx
+Number of leaves.......................: 17
+Heterogeneous model....................: general
+Number of distinct models..............: 5
+Stationarity assumed...................: yes
+Frequencies Initialization for model...: None
+Parameter found........................: model1.YN98.kappa=2.98548
+Parameter found........................: model1.YN98.omega=0.0407247
+Parameter found........................: model1.YN98.freq_Codon1_Full.theta=0.459638
+Parameter found........................: model1.YN98.freq_Codon1_Full.theta1=0.569686
+Parameter found........................: model1.YN98.freq_Codon1_Full.theta2=0.479348
+Parameter found........................: model1.YN98.freq_Codon2_Full.theta=0.404291
+Parameter found........................: model1.YN98.freq_Codon2_Full.theta1=0.316323
+Parameter found........................: model1.YN98.freq_Codon2_Full.theta2=0.279422
+Parameter found........................: model1.YN98.freq_Codon3_Full.theta=0.35275
+Parameter found........................: model1.YN98.freq_Codon3_Full.theta1=0.539301
+Parameter found........................: model1.YN98.freq_Codon3_Full.theta2=0.125542
+Model1 is associated to................: 7 node(s).
+Frequencies Initialization for model...: None
+Parameter found........................: model2.YN98.kappa=2.98548
+Parameter found........................: model2.YN98.omega=0.0799382
+Parameter found........................: model2.YN98.freq_Codon1_Full.theta=0.459638
+Parameter found........................: model2.YN98.freq_Codon1_Full.theta1=0.569686
+Parameter found........................: model2.YN98.freq_Codon1_Full.theta2=0.479348
+Parameter found........................: model2.YN98.freq_Codon2_Full.theta=0.404291
+Parameter found........................: model2.YN98.freq_Codon2_Full.theta1=0.316323
+Parameter found........................: model2.YN98.freq_Codon2_Full.theta2=0.279422
+Parameter found........................: model2.YN98.freq_Codon3_Full.theta=0.35275
+Parameter found........................: model2.YN98.freq_Codon3_Full.theta1=0.539301
+Parameter found........................: model2.YN98.freq_Codon3_Full.theta2=0.125542
+Model2 is associated to................: 11 node(s).
+Frequencies Initialization for model...: None
+Parameter found........................: model3.YN98.kappa=2.98548
+Parameter found........................: model3.YN98.omega=0.0538994
+Parameter found........................: model3.YN98.freq_Codon1_Full.theta=0.459638
+Parameter found........................: model3.YN98.freq_Codon1_Full.theta1=0.569686
+Parameter found........................: model3.YN98.freq_Codon1_Full.theta2=0.479348
+Parameter found........................: model3.YN98.freq_Codon2_Full.theta=0.404291
+Parameter found........................: model3.YN98.freq_Codon2_Full.theta1=0.316323
+Parameter found........................: model3.YN98.freq_Codon2_Full.theta2=0.279422
+Parameter found........................: model3.YN98.freq_Codon3_Full.theta=0.35275
+Parameter found........................: model3.YN98.freq_Codon3_Full.theta1=0.539301
+Parameter found........................: model3.YN98.freq_Codon3_Full.theta2=0.125542
+Model3 is associated to................: 1 node(s).
+Frequencies Initialization for model...: None
+Parameter found........................: model4.YN98.kappa=2.98548
+Parameter found........................: model4.YN98.omega=0.0444724
+Parameter found........................: model4.YN98.freq_Codon1_Full.theta=0.459638
+Parameter found........................: model4.YN98.freq_Codon1_Full.theta1=0.569686
+Parameter found........................: model4.YN98.freq_Codon1_Full.theta2=0.479348
+Parameter found........................: model4.YN98.freq_Codon2_Full.theta=0.404291
+Parameter found........................: model4.YN98.freq_Codon2_Full.theta1=0.316323
+Parameter found........................: model4.YN98.freq_Codon2_Full.theta2=0.279422
+Parameter found........................: model4.YN98.freq_Codon3_Full.theta=0.35275
+Parameter found........................: model4.YN98.freq_Codon3_Full.theta1=0.539301
+Parameter found........................: model4.YN98.freq_Codon3_Full.theta2=0.125542
+Model4 is associated to................: 5 node(s).
+Frequencies Initialization for model...: None
+Parameter found........................: model5.YN98.kappa=2.98548
+Parameter found........................: model5.YN98.omega=0.0452592
+Parameter found........................: model5.YN98.freq_Codon1_Full.theta=0.459638
+Parameter found........................: model5.YN98.freq_Codon1_Full.theta1=0.569686
+Parameter found........................: model5.YN98.freq_Codon1_Full.theta2=0.479348
+Parameter found........................: model5.YN98.freq_Codon2_Full.theta=0.404291
+Parameter found........................: model5.YN98.freq_Codon2_Full.theta1=0.316323
+Parameter found........................: model5.YN98.freq_Codon2_Full.theta2=0.279422
+Parameter found........................: model5.YN98.freq_Codon3_Full.theta=0.35275
+Parameter found........................: model5.YN98.freq_Codon3_Full.theta1=0.539301
+Parameter found........................: model5.YN98.freq_Codon3_Full.theta2=0.125542
+Model5 is associated to................: 7 node(s).
+WARNING!!! Parameter nonhomogeneous.alias not specified. Default used instead: 
+Rate distribution......................: Uniform
+Number of classes......................: 1
+- Category 0 (Pr = 1) rate.............: 1
+Saturation threshold used..............: 3
+WARNING!!! On branch 1, 29 sites (2%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 3, 4 sites (1%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 4, 7 sites (1%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 7, 4 sites (1%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 9, 2 sites (1%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 16, 32 sites (2%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 18, 9 sites (1%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 19, 1 sites (1%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 24, 9 sites (1%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 25, 24 sites (2%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 26, 8 sites (1%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 28, 405 sites (26%) have been ignored because they are presumably saturated.
+Output counts of type 1 to file........: MantellidDataset.counts_post1.dnd
+Output counts of type 2 to file........: MantellidDataset.counts_post2.dnd
+Perform branch clustering..............: yes
+Cluster only neighbor nodes............: yes
+Allow len < 0 in clustering............: no
+Auto-clustering........................: Global
+Auto-clutering threshold...............: 1
+[======================================]Done.
+[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>]Done.
+P-value at root node...................: 0
+Number of tests performed..............: 139
+Output cluster tree to.................: MantellidDataset.cluster_join_post.dnd
+MapNH's done. Bye.
+Total execution time: 0.000000d, 0.000000h, 0.000000m, 18.000000s.

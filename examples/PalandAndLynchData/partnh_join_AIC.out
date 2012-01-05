@@ -16,18 +16,27 @@ WARNING!!! Parameter input.sequence.max_gap_allowed not specified. Default used 
 Remove Stop Codons.....................: yes
 Number of sequences....................: 28
 Number of sites........................: 3681
-Use observed frequencies for model.....: yes
-WARNING!!! Parameter YN98.useObservedFreqs.pseudoCount not specified. Default used instead: 0
+Frequencies initialization for model...: observed
+WARNING!!! Parameter YN98.initFreqs.observedPseudoCount not specified. Default used instead: 0
 Parameter found........................: YN98.kappa=2
 Parameter found........................: YN98.omega=0.5
+WARNING!!! Parameter YN98.freq_Codon1_Full.theta not specified. Default used instead: 0.446594
 Parameter found........................: YN98.freq_Codon1_Full.theta=0.446594
+WARNING!!! Parameter YN98.freq_Codon1_Full.theta1 not specified. Default used instead: 0.46971
 Parameter found........................: YN98.freq_Codon1_Full.theta1=0.46971
+WARNING!!! Parameter YN98.freq_Codon1_Full.theta2 not specified. Default used instead: 0.567696
 Parameter found........................: YN98.freq_Codon1_Full.theta2=0.567696
+WARNING!!! Parameter YN98.freq_Codon2_Full.theta not specified. Default used instead: 0.374549
 Parameter found........................: YN98.freq_Codon2_Full.theta=0.374549
+WARNING!!! Parameter YN98.freq_Codon2_Full.theta1 not specified. Default used instead: 0.277684
 Parameter found........................: YN98.freq_Codon2_Full.theta1=0.277684
+WARNING!!! Parameter YN98.freq_Codon2_Full.theta2 not specified. Default used instead: 0.44014
 Parameter found........................: YN98.freq_Codon2_Full.theta2=0.44014
+WARNING!!! Parameter YN98.freq_Codon3_Full.theta not specified. Default used instead: 0.366634
 Parameter found........................: YN98.freq_Codon3_Full.theta=0.366634
+WARNING!!! Parameter YN98.freq_Codon3_Full.theta1 not specified. Default used instead: 0.421688
 Parameter found........................: YN98.freq_Codon3_Full.theta1=0.421688
+WARNING!!! Parameter YN98.freq_Codon3_Full.theta2 not specified. Default used instead: 0.443592
 Parameter found........................: YN98.freq_Codon3_Full.theta2=0.443592
 Rate distribution......................: Uniform
 Number of classes......................: 1
@@ -62,7 +71,7 @@ AIC....................................: 39063.2
 BIC....................................: 39460.7
 Likelihood comparison method...........: AIC
 Stop condition.........................: test 10 nested models after local best
-Current threshold......................: 0.00106248
+Current threshold......................: 0.0010451
 Number of real partitions..............: 2
 Partition 1............................: 52 element(s).
 Partition 2............................: 1 element(s).
@@ -82,7 +91,7 @@ Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
                - LRT p-value...........: 0.00104544
                - AIC...................: 39054.5
                - BIC...................: 39458.2
-Current threshold......................: 0.00640876
+Current threshold......................: 0.00879866
 Number of real partitions..............: 3
 Partition 1............................: 1 element(s).
 Partition 2............................: 47 element(s).
@@ -103,14 +112,12 @@ Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
                - LRT p-value...........: 0.00853203
                - AIC...................: 39049.6
                - BIC...................: 39459.5
-Current threshold......................: 0.0206916
-Number of real partitions..............: 6
+Current threshold......................: 0.0395635
+Number of real partitions..............: 4
 Partition 1............................: 1 element(s).
 Partition 2............................: 5 element(s).
-Partition 3............................: 13 element(s).
-Partition 4............................: 32 element(s).
-Partition 5............................: 1 element(s).
-Partition 6............................: 1 element(s).
+Partition 3............................: 46 element(s).
+Partition 4............................: 1 element(s).
 Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
 Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
 Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
@@ -122,19 +129,42 @@ Parameter ignored......................: YN98.freq_Codon3_Full.theta1_1
 Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
 *******
 
-* New NH model - LogL..................: -19453.7
-               - df....................: 69
-               - LRT p-value...........: 0.0166465
-               - AIC...................: 39045.3
-               - BIC...................: 39473.9
-Current threshold......................: 0.020692
+* New NH model - LogL..................: -19456.7
+               - df....................: 67
+               - LRT p-value...........: 0.0394841
+               - AIC...................: 39047.3
+               - BIC...................: 39463.4
+Current threshold......................: 0.0747791
+Number of real partitions..............: 5
+Partition 1............................: 1 element(s).
+Partition 2............................: 5 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 45 element(s).
+Partition 5............................: 1 element(s).
+Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
+Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
+Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
+Parameter ignored......................: YN98.freq_Codon2_Full.theta_1
+Parameter ignored......................: YN98.freq_Codon2_Full.theta1_1
+Parameter ignored......................: YN98.freq_Codon2_Full.theta2_1
+Parameter ignored......................: YN98.freq_Codon3_Full.theta_1
+Parameter ignored......................: YN98.freq_Codon3_Full.theta1_1
+Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
+******
+
+* New NH model - LogL..................: -19455
+               - df....................: 68
+               - LRT p-value...........: 0.0683929
+               - AIC...................: 39046
+               - BIC...................: 39468.3
+Current threshold......................: 0.0869426
 Number of real partitions..............: 7
 Partition 1............................: 1 element(s).
 Partition 2............................: 5 element(s).
-Partition 3............................: 32 element(s).
+Partition 3............................: 1 element(s).
 Partition 4............................: 1 element(s).
-Partition 5............................: 1 element(s).
-Partition 6............................: 12 element(s).
+Partition 5............................: 43 element(s).
+Partition 6............................: 1 element(s).
 Partition 7............................: 1 element(s).
 Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
 Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
@@ -147,49 +177,21 @@ Parameter ignored......................: YN98.freq_Codon3_Full.theta1_1
 Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
 ******
 
-* New NH model - LogL..................: -19450.8
+* New NH model - LogL..................: -19452
                - df....................: 70
-               - LRT p-value...........: 0.0159785
-               - AIC...................: 39041.5
-               - BIC...................: 39476.3
-Current threshold......................: 0.0553374
+               - LRT p-value...........: 0.0484917
+               - AIC...................: 39043.9
+               - BIC...................: 39478.7
+Current threshold......................: 0.138042
 Number of real partitions..............: 8
 Partition 1............................: 1 element(s).
 Partition 2............................: 5 element(s).
 Partition 3............................: 1 element(s).
 Partition 4............................: 1 element(s).
-Partition 5............................: 12 element(s).
+Partition 5............................: 1 element(s).
 Partition 6............................: 1 element(s).
-Partition 7............................: 31 element(s).
-Partition 8............................: 1 element(s).
-Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta2_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
-*******
-
-* New NH model - LogL..................: -19448.9
-               - df....................: 71
-               - LRT p-value...........: 0.0554226
-               - AIC...................: 39039.8
-               - BIC...................: 39480.8
-Current threshold......................: 0.0574924
-Number of real partitions..............: 10
-Partition 1............................: 1 element(s).
-Partition 2............................: 5 element(s).
-Partition 3............................: 1 element(s).
-Partition 4............................: 1 element(s).
-Partition 5............................: 12 element(s).
-Partition 6............................: 1 element(s).
-Partition 7............................: 1 element(s).
-Partition 8............................: 29 element(s).
-Partition 9............................: 1 element(s).
-Partition 10...........................: 1 element(s).
+Partition 7............................: 32 element(s).
+Partition 8............................: 11 element(s).
 Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
 Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
 Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
@@ -201,24 +203,22 @@ Parameter ignored......................: YN98.freq_Codon3_Full.theta1_1
 Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
 *****
 
-* New NH model - LogL..................: -19446.8
-               - df....................: 73
-               - LRT p-value...........: 0.11541
-               - AIC...................: 39039.5
-               - BIC...................: 39492.9
-Current threshold......................: 0.0859156
-Number of real partitions..............: 11
+* New NH model - LogL..................: -19451.1
+               - df....................: 71
+               - LRT p-value...........: 0.185179
+               - AIC...................: 39044.2
+               - BIC...................: 39485.2
+Current threshold......................: 0.138042
+Number of real partitions..............: 9
 Partition 1............................: 1 element(s).
 Partition 2............................: 5 element(s).
 Partition 3............................: 1 element(s).
 Partition 4............................: 1 element(s).
-Partition 5............................: 12 element(s).
+Partition 5............................: 1 element(s).
 Partition 6............................: 1 element(s).
-Partition 7............................: 1 element(s).
-Partition 8............................: 1 element(s).
+Partition 7............................: 11 element(s).
+Partition 8............................: 31 element(s).
 Partition 9............................: 1 element(s).
-Partition 10...........................: 28 element(s).
-Partition 11...........................: 1 element(s).
 Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
 Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
 Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
@@ -228,252 +228,123 @@ Parameter ignored......................: YN98.freq_Codon2_Full.theta2_1
 Parameter ignored......................: YN98.freq_Codon3_Full.theta_1
 Parameter ignored......................: YN98.freq_Codon3_Full.theta1_1
 Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
-*********************
+******
+
+* New NH model - LogL..................: -19450
+               - df....................: 72
+               - LRT p-value...........: 0.138947
+               - AIC...................: 39044
+               - BIC...................: 39491.2
+Current threshold......................: 0.154992
+Number of real partitions..............: 12
+Partition 1............................: 1 element(s).
+Partition 2............................: 5 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 1 element(s).
+Partition 5............................: 1 element(s).
+Partition 6............................: 1 element(s).
+Partition 7............................: 11 element(s).
+Partition 8............................: 1 element(s).
+Partition 9............................: 1 element(s).
+Partition 10...........................: 2 element(s).
+Partition 11...........................: 27 element(s).
+Partition 12...........................: 1 element(s).
+Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
+Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
+Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
+Parameter ignored......................: YN98.freq_Codon2_Full.theta_1
+Parameter ignored......................: YN98.freq_Codon2_Full.theta1_1
+Parameter ignored......................: YN98.freq_Codon2_Full.theta2_1
+Parameter ignored......................: YN98.freq_Codon3_Full.theta_1
+Parameter ignored......................: YN98.freq_Codon3_Full.theta1_1
+Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
+******
+
+* New NH model - LogL..................: -19447.1
+               - df....................: 75
+               - LRT p-value...........: 0.118031
+               - AIC...................: 39044.1
+               - BIC...................: 39509.9
+Current threshold......................: 0.177487
+Number of real partitions..............: 13
+Partition 1............................: 1 element(s).
+Partition 2............................: 1 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 1 element(s).
+Partition 5............................: 1 element(s).
+Partition 6............................: 11 element(s).
+Partition 7............................: 1 element(s).
+Partition 8............................: 1 element(s).
+Partition 9............................: 2 element(s).
+Partition 10...........................: 27 element(s).
+Partition 11...........................: 1 element(s).
+Partition 12...........................: 1 element(s).
+Partition 13...........................: 4 element(s).
+Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
+Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
+Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
+Parameter ignored......................: YN98.freq_Codon2_Full.theta_1
+Parameter ignored......................: YN98.freq_Codon2_Full.theta1_1
+Parameter ignored......................: YN98.freq_Codon2_Full.theta2_1
+Parameter ignored......................: YN98.freq_Codon3_Full.theta_1
+Parameter ignored......................: YN98.freq_Codon3_Full.theta1_1
+Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
+******
+
+* New NH model - LogL..................: -19446.2
+               - df....................: 76
+               - LRT p-value...........: 0.18037
+               - AIC...................: 39044.3
+               - BIC...................: 39516.4
+Current threshold......................: 0.197203
+Number of real partitions..............: 14
+Partition 1............................: 1 element(s).
+Partition 2............................: 1 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 1 element(s).
+Partition 5............................: 1 element(s).
+Partition 6............................: 11 element(s).
+Partition 7............................: 1 element(s).
+Partition 8............................: 1 element(s).
+Partition 9............................: 2 element(s).
+Partition 10...........................: 1 element(s).
+Partition 11...........................: 1 element(s).
+Partition 12...........................: 4 element(s).
+Partition 13...........................: 26 element(s).
+Partition 14...........................: 1 element(s).
+Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
+Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
+Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
+Parameter ignored......................: YN98.freq_Codon2_Full.theta_1
+Parameter ignored......................: YN98.freq_Codon2_Full.theta1_1
+Parameter ignored......................: YN98.freq_Codon2_Full.theta2_1
+Parameter ignored......................: YN98.freq_Codon3_Full.theta_1
+Parameter ignored......................: YN98.freq_Codon3_Full.theta1_1
+Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
+*****
 
 * New NH model - LogL..................: -19445.3
-               - df....................: 74
-               - LRT p-value...........: 0.0860207
-               - AIC...................: 39038.6
-               - BIC...................: 39498.2
-Current threshold......................: 0.0961878
-Number of real partitions..............: 16
+               - df....................: 77
+               - LRT p-value...........: 0.200731
+               - AIC...................: 39044.7
+               - BIC...................: 39522.9
+Current threshold......................: 0.205858
+Number of real partitions..............: 15
 Partition 1............................: 1 element(s).
-Partition 2............................: 5 element(s).
+Partition 2............................: 1 element(s).
 Partition 3............................: 1 element(s).
 Partition 4............................: 1 element(s).
 Partition 5............................: 1 element(s).
-Partition 6............................: 1 element(s).
+Partition 6............................: 11 element(s).
 Partition 7............................: 1 element(s).
 Partition 8............................: 1 element(s).
-Partition 9............................: 28 element(s).
+Partition 9............................: 2 element(s).
 Partition 10...........................: 1 element(s).
 Partition 11...........................: 1 element(s).
-Partition 12...........................: 1 element(s).
+Partition 12...........................: 4 element(s).
 Partition 13...........................: 1 element(s).
-Partition 14...........................: 1 element(s).
-Partition 15...........................: 7 element(s).
-Partition 16...........................: 1 element(s).
-Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta2_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
-******
-
-* New NH model - LogL..................: -19442.1
-               - df....................: 79
-               - LRT p-value...........: 0.273594
-               - AIC...................: 39042.2
-               - BIC...................: 39532.9
-Current threshold......................: 0.144485
-Number of real partitions..............: 24
-Partition 1............................: 1 element(s).
-Partition 2............................: 5 element(s).
-Partition 3............................: 1 element(s).
-Partition 4............................: 1 element(s).
-Partition 5............................: 1 element(s).
-Partition 6............................: 1 element(s).
-Partition 7............................: 1 element(s).
-Partition 8............................: 1 element(s).
-Partition 9............................: 1 element(s).
-Partition 10...........................: 1 element(s).
-Partition 11...........................: 1 element(s).
-Partition 12...........................: 1 element(s).
-Partition 13...........................: 1 element(s).
-Partition 14...........................: 7 element(s).
+Partition 14...........................: 25 element(s).
 Partition 15...........................: 1 element(s).
-Partition 16...........................: 1 element(s).
-Partition 17...........................: 1 element(s).
-Partition 18...........................: 1 element(s).
-Partition 19...........................: 1 element(s).
-Partition 20...........................: 1 element(s).
-Partition 21...........................: 1 element(s).
-Partition 22...........................: 1 element(s).
-Partition 23...........................: 20 element(s).
-Partition 24...........................: 1 element(s).
-Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta2_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
-******
-
-* New NH model - LogL..................: -19439
-               - df....................: 87
-               - LRT p-value...........: 0.618774
-               - AIC...................: 39052
-               - BIC...................: 39592.3
-Current threshold......................: 0.20249
-Number of real partitions..............: 25
-Partition 1............................: 1 element(s).
-Partition 2............................: 1 element(s).
-Partition 3............................: 1 element(s).
-Partition 4............................: 1 element(s).
-Partition 5............................: 1 element(s).
-Partition 6............................: 1 element(s).
-Partition 7............................: 1 element(s).
-Partition 8............................: 1 element(s).
-Partition 9............................: 1 element(s).
-Partition 10...........................: 1 element(s).
-Partition 11...........................: 1 element(s).
-Partition 12...........................: 1 element(s).
-Partition 13...........................: 7 element(s).
-Partition 14...........................: 1 element(s).
-Partition 15...........................: 1 element(s).
-Partition 16...........................: 1 element(s).
-Partition 17...........................: 1 element(s).
-Partition 18...........................: 1 element(s).
-Partition 19...........................: 1 element(s).
-Partition 20...........................: 1 element(s).
-Partition 21...........................: 1 element(s).
-Partition 22...........................: 20 element(s).
-Partition 23...........................: 1 element(s).
-Partition 24...........................: 1 element(s).
-Partition 25...........................: 4 element(s).
-Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta2_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
-******
-
-* New NH model - LogL..................: -19438.1
-               - df....................: 88
-               - LRT p-value...........: 0.180632
-               - AIC...................: 39052.2
-               - BIC...................: 39598.7
-Current threshold......................: 0.236085
-Number of real partitions..............: 26
-Partition 1............................: 1 element(s).
-Partition 2............................: 1 element(s).
-Partition 3............................: 1 element(s).
-Partition 4............................: 1 element(s).
-Partition 5............................: 1 element(s).
-Partition 6............................: 1 element(s).
-Partition 7............................: 1 element(s).
-Partition 8............................: 1 element(s).
-Partition 9............................: 1 element(s).
-Partition 10...........................: 1 element(s).
-Partition 11...........................: 1 element(s).
-Partition 12...........................: 1 element(s).
-Partition 13...........................: 7 element(s).
-Partition 14...........................: 1 element(s).
-Partition 15...........................: 1 element(s).
-Partition 16...........................: 1 element(s).
-Partition 17...........................: 1 element(s).
-Partition 18...........................: 1 element(s).
-Partition 19...........................: 1 element(s).
-Partition 20...........................: 1 element(s).
-Partition 21...........................: 1 element(s).
-Partition 22...........................: 1 element(s).
-Partition 23...........................: 1 element(s).
-Partition 24...........................: 4 element(s).
-Partition 25...........................: 19 element(s).
-Partition 26...........................: 1 element(s).
-Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta2_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
-******
-
-* New NH model - LogL..................: -19437.4
-               - df....................: 89
-               - LRT p-value...........: 0.235329
-               - AIC...................: 39052.8
-               - BIC...................: 39605.5
-Current threshold......................: 0.246594
-Number of real partitions..............: 27
-Partition 1............................: 1 element(s).
-Partition 2............................: 1 element(s).
-Partition 3............................: 1 element(s).
-Partition 4............................: 1 element(s).
-Partition 5............................: 1 element(s).
-Partition 6............................: 1 element(s).
-Partition 7............................: 1 element(s).
-Partition 8............................: 1 element(s).
-Partition 9............................: 1 element(s).
-Partition 10...........................: 1 element(s).
-Partition 11...........................: 1 element(s).
-Partition 12...........................: 1 element(s).
-Partition 13...........................: 7 element(s).
-Partition 14...........................: 1 element(s).
-Partition 15...........................: 1 element(s).
-Partition 16...........................: 1 element(s).
-Partition 17...........................: 1 element(s).
-Partition 18...........................: 1 element(s).
-Partition 19...........................: 1 element(s).
-Partition 20...........................: 1 element(s).
-Partition 21...........................: 1 element(s).
-Partition 22...........................: 1 element(s).
-Partition 23...........................: 1 element(s).
-Partition 24...........................: 19 element(s).
-Partition 25...........................: 1 element(s).
-Partition 26...........................: 1 element(s).
-Partition 27...........................: 3 element(s).
-Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta2_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
-******
-
-* New NH model - LogL..................: -19436.6
-               - df....................: 90
-               - LRT p-value...........: 0.220273
-               - AIC...................: 39053.3
-               - BIC...................: 39612.3
-Current threshold......................: 0.291376
-Number of real partitions..............: 29
-Partition 1............................: 1 element(s).
-Partition 2............................: 1 element(s).
-Partition 3............................: 1 element(s).
-Partition 4............................: 1 element(s).
-Partition 5............................: 1 element(s).
-Partition 6............................: 1 element(s).
-Partition 7............................: 1 element(s).
-Partition 8............................: 1 element(s).
-Partition 9............................: 1 element(s).
-Partition 10...........................: 1 element(s).
-Partition 11...........................: 1 element(s).
-Partition 12...........................: 1 element(s).
-Partition 13...........................: 1 element(s).
-Partition 14...........................: 1 element(s).
-Partition 15...........................: 1 element(s).
-Partition 16...........................: 1 element(s).
-Partition 17...........................: 1 element(s).
-Partition 18...........................: 1 element(s).
-Partition 19...........................: 1 element(s).
-Partition 20...........................: 1 element(s).
-Partition 21...........................: 1 element(s).
-Partition 22...........................: 1 element(s).
-Partition 23...........................: 19 element(s).
-Partition 24...........................: 1 element(s).
-Partition 25...........................: 1 element(s).
-Partition 26...........................: 3 element(s).
-Partition 27...........................: 1 element(s).
-Partition 28...........................: 3 element(s).
-Partition 29...........................: 3 element(s).
 Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
 Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
 Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
@@ -485,99 +356,30 @@ Parameter ignored......................: YN98.freq_Codon3_Full.theta1_1
 Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
 *****
 
-* New NH model - LogL..................: -19435.8
-               - df....................: 92
-               - LRT p-value...........: 0.45413
-               - AIC...................: 39055.7
-               - BIC...................: 39627.1
-Current threshold......................: 0.317163
-Number of real partitions..............: 32
+* New NH model - LogL..................: -19444.6
+               - df....................: 78
+               - LRT p-value...........: 0.209005
+               - AIC...................: 39045.1
+               - BIC...................: 39529.6
+Current threshold......................: 0.214574
+Number of real partitions..............: 17
 Partition 1............................: 1 element(s).
 Partition 2............................: 1 element(s).
 Partition 3............................: 1 element(s).
 Partition 4............................: 1 element(s).
 Partition 5............................: 1 element(s).
-Partition 6............................: 1 element(s).
+Partition 6............................: 11 element(s).
 Partition 7............................: 1 element(s).
 Partition 8............................: 1 element(s).
-Partition 9............................: 1 element(s).
+Partition 9............................: 2 element(s).
 Partition 10...........................: 1 element(s).
 Partition 11...........................: 1 element(s).
-Partition 12...........................: 1 element(s).
+Partition 12...........................: 4 element(s).
 Partition 13...........................: 1 element(s).
 Partition 14...........................: 1 element(s).
 Partition 15...........................: 1 element(s).
-Partition 16...........................: 1 element(s).
+Partition 16...........................: 23 element(s).
 Partition 17...........................: 1 element(s).
-Partition 18...........................: 1 element(s).
-Partition 19...........................: 1 element(s).
-Partition 20...........................: 1 element(s).
-Partition 21...........................: 1 element(s).
-Partition 22...........................: 1 element(s).
-Partition 23...........................: 1 element(s).
-Partition 24...........................: 1 element(s).
-Partition 25...........................: 3 element(s).
-Partition 26...........................: 1 element(s).
-Partition 27...........................: 3 element(s).
-Partition 28...........................: 3 element(s).
-Partition 29...........................: 1 element(s).
-Partition 30...........................: 1 element(s).
-Partition 31...........................: 16 element(s).
-Partition 32...........................: 1 element(s).
-Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon2_Full.theta2_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta1_1
-Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
-****
-
-* New NH model - LogL..................: -19435.3
-               - df....................: 95
-               - LRT p-value...........: 0.779389
-               - AIC...................: 39060.6
-               - BIC...................: 39650.6
-Current threshold......................: 0.359697
-Number of real partitions..............: 36
-Partition 1............................: 1 element(s).
-Partition 2............................: 1 element(s).
-Partition 3............................: 1 element(s).
-Partition 4............................: 1 element(s).
-Partition 5............................: 1 element(s).
-Partition 6............................: 1 element(s).
-Partition 7............................: 1 element(s).
-Partition 8............................: 1 element(s).
-Partition 9............................: 1 element(s).
-Partition 10...........................: 1 element(s).
-Partition 11...........................: 1 element(s).
-Partition 12...........................: 1 element(s).
-Partition 13...........................: 1 element(s).
-Partition 14...........................: 1 element(s).
-Partition 15...........................: 1 element(s).
-Partition 16...........................: 1 element(s).
-Partition 17...........................: 1 element(s).
-Partition 18...........................: 1 element(s).
-Partition 19...........................: 1 element(s).
-Partition 20...........................: 1 element(s).
-Partition 21...........................: 1 element(s).
-Partition 22...........................: 1 element(s).
-Partition 23...........................: 1 element(s).
-Partition 24...........................: 1 element(s).
-Partition 25...........................: 3 element(s).
-Partition 26...........................: 1 element(s).
-Partition 27...........................: 3 element(s).
-Partition 28...........................: 3 element(s).
-Partition 29...........................: 1 element(s).
-Partition 30...........................: 1 element(s).
-Partition 31...........................: 1 element(s).
-Partition 32...........................: 1 element(s).
-Partition 33...........................: 1 element(s).
-Partition 34...........................: 4 element(s).
-Partition 35...........................: 9 element(s).
-Partition 36...........................: 1 element(s).
 Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
 Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
 Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
@@ -589,52 +391,31 @@ Parameter ignored......................: YN98.freq_Codon3_Full.theta1_1
 Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
 *****
 
-* New NH model - LogL..................: -19434.1
-               - df....................: 99
-               - LRT p-value...........: 0.657932
-               - AIC...................: 39066.2
-               - BIC...................: 39681.1
-Current threshold......................: 0.411936
-Number of real partitions..............: 39
+* New NH model - LogL..................: -19443.5
+               - df....................: 80
+               - LRT p-value...........: 0.353903
+               - AIC...................: 39047
+               - BIC...................: 39543.9
+Current threshold......................: 0.214575
+Number of real partitions..............: 18
 Partition 1............................: 1 element(s).
 Partition 2............................: 1 element(s).
 Partition 3............................: 1 element(s).
 Partition 4............................: 1 element(s).
 Partition 5............................: 1 element(s).
-Partition 6............................: 1 element(s).
+Partition 6............................: 11 element(s).
 Partition 7............................: 1 element(s).
 Partition 8............................: 1 element(s).
-Partition 9............................: 1 element(s).
+Partition 9............................: 2 element(s).
 Partition 10...........................: 1 element(s).
 Partition 11...........................: 1 element(s).
-Partition 12...........................: 1 element(s).
+Partition 12...........................: 4 element(s).
 Partition 13...........................: 1 element(s).
 Partition 14...........................: 1 element(s).
 Partition 15...........................: 1 element(s).
 Partition 16...........................: 1 element(s).
-Partition 17...........................: 1 element(s).
-Partition 18...........................: 1 element(s).
-Partition 19...........................: 1 element(s).
-Partition 20...........................: 1 element(s).
-Partition 21...........................: 1 element(s).
-Partition 22...........................: 1 element(s).
-Partition 23...........................: 1 element(s).
-Partition 24...........................: 1 element(s).
-Partition 25...........................: 3 element(s).
-Partition 26...........................: 1 element(s).
-Partition 27...........................: 3 element(s).
-Partition 28...........................: 3 element(s).
-Partition 29...........................: 1 element(s).
-Partition 30...........................: 1 element(s).
-Partition 31...........................: 1 element(s).
-Partition 32...........................: 1 element(s).
-Partition 33...........................: 1 element(s).
-Partition 34...........................: 9 element(s).
-Partition 35...........................: 1 element(s).
-Partition 36...........................: 1 element(s).
-Partition 37...........................: 1 element(s).
-Partition 38...........................: 1 element(s).
-Partition 39...........................: 1 element(s).
+Partition 17...........................: 3 element(s).
+Partition 18...........................: 20 element(s).
 Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
 Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
 Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
@@ -644,55 +425,34 @@ Parameter ignored......................: YN98.freq_Codon2_Full.theta2_1
 Parameter ignored......................: YN98.freq_Codon3_Full.theta_1
 Parameter ignored......................: YN98.freq_Codon3_Full.theta1_1
 Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
-****
+*****
 
-* New NH model - LogL..................: -19433.4
-               - df....................: 102
-               - LRT p-value...........: 0.732856
-               - AIC...................: 39070.9
-               - BIC...................: 39704.4
-Current threshold......................: 0.479398
-Number of real partitions..............: 40
+* New NH model - LogL..................: -19443
+               - df....................: 81
+               - LRT p-value...........: 0.320475
+               - AIC...................: 39048
+               - BIC...................: 39551.1
+Current threshold......................: 0.220502
+Number of real partitions..............: 19
 Partition 1............................: 1 element(s).
 Partition 2............................: 1 element(s).
 Partition 3............................: 1 element(s).
 Partition 4............................: 1 element(s).
 Partition 5............................: 1 element(s).
-Partition 6............................: 1 element(s).
+Partition 6............................: 11 element(s).
 Partition 7............................: 1 element(s).
 Partition 8............................: 1 element(s).
-Partition 9............................: 1 element(s).
+Partition 9............................: 2 element(s).
 Partition 10...........................: 1 element(s).
 Partition 11...........................: 1 element(s).
 Partition 12...........................: 1 element(s).
 Partition 13...........................: 1 element(s).
 Partition 14...........................: 1 element(s).
 Partition 15...........................: 1 element(s).
-Partition 16...........................: 1 element(s).
-Partition 17...........................: 1 element(s).
+Partition 16...........................: 3 element(s).
+Partition 17...........................: 20 element(s).
 Partition 18...........................: 1 element(s).
-Partition 19...........................: 1 element(s).
-Partition 20...........................: 1 element(s).
-Partition 21...........................: 1 element(s).
-Partition 22...........................: 1 element(s).
-Partition 23...........................: 1 element(s).
-Partition 24...........................: 1 element(s).
-Partition 25...........................: 3 element(s).
-Partition 26...........................: 1 element(s).
-Partition 27...........................: 3 element(s).
-Partition 28...........................: 1 element(s).
-Partition 29...........................: 1 element(s).
-Partition 30...........................: 1 element(s).
-Partition 31...........................: 1 element(s).
-Partition 32...........................: 1 element(s).
-Partition 33...........................: 9 element(s).
-Partition 34...........................: 1 element(s).
-Partition 35...........................: 1 element(s).
-Partition 36...........................: 1 element(s).
-Partition 37...........................: 1 element(s).
-Partition 38...........................: 1 element(s).
-Partition 39...........................: 2 element(s).
-Partition 40...........................: 1 element(s).
+Partition 19...........................: 3 element(s).
 Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
 Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
 Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
@@ -704,15 +464,53 @@ Parameter ignored......................: YN98.freq_Codon3_Full.theta1_1
 Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
 ******
 
-* New NH model - LogL..................: -19433.2
-               - df....................: 103
-               - LRT p-value...........: 0.493338
-               - AIC...................: 39072.4
-               - BIC...................: 39712.1
+* New NH model - LogL..................: -19442.3
+               - df....................: 82
+               - LRT p-value...........: 0.220448
+               - AIC...................: 39048.5
+               - BIC...................: 39557.8
+Current threshold......................: 0.251747
+Number of real partitions..............: 20
+Partition 1............................: 1 element(s).
+Partition 2............................: 1 element(s).
+Partition 3............................: 1 element(s).
+Partition 4............................: 1 element(s).
+Partition 5............................: 1 element(s).
+Partition 6............................: 1 element(s).
+Partition 7............................: 1 element(s).
+Partition 8............................: 2 element(s).
+Partition 9............................: 1 element(s).
+Partition 10...........................: 1 element(s).
+Partition 11...........................: 1 element(s).
+Partition 12...........................: 1 element(s).
+Partition 13...........................: 1 element(s).
+Partition 14...........................: 1 element(s).
+Partition 15...........................: 3 element(s).
+Partition 16...........................: 20 element(s).
+Partition 17...........................: 1 element(s).
+Partition 18...........................: 3 element(s).
+Partition 19...........................: 10 element(s).
+Partition 20...........................: 1 element(s).
+Parameter ignored......................: YN98.freq_Codon1_Full.theta_1
+Parameter ignored......................: YN98.freq_Codon1_Full.theta1_1
+Parameter ignored......................: YN98.freq_Codon1_Full.theta2_1
+Parameter ignored......................: YN98.freq_Codon2_Full.theta_1
+Parameter ignored......................: YN98.freq_Codon2_Full.theta1_1
+Parameter ignored......................: YN98.freq_Codon2_Full.theta2_1
+Parameter ignored......................: YN98.freq_Codon3_Full.theta_1
+Parameter ignored......................: YN98.freq_Codon3_Full.theta1_1
+Parameter ignored......................: YN98.freq_Codon3_Full.theta2_1
+******
+
+* New NH model - LogL..................: -19441.6
+               - df....................: 83
+               - LRT p-value...........: 0.232262
+               - AIC...................: 39049.1
+               - BIC...................: 39564.6
 Model description output to file.......: PalandAndLynch28.model_join_AIC.bpp
 Output parameter table to..............: PalandAndLynch28.ml_nh_join_AIC.parameters.csv
 Output partitions record to............: PalandAndLynch28.partitions_record_join_AIC.txt
 Wrote tree to file ....................: PalandAndLynch28.ml_nh_join_AIC.nhx
 Partitions output to file..............: PalandAndLynch28.partitions_join_AIC.dnd
 PartNH's done. Bye.
-Total execution time: 0.000000d, 1.000000h, 20.000000m, 9.000000s.
+Total execution time: 0.000000d, 0.000000h, 45.000000m, 41.000000s.

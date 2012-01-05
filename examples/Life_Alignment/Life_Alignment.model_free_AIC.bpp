@@ -1,34 +1,76 @@
-# Log likelihood = 13904.82847319607390090823
+# Log likelihood = 13917.12069519474971457385
 
 # Substitution model parameters:
 nonhomogeneous = general
-nonhomogeneous.number_of_models = 8
+nonhomogeneous.number_of_models = 22
 
-model1 = T92(kappa=3.075147710928, theta=0.920630253289)
-model1.nodes_id = 12,17,28,45,113,124,128,130,132,151,152,153,157,168,170,177
+model1 = T92(kappa=3.106309173041, theta=0.907120816379)
+model1.nodes_id = 168,170
 
-model2 = T92(kappa=model1.T92.kappa, theta=0.426196191899)
-model2.nodes_id = 5,9,22,29,30,33,40,49,57,58,69,70,72,73,74,84,85,91,92,100,102,107,111,117,122,138,173,174,178,179
+model2 = T92(kappa=model1.T92.kappa, theta=0.794991101697)
+model2.nodes_id = 0,11,50,108,110,120
 
-model3 = T92(kappa=model1.T92.kappa, theta=0.256959353339)
-model3.nodes_id = 1,2,3,13,18,25,34,35,38,83,87,89,96,101,127,135,136,140,143,148,161
+model3 = T92(kappa=model1.T92.kappa, theta=0.259995054698)
+model3.nodes_id = 35,79,83,87,89,101,105
 
-model4 = T92(kappa=model1.T92.kappa, theta=0.317028010437)
-model4.nodes_id = 24,39,44,78,80,82,86,93,94,97,98,105,106,119,144,159,164,165,167
+model4 = T92(kappa=model1.T92.kappa, theta=0.636606560383)
+model4.nodes_id = 20,52,56,59,63,71,99,137,146,176
 
-model5 = T92(kappa=model1.T92.kappa, theta=0.777658488628)
-model5.nodes_id = 0,6,7,8,11,36,42,50,64,81,95,108,110,112,120,134,149,150,154,156,166,171
+model5 = T92(kappa=model1.T92.kappa, theta=0.602837677407)
+model5.nodes_id = 26,53,54,109,162,163,164,165,166
 
-model6 = T92(kappa=model1.T92.kappa, theta=0.639240646291)
-model6.nodes_id = 10,20,27,31,52,56,59,61,62,63,68,71,99,103,121,137,139,141,142,145,146,175,176
+model6 = T92(kappa=model1.T92.kappa, theta=0.359679905437)
+model6.nodes_id = 24,39,86
 
-model7 = T92(kappa=model1.T92.kappa, theta=0.578799645434)
-model7.nodes_id = 4,14,15,16,19,21,26,32,37,41,46,47,48,53,54,55,60,65,66,79,109,114,115,116,123,125,126,129,131,133,155,160,162,163,169,172,180
+model7 = T92(kappa=model1.T92.kappa, theta=0.318820879674)
+model7.nodes_id = 78,80,82,97,106,107,144
 
-model8 = T92(kappa=model1.T92.kappa, theta=0.519983435307)
-model8.nodes_id = 23,43,51,67,75,76,77,88,90,104,118,147,158,181
+model8 = T92(kappa=model1.T92.kappa, theta=0.810279275886)
+model8.nodes_id = 6,7,12,21,41,42,81,95,156,171
+
+model9 = T92(kappa=model1.T92.kappa, theta=0.799251128200)
+model9.nodes_id = 112,149,150,151,152,153,154
+
+model10 = T92(kappa=model1.T92.kappa, theta=0.367501693511)
+model10.nodes_id = 22,32,34,38,40,100,172,173,174,178
+
+model11 = T92(kappa=model1.T92.kappa, theta=0.726958460862)
+model11.nodes_id = 8,10,31,45,46,68,103,121,139,141
+
+model12 = T92(kappa=model1.T92.kappa, theta=0.619258852635)
+model12.nodes_id = 27,36,37,58,60,61,62,64,145,175
+
+model13 = T92(kappa=model1.T92.kappa, theta=0.486428842342)
+model13.nodes_id = 4,55,65,66,113,114,119,123,124,125,126,127,128,129,130,131,132,133,134,135,143,148,155,157,158,159,160,169
+
+model14 = T92(kappa=model1.T92.kappa, theta=0.607041268346)
+model14.nodes_id = 43,177,180,181
+
+model15 = T92(kappa=model1.T92.kappa, theta=0.502109142619)
+model15.nodes_id = 9,13,14,15,16,17,18,19,47,48,49,69,84,115,116,117,136,138,140,142
+
+model16 = T92(kappa=model1.T92.kappa, theta=0.409961475032)
+model16.nodes_id = 57,70,72,73,74,91,102,122,179
+
+model17 = T92(kappa=model1.T92.kappa, theta=0.561326376182)
+model17.nodes_id = 1,2,3,5
+
+model18 = T92(kappa=model1.T92.kappa, theta=0.343442261412)
+model18.nodes_id = 44,93,94,96,98,161,167
+
+model19 = T92(kappa=model1.T92.kappa, theta=0.479918446262)
+model19.nodes_id = 23,51,88,90,104,118,147
+
+model20 = T92(kappa=model1.T92.kappa, theta=0.467147172431)
+model20.nodes_id = 67,75,76,77
+
+model21 = T92(kappa=model1.T92.kappa, theta=0.471633402264)
+model21.nodes_id = 25,28,29,30,33,92
+
+model22 = T92(kappa=model1.T92.kappa, theta=0.269422733273)
+model22.nodes_id = 85,111
 
 # Root frequencies:
-nonhomogeneous.root_freq = GC(theta=0.467015082414)
-rate_distribution = Gamma(n=4, alpha=0.638144188073)
+nonhomogeneous.root_freq = GC(theta=0.444254604260)
+rate_distribution = Gamma(n=4, alpha=0.633183796009)
 

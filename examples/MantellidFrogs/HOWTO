@@ -1,7 +1,8 @@
 1) Fit a homogeneous model:
      
      bppml --noninteractive=yes param=ML.bpp >& bppml_h.out &
-     
+     logL = -44799.288101026
+
      This will store optimized parameter in file MantellidDataset.mh_h.params.txt
      and corresponding tree in file              MantellidDataset.ml_h.txt.
      A YN98 substitution model is used.
@@ -61,3 +62,36 @@
 
      The resulting log likelihood is -45370.00438022504386026412 for 12 clusters
 
+3) Assess the robustness of substitution mapping:
+     mapnh --noninteractive=yes\
+           param=MapNH.bpp\
+           param=MantellidDataset.model_free_BIC.bpp\
+           input.tree.file=MantellidDataset.ml_nh_free_BIC.nhx\
+           input.tree.format=NHX\
+           test.branch.neighbor=no\
+           output.counts.tree.prefix=MantellidDataset.counts_post\
+           output.cluster_tree.file=MantellidDataset.cluster_free_post.dnd > mapnh_free_post.out &
+
+     partnh param=PartNH.bpp --noninteractive=yes \
+            input.cluster_tree.file=MantellidDataset.cluster_free_post.dnd\
+            partition.test=BIC\
+            partition.test.stop_condition=3\
+            METHOD=free_BIC_post > partnh_free_BIC_post.out &
+
+
+     mapnh --noninteractive=yes\
+           param=MapNH.bpp\
+           param=MantellidDataset.model_join_BIC.bpp\
+           input.tree.file=MantellidDataset.ml_nh_join_BIC.nhx\
+           input.tree.format=NHX\
+           test.branch.neighbor=yes\
+           output.counts.tree.prefix=MantellidDataset.counts_post\
+           output.cluster_tree.file=MantellidDataset.cluster_join_post.dnd > mapnh_join_post.out &
+
+     partnh param=PartNH.bpp --noninteractive=yes \
+            input.cluster_tree.file=MantellidDataset.cluster_join_post.dnd\
+            partition.test=BIC\
+            partition.test.stop_condition=3\
+            METHOD=join_BIC_post > partnh_join_BIC_post.out &
+
+     

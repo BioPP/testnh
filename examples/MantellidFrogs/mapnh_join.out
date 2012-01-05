@@ -1,7 +1,7 @@
 ******************************************************************
 *                     Map NH, version 0.1.0                      *
 * Authors: J. Dutheil                       Created on  09/12/10 *
-*          B. Boussau                       Last Modif. 20/03/08 *
+*          B. Boussau                       Last Modif. 17/12/11 *
 ******************************************************************
 
 Parsing options:
@@ -17,7 +17,8 @@ Number of sequences....................: 17
 Number of sites........................: 1606
 Tree file..............................: MantellidDataset.ml_h.dnd
 Number of leaves.......................: 17
-Use observed frequencies for model.....: no
+Heterogeneous model....................: no
+Frequencies initialization for model...: None
 Parameter found........................: YN98.kappa=2.94975
 Parameter found........................: YN98.omega=0.0546374
 Parameter found........................: YN98.freq_Codon1_Full.theta=0.460548
@@ -29,6 +30,9 @@ Parameter found........................: YN98.freq_Codon2_Full.theta2=0.279906
 Parameter found........................: YN98.freq_Codon3_Full.theta=0.352878
 Parameter found........................: YN98.freq_Codon3_Full.theta1=0.540054
 Parameter found........................: YN98.freq_Codon3_Full.theta2=0.125294
+Rate distribution......................: Uniform
+Number of classes......................: 1
+- Category 0 (Pr = 1) rate.............: 1
 Saturation threshold used..............: 3
 WARNING!!! On branch 1, 28 sites (2%) have been ignored because they are presumably saturated.
 WARNING!!! On branch 3, 4 sites (1%) have been ignored because they are presumably saturated.
@@ -55,4 +59,4 @@ P-value at root node...................: 6.30453e-09
 Number of tests performed..............: 136
 Output cluster tree to.................: Mantellid.cluster_join.dnd
 MapNH's done. Bye.
-Total execution time: 0.000000d, 0.000000h, 0.000000m, 17.000000s.
+Total execution time: 0.000000d, 0.000000h, 0.000000m, 18.000000s.
