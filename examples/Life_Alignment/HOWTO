@@ -125,5 +125,21 @@
             partition.test.stop_condition=3\
             METHOD=join_BIC_post > partnh_join_BIC_post.out &
 
+# Compare values with R:
+f1<-read.table("Life_Alignment.ml_nh_free_BIC.parameters.csv", header=TRUE, row.names="NodeId")
+f2<-read.table("Life_Alignment.ml_nh_free_BIC_post.parameters.csv", header=TRUE, row.names="NodeId")
+j1<-read.table("Life_Alignment.ml_nh_join_BIC.parameters.csv", header=TRUE, row.names="NodeId")
+j2<-read.table("Life_Alignment.ml_nh_join_BIC_post.parameters.csv", header=TRUE, row.names="NodeId")
 
+# Merge by node ids:
+f<-merge(f1, f2, by="row.names")
+j<-merge(j1, j2, by="row.names")
+
+# Plot results:
+
+layout(matrix(1:2, nrow=1))
+plot(jitter(T92.theta.y, amount=0.02)~jitter(T92.theta.x, amount=0.02), f, xlab="First step", ylab="Second step", main="Free model, BIC criterion", xlim=c(0,1), ylim=c(0, 1)); abline(0, 1)
+plot(jitter(T92.theta.y, amount=0.02)~jitter(T92.theta.x, amount=0.02), j, xlab="First step", ylab="Second step", main="Join model, BIC criterion", xlim=c(0,1), ylim=c(0, 1)); abline(0, 1)
+
+dev.print(pdf, "Figures/StepsComparison.pdf", width=10, height=5)
 
