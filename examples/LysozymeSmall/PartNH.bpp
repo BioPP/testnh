@@ -9,6 +9,8 @@ input.cluster_tree.file = Clusters.dnd
 #A simple newick tree showing the resulting partitions for visual inspection:
 output.partitions.file = Partitions.dnd
 
+output.intermediate.models = yes
+
 ###########################################################################
 #This (fast) method allows you to output partitions from a given threshold:
 ###########################################################################
@@ -49,5 +51,12 @@ optimization.ignore_parameter = YN98.freq*
 #Where to write optimal model (for later use with bppSeqGen or bppAncestor for instance):
 output.model.file = 
 output.log.file = 
-output.tree.file = 
+output.tree.file = $(DATA).ml_nh_$(METHOD).nhx
 output.tree.format = NHX
+output.partitions.file = $(DATA).partitions_$(METHOD).dnd
+output.partitions.record = $(DATA).partitions_record_$(METHOD).txt
+output.model.file = $(DATA).model_$(METHOD).bpp
+output.intermediate.models = yes
+output.log.file = $(DATA).model_$(METHOD).log.txt
+output.parameters.file = $(DATA).ml_nh_$(METHOD).parameters.csv
+

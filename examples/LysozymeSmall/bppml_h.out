@@ -1,0 +1,88 @@
+******************************************************************
+*       Bio++ Maximum Likelihood Computation, version 1.5.0      *
+*                                                                *
+* Authors: J. Dutheil                       Last Modif. 07/02/11 *
+*          B. Boussau                                            *
+*          L. Gueguen                                            *
+******************************************************************
+
+Parsing options:
+Parsing file ML.bpp for options.
+Alphabet type .........................: Codon(DNA)
+Sequence format .......................: Fasta
+Sequence file .........................: lysozymeSmall.fasta
+Sites to use...........................: complete
+Complete sites.........................: 130
+Remove Stop Codons.....................: yes
+Number of sequences....................: 7
+Number of sites........................: 130
+Input tree.............................: user
+Tree file..............................: lysozymeSmall.dnd2
+Number of leaves.......................: 6
+Wrote tree to file ....................: lysozymeSmall.ml_h.dnd
+Branch lengths.........................: Input
+Clock..................................: no
+Heterogeneous model....................: no
+Use observed frequencies for model.....: yes
+Parameter found........................: YN98.kappa=1
+Parameter found........................: YN98.omega=1
+Parameter found........................: YN98.freq_Codon.1_Full.theta=0.475824
+Parameter found........................: YN98.freq_Codon.1_Full.theta1=0.616352
+Parameter found........................: YN98.freq_Codon.1_Full.theta2=0.711316
+Parameter found........................: YN98.freq_Codon.2_Full.theta=0.469231
+Parameter found........................: YN98.freq_Codon.2_Full.theta1=0.623188
+Parameter found........................: YN98.freq_Codon.2_Full.theta2=0.63466
+Parameter found........................: YN98.freq_Codon.3_Full.theta=0.420879
+Parameter found........................: YN98.freq_Codon.3_Full.theta1=0.434535
+Parameter found........................: YN98.freq_Codon.3_Full.theta2=0.456919
+Rate distribution......................: Uniform
+Number of classes......................: 1
+- Category 0 (Pr = 1) rate.............: 1
+Likelihood recursion...................: simple
+Likelihood data compression............: recursive
+Initializing data structure............: Done.
+Number of distinct sites...............: 80
+Initial log likelihood.................: -892.679348690474
+Message handler........................: lysozymeSmall.messages
+Profiler...............................: lysozymeSmall.profile
+Parameter ignored......................: YN98.freq_Codon.1_Full.theta
+Parameter ignored......................: YN98.freq_Codon.1_Full.theta1
+Parameter ignored......................: YN98.freq_Codon.1_Full.theta2
+Parameter ignored......................: YN98.freq_Codon.2_Full.theta
+Parameter ignored......................: YN98.freq_Codon.2_Full.theta1
+Parameter ignored......................: YN98.freq_Codon.2_Full.theta2
+Parameter ignored......................: YN98.freq_Codon.3_Full.theta
+Parameter ignored......................: YN98.freq_Codon.3_Full.theta1
+Parameter ignored......................: YN98.freq_Codon.3_Full.theta2
+Max # ML evaluations...................: 10000
+Tolerance..............................: 1e-06
+Optimize topology......................: no
+Optimization method....................: FullD
+Algorithm used for derivable parameters: Newton
+Reparametrization......................: no
+**********
+
+Performed..............................: 11 function evaluations.
+Wrote tree to file ....................: lysozymeSmall.ml_h.dnd
+Log likelihood.........................: -873.521217370271
+YN98.kappa.............................: 4.57073
+YN98.omega.............................: 0.852675
+YN98.freq_Codon.1_Full.theta...........: 0.475824
+YN98.freq_Codon.1_Full.theta1..........: 0.616352
+YN98.freq_Codon.1_Full.theta2..........: 0.711316
+YN98.freq_Codon.2_Full.theta...........: 0.469231
+YN98.freq_Codon.2_Full.theta1..........: 0.623188
+YN98.freq_Codon.2_Full.theta2..........: 0.63466
+YN98.freq_Codon.3_Full.theta...........: 0.420879
+YN98.freq_Codon.3_Full.theta1..........: 0.434535
+YN98.freq_Codon.3_Full.theta2..........: 0.456919
+Output estimates to file...............: lysozymeSmall.ml_h.params.bpp
+
+Posterior rate distribution for dataset:
+
+Pr(1.000000) = 1.000000
+
+
+Alignment information logfile..........: lysozymeSmall.infos
+BppML's done. Bye.
+Total execution time: 0.000000d, 0.000000h, 0.000000m, 8.000000s.

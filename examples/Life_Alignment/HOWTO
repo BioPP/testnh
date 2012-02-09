@@ -1,11 +1,12 @@
 1) Perform a Bowker test.
 1.1) Fit a homogeneous model:
      
-     bppml param=ML.bpp
+     bppml --noninteractive=yes param=ML.bpp > bppml_h.out &
      
      This will store optimized parameter in file Life_Alignment.params_h.txt
      and corresponding tree in file              Life_Alignment.ml_h.txt.
      A T92+Gamma substitution model is used.
+
 1.2) Compute the Bowker statistic and compare to simulations under the estimated model
      (See Dutheil and Boussau 2008):
      
@@ -15,6 +16,15 @@
      All simulations details are output in file TestNH_homogeneous.null.txt, and can
      be analyzed and/or plotted using R for instance.
 
+1.3) Compare with the full model:
+
+1.3.1) bppML
+     bppml --noninteractive=yes param=ML_NH_Full.bpp > bppml_nh_full.out &
+    
+1.3.2) NHML
+     /usr/bin/time -v eval_nhg Life_Alignment.mase Life_Alignment.dnd nhml.opt >& nhml.out &
+
+
 2) Try to find a better non-homogeneous model to describe the data.
 2.1) Cluster nodes using substitution mapping.
      We will map two types of substitutions: AT->GC and GC->AT, and also tha AT->AT and GC->GC cases,
@@ -22,12 +32,10 @@
      having rooted it with the midpoint method (bppPhyView).
 
      We try to cluster nodes freely:
-     mapnh param=MapNH.bpp "map.type=GC(stationarity=no)" test.branch.neighbor=no output.cluster_tree.file=Life_Alignment.cluster_equilibrium_free.dnd
-     mapnh param=MapNH.bpp "map.type=GC(stationarity=yes)" test.branch.neighbor=no output.cluster_tree.file=Life_Alignment.cluster_free.dnd
+     mapnh --noninteractive=yes param=MapNH.bpp "map.type=GC(stationarity=no)" test.branch.neighbor=no output.cluster_tree.file=Life_Alignment.cluster_equilibrium_free.dnd > mapnh_free.out &
 
      And also adding the constraint to cluster only adjacent nodes:
-     mapnh param=MapNH.bpp "map.type=GC(stationarity=no)" test.branch.neighbor=yes output.cluster_tree.file=Life_Alignment.cluster_equilibrium_join.dnd
-     mapnh param=MapNH.bpp "map.type=GC(stationarity=yes)" test.branch.neighbor=yes output.cluster_tree.file=Life_Alignment.cluster_join.dnd
+     mapnh --noninteractive=yes param=MapNH.bpp "map.type=GC(stationarity=no)" test.branch.neighbor=yes output.cluster_tree.file=Life_Alignment.cluster_equilibrium_join.dnd > mapnh_join.out &
 
      This will first create a tree in Nhx format, identical to the input one, but with
      nodes ID. It then creates a cluster tree in Newick format, with leaves being nodes ID.
@@ -39,50 +47,22 @@
      partnh param=PartNH.bpp --noninteractive=yes \
             input.cluster_tree.file=Life_Alignment.cluster_equilibrium_free.dnd\
             partition.test=BIC\
-            optimization.profiler=Life_Alignment.free_BIC.profile\
-            optimization.message_handler=Life_Alignment.free_BIC.message\
-            output.partitions.file=Life_Alignment.partitions_free_BIC.dnd\
-            output.partitions.record=Life_Alignment.partitions_record_free_BIC.txt\
-            output.model.file=Life_Alignment.model_free_BIC.bpp\
-            output.log.file=Life_Alignment.model_free_BIC.log.txt\
-            output.tree.file=Life_Alignment.ml_nh_free_BIC.nhx\
-            output.parameters.file=Life_Alignment.ml_nh_free_BIC.parameters.csv > partnh_free_BIC.out &
+            METHOD=free_BIC > partnh_free_BIC.out &
 
      partnh param=PartNH.bpp --noninteractive=yes \
             input.cluster_tree.file=Life_Alignment.cluster_equilibrium_join.dnd\
             partition.test=BIC\
-            optimization.profiler=Life_Alignment.join_BIC.profile\
-            optimization.message_handler=Life_Alignment.join_BIC.message\
-            output.partitions.file=Life_Alignment.partitions_join_BIC.dnd\
-            output.partitions.record=Life_Alignment.partitions_record_join_BIC.txt\
-            output.model.file=Life_Alignment.model_join_BIC.bpp\
-            output.log.file=Life_Alignment.model_join_BIC.log.txt\
-            output.tree.file=Life_Alignment.ml_nh_join_BIC.nhx\
-            output.parameters.file=Life_Alignment.ml_nh_join_BIC.parameters.csv > partnh_join_BIC.out &
+            METHOD=join_BIC > partnh_join_BIC.out &
 
      partnh param=PartNH.bpp --noninteractive=yes \
             input.cluster_tree.file=Life_Alignment.cluster_equilibrium_free.dnd\
             partition.test=AIC\
-            optimization.profiler=Life_Alignment.free_AIC.profile\
-            optimization.message_handler=Life_Alignment.free_AIC.message\
-            output.partitions.file=Life_Alignment.partitions_free_AIC.dnd\
-            output.partitions.record=Life_Alignment.partitions_record_free_AIC.txt\
-            output.model.file=Life_Alignment.model_free_AIC.bpp\
-            output.log.file=Life_Alignment.model_free_AIC.log.txt\
-            output.tree.file=Life_Alignment.ml_nh_free_AIC.nhx\
-            output.parameters.file=Life_Alignment.ml_nh_free_AIC.parameters.csv > partnh_free_AIC.out &
+            METHOD=free_AIC > partnh_free_AIC.out &
 
      partnh param=PartNH.bpp --noninteractive=yes \
             input.cluster_tree.file=Life_Alignment.cluster_equilibrium_join.dnd\
             partition.test=AIC\
-            optimization.profiler=Life_Alignment.join_AIC.profile\
-            optimization.message_handler=Life_Alignment.join_AIC.message\
-            output.partitions.file=Life_Alignment.partitions_join_AIC.dnd\
-            output.partitions.record=Life_Alignment.partitions_record_join_AIC.txt\
-            output.model.file=Life_Alignment.model_join_AIC.bpp\
-            output.log.file=Life_Alignment.model_join_AIC.log.txt\
-            output.tree.file=Life_Alignment.ml_nh_join_AIC.nhx\
-            output.parameters.file=Life_Alignment.ml_nh_join_AIC.parameters.csv > partnh_join_AIC.out &
+            METHOD=join_AIC > partnh_join_AIC.out &
 
 3) Test if the resulting non-homogeneous models take into account the underlying non-homogeneity,
    using the Bowker test against the alternative hypothesis (see Dutheil and Boussau 2008):
@@ -109,8 +89,57 @@
 
     All tests are now not significant!
 
-4) Compare with nhml estimates:
+4) Assess the robustness of substitution mapping:
+     We rerun the substitution mapping procedure and clustering of branches using the model selected using BIC, for both the free and join approach:
+
+     mapnh --noninteractive=yes\
+           param=MapNH.bpp\
+           param=Life_Alignment.model_free_BIC.bpp\
+           input.tree.file=Life_Alignment.ml_nh_free_BIC.nhx\
+           input.tree.format=NHX\
+           "map.type=GC(stationarity=no)"\
+           test.branch.neighbor=no\
+           output.counts.tree.prefix=Life_Alignment.counts_post\
+           output.cluster_tree.file=Life_Alignment.cluster_equilibrium_free_post.dnd > mapnh_free_post.out &
+
+     partnh param=PartNH.bpp --noninteractive=yes \
+            input.cluster_tree.file=Life_Alignment.cluster_equilibrium_free_post.dnd\
+            partition.test=BIC\
+            partition.test.stop_condition=3\
+            METHOD=free_BIC_post > partnh_free_BIC_post.out &
 
 
+     mapnh --noninteractive=yes\
+           param=MapNH.bpp\
+           param=Life_Alignment.model_join_BIC.bpp\
+           input.tree.file=Life_Alignment.ml_nh_join_BIC.nhx\
+           input.tree.format=NHX\
+           "map.type=GC(stationarity=no)"\
+           test.branch.neighbor=yes\
+           output.counts.tree.prefix=Life_Alignment.counts_post\
+           output.cluster_tree.file=Life_Alignment.cluster_equilibrium_join_post.dnd > mapnh_join_post.out &
 
+     partnh param=PartNH.bpp --noninteractive=yes \
+            input.cluster_tree.file=Life_Alignment.cluster_equilibrium_join_post.dnd\
+            partition.test=BIC\
+            partition.test.stop_condition=3\
+            METHOD=join_BIC_post > partnh_join_BIC_post.out &
+
+# Compare values with R:
+f1<-read.table("Life_Alignment.ml_nh_free_BIC.parameters.csv", header=TRUE, row.names="NodeId")
+f2<-read.table("Life_Alignment.ml_nh_free_BIC_post.parameters.csv", header=TRUE, row.names="NodeId")
+j1<-read.table("Life_Alignment.ml_nh_join_BIC.parameters.csv", header=TRUE, row.names="NodeId")
+j2<-read.table("Life_Alignment.ml_nh_join_BIC_post.parameters.csv", header=TRUE, row.names="NodeId")
+
+# Merge by node ids:
+f<-merge(f1, f2, by="row.names")
+j<-merge(j1, j2, by="row.names")
+
+# Plot results:
+
+layout(matrix(1:2, nrow=1))
+plot(jitter(T92.theta.y, amount=0.02)~jitter(T92.theta.x, amount=0.02), f, xlab="First step", ylab="Second step", main="Free model, BIC criterion", xlim=c(0,1), ylim=c(0, 1)); abline(0, 1)
+plot(jitter(T92.theta.y, amount=0.02)~jitter(T92.theta.x, amount=0.02), j, xlab="First step", ylab="Second step", main="Join model, BIC criterion", xlim=c(0,1), ylim=c(0, 1)); abline(0, 1)
+
+dev.print(pdf, "Figures/StepsComparison.pdf", width=10, height=5)
 

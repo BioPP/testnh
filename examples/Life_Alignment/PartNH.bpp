@@ -1,6 +1,9 @@
+DATA=Life_Alignment
+
+
 #Input tree file must be in NHX format, in order to get proper node id.
 #MapNH can output such an NHX tree if the input one was in Newick or Nexus.
-input.tree.file = Life_Alignment.nhx
+input.tree.file = $(DATA).nhx
 input.cluster_tree.file = Clusters.dnd
 
 #A simple newick tree showing the resulting partitions for visual inspection:
@@ -21,8 +24,9 @@ partition.method = auto
 partition.test = BIC #Can be one of LRT, BIC or AIC.
 partition.test.threshold = 0.01 #If LRT is used.
 partition.test.stop_condition = 20 
+
 alphabet = RNA
-input.sequence.file = Life_Alignment.mase
+input.sequence.file = $(DATA).mase
 input.sequence.format = Mase
 input.sequence.sites_to_use = complete
 
@@ -35,13 +39,18 @@ nonhomogeneous.shared_parameters = T92.kappa #Only theta will be "non-homogeneou
 optimization.reparametrization = no
 optimization.verbose = 1
 optimization.max_number_f_eval = 10000
-optimization.tolerance = 0.0001
-optimization.profiler =
-optimization.message_handler =
+optimization.tolerance = 0.000001
+optimization.profiler = $(DATA).$(METHOD).profile
+optimization.message_handler = $(DATA).$(METHOD).message
+
 
 #Where to write optimal model (for later use with bppSeqGen or bppAncestor for instance):
-output.model.file = 
-output.log.file = 
-output.tree.file = 
+output.tree.file = $(DATA).ml_nh_$(METHOD).nhx
 output.tree.format = NHX
-output.partitions.record =
+output.partitions.file = $(DATA).partitions_$(METHOD).dnd
+output.partitions.record = $(DATA).partitions_record_$(METHOD).txt
+output.model.file = $(DATA).model_$(METHOD).bpp
+output.intermediate.models = yes
+output.log.file = $(DATA).model_$(METHOD).log.txt
+output.parameters.file = $(DATA).ml_nh_$(METHOD).parameters.csv
+ 

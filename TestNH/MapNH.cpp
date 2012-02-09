@@ -64,7 +64,7 @@ using namespace std;
 #include <Bpp/Phyl/Model/JCnuc.h>
 #include <Bpp/Phyl/Model/HKY85.h>
 #include <Bpp/Phyl/Model/JCprot.h>
-#include <Bpp/Phyl/Model/CodonNeutralReversibleSubstitutionModel.h>
+#include <Bpp/Phyl/Model/CodonRateSubstitutionModel.h>
 #include <Bpp/Phyl/Model/YN98.h>
 #include <Bpp/Phyl/Model/SubstitutionModelSet.h>
 #include <Bpp/Phyl/Model/SubstitutionModelSetTools.h>
@@ -206,7 +206,7 @@ int main(int args, char ** argv)
   cout << "******************************************************************" << endl;
   cout << "*                     Map NH, version 0.1.0                      *" << endl;
   cout << "* Authors: J. Dutheil                       Created on  09/12/10 *" << endl;
-  cout << "*          B. Boussau                       Last Modif. 20/03/08 *" << endl;
+  cout << "*          B. Boussau                       Last Modif. 17/12/11 *" << endl;
   cout << "******************************************************************" << endl;
   cout << endl;
 
@@ -276,38 +276,99 @@ int main(int args, char ** argv)
   } else
     throw Exception("Unsupported substitution categorization: " + regType);
 
-  //Now perform mapping using a JC model:
-  SubstitutionModel* model = 0;
-  if (ApplicationTools::parameterExists("model", mapnh.getParams())) {
-    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, mapnh.getParams());
-  } else {
-    if (AlphabetTools::isNucleicAlphabet(alphabet)) {
-      model = new JCnuc(dynamic_cast<NucleicAlphabet*>(alphabet));
-    } else if (AlphabetTools::isProteicAlphabet(alphabet)) {
-      model = new JCprot(dynamic_cast<ProteicAlphabet*>(alphabet));
-    } else if (AlphabetTools::isCodonAlphabet(alphabet)) {
-      model = new CodonNeutralReversibleSubstitutionModel(
-          dynamic_cast<const CodonAlphabet*>(geneticCode->getSourceAlphabet()),
-          new JCnuc(dynamic_cast<CodonAlphabet*>(alphabet)->getNucleicAlphabet()));
-    } else
-      throw Exception("Unsupported alphabet!");
+  //Now perform mapping:
+  string nhOpt = ApplicationTools::getStringParameter("nonhomogeneous", mapnh.getParams(), "no", "", true, false);
+  ApplicationTools::displayResult("Heterogeneous model", nhOpt);
+
+  DRTreeLikelihood     *drtl     = 0;
+  SubstitutionModel    *model    = 0;
+  SubstitutionModelSet *modelSet = 0;
+  DiscreteDistribution *rDist    = 0;
+
+  if (nhOpt == "no")
+  { 
+    if (ApplicationTools::parameterExists("model", mapnh.getParams())) {
+      model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, mapnh.getParams());
+      if (model->getName() != "RE08") SiteContainerTools::changeGapsToUnknownCharacters(*sites);
+      if(model->getNumberOfStates() > model->getAlphabet()->getSize())
+      {
+        //Markov-modulated Markov model!
+        rDist = new ConstantDistribution(1., true);
+      }
+      else
+      {
+        rDist = PhylogeneticsApplicationTools::getRateDistribution(mapnh.getParams());
+      }
+    } else {
+      if (AlphabetTools::isNucleicAlphabet(alphabet)) {
+        model = new JCnuc(dynamic_cast<NucleicAlphabet*>(alphabet));
+      } else if (AlphabetTools::isProteicAlphabet(alphabet)) {
+        model = new JCprot(dynamic_cast<ProteicAlphabet*>(alphabet));
+      } else if (AlphabetTools::isCodonAlphabet(alphabet)) {
+        model = new CodonRateSubstitutionModel(
+            dynamic_cast<const CodonAlphabet*>(geneticCode->getSourceAlphabet()),
+            new JCnuc(dynamic_cast<CodonAlphabet*>(alphabet)->getNucleicAlphabet()));
+      } else
+        throw Exception("Unsupported alphabet!");
+      rDist = new ConstantDistribution(1., true);
+    }
+    drtl = new DRHomogeneousTreeLikelihood(*tree, *sites, model, rDist, false, false);
   }
+  else if (nhOpt == "one_per_branch")
+  {
+    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, mapnh.getParams());
+    if (model->getName() != "RE08") SiteContainerTools::changeGapsToUnknownCharacters(*sites);
+    if (model->getNumberOfStates() > model->getAlphabet()->getSize())
+    {
+      //Markov-modulated Markov model!
+      rDist = new ConstantDistribution(1., true);
+    }
+    else
+    {
+      rDist = PhylogeneticsApplicationTools::getRateDistribution(mapnh.getParams());
+    }
+    vector<double> rateFreqs;
+    if (model->getNumberOfStates() != alphabet->getSize())
+    {
+      //Markov-Modulated Markov Model...
+      unsigned int n =(unsigned int)(model->getNumberOfStates() / alphabet->getSize());
+      rateFreqs = vector<double>(n, 1./static_cast<double>(n)); // Equal rates assumed for now, may be changed later (actually, in the most general case,
+                                                   // we should assume a rate distribution for the root also!!!  
+    }
+    FrequenciesSet* rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, sites, mapnh.getParams(), rateFreqs);
+    vector<string> globalParameters = ApplicationTools::getVectorParameter<string>("nonhomogeneous_one_per_branch.shared_parameters", mapnh.getParams(), ',', "");
+    modelSet = SubstitutionModelSetTools::createNonHomogeneousModelSet(model, rootFreqs, tree, globalParameters); 
+    model = 0;
+    drtl = new DRNonHomogeneousTreeLikelihood(*tree, *sites, modelSet, rDist, false, false);
+  }
+  else if (nhOpt == "general")
+  {
+    modelSet = PhylogeneticsApplicationTools::getSubstitutionModelSet(alphabet, sites, mapnh.getParams());
+    if (modelSet->getModel(0)->getName() != "RE08") SiteContainerTools::changeGapsToUnknownCharacters(*sites);
+    if (modelSet->getNumberOfStates() > modelSet->getAlphabet()->getSize())
+    {
+      //Markov-modulated Markov model!
+      rDist = new ConstantDistribution(1.);
+    }
+    else
+    {
+      rDist = PhylogeneticsApplicationTools::getRateDistribution(mapnh.getParams());
+    }
+    drtl = new DRNonHomogeneousTreeLikelihood(*tree, *sites, modelSet, rDist, false, false);
+  }
+  else throw Exception("Unknown option for nonhomogeneous: " + nhOpt);
+  drtl->initialize();
 
-  DiscreteDistribution* rDist = new ConstantDistribution(1., true);
-
-  DRHomogeneousTreeLikelihood drtl(*tree, *sites, model, rDist, false, false);
-  drtl.initialize();
-  
   //Optimization of parameters:
   //PhylogeneticsApplicationTools::optimizeParameters(&drtl, drtl.getParameters(), mapnh.getParams(), "", true, true);
   
-  vector<int> ids = drtl.getTree().getNodesId();
+  vector<int> ids = drtl->getTree().getNodesId();
   ids.pop_back(); //remove root id.
   vector< vector<unsigned int> > counts;
   double thresholdSat = ApplicationTools::getDoubleParameter("count.max", mapnh.getParams(), -1);
   if (thresholdSat > 0)
     ApplicationTools::displayResult("Saturation threshold used", thresholdSat);
-  counts = getCountsPerBranch(drtl, ids, model, *reg, stationarity, thresholdSat);
+  counts = getCountsPerBranch(*drtl, ids, model ? model : modelSet->getModel(0), *reg, stationarity, thresholdSat);
 
   //Write count trees:
   string treePathPrefix = ApplicationTools::getStringParameter("output.counts.tree.prefix", mapnh.getParams(), "none");
@@ -381,7 +442,7 @@ int main(int args, char ** argv)
     }
 
     //ChiClustering htest(counts, ids, true);
-    MultinomialClustering htest(counts, ids, drtl.getTree(), *autoClust, testNeighb, testNegBrL, true);
+    MultinomialClustering htest(counts, ids, drtl->getTree(), *autoClust, testNeighb, testNegBrL, true);
     ApplicationTools::displayResult("P-value at root node", *(htest.getPValues().rbegin()));
     ApplicationTools::displayResult("Number of tests performed", htest.getPValues().size());
     TreeTemplate<Node>* htree = htest.getTree();
@@ -396,7 +457,10 @@ int main(int args, char ** argv)
   delete alphabet;
   delete sites;
   delete tree;
-  delete model;
+  if (model)
+    delete model;
+  if (modelSet)
+    delete modelSet;
   delete rDist;
   delete reg;
   mapnh.done();

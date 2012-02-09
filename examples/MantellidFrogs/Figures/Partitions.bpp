@@ -1,0 +1,101 @@
+// -------------------------------------
+DATA=MantellidDataset
+//METHOD=free_AIC
+//METHOD=join_AIC
+//METHOD=free_BIC
+METHOD=join_BIC
+FONT_MAIN=Font(family=courier,style=normal,weight=normal,size=12)
+// -------------------------------------
+
+// --
+// IO
+// --
+
+input.tree.file=../$(DATA).ml_nh_$(METHOD).nhx 
+input.tree.format=NHX
+input.data=../$(DATA).ml_nh_$(METHOD).parameters.csv
+//Column name. If void, the first row will be used and the header line should have one element less than the number of columns.
+input.data.rownames=NodeId
+input.data.use_node_id=yes
+input.node.translation.file=
+input.node.translation.from=
+input.node.translation.to=
+
+output.fig.format=inkscape //svg if you don't want layers
+output.fig.file=Partitions_$(METHOD).svg
+
+// ------------
+// Tree display
+// ------------
+
+topo.unresolve.min_brlen=0.001
+topo.collapse_nodes=
+topo.collapse_nodes.plot_size=yes
+topo.collapse_nodes.plot_size.offset=3
+
+// --------------
+// Figure Options
+// --------------
+
+fig.drawing=Phylogram(hOrientation=l2r, vOrientation=t2b)
+fig.xscale=100
+fig.yscale=12
+fig.xoffset=50
+fig.yoffset=20
+
+fig.draw_tip_labels=yes
+fig.draw_inner_labels=no
+fig.draw_node_id=no
+fig.draw_branch_length=no
+fig.draw_bootstrap_value=no
+fig.font=$(FONT_MAIN)
+fig.point_size=4
+
+fig.legend.x = 0
+fig.legend.y = 200
+fig.legend.barlen = 
+
+colorset=default
+
+// ----------
+// Edge width
+// ----------
+
+fig.edge_width.variable=none
+fig.edge_width.values=
+fig.edge_width.widths=20
+
+// ----------
+// Edge color
+// ----------
+
+fig.edge_color.variable=YN98.omega
+fig.edge_color.values=seq(0,0.2,10)
+fig.edge_color.colors=gradient3(blue,yellow,red)
+
+// ----------------------
+// Draw variables on tree
+// ----------------------
+
+fig.draw_var.number_of_var=0
+fig.draw_var.variable1=
+fig.draw_var.variable2=
+fig.draw_var.if=
+
+// Common parameters:
+fig.draw_var.values=[0,0.5,3]
+fig.draw_var.colors=gray(0.8),red
+fig.draw_var.shape=square(10)
+fig.draw_var.yoffset=0
+
+// For variable 1:
+
+fig.draw_var.xoffset1=600a
+fig.draw_var.layer1=61
+fig.draw_var.xoffset.link1=dashed
+
+// For variable 2:
+fig.draw_var.xoffset2=610a
+fig.draw_var.layer2=62
+fig.draw_var.xoffset.link2=none
+

@@ -1,0 +1,8 @@
+# Log likelihood = -14122.12099288198623980861
+# Number of sites = 527
+
+# Substitution model parameters:
+model = T92(kappa=3.069749102941, theta=0.556537519220)
+
+# Rate distribution parameters:
+rate_distribution = Gamma(n=4, alpha=0.640423737645)

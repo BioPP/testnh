@@ -122,10 +122,12 @@ plot.profile<-function(prf, iterations, omegas, brlen, tbl, ics) {
   mtext(side=4, "BIC", col="black", line=3)
 }
 
-plot.profile(free.aic.prf, 1:15, 1:17, brlen, free.aic.tbl, free.aic)
+plot.profile(free.aic.prf, 1:15, 1:15, brlen, free.aic.tbl, free.aic)
 dev.print(tiff, file="Figures/FreePL.tif", width=1000, height=500)
+dev.print(pdf, file="Figures/FreePL.pdf", width=14, height=7)
 
-plot.profile(join.aic.prf, 1:18, 1:37, brlen, join.aic.tbl, join.aic)
+plot.profile(join.aic.prf, 1:16, 1:20, brlen, join.aic.tbl, join.aic)
 dev.print(tiff, file="Figures/JoinPL.tif", width=1000, height=500)
+dev.print(pdf, file="Figures/JoinPL.pdf", width=14, height=7)
 
 

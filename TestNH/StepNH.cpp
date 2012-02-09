@@ -174,7 +174,7 @@ void stepBackward(NonHomogeneousTreeLikelihood* nhtl,
   OptimizationTools::optimizeNumericalParameters2(
       dynamic_cast<DiscreteRatesAcrossSitesTreeLikelihood *>(nhtl),
       nhtl->getParameters(),
-      0, precision, 10000, messenger, profiler, false, max(0, (int)verbose - 2),
+      0, precision, 10000, messenger, profiler, false, false, max(0, (int)verbose - 2),
       OptimizationTools::OPTIMIZATION_NEWTON);
   ApplicationTools::displayTaskDone();
 

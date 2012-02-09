@@ -192,9 +192,11 @@ plot.profile<-function(prf, iterations, thetas, brlen, tbl, ics) {
   mtext(side=4, "BIC", col="black", line=3)
 }
 
-plot.profile(free.aic.prf, 1:26, 1:56, brlen, free.aic.tbl, free.aic)
-dev.print(tiff, file="Figures/FreeGC.tif", width=1000, height=500)
+plot.profile(free.aic.prf, 1:30, 1:42, brlen, free.aic.tbl, free.aic)
+#dev.print(tiff, file="Figures/FreeGC.tif", width=1000, height=500)
+dev.print(pdf, file="Figures/FreeGC.pdf", width=14, height=7)
 
-plot.profile(join.aic.prf, 1:34, 1:75, brlen, join.aic.tbl, join.aic)
-dev.print(tiff, file="Figures/JoinGC.tif", width=1000, height=500)
+plot.profile(join.aic.prf, 1:40, 1:73, brlen, join.aic.tbl, join.aic)
+#dev.print(tiff, file="Figures/JoinGC.tif", width=1000, height=500)
+dev.print(pdf, file="Figures/JoinGC.pdf", width=14, height=7)
 

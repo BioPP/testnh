@@ -1,0 +1,40 @@
+
+/* all programs */
+
+  OPTIMIZE_LENGTH=1
+  OPTIMIZE_GC=1
+  OPTIMIZE_TITV=1
+  OPTIMIZE_ROOT=1
+  OPTIMIZE_ANC=1
+  OPTIMIZE_GAMMA=1
+  OPTIMIZE_COV=0
+  OPTIMIZE_PI=0
+
+  INIT_LENGTH=KEEP 	/* KEEP or REDO */
+  INIT_GC=BALANCED	/* CONST or VAR or BALANCED */
+  INIT_TITV=1.		  /* -1.=automatic */
+  INIT_ROOT=-1  		/* -1.=keep */
+  INIT_ANC=0.5      /* -1.=automatic */
+  INIT_GAMMA=0.5 		/* -1.=infinity (constant rate) */
+  GAMMA_NBCLASS=4		/* >= 2 */	
+  INIT_COV=-1.			/* -1.=infinity (no covarion) */
+  INIT_PI=0.			
+		
+  PRECISION=6
+  SIMPLEX=0
+
+  PRINT1=1
+  PRINT2=1
+
+
+
+/* eval */
+
+  ALLCOUPLES=1
+
+
+/* shake*/
+
+  SH_G=-1				/* -1=max */
+  SH_MAXLCROSSED=-1.			/* -1.=> every branch crossed */
+  SH_MAXBOOTCROSSED=90			/* -1=> every branch crossed */

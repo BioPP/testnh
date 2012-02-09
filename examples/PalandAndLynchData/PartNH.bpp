@@ -34,7 +34,7 @@ input.sequence.remove_stop_codons=yes
 
 
 
-model = YN98(genetic_code=InvertebrateMitochondrial, frequencies=F3X4, omega=0.5, kappa=2, useObservedFreqs=yes)
+model = YN98(genetic_code=InvertebrateMitochondrial, frequencies=F3X4, omega=0.5, kappa=2, initFreqs=observed)
 rate_distribution = Uniform #Gamma(n=4, alpha=0.5)
 nonhomogeneous.root_freq = None 
 nonhomogeneous.shared_parameters = YN98.kappa, YN98.freq* 
@@ -46,6 +46,7 @@ optimization.max_number_f_eval = 1000
 optimization.tolerance = 0.000001
 optimization.profiler = $(DATA).$(METHOD).profile
 optimization.message_handler = $(DATA).$(METHOD).message
+optimization.ignore_parameter = YN98.freq*
 
 #Where to write optimal model (for later use with bppSeqGen or bppAncestor for instance):
 output.model.file = 
@@ -55,6 +56,6 @@ output.tree.format = NHX
 output.partitions.file = $(DATA).partitions_$(METHOD).dnd
 output.partitions.record = $(DATA).partitions_record_$(METHOD).txt
 output.model.file = $(DATA).model_$(METHOD).bpp
+output.intermediate.models = yes
 output.log.file = $(DATA).model_$(METHOD).log.txt
 output.parameters.file = $(DATA).ml_nh_$(METHOD).parameters.csv
- 

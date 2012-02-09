@@ -126,6 +126,14 @@ int main(int args, char ** argv)
   vector<int> ids = tree->getNodesId();
   ids.pop_back();
 
+  //We create a id vector weighted for node depth:
+  vector<double> idWeights;
+  map<int, unsigned int> nodesDepths;
+  TreeTools::getDepths(*tree, tree->getRootId(), nodesDepths);
+  for (size_t i = 0; i < ids.size(); ++i) {
+    idWeights.push_back(static_cast<double>(nodesDepths[ids[i]] + 1));
+  }
+
   map<int, unsigned int> partitionsIndex;
   
   string modelType = ApplicationTools::getStringParameter("nonhomogeneous.type_of_model", randnh.getParams(), "join");
@@ -133,7 +141,7 @@ int main(int args, char ** argv)
   if (modelType == "join")
   {
     vector<int> partRootIds(nbParts - 1);
-    RandomTools::getSample(ids, partRootIds);
+    RandomTools::getSample(ids, idWeights, partRootIds);
 
     //we have to make sure we get the larger partition first:
     multiset<CandidatePart, CandidatePartComp> depths;
