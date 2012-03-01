@@ -195,7 +195,7 @@ Then come two optional corrections for the clustering:
 Say if negative branches in the clustering tree are allowed. Leaving this option to @samp{no}, the default, is recommended.
 @item test.branch.auto_cluster = @{Marginal|Global@}
 Parametrize when branches should be automatically clustered with their parent branch. Two methods are available:
-@table @var
+@table @command
 @item Marginal(threshold=@{int>=0@})
 Will systematically cluster all nodes for which at least one count is below the given threshold value.
 @item Global(threshold=@{int>=0@})
