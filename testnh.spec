@@ -1,4 +1,4 @@
-%define name TestNH
+%define name testnh
 %define version 1.0.0
 %define release 1
 %define _prefix /usr
