@@ -3,7 +3,7 @@
 # Created: 07/04/2010
 
 # Global parameters
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6.4)
 PROJECT(testnh CXX)
 IF(NOT CMAKE_BUILD_TYPE)
   SET(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING
@@ -216,6 +216,19 @@ SET(CPACK_SOURCE_IGNORE_FILES
  "examples/.*/PAML.*/rst"
  "examples/.*/PAML.*/rst1"
  "examples/.*/PAML.*/rub"
+ "doc/testnh/"
+ "doc/testnh\\\\.info"
+ "doc/testnh\\\\.toc"
+ "doc/testnh\\\\.vr"
+ "doc/testnh\\\\.tp"
+ "doc/testnh\\\\.log"
+ "doc/testnh\\\\.fn"
+ "doc/testnh\\\\.ky"
+ "doc/testnh\\\\.cp"
+ "doc/testnh\\\\.pg"
+ "doc/testnh\\\\.aux"
+ "doc/testnh\\\\.pdf"
+ "man/.*\\\\.1.gz"
  "examples/.*/PAML.*/lnf"
  "examples/.*/PAML.*/mlc"
  "examples/.*/PAML.*/4fold.nuc"

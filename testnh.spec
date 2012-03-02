@@ -8,7 +8,7 @@ Name: %{name}
 Version: %{version}
 Release: %{release}
 Vendor: Julien Dutheil
-Source: http://download.gna.org/comap/%{name}-%{version}.tar.gz
+Source: http://biopp.univ-montp2.fr/repositories/sources/%{name}-%{version}.tar.gz
 License: CeCILL 2
 Group: Productivity/Scientific/Other
 BuildRoot: %{_builddir}/%{name}-root
