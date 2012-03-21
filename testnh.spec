@@ -1,21 +1,40 @@
-%define name testnh
-%define version 1.0.0
-%define release 1
+%define _basename testnh
+%define _version 1.0.0
+%define _release 1
 %define _prefix /usr
 
-Summary: The TestNH package.
-Name: %{name}
-Version: %{version}
-Release: %{release}
+Name: %{_basename}
+Version: %{_version}
+Release: %{_release}
+License: CECILL-2.0
 Vendor: Julien Dutheil
-Source: http://biopp.univ-montp2.fr/repositories/sources/%{name}-%{version}.tar.gz
-License: CeCILL 2
+Source: http://biopp.univ-montp2.fr/repos/sources/%{_basename}-%{_version}.tar.gz
+Summary: The TestNH package
 Group: Productivity/Scientific/Other
-BuildRoot: %{_builddir}/%{name}-root
-Packager: Julien Dutheil
-Prefix: %{_prefix}
+
+Requires: libbpp-phyl9 = 2.0.3
+Requires: libbpp-seq9 = 2.0.3
+Requires: libbpp-core2 = 2.0.3
+
+BuildRoot: %{_builddir}/%{_basename}-root
+BuildRequires: cmake >= 2.6.0
+BuildRequires: gcc-c++ >= 4.0.0
+BuildRequires: texinfo >= 4.0.0
+BuildRequires: libbpp-core2 = 2.0.3
+BuildRequires: libbpp-core-devel = 2.0.3
+BuildRequires: libbpp-seq9 = 2.0.3
+BuildRequires: libbpp-seq-devel = 2.0.3
+BuildRequires: libbpp-phyl9 = 2.0.3
+BuildRequires: libbpp-phyl-devel = 2.0.3
+
+
 AutoReq: yes
 AutoProv: yes
+%if 0%{?mdkversion}
+%define zipext xz
+%else
+%define zipext gz
+%endif
 
 %description
 Includes programs:
@@ -38,7 +57,6 @@ make
 make info
 
 %install
-rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 
 %clean
@@ -55,13 +73,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/bin/mapnh
 %{_prefix}/bin/partnh
 %{_prefix}/bin/randnh
-%{_prefix}/share/info/testnh.info.gz
-%{_prefix}/share/man/man1/testnh.1.gz
-%{_prefix}/share/man/man1/mapnh.1.gz
-%{_prefix}/share/man/man1/partnh.1.gz
-%{_prefix}/share/man/man1/randnh.1.gz
+%{_prefix}/share/info/testnh.info.%{zipext}
+%{_prefix}/share/man/man1/testnh.1.%{zipext}
+%{_prefix}/share/man/man1/mapnh.1.%{zipext}
+%{_prefix}/share/man/man1/partnh.1.%{zipext}
+%{_prefix}/share/man/man1/randnh.1.%{zipext}
 
 %changelog
-* Tue Feb 09 2012 Julien Dutheil <julien.dutheil@univ-montp2.fr>
-- TestNH 1.0.0 release
+* Tue Feb 09 2012 Julien Dutheil <julien.dutheil@univ-montp2.fr> 1.0.0-1
+- Initial release.
 
