@@ -61,11 +61,7 @@ using namespace std;
 #include <Bpp/Phyl/OptimizationTools.h>
 #include <Bpp/Phyl/Io/Newick.h>
 #include <Bpp/Phyl/Io/Nhx.h>
-#include <Bpp/Phyl/Model/JCnuc.h>
-#include <Bpp/Phyl/Model/HKY85.h>
-#include <Bpp/Phyl/Model/JCprot.h>
-#include <Bpp/Phyl/Model/CodonRateSubstitutionModel.h>
-#include <Bpp/Phyl/Model/YN98.h>
+#include <Bpp/Phyl/Model.all>
 #include <Bpp/Phyl/Model/SubstitutionModelSet.h>
 #include <Bpp/Phyl/Model/SubstitutionModelSetTools.h>
 
@@ -99,7 +95,7 @@ void help()
   (*ApplicationTools::message << "__________________________________________________________________________").endLine();
 }
 
-vector< vector<unsigned int> > getCountsPerBranch(
+vector< vector<double> > getCountsPerBranch(
     DRTreeLikelihood& drtl,
     const vector<int>& ids,
     SubstitutionModel* model,
@@ -119,7 +115,7 @@ vector< vector<unsigned int> > getCountsPerBranch(
   }
   
   auto_ptr<ProbabilisticSubstitutionMapping> mapping(SubstitutionMappingTools::computeSubstitutionVectors(drtl, *count, false));
-  vector< vector<unsigned int> > counts(ids.size());
+  vector< vector<double> > counts(ids.size());
   unsigned int nbSites = mapping->getNumberOfSites();
   unsigned int nbTypes = mapping->getNumberOfSubstitutionTypes();
   for (size_t k = 0; k < ids.size(); ++k) {
@@ -180,15 +176,54 @@ ERROR:
 
     counts[k].resize(countsf.size());
     for (size_t j = 0; j < countsf.size(); ++j) {
-      counts[k][j] = static_cast<unsigned int>(floor(countsf[j] + 0.5)); //Round counts
+      counts[k][j] = countsf[j]; //Round counts
     }
   }
   return counts;
 }
 
+void outputTotalCountsPerBranchPerSite(
+                                       string& filename,
+                                       DRTreeLikelihood& drtl,
+                                       const vector<int>& ids,
+                                       SubstitutionModel* model,
+                                       const SubstitutionRegister& reg)
+{
+  auto_ptr<SubstitutionCount> count(new UniformizationSubstitutionCount(model, reg.clone()));
+  auto_ptr<ProbabilisticSubstitutionMapping> smap(SubstitutionMappingTools::computeSubstitutionVectors(drtl, *count, false));
+
+  ofstream file;
+  file.open(filename.c_str());
+
+  unsigned int nbSites = smap->getNumberOfSites();
+  int nbBr= ids.size();
+
+  vector<int> sdi(nbBr);  //reverse of ids
+  for ( int i=0;i<nbBr;i++)
+    for ( int j=0;j<nbBr;j++)
+      if (ids[j]==i){
+        sdi[i]=j;
+        break;
+      }
+
+  file << "sites";
+  for ( int i=0;i<nbBr;i++)
+    file << "\t" << i ;
+  file << endl;
+  
+  for (unsigned int k = 0; k < nbSites; ++k) {
+    vector<double> countsf = SubstitutionMappingTools::computeTotalSubstitutionVectorForSite(*smap, k);
+    file << k;
+    for ( int i=0;i < nbBr; i++)
+      file << "\t" << countsf[sdi[i]];
+    file << endl;
+  }
+  file.close();
+}
+
 
 void buildCountTree(
-    const vector< vector<unsigned int> >& counts,
+    const vector< vector<double> >& counts,
     const vector<int>& ids,
     Tree* cTree, 
     unsigned int type)
@@ -255,8 +290,20 @@ int main(int args, char ** argv)
     if (AlphabetTools::isNucleicAlphabet(alphabet)) {
       stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
       reg = new GCSubstitutionRegister(dynamic_cast<NucleicAlphabet*>(alphabet), false);
-    } else
-      throw Exception("GC categorization is only available for nucleotide alphabet!");
+    }
+    else 
+      if (AlphabetTools::isCodonAlphabet(alphabet)) {
+        stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
+        string code = regArgs["code"];
+        if (TextTools::isEmpty(code)) {
+          code = "Standard";
+          ApplicationTools::displayWarning("No genetic code provided, standard code used.");
+        }
+        geneticCode.reset(SequenceApplicationTools::getGeneticCode(dynamic_cast<CodonAlphabet*>(alphabet)->getNucleicAlphabet(), code));
+        reg = new GCSynonymousSubstitutionRegister(geneticCode.get());
+      }
+      else 
+        throw Exception("GC categorization is only available for nucleotide or codon alphabets!");
   } else if (regType == "TsTv") {
     if (AlphabetTools::isNucleicAlphabet(alphabet))
       reg = new TsTvSubstitutionRegister(dynamic_cast<NucleicAlphabet*>(alphabet));
@@ -364,30 +411,51 @@ int main(int args, char ** argv)
   
   vector<int> ids = drtl->getTree().getNodesId();
   ids.pop_back(); //remove root id.
-  vector< vector<unsigned int> > counts;
+  vector< vector<double> > counts;
   double thresholdSat = ApplicationTools::getDoubleParameter("count.max", mapnh.getParams(), -1);
   if (thresholdSat > 0)
     ApplicationTools::displayResult("Saturation threshold used", thresholdSat);
   counts = getCountsPerBranch(*drtl, ids, model ? model : modelSet->getModel(0), *reg, stationarity, thresholdSat);
 
-  //Write count trees:
-  string treePathPrefix = ApplicationTools::getStringParameter("output.counts.tree.prefix", mapnh.getParams(), "none");
-  if (treePathPrefix != "none") {
-    Newick newick;
-    for (unsigned int i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i) {
-      string path = treePathPrefix + TextTools::toString(i + 1) + string(".dnd");
-      ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
-      Tree* cTree = tree->clone();
-      buildCountTree(counts, ids, cTree, i);
-      newick.write(*cTree, path);
-      delete cTree;
+  string output= ApplicationTools::getStringParameter("output.counts", mapnh.getParams(), "perType");
+  if (output=="perType"){
+    //Write count trees:
+    string treePathPrefix = ApplicationTools::getStringParameter("output.counts.tree.prefix", mapnh.getParams(), "none");
+    if (treePathPrefix != "none") {
+      Newick newick;
+      for (unsigned int i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i) {
+        string path = treePathPrefix + TextTools::toString(i + 1) + string(".dnd");
+        ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
+        Tree* cTree = tree->clone();
+        buildCountTree(counts, ids, cTree, i);
+        newick.write(*cTree, path);
+        delete cTree;
+      }
     }
+  }
+  else if (output=="perSite"){
+    string perSitenf= ApplicationTools::getStringParameter("output.counts.file",mapnh.getParams(),"none");
+    if (perSitenf!="none"){
+      outputTotalCountsPerBranchPerSite(perSitenf, *drtl, ids, model? model: modelSet->getModel(0), *reg);
+    }
+  }
+  
+    
+  // Rounded counts
+  vector< vector<unsigned int> > countsint;
+  for (unsigned int i=0;i< counts.size(); i++){
+    vector<unsigned int> countsi2;
+    for (unsigned int j=0;j< counts[i].size(); j++)
+      countsi2.push_back(static_cast<unsigned int>(floor( counts[i][j]+0.5)));
+    countsint.push_back(countsi2);
   }
 
   //Global homogeneity test:
   bool testGlobal = ApplicationTools::getBooleanParameter("test.global", mapnh.getParams(), true, "", true, false);
   if (testGlobal) {
-    vector< vector<unsigned int> > counts2 = counts; 
+
+    vector< vector<unsigned int> > counts2=countsint;
+    
     //Check if some branches are 0:
     for (size_t i = counts2.size(); i > 0; --i) {
       if (VectorTools::sum(counts2[i - 1]) == 0) {
@@ -397,6 +465,7 @@ int main(int args, char ** argv)
       }
     }
     ApplicationTools::displayResult("Nb. of branches included in test", counts2.size());
+
     
     ContingencyTableTest test(counts2, 2000);
     ApplicationTools::displayResult("Global Chi2", test.getStatistic());
@@ -442,7 +511,7 @@ int main(int args, char ** argv)
     }
 
     //ChiClustering htest(counts, ids, true);
-    MultinomialClustering htest(counts, ids, drtl->getTree(), *autoClust, testNeighb, testNegBrL, true);
+    MultinomialClustering htest(countsint, ids, drtl->getTree(), *autoClust, testNeighb, testNegBrL, true);
     ApplicationTools::displayResult("P-value at root node", *(htest.getPValues().rbegin()));
     ApplicationTools::displayResult("Number of tests performed", htest.getPValues().size());
     TreeTemplate<Node>* htree = htest.getTree();
