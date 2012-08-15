@@ -1,33 +1,10 @@
 ******************************************************************
 *                     Map NH, version 0.1.0                      *
 * Authors: J. Dutheil                       Created on  09/12/10 *
-*          B. Boussau                       Last Modif. 20/03/08 *
+*          B. Boussau                       Last Modif. 17/12/11 *
 ******************************************************************
 
 Parsing options:
 Parsing file MapNH.bpp for options.
 Alphabet type .........................: Codon(DNA)
-Sequence format .......................: Fasta
-Sequence file .........................: lysozymeSmall.fasta
-Sites to use...........................: all
-WARNING!!! Parameter input.sequence.max_gap_allowed not specified. Default used instead: 100%
-Remove Stop Codons.....................: yes
-Number of sequences....................: 7
-Number of sites........................: 130
-Tree file..............................: lysozymeSmall.ml_h.dnd
-Number of leaves.......................: 6
-Saturation threshold used..............: 3
-Output counts of type 1 to file........: CountsTree1.dnd
-Output counts of type 2 to file........: CountsTree2.dnd
-Perform branch clustering..............: yes
-Cluster only neighbor nodes............: yes
-Allow len < 0 in clustering............: no
-Auto-clustering........................: Global
-Auto-clutering threshold...............: 1
-[======================================]Done.
-[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>]Done.
-P-value at root node...................: 0.0242601
-Number of tests performed..............: 27
-Output cluster tree to.................: lysozymeSmall.cluster_join.dnd
-MapNH's done. Bye.
-Total execution time: 0.000000d, 0.000000h, 0.000000m, 2.000000s.
+File does not exists: lysozymeSmall.fasta

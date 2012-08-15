@@ -42,7 +42,7 @@ init.brlen.method = Input
 # ----------------------------------------------------------------------------------------
 # See the manual for a description of the syntax and available options.
 #
-model = YN98(kappa=1, omega=1, frequencies=F3X4, useObservedFreqs=yes, useObservedFreqs.pseudoCount=0)
+model = YN98(kappa=1, omega=1, frequencies=F3X4, initFreqs=observed, initFreqs.observedPseudoCount=0)
 
 nonhomogeneous = no //one_per_branch
 #These lines are for the F1X4 option:
