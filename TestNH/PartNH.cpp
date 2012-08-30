@@ -730,6 +730,9 @@ int main(int args, char ** argv)
     if (bestTree) {
       ptree  = bestTree;
       groups = bestGroups;
+    } else {
+      groups.clear();
+      groups.push_back(ptree->getNodesId());
     }
     delete bestModelSet;
     delete bestRDist;
@@ -743,22 +746,18 @@ int main(int args, char ** argv)
   PhylogeneticsApplicationTools::writeTree(*ptree, partnh.getParams());
  
   //Now write partitions to file:
-  if (groups.size() > 1) {
-    string partPath = ApplicationTools::getAFilePath("output.partitions.file", partnh.getParams(), true, false);
-    ApplicationTools::displayResult("Partitions output to file", partPath);
-    for (size_t i = 0; i < groups.size(); ++i) {
-      for (size_t j = 0; j < groups[i].size(); ++j) {
-        Node* node = ptree->getNode(groups[i][j]);
-        if (node->hasName())
-          node->setName(TextTools::toString(i + 1) + "_" + node->getName());
-        node->setBranchProperty("partition", BppString(TextTools::toString(i + 1)));
-      }
+  string partPath = ApplicationTools::getAFilePath("output.partitions.file", partnh.getParams(), true, false);
+  ApplicationTools::displayResult("Partitions output to file", partPath);
+  for (size_t i = 0; i < groups.size(); ++i) {
+    for (size_t j = 0; j < groups[i].size(); ++j) {
+      Node* node = ptree->getNode(groups[i][j]);
+      if (node->hasName())
+        node->setName(TextTools::toString(i + 1) + "_" + node->getName());
+      node->setBranchProperty("partition", BppString(TextTools::toString(i + 1)));
     }
-    newick.enableExtendedBootstrapProperty("partition");
-    newick.write(*ptree, partPath);
-  } else {
-    ApplicationTools::displayResult("Partitions output to file", string("None (no partitions found)"));
   }
+  newick.enableExtendedBootstrapProperty("partition");
+  newick.write(*ptree, partPath);
 
   //Cleaning memory:
   delete htree;
