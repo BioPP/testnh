@@ -199,25 +199,27 @@ void outputTotalCountsPerBranchPerSite(
   file.open(filename.c_str());
 
   unsigned int nbSites = smap->getNumberOfSites();
-  int nbBr= ids.size();
+  size_t nbBr = ids.size();
 
   vector<int> sdi(nbBr);  //reverse of ids
-  for ( int i=0;i<nbBr;i++)
-    for ( int j=0;j<nbBr;j++)
-      if (ids[j]==i){
-        sdi[i]=j;
+  for (size_t i = 0; i < nbBr; ++i) {
+    for (size_t j = 0; j < nbBr; ++j) {
+      if (ids[j] == static_cast<int>(i)) {
+        sdi[i] = static_cast<int>(j);
         break;
       }
+    }
+  }
 
   file << "sites";
-  for ( int i=0;i<nbBr;i++)
+  for (unsigned int i = 0; i < nbBr; ++i)
     file << "\t" << i ;
   file << endl;
   
   for (unsigned int k = 0; k < nbSites; ++k) {
     vector<double> countsf = SubstitutionMappingTools::computeTotalSubstitutionVectorForSite(*smap, k);
     file << k;
-    for ( int i=0;i < nbBr; i++)
+    for (unsigned int i = 0; i < nbBr; ++i)
       file << "\t" << countsf[sdi[i]];
     file << endl;
   }

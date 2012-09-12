@@ -90,7 +90,7 @@ performs the Bowker test for non-stationarity. Note that although the test was d
 maps substitutions onto a phylogenetic tree, and counts types of substitutions per branch of the tree. The resulting counts are used as input of a clustering procedure to output groups of branches with similar substitution processes.
 
 @item partnh
-test and select non-homogeneous substitution models of sequence evolution. It takes as input a branch-clustering tree, typically output by @samp{mapnh} in order to design partitions. @samp{partnh} can also perform model selection according to various criteria, like AIC, BIC or LRT.
+test and select non-homogeneous substitution models of sequence evolution. It takes as input a branch-clustering tree, typically output by @samp{mapnh} in order to design partitions. @samp{partnh} can also perform model selection according to various criteria, like AIC, AICc, BIC or LRT.
 
 @item randnh
 generate model description files (to be used with @samp{bppml}) with random partitions.
@@ -252,12 +252,12 @@ The input phylogenetic tree in Nhx format. Recall that MapNH can convert trees t
 @end table
 When performing model selection, the criterion for model selection should be set:
 @table @command
-@item partition.test = @{AIC,BIC,LRT@}
-The criterion to use for selecting the best model. Should be one of Akaike's Information Criterion (AIC), Bayesian Information Criterion (BIC) or Likelihood Ratio Test (LRT).
+@item partition.test = @{AIC,AICc,BIC,LRT@}
+The criterion to use for selecting the best model. Should be one of Akaike's Information Criterion (AIC), eventually corrected for small sample sizes (AICc), Bayesian Information Criterion (BIC) or Likelihood Ratio Test (LRT).
 @item partition.test.threshold = @{0<float<1@}
 The threshold p-value to use for the LRT test
 @item partition.test.stop_condition = @{int>0@}
-Tell how many models should be tested after a local minimum was found. Only applies for AIC and BIC.
+Tell how many models should be tested after a local minimum was found. Only applies for AIC(c) and BIC.
 @end table
 
 The last step for the model selection procedure is to set a model family. For now, PartNH can only test models with the same model (yet with distinct parameter values) for all branches, and with only one common partition for all parameters.
@@ -285,7 +285,7 @@ The selected model will be written using the bppSuite syntax (@ref{Model, , , bp
 @item output.intermediate.models = @{boolean@}
 Tells if all tested models should be output, in addition to the best one. Models will be written into file with names @samp{output.model.file} with a number as a suffix.
 @item output.log.file = @{path@}
-A log file in tabular format, containing information on each portioning tested (corresponding threshold, number of partitions, log likelihood, number of degrees of freedom, AIC and BIC).
+A log file in tabular format, containing information on each portioning tested (corresponding threshold, number of partitions, log likelihood, number of degrees of freedom, AIC(c) and BIC).
 @item output.tree.file = @{path@}
 The phylogenetic tree with branch lengths computed from the selected model. Syntax follows the bppSuite format (@ref{Tree, , , bppsuite, @uref{http://home.gna.org/bppsuite/doc/Tree.html#Tree}}).
 @item output.partitions.record = @{path@}

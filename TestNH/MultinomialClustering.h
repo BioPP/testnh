@@ -53,6 +53,8 @@ class SubstitutionCountsComparison :
   public:
     SubstitutionCountsComparison(): counts1_(), counts2_(), statistic_(0), pvalue_(1.) {}
 
+    SubstitutionCountsComparison* clone() const = 0;
+
   public:
     void setCounts(const vector<unsigned int>& c1, const vector<unsigned int>& c2) {
       counts1_ = c1;
@@ -185,12 +187,16 @@ class MultinomialClustering :
 		
     virtual ~MultinomialClustering() {}
 
+    MultinomialClustering* clone() const { return new MultinomialClustering(*this); }
+
 	public:
 		TreeTemplate<Node>* getTree() const;
     /**
      * @return The list of pvalues, by order of clusters.
      */
     const vector<double> getPValues() const { return pvalues_; }
+
+    std::string getName() const { return "Multinomial clusturing."; }
 
 	protected:
 		/**

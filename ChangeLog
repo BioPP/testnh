@@ -1,3 +1,9 @@
+30/08/12 Julien Dutheil
+* Fixed bug while outputing partition tree file if homogeneous model is favored.
+
+17/07/12 Julien Dutheil
+* Added AICc criterion in PartNH.
+
 09/02/12 -*- Version 1.0.0 -*-
 
 09/12/10 Julien Dutheil

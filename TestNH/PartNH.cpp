@@ -379,7 +379,7 @@ int main(int args, char ** argv)
     auto_ptr<ofstream> logout;
     if (logPath != "none" && logPath != "None") {
       logout.reset(new ofstream(logPath.c_str(), ios::out));
-      *logout << "Threshold\tNbPartitions\tLogL\tDF\tAIC\tBIC" << endl;
+      *logout << "Threshold\tNbPartitions\tLogL\tDF\tAIC\tAICc\tBIC" << endl;
     }
 
     //Optimize parameters
@@ -421,8 +421,9 @@ int main(int args, char ** argv)
 
     double logL = drtl->getValue();
     double df = static_cast<double>(drtl->getParameters().size());
-    double aic = 2. * (df + logL);
-    double bic = 2. * logL + df * log(nbSites);
+    double aic  = 2. * (df + logL);
+    double aicc = aic + 2 * df * (df + 1) / (nbSites - df - 1);
+    double bic  = 2. * logL + df * log(nbSites);
     ApplicationTools::displayResult("* Homogeneous model - LogL", -logL);
     ApplicationTools::displayResult("                    - df", df);
     if (logout.get())
@@ -458,11 +459,13 @@ int main(int args, char ** argv)
     if (likelihoodComparison == "LRT")
       testThreshold = ApplicationTools::getDoubleParameter("partition.test.threshold", partnh.getParams(), 0.01);
     else if (likelihoodComparison == "AIC") {}
+    else if (likelihoodComparison == "AICc") {}
     else if (likelihoodComparison == "BIC") {}
     else
       throw Exception("Unknown likelihood comparison method: " + likelihoodComparison);
-    ApplicationTools::displayResult("AIC", aic);
-    ApplicationTools::displayResult("BIC", bic);
+    ApplicationTools::displayResult("AIC" , aic);
+    ApplicationTools::displayResult("AICc", aicc);
+    ApplicationTools::displayResult("BIC" , bic);
     ApplicationTools::displayResult("Likelihood comparison method", likelihoodComparison);
       
     string stopCond = ApplicationTools::getStringParameter("partition.test.stop_condition", partnh.getParams(), "1");
@@ -498,8 +501,9 @@ int main(int args, char ** argv)
     DiscreteDistribution* bestRDist = 0;
     TreeTemplate<Node>*   bestTree = 0;
     double bestLogL = logL;
-    double bestAic = aic;
-    double bestBic = bic;
+    double bestAic  = aic;
+    double bestAicc = aicc;
+    double bestBic  = bic;
     int previousBest = -1;
     vector< vector<int> > bestGroups;
     unsigned int modelCount = 0;
@@ -569,8 +573,9 @@ int main(int args, char ** argv)
       double newDf = static_cast<double>(drtl->getParameters().size());
       ApplicationTools::displayResult("* New NH model - LogL", -newLogL);
       ApplicationTools::displayResult("               - df", newDf);
-      double newAic = 2. * (newDf + newLogL);
-      double newBic = 2. * newLogL + newDf * log(nbSites);
+      double newAic  = 2. * (newDf + newLogL);
+      double newAicc = newAic + 2 * df * (df + 1) / (nbSites - df - 1);
+      double newBic  = 2. * newLogL + newDf * log(nbSites);
       TreeTemplate<Node>* newTree = new TreeTemplate<Node>(drtl->getTree());
       
       //Print model:
@@ -582,10 +587,11 @@ int main(int args, char ** argv)
       double pvalue = 1. - RandomTools::pChisq(d, newDf - df);
       ApplicationTools::displayResult("               - LRT p-value", pvalue);
       ApplicationTools::displayResult("               - AIC", newAic);
+      ApplicationTools::displayResult("               - AICc", newAicc);
       ApplicationTools::displayResult("               - BIC", newBic);
 
       if (logout.get())
-        *logout << currentThreshold << "\t" << newGroups.size() << "\t" << -newLogL << "\t" << newDf << "\t" << newAic << "\t" << newBic << endl;
+        *logout << currentThreshold << "\t" << newGroups.size() << "\t" << -newLogL << "\t" << newDf << "\t" << newAic << "\t" << newAicc << "\t" << newBic << endl;
 
       //Finally compare new model to the current one:
       bool saveThisModel = false;
@@ -599,11 +605,15 @@ int main(int args, char ** argv)
       } else {
         if (likelihoodComparison == "AIC") {
           test = (newAic < bestAic);
+        } else if (likelihoodComparison == "AICc") {
+          test = (newAicc < bestAicc);
         } else { //BIC
           test = (newBic < bestBic);
         }
         if (newAic < bestAic)
           bestAic = newAic;
+        if (newAicc < bestAicc)
+          bestAicc = newAicc;
         if (newBic < bestBic)
           bestBic = newBic;
         if (test) {
@@ -643,6 +653,7 @@ int main(int args, char ** argv)
         logL     = newLogL;
         df       = newDf;
         aic      = newAic;
+        aicc     = newAicc;
         bic      = newBic;
         groups   = newGroups;
         //Save parameters:
@@ -719,6 +730,9 @@ int main(int args, char ** argv)
     if (bestTree) {
       ptree  = bestTree;
       groups = bestGroups;
+    } else {
+      groups.clear();
+      groups.push_back(ptree->getNodesId());
     }
     delete bestModelSet;
     delete bestRDist;
@@ -732,22 +746,18 @@ int main(int args, char ** argv)
   PhylogeneticsApplicationTools::writeTree(*ptree, partnh.getParams());
  
   //Now write partitions to file:
-  if (groups.size() > 1) {
-    string partPath = ApplicationTools::getAFilePath("output.partitions.file", partnh.getParams(), true, false);
-    ApplicationTools::displayResult("Partitions output to file", partPath);
-    for (size_t i = 0; i < groups.size(); ++i) {
-      for (size_t j = 0; j < groups[i].size(); ++j) {
-        Node* node = ptree->getNode(groups[i][j]);
-        if (node->hasName())
-          node->setName(TextTools::toString(i + 1) + "_" + node->getName());
-        node->setBranchProperty("partition", BppString(TextTools::toString(i + 1)));
-      }
+  string partPath = ApplicationTools::getAFilePath("output.partitions.file", partnh.getParams(), true, false);
+  ApplicationTools::displayResult("Partitions output to file", partPath);
+  for (size_t i = 0; i < groups.size(); ++i) {
+    for (size_t j = 0; j < groups[i].size(); ++j) {
+      Node* node = ptree->getNode(groups[i][j]);
+      if (node->hasName())
+        node->setName(TextTools::toString(i + 1) + "_" + node->getName());
+      node->setBranchProperty("partition", BppString(TextTools::toString(i + 1)));
     }
-    newick.enableExtendedBootstrapProperty("partition");
-    newick.write(*ptree, partPath);
-  } else {
-    ApplicationTools::displayResult("Partitions output to file", string("None (no partitions found)"));
   }
+  newick.enableExtendedBootstrapProperty("partition");
+  newick.write(*ptree, partPath);
 
   //Cleaning memory:
   delete htree;
