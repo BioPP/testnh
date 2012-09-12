@@ -103,9 +103,11 @@ vector< vector<double> > getCountsPerBranch(
     bool stationarity = true,
     double threshold = -1)
 {
-  auto_ptr<SubstitutionCount> count(new UniformizationSubstitutionCount(model, reg.clone()));
+ auto_ptr<SubstitutionCount> count(new UniformizationSubstitutionCount(model, reg.clone()));
+
   //SubstitutionCount* count = new SimpleSubstitutionCount(reg);
   const CategorySubstitutionRegister* creg = 0;
+
   if (!stationarity) {
     try {
       creg = &dynamic_cast<const CategorySubstitutionRegister&>(reg);
@@ -168,6 +170,7 @@ ERROR:
         for (unsigned int t = 0; t < nbTypes; ++t) {
           countsf[t] /= freqsTypes[creg->getCategoryFrom(t + 1) - 1];
         }
+
         double s2 = VectorTools::sum(countsf);
         //Scale:
         countsf = (countsf / s2) * s;
@@ -287,13 +290,11 @@ int main(int args, char ** argv)
     reg = new ComprehensiveSubstitutionRegister(alphabet, false);
   }
   else if (regType == "GC") {
-    if (AlphabetTools::isNucleicAlphabet(alphabet)) {
-      stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
+    stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
+    if (AlphabetTools::isNucleicAlphabet(alphabet)) 
       reg = new GCSubstitutionRegister(dynamic_cast<NucleicAlphabet*>(alphabet), false);
-    }
     else 
       if (AlphabetTools::isCodonAlphabet(alphabet)) {
-        stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
         string code = regArgs["code"];
         if (TextTools::isEmpty(code)) {
           code = "Standard";
@@ -406,15 +407,15 @@ int main(int args, char ** argv)
   else throw Exception("Unknown option for nonhomogeneous: " + nhOpt);
   drtl->initialize();
 
-  //Optimization of parameters:
-  //PhylogeneticsApplicationTools::optimizeParameters(&drtl, drtl.getParameters(), mapnh.getParams(), "", true, true);
-  
+  ///// 
+
   vector<int> ids = drtl->getTree().getNodesId();
   ids.pop_back(); //remove root id.
   vector< vector<double> > counts;
   double thresholdSat = ApplicationTools::getDoubleParameter("count.max", mapnh.getParams(), -1);
   if (thresholdSat > 0)
     ApplicationTools::displayResult("Saturation threshold used", thresholdSat);
+
   counts = getCountsPerBranch(*drtl, ids, model ? model : modelSet->getModel(0), *reg, stationarity, thresholdSat);
 
   string output= ApplicationTools::getStringParameter("output.counts", mapnh.getParams(), "perType");
@@ -440,7 +441,6 @@ int main(int args, char ** argv)
     }
   }
   
-    
   // Rounded counts
   vector< vector<unsigned int> > countsint;
   for (unsigned int i=0;i< counts.size(); i++){
