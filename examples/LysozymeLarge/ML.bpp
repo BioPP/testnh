@@ -51,7 +51,7 @@ nonhomogeneous.stationarity = yes
 #Only if stationarity is set to false:
 nonhomogeneous.root_freq=
 
-rate_distribution = Uniform
+rate_distribution = Constant
 
 # Likelihood recursion option:
 # - simple: derivatives takes more time to compute, but likelihood computation is faster.

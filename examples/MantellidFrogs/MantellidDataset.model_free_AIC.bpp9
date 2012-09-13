@@ -36,5 +36,5 @@ model10.nodes_id = 12,13,18,19
 
 # Root frequencies:
 nonhomogeneous.root_freq = None
-rate_distribution = Uniform()
+rate_distribution = Constant()
 

@@ -65,7 +65,7 @@ Parameter found........................: model3.YN98.freq_Codon.3_Full.theta1=0.
 Parameter found........................: model3.YN98.freq_Codon.3_Full.theta2=0.456919
 Model3 is associated to................: 1 node(s).
 WARNING!!! Parameter nonhomogeneous.alias not specified. Default used instead: 
-Rate distribution......................: Uniform
+Rate distribution......................: Constant
 Number of classes......................: 1
 - Category 0 (Pr = 1) rate.............: 1
 Likelihood recursion...................: simple
