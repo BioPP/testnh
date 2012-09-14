@@ -95,7 +95,7 @@ MultinomialClustering::MultinomialClustering(
     const Tree& tree,
     const AutomaticGroupingCondition& autoGroup,
     bool neighborsOnly, bool negativeBrlen, bool verbose):
-  AbstractAgglomerativeDistanceMethod(verbose), counts_(counts), neighborsOnly_(neighborsOnly), negativeBrlen_(negativeBrlen), test_(), pvalues_()
+  AbstractAgglomerativeDistanceMethod(verbose, true), counts_(counts), neighborsOnly_(neighborsOnly), negativeBrlen_(negativeBrlen), test_(), pvalues_()
 {
   test_.reset(new SimpleSubstitutionCountsComparison());
   unsigned int n = counts.size();
