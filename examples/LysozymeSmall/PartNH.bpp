@@ -35,7 +35,7 @@ input.sequence.sites_to_use = complete
 input.sequence.remove_stop_codons = yes
 
 model = YN98(genetic_code=Standard, frequencies=F3X4, omega=0.5, kappa=2, useObservedFreqs=yes)
-rate_distribution = Uniform #Gamma(n=4, alpha=0.5)
+rate_distribution = Constant #Gamma(n=4, alpha=0.5)
 nonhomogeneous.stationarity = yes
 nonhomogeneous.shared_parameters = YN98.kappa, YN98.freq* 
 

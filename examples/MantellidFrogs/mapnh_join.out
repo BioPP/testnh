@@ -19,33 +19,32 @@ Tree file..............................: MantellidDataset.ml_h.dnd
 Number of leaves.......................: 17
 Heterogeneous model....................: no
 Frequencies initialization for model...: None
-Parameter found........................: YN98.kappa=2.94975
-Parameter found........................: YN98.omega=0.0546374
-Parameter found........................: YN98.freq_Codon1_Full.theta=0.460548
-Parameter found........................: YN98.freq_Codon1_Full.theta1=0.569985
-Parameter found........................: YN98.freq_Codon1_Full.theta2=0.480782
-Parameter found........................: YN98.freq_Codon2_Full.theta=0.405271
-Parameter found........................: YN98.freq_Codon2_Full.theta1=0.317366
-Parameter found........................: YN98.freq_Codon2_Full.theta2=0.279906
-Parameter found........................: YN98.freq_Codon3_Full.theta=0.352878
-Parameter found........................: YN98.freq_Codon3_Full.theta1=0.540054
-Parameter found........................: YN98.freq_Codon3_Full.theta2=0.125294
-Rate distribution......................: Uniform
-Number of classes......................: 1
+Parameter found........................: YN98.kappa=3.18471
+Parameter found........................: YN98.omega=0.0506979
+Parameter found........................: YN98.1_Full.theta=0.460548
+Parameter found........................: YN98.1_Full.theta1=0.569985
+Parameter found........................: YN98.1_Full.theta2=0.480782
+Parameter found........................: YN98.2_Full.theta=0.405271
+Parameter found........................: YN98.2_Full.theta1=0.317366
+Parameter found........................: YN98.2_Full.theta2=0.279906
+Parameter found........................: YN98.3_Full.theta=0.352878
+Parameter found........................: YN98.3_Full.theta1=0.540054
+Parameter found........................: YN98.3_Full.theta2=0.125294
 - Category 0 (Pr = 1) rate.............: 1
 Saturation threshold used..............: 3
-WARNING!!! On branch 1, 28 sites (2%) have been ignored because they are presumably saturated.
-WARNING!!! On branch 3, 4 sites (1%) have been ignored because they are presumably saturated.
-WARNING!!! On branch 4, 9 sites (1%) have been ignored because they are presumably saturated.
-WARNING!!! On branch 7, 5 sites (1%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 1, 35 sites (3%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 3, 5 sites (1%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 4, 11 sites (1%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 7, 14 sites (1%) have been ignored because they are presumably saturated.
 WARNING!!! On branch 9, 3 sites (1%) have been ignored because they are presumably saturated.
-WARNING!!! On branch 16, 26 sites (2%) have been ignored because they are presumably saturated.
-WARNING!!! On branch 18, 8 sites (1%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 16, 32 sites (2%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 18, 9 sites (1%) have been ignored because they are presumably saturated.
 WARNING!!! On branch 19, 1 sites (1%) have been ignored because they are presumably saturated.
-WARNING!!! On branch 24, 5 sites (1%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 24, 8 sites (1%) have been ignored because they are presumably saturated.
 WARNING!!! On branch 25, 19 sites (2%) have been ignored because they are presumably saturated.
-WARNING!!! On branch 26, 2 sites (1%) have been ignored because they are presumably saturated.
-WARNING!!! On branch 28, 136 sites (9%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 26, 4 sites (1%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 28, 214 sites (14%) have been ignored because they are presumably saturated.
+WARNING!!! Parameter output.counts not specified. Default used instead: perType
 Output counts of type 1 to file........: CountsTree1.dnd
 Output counts of type 2 to file........: CountsTree2.dnd
 Perform branch clustering..............: yes
@@ -55,8 +54,8 @@ Auto-clustering........................: Global
 Auto-clutering threshold...............: 1
 [======================================]Done.
 [>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>]Done.
-P-value at root node...................: 6.30453e-09
-Number of tests performed..............: 136
+P-value at root node...................: 4.90391e-10
+Number of tests performed..............: 114
 Output cluster tree to.................: Mantellid.cluster_join.dnd
 MapNH's done. Bye.
 Total execution time: 0.000000d, 0.000000h, 0.000000m, 18.000000s.

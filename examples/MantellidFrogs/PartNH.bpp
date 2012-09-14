@@ -35,9 +35,10 @@ input.sequence.remove_stop_codons=yes
 
 
 model = YN98(genetic_code=InvertebrateMitochondrial, frequencies=F3X4, omega=0.5, kappa=2, initFreqs=observed, initFreqs.observedPseudoCount=0)
-rate_distribution = Uniform #Gamma(n=4, alpha=0.5)
+rate_distribution = Constant #Gamma(n=4, alpha=0.5)
 nonhomogeneous.root_freq = None 
-nonhomogeneous.shared_parameters = YN98.kappa, YN98.1_Full.theta*, YN98.2_Full.theta*, YN98.3_Full.theta*
+nonhomogeneous.shared_parameters = YN98.kappa, YN98.*theta*
+#, YN98.2_Full.theta*, YN98.3_Full.theta*
 
 #How to optimize parameters when fitting models:
 optimization.reparametrization = no

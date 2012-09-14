@@ -40,7 +40,7 @@ init.brlen.method = Input
 #
 model = YN98(genetic_code=VertebrateMitochondrial, frequencies=F3X4, initFreqs=observed, omega=0.5, kappa=2.)
 
-rate_distribution = Uniform #Gamma(n=4, alpha=0.5)
+rate_distribution = Constant #Gamma(n=4, alpha=0.5)
 
 # Likelihood recursion option:
 # - simple: derivatives takes more time to compute, but likelihood computation is faster.
@@ -84,7 +84,7 @@ optimization.final = none
 optimization.verbose = 3
 
 # Parameters to ignore (for instance equilibrium frequencies)
-optimization.ignore_parameter = YN98.freq*
+optimization.ignore_parameter = YN98.*theta*
 
 # Maximum number of likelihood evaluations:
 optimization.max_number_f_eval = 10000

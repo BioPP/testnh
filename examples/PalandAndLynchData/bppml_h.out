@@ -44,7 +44,7 @@ WARNING!!! Parameter YN98.freq_Codon3_Full.theta1 not specified. Default used in
 Parameter found........................: YN98.freq_Codon3_Full.theta1=0.421688
 WARNING!!! Parameter YN98.freq_Codon3_Full.theta2 not specified. Default used instead: 0.443592
 Parameter found........................: YN98.freq_Codon3_Full.theta2=0.443592
-Rate distribution......................: Uniform
+Rate distribution......................: Constant
 Number of classes......................: 1
 - Category 0 (Pr = 1) rate.............: 1
 Likelihood recursion...................: simple

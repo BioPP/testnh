@@ -147,7 +147,7 @@ MultinomialClustering::MultinomialClustering(
   if (verbose)
     ApplicationTools::displayTaskDone();
   matrix_.setNames(names);
-  computeTree(true);
+  computeTree();
   if (verbose)
     ApplicationTools::displayTaskDone();
 }
