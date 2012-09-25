@@ -9,7 +9,8 @@
 Parsing options:
 Parsing file ML.bpp for options.
 Alphabet type .........................: Codon(DNA)
-Sequence format .......................: Fasta
+Sequence file .........................: MantellidDataset.faln
+Sequence format .......................: FASTA file
 Sequence file .........................: MantellidDataset.faln
 Sites to use...........................: all
 Remove sites with gaps.................: 
@@ -50,7 +51,7 @@ Likelihood recursion...................: simple
 Likelihood data compression............: recursive
 Initializing data structure............: Done.
 Number of distinct sites...............: 1491
-Initial log likelihood.................: -49925.4230917038
+Initial log likelihood.................: -50287.4786308177
 Message handler........................: MantellidDataset_h.messages
 Profiler...............................: MantellidDataset_h.profile
 Parameter ignored......................: YN98.1_Full.theta
@@ -69,13 +70,13 @@ Optimization method....................: FullD
 Algorithm used for derivable parameters: Newton
 Reparametrization......................: no
 Molecular clock........................: None
-*************************************************
+**********************************
 
-Performed..............................: 50 function evaluations.
+Performed..............................: 35 function evaluations.
 Wrote tree to file ....................: MantellidDataset.ml_h.dnd
-Log likelihood.........................: -45147.6130839845
-YN98.kappa.............................: 3.18471
-YN98.omega.............................: 0.0506979
+Log likelihood.........................: -44799.288175619
+YN98.kappa.............................: 2.94929
+YN98.omega.............................: 0.0546493
 YN98.1_Full.theta......................: 0.460548
 YN98.1_Full.theta1.....................: 0.569985
 YN98.1_Full.theta2.....................: 0.480782
@@ -94,4 +95,4 @@ Pr(1.000000) = 1.000000
 
 Alignment information logfile..........: MantellidDataset_h.infos
 BppML's done. Bye.
-Total execution time: 0.000000d, 0.000000h, 6.000000m, 4.000000s.
+Total execution time: 0.000000d, 0.000000h, 4.000000m, 24.000000s.
