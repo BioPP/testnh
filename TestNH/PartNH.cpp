@@ -146,35 +146,57 @@ SubstitutionModelSet* buildModelSetFromPartitions(
   ParameterList globalParameters, branchParameters;
   globalParameters = model->getParameters();
   vector<string> globalParameterPrefs; // vector of the prefixes (when there is a '*' in the declaration)
-  //First check if parameter names are valid:
-  for ( size_t i = 0; i < globalParameterNames.size(); i++)
-  {
+
+  vector<string> globalParameterNames2; // vector of the complete names of global parameters
+
+  //First get correct parameter names
+  
+  for (size_t i = 0; i < globalParameterNames.size(); i++) {
     if (globalParameterNames[i].find("*") != string::npos) {
-      size_t j = globalParameterNames[i].find("*");
-      globalParameterPrefs.push_back(globalParameterNames[i].substr(0,j));
+
+      for (size_t j = 0; j < globalParameters.size(); j++)
+        {
+          StringTokenizer stj(globalParameterNames[i], "*", true, false);
+          size_t pos1, pos2;
+          string parn=globalParameters[j].getName();
+          bool flag(true);
+          string g=stj.nextToken();
+          pos1=parn.find(g);
+          if (pos1!=0)
+            flag=false;
+          pos1+=g.length();
+          while (flag && stj.hasMoreToken()){
+            g=stj.nextToken();
+            pos2=parn.find(g,pos1);
+            if (pos2 == string::npos){
+              flag=false;
+              break;
+            }
+            pos1=pos2+g.length();
+          }
+          if (flag &&
+              ((g.length()==0) || (pos1==parn.length()) || (parn.rfind(g)==parn.length()-g.length())))
+            globalParameterNames2.push_back(parn);
+        }
     }
     else if (!globalParameters.hasParameter(globalParameterNames[i]))
-      throw Exception("SubstitutionModelSetTools::createNonHomogeneousModelSet. Parameter '" + globalParameterNames[i] + "' is not valid.");
+      throw Exception("PartNH::buildModelSetFromPartitions. Parameter '" + globalParameterNames[i] + "' is not valid.");
+    else
+      globalParameterNames2.push_back(globalParameterNames[i]);
   }
-  
-  for ( size_t i = globalParameters.size(); i > 0; i--)
-  {
-    string gN = globalParameters[i - 1].getName();
-    bool flag = false;
-    for ( size_t j = 0; j < globalParameterPrefs.size(); j++)
-      if (gN.find(globalParameterPrefs[j]) == 0) {
-        flag = true;
-        break;
-      }
-    if (!flag)
-      flag = (find(globalParameterNames.begin(), globalParameterNames.end(), globalParameters[i - 1].getName()) != globalParameterNames.end());
 
-    if (!flag){
-      //not a global parameter:
-      branchParameters.addParameter(globalParameters[i - 1]);
-      globalParameters.deleteParameter(i - 1);
+  // remove non global parameters
+  for (size_t i = globalParameters.size(); i > 0; i--)
+    {
+      if (find(globalParameterNames2.begin(), globalParameterNames2.end(), globalParameters[i-1].getName()) == globalParameterNames2.end())
+        {
+          //not a global parameter:
+          branchParameters.addParameter(globalParameters[i - 1]);
+          globalParameters.deleteParameter(i - 1);
+        }
     }
-  }
+
+
   SubstitutionModelSet* modelSet = rootFreqs ?
     new SubstitutionModelSet(model->getAlphabet(), rootFreqs->clone()) :
     new SubstitutionModelSet(model->getAlphabet());
