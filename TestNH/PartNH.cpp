@@ -449,7 +449,7 @@ int main(int args, char ** argv)
     ApplicationTools::displayResult("* Homogeneous model - LogL", -logL);
     ApplicationTools::displayResult("                    - df", df);
     if (logout.get())
-      *logout << 0. << "\t" << 1. << "\t" << -logL << "\t" << df << "\t" << aic << "\t" << bic << endl;
+      *logout << 0. << "\t" << 1. << "\t" << -logL << "\t" << df << "\t" << aic << "\t" << aicc << "\t" << bic << endl;
     
     //Get necessary things for building a non-homogeneous model:
     vector<double> rateFreqs;
@@ -596,7 +596,7 @@ int main(int args, char ** argv)
       ApplicationTools::displayResult("* New NH model - LogL", -newLogL);
       ApplicationTools::displayResult("               - df", newDf);
       double newAic  = 2. * (newDf + newLogL);
-      double newAicc = newAic + 2 * df * (df + 1) / (nbSites - df - 1);
+      double newAicc = newAic + 2 * newDf * (newDf + 1) / (nbSites - newDf - 1);
       double newBic  = 2. * newLogL + newDf * log(nbSites);
       TreeTemplate<Node>* newTree = new TreeTemplate<Node>(drtl->getTree());
       
