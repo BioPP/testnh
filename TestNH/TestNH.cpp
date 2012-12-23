@@ -227,7 +227,7 @@ int main(int args, char ** argv)
     if (model->getNumberOfStates() > model->getAlphabet()->getSize())
     {
       //Markov-modulated Markov model!
-      rDist = new ConstantDistribution(1., true);
+      rDist = new ConstantDistribution(1.);
     }
     else
     {
@@ -242,7 +242,7 @@ int main(int args, char ** argv)
     if (model->getNumberOfStates() > model->getAlphabet()->getSize())
     {
       //Markov-modulated Markov model!
-      rDist = new ConstantDistribution(1., true);
+      rDist = new ConstantDistribution(1.);
     }
     else
     {
@@ -269,7 +269,7 @@ int main(int args, char ** argv)
     if (modelSet->getNumberOfStates() > modelSet->getAlphabet()->getSize())
     {
       //Markov-modulated Markov model!
-      rDist = new ConstantDistribution(1., true);
+      rDist = new ConstantDistribution(1.);
     }
     else
     {

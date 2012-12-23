@@ -276,31 +276,33 @@ void estimateLikelihood(DRTreeLikelihood* drtl, ParameterList& parametersToEstim
 }
 
 void outputNHModel(const string& modelPath, double likelihood, const SubstitutionModelSet* modelSet, const DiscreteDistribution* rDist) {
-  StlOutputStream out(auto_ptr<ostream>(new ofstream(modelPath.c_str(), ios::out)));
-  out << "# Log likelihood = ";
-  out.setPrecision(20) << likelihood;
-  out.endLine();
-  out.endLine();
-  out << "# Substitution model parameters:";
-  out.endLine();
-  PhylogeneticsApplicationTools::printParameters(modelSet, out);
-  out.endLine();
-  PhylogeneticsApplicationTools::printParameters(rDist   , out);
-  out.endLine();
+  StlOutputStream* out=dynamic_cast<StlOutputStream*>(new ofstream(modelPath.c_str(), ios::out));
+  (*out) << "# Log likelihood = ";
+  (*out).setPrecision(20) << likelihood;
+  (*out).endLine();
+  (*out).endLine();
+  (*out) << "# Substitution model parameters:";
+  (*out).endLine();
+  PhylogeneticsApplicationTools::printParameters(modelSet, (*out));
+  (*out).endLine();
+  PhylogeneticsApplicationTools::printParameters(rDist   , (*out));
+  (*out).endLine();
+  delete out;
 }
 
 void outputHModel(const string& modelPath, double likelihood, const SubstitutionModel* model, const DiscreteDistribution* rDist) {
-  StlOutputStream out(auto_ptr<ostream>(new ofstream(modelPath.c_str(), ios::out)));
-  out << "# Log likelihood = ";
-  out.setPrecision(20) << likelihood;
-  out.endLine();
-  out.endLine();
-  out << "# Substitution model parameters:";
-  out.endLine();
-  PhylogeneticsApplicationTools::printParameters(model, out);
-  out.endLine();
-  PhylogeneticsApplicationTools::printParameters(rDist, out);
-  out.endLine();
+  StlOutputStream* out=dynamic_cast<StlOutputStream*>(new ofstream(modelPath.c_str(), ios::out));
+  (*out) << "# Log likelihood = ";
+  (*out).setPrecision(20) << likelihood;
+  (*out).endLine();
+  (*out).endLine();
+  (*out) << "# Substitution model parameters:";
+  (*out).endLine();
+  PhylogeneticsApplicationTools::printParameters(model, (*out));
+  (*out).endLine();
+  PhylogeneticsApplicationTools::printParameters(rDist, (*out));
+  (*out).endLine();
+  delete out;
 }
 
 int main(int args, char ** argv)
@@ -377,7 +379,7 @@ int main(int args, char ** argv)
     if (model->getNumberOfStates() >= 2 * model->getAlphabet()->getSize())
     {
       // Markov-modulated Markov model!
-      rDist = new ConstantDistribution(1., true);
+      rDist = new ConstantDistribution(1.);
     }
     else
     {
@@ -411,14 +413,14 @@ int main(int args, char ** argv)
     auto_ptr<OutputStream> messageHandler(
       (mhPath == "none") ? 0 :
       (mhPath == "std") ? ApplicationTools::message :
-      new StlOutputStream(auto_ptr<ostream>(new ofstream(mhPath.c_str(), ios::out))));
+      new StlOutputStream(new ofstream(mhPath.c_str(), ios::out)));
     ApplicationTools::displayResult("Message handler", mhPath + "*");
 
     string prPath = ApplicationTools::getAFilePath("optimization.profiler", partnh.getParams(), false, false);
     auto_ptr<OutputStream> profiler(
       (prPath == "none") ? 0 :
       (prPath == "std") ? ApplicationTools::message :
-      new StlOutputStream(auto_ptr<ostream>(new ofstream(prPath.c_str(), ios::out))));
+      new StlOutputStream(new ofstream(prPath.c_str(), ios::out)));
     if (profiler.get()) profiler->setPrecision(20);
     ApplicationTools::displayResult("Profiler", prPath + "*");
 
@@ -578,12 +580,12 @@ int main(int args, char ** argv)
       messageHandler.reset(
         (mhPath == "none") ? 0 :
         (mhPath == "std") ? ApplicationTools::message :
-        new StlOutputStream(auto_ptr<ostream>(new ofstream((mhPath + TextTools::toString(modelCount)).c_str(), ios::out))));
+        new StlOutputStream(new ofstream((mhPath + TextTools::toString(modelCount)).c_str(), ios::out)));
 
       profiler.reset(
         (prPath == "none") ? 0 :
         (prPath == "std") ? ApplicationTools::message :
-        new StlOutputStream(auto_ptr<ostream>(new ofstream((prPath + TextTools::toString(modelCount)).c_str(), ios::out))));
+        new StlOutputStream(new ofstream((prPath + TextTools::toString(modelCount)).c_str(), ios::out)));
       if (profiler.get()) profiler->setPrecision(20);
 
       //Reevaluate parameters, as there might be some change when going to a NH model:

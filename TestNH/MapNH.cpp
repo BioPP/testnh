@@ -156,6 +156,7 @@ ERROR:
       if (nbIgnored > 0) {
         ApplicationTools::displayWarning("On branch " + TextTools::toString(ids[k]) + ", " + TextTools::toString(nbIgnored) + " sites (" + TextTools::toString(ceil(static_cast<double>(nbIgnored * 100) / static_cast<double>(nbSites))) + "%) have been ignored because they are presumably saturated.");
       }
+      
 
       if (!stationarity) {
         vector<double> freqs = DRTreeLikelihoodTools::getPosteriorStateFrequencies(drtl, ids[k]);
@@ -167,6 +168,7 @@ ERROR:
         }
         //We devide the counts by the frequencies and rescale:
         double s = VectorTools::sum(countsf);
+        
         for (unsigned int t = 0; t < nbTypes; ++t) {
           countsf[t] /= freqsTypes[creg->getCategoryFrom(t + 1) - 1];
         }
@@ -343,7 +345,7 @@ int main(int args, char ** argv)
       if(model->getNumberOfStates() > model->getAlphabet()->getSize())
       {
         //Markov-modulated Markov model!
-        rDist = new ConstantDistribution(1., true);
+        rDist = new ConstantDistribution(1.);
       }
       else
       {
@@ -360,7 +362,7 @@ int main(int args, char ** argv)
             new JCnuc(dynamic_cast<CodonAlphabet*>(alphabet)->getNucleicAlphabet()));
       } else
         throw Exception("Unsupported alphabet!");
-      rDist = new ConstantDistribution(1., true);
+      rDist = new ConstantDistribution(1.);
     }
     drtl = new DRHomogeneousTreeLikelihood(*tree, *sites, model, rDist, false, false);
   }
@@ -371,7 +373,7 @@ int main(int args, char ** argv)
     if (model->getNumberOfStates() > model->getAlphabet()->getSize())
     {
       //Markov-modulated Markov model!
-      rDist = new ConstantDistribution(1., true);
+      rDist = new ConstantDistribution(1.);
     }
     else
     {
