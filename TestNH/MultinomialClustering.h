@@ -47,7 +47,7 @@ class SubstitutionCountsComparison :
   public StatTest
 {
   protected:
-    vector<unsigned int> counts1_, counts2_;
+    vector<size_t> counts1_, counts2_;
     double statistic_, pvalue_;
 
   public:
@@ -56,7 +56,7 @@ class SubstitutionCountsComparison :
     SubstitutionCountsComparison* clone() const = 0;
 
   public:
-    void setCounts(const vector<unsigned int>& c1, const vector<unsigned int>& c2) {
+    void setCounts(const vector<size_t>& c1, const vector<size_t>& c2) {
       counts1_ = c1;
       counts2_ = c2;
       computePValue();
@@ -83,16 +83,16 @@ class SimpleSubstitutionCountsComparison:
     void computePValue();
 
   public:
-    static double logFact(unsigned int x) {
+    static double logFact(size_t x) {
       double f = 0;
-      for (unsigned int i = 1; i <= x; ++i)
+      for (size_t i = 1; i <= x; ++i)
         f += log(static_cast<double>(i));
       return f;
     }
 
-    static double multinomLogL(const vector<unsigned int>& v, const vector<double>& p);
+    static double multinomLogL(const vector<size_t>& v, const vector<double>& p);
 
-    static double multinomialTest(const vector< vector<unsigned int> >& counts);
+    static double multinomialTest(const vector< vector<size_t> >& counts);
     
 };
 
@@ -103,7 +103,7 @@ class AutomaticGroupingCondition
     virtual ~AutomaticGroupingCondition() {}
 
   public:
-    virtual bool check(const vector<unsigned int>& counts) const = 0;
+    virtual bool check(const vector<size_t>& counts) const = 0;
 };
 
 class NoAutomaticGroupingCondition:
@@ -113,7 +113,7 @@ class NoAutomaticGroupingCondition:
     ~NoAutomaticGroupingCondition() {}
 
   public:
-    bool check(const vector<unsigned int>& counts) const {
+    bool check(const vector<size_t>& counts) const {
       return true;
     }
 };
@@ -122,11 +122,11 @@ class SumCountsAutomaticGroupingCondition:
   public AutomaticGroupingCondition
 {
   private:
-    unsigned int threshold_;
+    size_t threshold_;
     vector<size_t> ignore_;
 
   public:
-    SumCountsAutomaticGroupingCondition(unsigned int threshold = 0, const vector<size_t>& ignore = vector<size_t>(0)):
+    SumCountsAutomaticGroupingCondition(size_t threshold = 0, const vector<size_t>& ignore = vector<size_t>(0)):
       threshold_(threshold),
       ignore_(ignore)
     {}
@@ -134,8 +134,8 @@ class SumCountsAutomaticGroupingCondition:
     ~SumCountsAutomaticGroupingCondition() {}
 
   public:
-    bool check(const vector<unsigned int>& counts) const {
-      unsigned int s = 0;
+    bool check(const vector<size_t>& counts) const {
+      size_t s = 0;
       for (size_t i = 0; i < counts.size(); ++i)
         if (!VectorTools::contains(ignore_, i))
           s += counts[i];
@@ -147,17 +147,17 @@ class AnyCountAutomaticGroupingCondition:
   public AutomaticGroupingCondition
 {
   private:
-    unsigned int threshold_;
+    size_t threshold_;
 
   public:
-    AnyCountAutomaticGroupingCondition(unsigned int threshold = 0):
+    AnyCountAutomaticGroupingCondition(size_t threshold = 0):
       threshold_(threshold)
     {}
 
     ~AnyCountAutomaticGroupingCondition() {}
 
   public:
-    bool check(const vector<unsigned int>& counts) const {
+    bool check(const vector<size_t>& counts) const {
       for (size_t i = 0; i < counts.size(); ++i) {
         if (counts[i] <= threshold_) return false;
       }
@@ -169,7 +169,7 @@ class MultinomialClustering :
   public AbstractAgglomerativeDistanceMethod
 {
   private:
-    vector< vector<unsigned int> > counts_;
+    vector< vector<size_t> > counts_;
     bool neighborsOnly_;
     bool negativeBrlen_;
     bpp_ptr<SubstitutionCountsComparison> test_;
@@ -177,7 +177,7 @@ class MultinomialClustering :
 	
   public:
 		MultinomialClustering(
-        const vector< vector<unsigned int> >& counts,
+        const vector< vector<size_t> >& counts,
         const vector<int>& ids,
         const Tree& tree,
         const AutomaticGroupingCondition& autoGroup,
@@ -205,13 +205,13 @@ class MultinomialClustering :
 		 * The vector at position bestPair[0] is now the sum of vectors bestPair[0] and bestPair[1].
 		 * It is then used for computation of distances.
 		 */
-		vector<unsigned int> getBestPair() throw (Exception);
-		vector<double> computeBranchLengthsForPair(const vector<unsigned int>& pair);
-		double computeDistancesFromPair(const vector<unsigned int>& pair, const vector<double>& branchLengths, unsigned int pos);
+		vector<size_t> getBestPair() throw (Exception);
+		vector<double> computeBranchLengthsForPair(const vector<size_t>& pair);
+		double computeDistancesFromPair(const vector<size_t>& pair, const vector<double>& branchLengths, size_t pos);
 		void finalStep(int idRoot);	
 		virtual Node* getLeafNode(int id, const string& name);
 		virtual Node* getParentNode(int id, Node* son1, Node* son2);
-    double getDist(const vector<unsigned int>& v1, const vector<unsigned int>&v2);
+    double getDist(const vector<size_t>& v1, const vector<size_t>&v2);
 };
 
 #endif //_MULTINOMIALCLUSTERING_H_

@@ -50,10 +50,12 @@ using namespace std;
 #include <Bpp/Phyl/Io/Nhx.h>
 #include <Bpp/Phyl/Likelihood.all>
 #include <Bpp/Phyl/OptimizationTools.h>
+#include <Bpp/Phyl/Model/RateDistribution/ConstantRateDistribution.h>
 
 // From bpp-seq:
 #include <Bpp/Seq/Alphabet.all>
 #include <Bpp/Seq/Container/VectorSiteContainer.h>
+#include <Bpp/Seq/Container/SiteContainerTools.h>
 #include <Bpp/Seq/SiteTools.h>
 #include <Bpp/Seq/App/SequenceApplicationTools.h>
 
@@ -82,8 +84,8 @@ void help()
 
 class Partition {
   public:
-    unsigned int number;
-    unsigned int size;
+    size_t number;
+    size_t size;
 };
 
 vector<const Node*> getCandidateNodesForThreshold(map<double, vector<const Node*> >& sortedHeights, double threshold) {
@@ -91,7 +93,7 @@ vector<const Node*> getCandidateNodesForThreshold(map<double, vector<const Node*
   for (map<double, vector<const Node*> >::iterator it = sortedHeights.begin(); it != sortedHeights.end(); ++it) {
     if (it->first <= threshold) {
       for (vector<const Node*>::iterator it2 = it->second.begin(); it2 != it->second.end(); ++it2)
-        for (unsigned int k = 0; k < (*it2)->getNumberOfSons(); ++k)
+        for (size_t k = 0; k < (*it2)->getNumberOfSons(); ++k)
           candidates.push_back((*it2)->getSon(k));
     }
   }
@@ -102,7 +104,7 @@ vector< vector<int> > getGroups(vector<const Node*>& candidates) {
   map<int, Partition> partitions;
   for (size_t i = 0; i < candidates.size(); ++i) {
     vector<string> ids = TreeTemplateTools::getLeavesNames(*candidates[i]);
-    unsigned int size = ids.size();
+    size_t size = ids.size();
     for (size_t j = 0; j < ids.size(); ++j) {
       Partition* part = &partitions[TextTools::toInt(ids[j])];
       if (part->size == 0) { //new partition
@@ -118,13 +120,13 @@ vector< vector<int> > getGroups(vector<const Node*>& candidates) {
     }
   }
   //Now reorganize results:
-  map<unsigned int, vector<int> > groups;
+  map<size_t, vector<int> > groups;
   for (map<int, Partition>::iterator it = partitions.begin(); it != partitions.end(); ++it) {
     groups[it->second.number].push_back(it->first);
   }
   //And renumber partitions:
   vector< vector<int> > groups2;
-  for (map<unsigned int, vector<int> >::const_iterator it = groups.begin(); it != groups.end(); it++)
+  for (map<size_t, vector<int> >::const_iterator it = groups.begin(); it != groups.end(); it++)
     groups2.push_back(it->second);
 
   //Return results
@@ -208,7 +210,7 @@ SubstitutionModelSet* buildModelSetFromPartitions(
   }
   vector<int> allIds = tree->getNodesId();
   int rootId = tree->getRootId();
-  unsigned int pos = 0;
+  size_t pos = 0;
   for (size_t i = 0; i < allIds.size(); i++) {
     if (allIds[i] == rootId) {
       pos = i;
@@ -242,7 +244,7 @@ ParameterList getParametersToEstimate(const DRTreeLikelihood* drtl, map<string, 
       {
         string pref = param.substr(0, starpos);
         vector<string> vs;
-        for (unsigned int j = 0; j < parametersToEstimate.size(); j++)
+        for (size_t j = 0; j < parametersToEstimate.size(); j++)
         {
           if (parametersToEstimate[j].getName().find(pref) == 0)
             vs.push_back(parametersToEstimate[j].getName());
@@ -276,7 +278,7 @@ void estimateLikelihood(DRTreeLikelihood* drtl, ParameterList& parametersToEstim
 }
 
 void outputNHModel(const string& modelPath, double likelihood, const SubstitutionModelSet* modelSet, const DiscreteDistribution* rDist) {
-  StlOutputStream out(auto_ptr<ostream>(new ofstream(modelPath.c_str(), ios::out)));
+  StlOutputStream out(new ofstream(modelPath.c_str(), ios::out));
   out << "# Log likelihood = ";
   out.setPrecision(20) << likelihood;
   out.endLine();
@@ -290,7 +292,7 @@ void outputNHModel(const string& modelPath, double likelihood, const Substitutio
 }
 
 void outputHModel(const string& modelPath, double likelihood, const SubstitutionModel* model, const DiscreteDistribution* rDist) {
-  StlOutputStream out(auto_ptr<ostream>(new ofstream(modelPath.c_str(), ios::out)));
+  StlOutputStream out(new ofstream(modelPath.c_str(), ios::out));
   out << "# Log likelihood = ";
   out.setPrecision(20) << likelihood;
   out.endLine();
@@ -364,7 +366,7 @@ int main(int args, char ** argv)
     VectorSiteContainer* allSites = SequenceApplicationTools::getSiteContainer(alphabet, partnh.getParams());
     VectorSiteContainer* sites = SequenceApplicationTools::getSitesToAnalyse(*allSites, partnh.getParams());
     delete allSites;
-    unsigned int nbSites = sites->getNumberOfSites();
+    size_t nbSites = sites->getNumberOfSites();
 
     ApplicationTools::displayResult("Number of sequences", sites->getNumberOfSequences());
     ApplicationTools::displayResult("Number of sites", nbSites);
@@ -377,7 +379,7 @@ int main(int args, char ** argv)
     if (model->getNumberOfStates() >= 2 * model->getAlphabet()->getSize())
     {
       // Markov-modulated Markov model!
-      rDist = new ConstantDistribution(1., true);
+      rDist = new ConstantRateDistribution();
     }
     else
     {
@@ -411,14 +413,14 @@ int main(int args, char ** argv)
     auto_ptr<OutputStream> messageHandler(
       (mhPath == "none") ? 0 :
       (mhPath == "std") ? ApplicationTools::message :
-      new StlOutputStream(auto_ptr<ostream>(new ofstream(mhPath.c_str(), ios::out))));
+      new StlOutputStream(new ofstream(mhPath.c_str(), ios::out)));
     ApplicationTools::displayResult("Message handler", mhPath + "*");
 
     string prPath = ApplicationTools::getAFilePath("optimization.profiler", partnh.getParams(), false, false);
     auto_ptr<OutputStream> profiler(
       (prPath == "none") ? 0 :
       (prPath == "std") ? ApplicationTools::message :
-      new StlOutputStream(auto_ptr<ostream>(new ofstream(prPath.c_str(), ios::out))));
+      new StlOutputStream(new ofstream(prPath.c_str(), ios::out)));
     if (profiler.get()) profiler->setPrecision(20);
     ApplicationTools::displayResult("Profiler", prPath + "*");
 
@@ -444,7 +446,7 @@ int main(int args, char ** argv)
     double logL = drtl->getValue();
     double df = static_cast<double>(drtl->getParameters().size());
     double aic  = 2. * (df + logL);
-    double aicc = aic + 2 * df * (df + 1) / (nbSites - df - 1);
+    double aicc = aic + 2 * df * (df + 1) / (static_cast<double>(nbSites) - df - 1);
     double bic  = 2. * logL + df * log(nbSites);
     ApplicationTools::displayResult("* Homogeneous model - LogL", -logL);
     ApplicationTools::displayResult("                    - df", df);
@@ -456,7 +458,7 @@ int main(int args, char ** argv)
     if (model->getNumberOfStates() != alphabet->getSize())
     {
       // Markov-Modulated Markov Model...
-      unsigned int n = static_cast<unsigned int>(model->getNumberOfStates() / alphabet->getSize());
+      size_t n = static_cast<size_t>(model->getNumberOfStates() / alphabet->getSize());
       rateFreqs = vector<double>(n, 1. / (double)n); // Equal rates assumed for now, may be changed later (actually, in the most general case,
                                                      // we should assume a rate distribution for the root also!!!
     }
@@ -473,7 +475,7 @@ int main(int args, char ** argv)
       ApplicationTools::displayWarning("An (most likely) unrooted tree is in use with a non-stationary model! This is probably not what you want...");
    
     vector<string> globalParameters = ApplicationTools::getVectorParameter<string>("nonhomogeneous.shared_parameters", partnh.getParams(), ',', "");
-    for (unsigned int i = 0; i < globalParameters.size(); i++)
+    for (size_t i = 0; i < globalParameters.size(); i++)
       ApplicationTools::displayResult("Global parameter", globalParameters[i]);
 
     string likelihoodComparison = ApplicationTools::getStringParameter("partition.test", partnh.getParams(), "LRT");
@@ -493,7 +495,7 @@ int main(int args, char ** argv)
     string stopCond = ApplicationTools::getStringParameter("partition.test.stop_condition", partnh.getParams(), "1");
     int stop;
     if (stopCond == "all") {
-      stop = -log(0); //Inf
+      stop = static_cast<int>(-log(0)); //Inf
       ApplicationTools::displayResult("Stop condition", string("test all nested models and report global best"));
     } else {
       stop = TextTools::toInt(stopCond);
@@ -528,8 +530,8 @@ int main(int args, char ** argv)
     double bestBic  = bic;
     int previousBest = -1;
     vector< vector<int> > bestGroups;
-    unsigned int modelCount = 0;
-    map<int, vector<unsigned int> > partRecord;
+    size_t modelCount = 0;
+    map<int, vector<size_t> > partRecord;
 
     while (moveForward && it != sortedHeights.end()) {
       modelCount++;
@@ -538,7 +540,7 @@ int main(int args, char ** argv)
         ApplicationTools::displayBooleanResult("Testing non-stationary model", true);
       } else {
         for (vector<const Node*>::iterator it2 = it->second.begin(); it2 != it->second.end(); ++it2) {
-          for (unsigned int k = 0; k < (*it2)->getNumberOfSons(); ++k)
+          for (size_t k = 0; k < (*it2)->getNumberOfSons(); ++k)
             candidates.push_back((*it2)->getSon(k));
         }
         currentThreshold = it->first;
@@ -578,12 +580,12 @@ int main(int args, char ** argv)
       messageHandler.reset(
         (mhPath == "none") ? 0 :
         (mhPath == "std") ? ApplicationTools::message :
-        new StlOutputStream(auto_ptr<ostream>(new ofstream((mhPath + TextTools::toString(modelCount)).c_str(), ios::out))));
+        new StlOutputStream(new ofstream((mhPath + TextTools::toString(modelCount)).c_str(), ios::out)));
 
       profiler.reset(
         (prPath == "none") ? 0 :
         (prPath == "std") ? ApplicationTools::message :
-        new StlOutputStream(auto_ptr<ostream>(new ofstream((prPath + TextTools::toString(modelCount)).c_str(), ios::out))));
+        new StlOutputStream(new ofstream((prPath + TextTools::toString(modelCount)).c_str(), ios::out)));
       if (profiler.get()) profiler->setPrecision(20);
 
       //Reevaluate parameters, as there might be some change when going to a NH model:
@@ -596,7 +598,7 @@ int main(int args, char ** argv)
       ApplicationTools::displayResult("* New NH model - LogL", -newLogL);
       ApplicationTools::displayResult("               - df", newDf);
       double newAic  = 2. * (newDf + newLogL);
-      double newAicc = newAic + 2 * newDf * (newDf + 1) / (nbSites - newDf - 1);
+      double newAicc = newAic + 2 * newDf * (newDf + 1) / (static_cast<double>(nbSites) - newDf - 1);
       double newBic  = 2. * newLogL + newDf * log(nbSites);
       TreeTemplate<Node>* newTree = new TreeTemplate<Node>(drtl->getTree());
       
@@ -738,7 +740,7 @@ int main(int args, char ** argv)
     ApplicationTools::displayResult("Output partitions record to", partRecordPath);
     if (partRecordPath != "none") {
       ofstream partRecordFile(partRecordPath.c_str(), ios::out);
-      for (map<int, vector<unsigned int> >::iterator pit = partRecord.begin(); pit != partRecord.end(); ++pit) {
+      for (map<int, vector<size_t> >::iterator pit = partRecord.begin(); pit != partRecord.end(); ++pit) {
         partRecordFile << pit->first;
         for (size_t i = 0; i < pit->second.size(); ++i) {
           partRecordFile << "\t" << pit->second[i];
