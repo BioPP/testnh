@@ -49,6 +49,7 @@ using namespace std;
 // From bpp-seq:
 #include <Bpp/Seq/Alphabet.all>
 #include <Bpp/Seq/Container/VectorSiteContainer.h>
+#include <Bpp/Seq/Container/SiteContainerTools.h>
 #include <Bpp/Seq/SiteTools.h>
 #include <Bpp/Seq/App/SequenceApplicationTools.h>
 
@@ -118,17 +119,17 @@ vector< vector<double> > getCountsPerBranch(
   
   auto_ptr<ProbabilisticSubstitutionMapping> mapping(SubstitutionMappingTools::computeSubstitutionVectors(drtl, *count, false));
   vector< vector<double> > counts(ids.size());
-  unsigned int nbSites = mapping->getNumberOfSites();
-  unsigned int nbTypes = mapping->getNumberOfSubstitutionTypes();
+  size_t nbSites = mapping->getNumberOfSites();
+  size_t nbTypes = mapping->getNumberOfSubstitutionTypes();
   for (size_t k = 0; k < ids.size(); ++k) {
     //vector<double> countsf = SubstitutionMappingTools::computeSumForBranch(*mapping, mapping->getNodeIndex(ids[i]));
     vector<double> countsf(nbTypes, 0);
     vector<double> tmp(nbTypes, 0);
-    unsigned int nbIgnored = 0;
+    size_t nbIgnored = 0;
     bool error = false;
-    for (unsigned int i = 0; !error && i < nbSites; ++i) {
+    for (size_t i = 0; !error && i < nbSites; ++i) {
       double s = 0;
-      for (unsigned int t = 0; t < nbTypes; ++t) {
+      for (size_t t = 0; t < nbTypes; ++t) {
         tmp[t] = (*mapping)(k, i, t);
         error = isnan(tmp[t]);
         if (error)
@@ -150,7 +151,7 @@ ERROR:
     if (error) {
       //We do nothing. This happens for small branches.
       ApplicationTools::displayWarning("On branch " + TextTools::toString(ids[k]) + ", counts could not be computed.");
-      for (unsigned int t = 0; t < nbTypes; ++t)
+      for (size_t t = 0; t < nbTypes; ++t)
         countsf[t] = 0;
     } else {
       if (nbIgnored > 0) {
@@ -163,13 +164,12 @@ ERROR:
         //Compute frequencies for types:
         vector<double> freqsTypes(creg->getNumberOfCategories());
         for (size_t i = 0; i < freqs.size(); ++i) {
-          unsigned int c = creg->getCategory(static_cast<int>(i));
+          size_t c = creg->getCategory(static_cast<int>(i));
           freqsTypes[c - 1] += freqs[i];
         }
         //We devide the counts by the frequencies and rescale:
         double s = VectorTools::sum(countsf);
-        
-        for (unsigned int t = 0; t < nbTypes; ++t) {
+        for (size_t t = 0; t < nbTypes; ++t) {
           countsf[t] /= freqsTypes[creg->getCategoryFrom(t + 1) - 1];
         }
 
@@ -200,7 +200,7 @@ void outputTotalCountsPerBranchPerSite(
   ofstream file;
   file.open(filename.c_str());
 
-  unsigned int nbSites = smap->getNumberOfSites();
+  size_t nbSites = smap->getNumberOfSites();
   size_t nbBr = ids.size();
 
   vector<int> sdi(nbBr);  //reverse of ids
@@ -214,14 +214,14 @@ void outputTotalCountsPerBranchPerSite(
   }
 
   file << "sites";
-  for (unsigned int i = 0; i < nbBr; ++i)
+  for (size_t i = 0; i < nbBr; ++i)
     file << "\t" << i ;
   file << endl;
   
-  for (unsigned int k = 0; k < nbSites; ++k) {
+  for (size_t k = 0; k < nbSites; ++k) {
     vector<double> countsf = SubstitutionMappingTools::computeTotalSubstitutionVectorForSite(*smap, k);
     file << k;
-    for (unsigned int i = 0; i < nbBr; ++i)
+    for (size_t i = 0; i < nbBr; ++i)
       file << "\t" << countsf[sdi[i]];
     file << endl;
   }
@@ -233,7 +233,7 @@ void buildCountTree(
     const vector< vector<double> >& counts,
     const vector<int>& ids,
     Tree* cTree, 
-    unsigned int type)
+    size_t type)
 {
   for (size_t i = 0; i < ids.size(); ++i) {
     if (cTree->hasFather(ids[i])) {
@@ -345,7 +345,7 @@ int main(int args, char ** argv)
       if(model->getNumberOfStates() > model->getAlphabet()->getSize())
       {
         //Markov-modulated Markov model!
-        rDist = new ConstantDistribution(1.);
+        rDist = new ConstantRateDistribution();
       }
       else
       {
@@ -362,7 +362,7 @@ int main(int args, char ** argv)
             new JCnuc(dynamic_cast<CodonAlphabet*>(alphabet)->getNucleicAlphabet()));
       } else
         throw Exception("Unsupported alphabet!");
-      rDist = new ConstantDistribution(1.);
+      rDist = new ConstantRateDistribution();
     }
     drtl = new DRHomogeneousTreeLikelihood(*tree, *sites, model, rDist, false, false);
   }
@@ -373,7 +373,7 @@ int main(int args, char ** argv)
     if (model->getNumberOfStates() > model->getAlphabet()->getSize())
     {
       //Markov-modulated Markov model!
-      rDist = new ConstantDistribution(1.);
+      rDist = new ConstantRateDistribution();
     }
     else
     {
@@ -383,7 +383,7 @@ int main(int args, char ** argv)
     if (model->getNumberOfStates() != alphabet->getSize())
     {
       //Markov-Modulated Markov Model...
-      unsigned int n =(unsigned int)(model->getNumberOfStates() / alphabet->getSize());
+      size_t n =(size_t)(model->getNumberOfStates() / alphabet->getSize());
       rateFreqs = vector<double>(n, 1./static_cast<double>(n)); // Equal rates assumed for now, may be changed later (actually, in the most general case,
                                                    // we should assume a rate distribution for the root also!!!  
     }
@@ -428,7 +428,7 @@ int main(int args, char ** argv)
     string treePathPrefix = ApplicationTools::getStringParameter("output.counts.tree.prefix", mapnh.getParams(), "none");
     if (treePathPrefix != "none") {
       Newick newick;
-      for (unsigned int i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i) {
+      for (size_t i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i) {
         string path = treePathPrefix + TextTools::toString(i + 1) + string(".dnd");
         ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
         Tree* cTree = tree->clone();
@@ -446,11 +446,11 @@ int main(int args, char ** argv)
   }
   
   // Rounded counts
-  vector< vector<unsigned int> > countsint;
-  for (unsigned int i=0;i< counts.size(); i++){
-    vector<unsigned int> countsi2;
-    for (unsigned int j=0;j< counts[i].size(); j++)
-      countsi2.push_back(static_cast<unsigned int>(floor( counts[i][j]+0.5)));
+  vector< vector<size_t> > countsint;
+  for (size_t i=0;i< counts.size(); i++){
+    vector<size_t> countsi2;
+    for (size_t j=0;j< counts[i].size(); j++)
+      countsi2.push_back(static_cast<size_t>(floor( counts[i][j]+0.5)));
     countsint.push_back(countsi2);
   }
 
@@ -458,7 +458,7 @@ int main(int args, char ** argv)
   bool testGlobal = ApplicationTools::getBooleanParameter("test.global", mapnh.getParams(), true, "", true, false);
   if (testGlobal) {
 
-    vector< vector<unsigned int> > counts2=countsint;
+    vector< vector<size_t> > counts2=countsint;
     
     //Check if some branches are 0:
     for (size_t i = counts2.size(); i > 0; --i) {
@@ -495,19 +495,19 @@ int main(int args, char ** argv)
     if (autoClustName == "None") {
       autoClust.reset(new NoAutomaticGroupingCondition());
     } else if (autoClustName == "Global") {
-      double threshold = ApplicationTools::getParameter<unsigned int>("threshold", autoClustParam, 0);
+      size_t threshold = ApplicationTools::getParameter<size_t>("threshold", autoClustParam, 0);
       ApplicationTools::displayResult("Auto-clutering threshold", threshold);
       CategorySubstitutionRegister* creg = dynamic_cast<CategorySubstitutionRegister*>(reg);
       vector<size_t> ignore;
       if (creg && creg->allowWithin()) {
-        unsigned int n = creg->getNumberOfCategories();
-        for (unsigned int i = 0; i < n; ++i) {
+        size_t n = creg->getNumberOfCategories();
+        for (size_t i = 0; i < n; ++i) {
           ignore.push_back(n * (n - 1) + i);
         }
       }
       autoClust.reset(new SumCountsAutomaticGroupingCondition(threshold, ignore));
     } else if (autoClustName == "Marginal") {
-      double threshold = ApplicationTools::getParameter<unsigned int>("threshold", autoClustParam, 0);
+      size_t threshold = ApplicationTools::getParameter<size_t>("threshold", autoClustParam, 0);
       ApplicationTools::displayResult("Auto-clutering threshold", threshold);
       autoClust.reset(new AnyCountAutomaticGroupingCondition(threshold));
     } else {

@@ -10,9 +10,9 @@
 
 using namespace std;
 
-double SimpleSubstitutionCountsComparison::multinomLogL(const vector<unsigned int>& v, const vector<double>& p)
+double SimpleSubstitutionCountsComparison::multinomLogL(const vector<size_t>& v, const vector<double>& p)
 {
-  unsigned int n = VectorTools::sum(v);
+  size_t n = VectorTools::sum(v);
   double l = logFact(n);
   for (size_t i = 0; i < v.size(); ++i) {
     if (p[i] == 0) {
@@ -23,22 +23,22 @@ double SimpleSubstitutionCountsComparison::multinomLogL(const vector<unsigned in
         return log(0.);
       }
     } else {
-      l += v[i] * log(static_cast<double>(p[i]));
+      l += static_cast<double>(v[i]) * log(p[i]);
       l -= logFact(v[i]);
     }
   }
   return l;
 }
 
-double SimpleSubstitutionCountsComparison::multinomialTest(const vector< vector<unsigned int> >& counts)
+double SimpleSubstitutionCountsComparison::multinomialTest(const vector< vector<size_t> >& counts)
 {
   size_t nbCounts = counts.size();
   size_t countsSize = counts[0].size();
-  vector<unsigned int> sumCounts(countsSize);
+  vector<size_t> sumCounts(countsSize);
   //Compute likelihood of independent model:
   double logL1 = 0;
   for (size_t i = 0; i < nbCounts; ++i) {
-    unsigned int s = VectorTools::sum(counts[i]);
+    size_t s = VectorTools::sum(counts[i]);
     if (s == 0)
       throw Exception("SimpleSubstitutionCountsComparison::multinomialTest. Counts with zero observation can't be accounted for.");
     sumCounts += counts[i];
@@ -51,7 +51,7 @@ double SimpleSubstitutionCountsComparison::multinomialTest(const vector< vector<
   //Compute likelihood of shared model:
   double logL2 = 0;
   vector<double> p(countsSize);
-  unsigned int s = VectorTools::sum(sumCounts);
+  size_t s = VectorTools::sum(sumCounts);
   for (size_t j = 0; j < countsSize; ++j) {
     p[j] = static_cast<double>(sumCounts[j]) / static_cast<double>(s);
   }
@@ -61,13 +61,13 @@ double SimpleSubstitutionCountsComparison::multinomialTest(const vector< vector<
   //Now compare models:
   double statistic = -2 * (logL2 - logL1);
   //cout << logL2 << "\t" << logL1 << "\t" << statistic << "\t" << (countsSize - 1) * (nbCounts - 1) << endl;
-  double pvalue = 1. - RandomTools::pChisq(statistic, (countsSize - 1) * (nbCounts - 1));
+  double pvalue = 1. - RandomTools::pChisq(statistic, static_cast<double>(countsSize - 1) * static_cast<double>(nbCounts - 1));
   return pvalue;
 }
 
 void SimpleSubstitutionCountsComparison::computePValue() {
-  unsigned int s1 = VectorTools::sum(counts1_);
-  unsigned int s2 = VectorTools::sum(counts2_);
+  size_t s1 = VectorTools::sum(counts1_);
+  size_t s2 = VectorTools::sum(counts2_);
   if (s1 == 0 || s2 == 0) {
     statistic_ = 0.;
     pvalue_ = 1.;
@@ -86,11 +86,11 @@ void SimpleSubstitutionCountsComparison::computePValue() {
   double logL1_2 = multinomLogL(counts1_, p1);
   double logL2_2 = multinomLogL(counts2_, p2);
   statistic_ = -2 * (logL1_1 + logL2_1 - logL1_2 - logL2_2);
-  pvalue_ = 1. - RandomTools::pChisq(statistic_, counts1_.size() - 1);
+  pvalue_ = 1. - RandomTools::pChisq(statistic_, static_cast<double>(counts1_.size() - 1));
 }
 
 MultinomialClustering::MultinomialClustering(
-    const vector< vector<unsigned int> >& counts,
+    const vector< vector<size_t> >& counts,
     const vector<int>& ids,
     const Tree& tree,
     const AutomaticGroupingCondition& autoGroup,
@@ -98,13 +98,13 @@ MultinomialClustering::MultinomialClustering(
   AbstractAgglomerativeDistanceMethod(verbose, true), counts_(counts), neighborsOnly_(neighborsOnly), negativeBrlen_(negativeBrlen), test_(), pvalues_()
 {
   test_.reset(new SimpleSubstitutionCountsComparison());
-  unsigned int n = counts.size();
+  size_t n = counts.size();
   matrix_.resize(n);
   MatrixTools::fill(matrix_, (neighborsOnly_ ? 2. : 1.));
   vector<string> names(n);
-  for (unsigned int i = 0; i < n; ++i)
+  for (size_t i = 0; i < n; ++i)
     names[i] = TextTools::toString(ids[i]);
-  for (unsigned int i = 0; i < n; ++i) {
+  for (size_t i = 0; i < n; ++i) {
     if (verbose)
       ApplicationTools::displayGauge(i, n - 1, '=');
     matrix_(i, i) = 0.;
@@ -158,18 +158,18 @@ TreeTemplate<Node>* MultinomialClustering::getTree() const
   return new TreeTemplate<Node>(root);
 }
 
-vector<unsigned int> MultinomialClustering::getBestPair() throw (Exception)
+vector<size_t> MultinomialClustering::getBestPair() throw (Exception)
 {
-  vector<unsigned int> bestPair(2);
+  vector<size_t> bestPair(2);
   double distMin = -std::log(0.);
-  for (map<unsigned int, Node *>::iterator i = currentNodes_.begin(); i != currentNodes_.end(); i++)
+  for (map<size_t, Node *>::iterator i = currentNodes_.begin(); i != currentNodes_.end(); i++)
   {
-    unsigned int id = i->first;
-    map<unsigned int, Node *>::iterator j = i;
+    size_t id = i->first;
+    map<size_t, Node *>::iterator j = i;
     j++;
     for (; j != currentNodes_.end(); j++)
     {
-      unsigned int jd = j->first;
+      size_t jd = j->first;
       double dist = matrix_(id, jd);
       if (dist < distMin)
       {
@@ -183,7 +183,7 @@ vector<unsigned int> MultinomialClustering::getBestPair() throw (Exception)
   counts_[bestPair[0]] += counts_[bestPair[1]];
   return bestPair;  
 }
-vector<double> MultinomialClustering::computeBranchLengthsForPair(const vector<unsigned int>& pair)
+vector<double> MultinomialClustering::computeBranchLengthsForPair(const vector<size_t>& pair)
 {
   vector<double> d(2);
   double dist = max(0., matrix_(pair[0], pair[1])) / 2.; //In case of automatic clustering, -1 corresponds to a distance of 0.
@@ -202,7 +202,7 @@ vector<double> MultinomialClustering::computeBranchLengthsForPair(const vector<u
   return d;
 }
 
-double MultinomialClustering::computeDistancesFromPair(const vector<unsigned int>& pair, const vector<double>& branchLengths, unsigned int pos)
+double MultinomialClustering::computeDistancesFromPair(const vector<size_t>& pair, const vector<double>& branchLengths, size_t pos)
 {
   //Check if nodes are neighbors:
   if (matrix_(pair[0], pos) > 1. && matrix_(pair[1], pos) > 1.) return 2.;
@@ -211,19 +211,19 @@ double MultinomialClustering::computeDistancesFromPair(const vector<unsigned int
     return -1.;
   }
   //Perform a multinomial LRT:
-  vector<unsigned int>* v1 = &counts_[pos];
-  vector<unsigned int>* v2 = &counts_[pair[0]];
+  vector<size_t>* v1 = &counts_[pos];
+  vector<size_t>* v2 = &counts_[pair[0]];
   return getDist(*v1, *v2);
 }
 
 void MultinomialClustering::finalStep(int idRoot)
 {
   NodeTemplate<ClusterInfos>* root = new NodeTemplate<ClusterInfos>(idRoot);
-  map<unsigned int, Node*>::iterator it = currentNodes_.begin();
-  unsigned int i1 = it->first;
+  map<size_t, Node*>::iterator it = currentNodes_.begin();
+  size_t i1 = it->first;
   Node* n1        = it->second;
   it++;
-  unsigned int i2 = it->first;
+  size_t i2 = it->first;
   Node* n2        = it->second;
   double d = matrix_(i1, i2) / 2;
   root->addSon(n1);
@@ -267,7 +267,7 @@ Node* MultinomialClustering::getParentNode(int id, Node* son1, Node* son2)
   return parent;
 }
 
-double MultinomialClustering::getDist(const vector<unsigned int>& v1, const vector<unsigned int>&v2)
+double MultinomialClustering::getDist(const vector<size_t>& v1, const vector<size_t>&v2)
 {
   test_->setCounts(v1, v2);
   pvalues_.push_back(test_->getPValue());

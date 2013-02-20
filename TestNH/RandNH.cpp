@@ -76,9 +76,9 @@ void help()
 
 struct CandidatePart {
   int id;
-  unsigned int depth;
+  size_t depth;
 
-  CandidatePart(int i, unsigned int d):
+  CandidatePart(int i, size_t d):
     id(i), depth(d) {}
 };
    
@@ -118,7 +118,7 @@ int main(int args, char ** argv)
   nhx.write(*tree, treeIdOut);
 
   //Now get the number of partitions and assign nodes:
-  unsigned int nbParts = ApplicationTools::getParameter<unsigned int>("nonhomogeneous.number_of_models", randnh.getParams(), 2);
+  size_t nbParts = ApplicationTools::getParameter<size_t>("nonhomogeneous.number_of_models", randnh.getParams(), 2);
   ApplicationTools::displayResult("Number of partitions", nbParts);
   if (nbParts < 2)
     throw Exception("There should be at least 2 partitions.");
@@ -128,13 +128,13 @@ int main(int args, char ** argv)
 
   //We create a id vector weighted for node depth:
   vector<double> idWeights;
-  map<int, unsigned int> nodesDepths;
+  map<int, size_t> nodesDepths;
   TreeTools::getDepths(*tree, tree->getRootId(), nodesDepths);
   for (size_t i = 0; i < ids.size(); ++i) {
     idWeights.push_back(static_cast<double>(nodesDepths[ids[i]] + 1));
   }
 
-  map<int, unsigned int> partitionsIndex;
+  map<int, size_t> partitionsIndex;
   
   string modelType = ApplicationTools::getStringParameter("nonhomogeneous.type_of_model", randnh.getParams(), "join");
 
@@ -145,12 +145,12 @@ int main(int args, char ** argv)
 
     //we have to make sure we get the larger partition first:
     multiset<CandidatePart, CandidatePartComp> depths;
-    for (unsigned int i = 0; i < nbParts - 1; ++i) {
+    for (size_t i = 0; i < nbParts - 1; ++i) {
       depths.insert(CandidatePart(partRootIds[i], TreeTools::getDepth(*tree, partRootIds[i])));
     }
     for (size_t i = 0; i < ids.size(); ++i)
       partitionsIndex[ids[i]] = 0;
-    unsigned int p = 1;
+    size_t p = 1;
     for (set<CandidatePart>::iterator it = depths.begin(); it != depths.end(); ++it) {
       cout << it->id << "\t" << it->depth << endl;
       vector<int> subids = TreeTools::getNodesId(*tree, it->id);
@@ -163,20 +163,20 @@ int main(int args, char ** argv)
   {
     //For now we assume that all partitions are equally likely.
     for (size_t i = 0; i < ids.size(); ++i)
-      partitionsIndex[ids[i]] = RandomTools::giveIntRandomNumberBetweenZeroAndEntry(nbParts);
+      partitionsIndex[ids[i]] = RandomTools::giveIntRandomNumberBetweenZeroAndEntry(static_cast<int>(nbParts));
   }
   else throw Exception("Model type should be one of 'free' or 'join'");
 
-  map<unsigned int, vector<int> > partitions;
-  for (map<int, unsigned int>::iterator it = partitionsIndex.begin(); it != partitionsIndex.end(); ++it) {
+  map<size_t, vector<int> > partitions;
+  for (map<int, size_t>::iterator it = partitionsIndex.begin(); it != partitionsIndex.end(); ++it) {
     partitions[it->second].push_back(it->first);
   }
     
   //Print partitions:
   string modelOutPath = ApplicationTools::getAFilePath("output.model.file", randnh.getParams(), true, false);
   ofstream modelOut(modelOutPath.c_str(), ios::out);
-  unsigned int index = 1;
-  for (map<unsigned int, vector<int> >::iterator it = partitions.begin(); it != partitions.end(); ++it) {
+  size_t index = 1;
+  for (map<size_t, vector<int> >::iterator it = partitions.begin(); it != partitions.end(); ++it) {
     modelOut << "model" << index << ".nodes_id = " << it->second[0];
     for (size_t i = 1; i < it->second.size(); ++i)
       modelOut << "," << it->second[i];
