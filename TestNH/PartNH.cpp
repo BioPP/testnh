@@ -202,24 +202,23 @@ SubstitutionModelSet* buildModelSetFromPartitions(
   SubstitutionModelSet* modelSet = rootFreqs ?
     new SubstitutionModelSet(model->getAlphabet(), rootFreqs->clone()) :
     new SubstitutionModelSet(model->getAlphabet());
+
   //We assign a copy of this model to all nodes in the tree, for each partition, and link all parameters with it.
   for (size_t i = 0; i < groups.size(); ++i) {
     SubstitutionModel* modelC = dynamic_cast<SubstitutionModel*>(model->clone());
     modelC->matchParametersValues(initParameters[groups[i][0]]);
-    modelSet->addModel(modelC, groups[i], branchParameters.getParameterNames());
+    modelSet->addModel(modelC, groups[i]);
   }
-  vector<int> allIds = tree->getNodesId();
-  int rootId = tree->getRootId();
-  size_t pos = 0;
-  for (size_t i = 0; i < allIds.size(); i++) {
-    if (allIds[i] == rootId) {
-      pos = i;
-      break;
+
+  // Now alias all global parameters on all nodes:
+  for (size_t i=0; i < globalParameters.size(); i++)
+    {
+      string pname=globalParameters[i].getName();
+
+      for (size_t nn = 1; nn < groups.size(); nn++)
+        modelSet->aliasParameters(pname+"_1",pname+"_"+TextTools::toString(nn+1));
     }
-  }
-  allIds.erase(allIds.begin() + pos);
-  //Now add global parameters to all nodes:
-  modelSet->addParameters(globalParameters, allIds);
+
   return modelSet;
 }
 
