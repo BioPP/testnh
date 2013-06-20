@@ -362,6 +362,13 @@ int main(int args, char ** argv)
   } else if (method == "auto") {
     //First we need to get the alphabet and data:
     Alphabet* alphabet = SequenceApplicationTools::getAlphabet(partnh.getParams(), "", false);
+    auto_ptr<GeneticCode> gCode;
+    CodonAlphabet* codonAlphabet = dynamic_cast<CodonAlphabet*>(alphabet);
+    if (codonAlphabet) {
+      string codeDesc = ApplicationTools::getStringParameter("genetic_code", partnh.getParams(), "Standard", "", true, true);
+      gCode.reset(SequenceApplicationTools::getGeneticCode(codonAlphabet->getNucleicAlphabet(), codeDesc));
+    }
+
     VectorSiteContainer* allSites = SequenceApplicationTools::getSiteContainer(alphabet, partnh.getParams());
     VectorSiteContainer* sites = SequenceApplicationTools::getSitesToAnalyse(*allSites, partnh.getParams());
     delete allSites;
@@ -372,7 +379,7 @@ int main(int args, char ** argv)
  
     //Then we need the model to be used, including substitution model, rate distribution and root frequencies set.
     //We also need to specify the parameters that will be shared by all partitions.
-    SubstitutionModel* model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, partnh.getParams());
+    SubstitutionModel* model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, partnh.getParams());
     DiscreteDistribution* rDist = 0;
     if (model->getName() != "RE08") SiteContainerTools::changeGapsToUnknownCharacters(*sites);
     if (model->getNumberOfStates() >= 2 * model->getAlphabet()->getSize())

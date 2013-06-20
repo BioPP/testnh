@@ -168,6 +168,12 @@ int main(int args, char ** argv)
   testnh.startTimer();
 
   Alphabet* alphabet = SequenceApplicationTools::getAlphabet(testnh.getParams(), "", false);
+  auto_ptr<GeneticCode> gCode;
+  CodonAlphabet* codonAlphabet = dynamic_cast<CodonAlphabet*>(alphabet);
+  if (codonAlphabet) {
+    string codeDesc = ApplicationTools::getStringParameter("genetic_code", testnh.getParams(), "Standard", "", true, true);
+    gCode.reset(SequenceApplicationTools::getGeneticCode(codonAlphabet->getNucleicAlphabet(), codeDesc));
+  }
   VectorSiteContainer* allSites = SequenceApplicationTools::getSiteContainer(alphabet, testnh.getParams());
   VectorSiteContainer* sites = SequenceApplicationTools::getSitesToAnalyse(* allSites, testnh.getParams());
   delete allSites;
@@ -224,7 +230,7 @@ int main(int args, char ** argv)
 
   if (nhOpt == "no")
   {  
-    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, testnh.getParams());
+    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, testnh.getParams());
     if (model->getNumberOfStates() > model->getAlphabet()->getSize())
     {
       //Markov-modulated Markov model!
@@ -239,7 +245,7 @@ int main(int args, char ** argv)
   }
   else if (nhOpt == "one_per_branch")
   {
-    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, testnh.getParams());
+    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, testnh.getParams());
     if (model->getNumberOfStates() > model->getAlphabet()->getSize())
     {
       //Markov-modulated Markov model!
