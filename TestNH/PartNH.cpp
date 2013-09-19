@@ -473,7 +473,7 @@ int main(int args, char ** argv)
     FrequenciesSet* rootFreqs = 0;
     if (!stationarity)
     {
-      rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, sites, partnh.getParams(), rateFreqs);
+      rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, gCode.get(), sites, partnh.getParams(), rateFreqs);
       stationarity = !rootFreqs;
     }
     ApplicationTools::displayBooleanResult("Stationarity assumed", stationarity);

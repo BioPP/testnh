@@ -263,7 +263,7 @@ int main(int args, char ** argv)
       rateFreqs = vector<double>(n, 1./static_cast<double>(n)); // Equal rates assumed for now, may be changed later (actually, in the most general case,
                                                    // we should assume a rate distribution for the root also!!!  
     }
-    FrequenciesSet* rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, sites, testnh.getParams(), rateFreqs);
+    FrequenciesSet* rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, gCode.get(), sites, testnh.getParams(), rateFreqs);
     vector<string> globalParameters = ApplicationTools::getVectorParameter<string>("nonhomogeneous_one_per_branch.shared_parameters", testnh.getParams(), ',', "");
     modelSet = SubstitutionModelSetTools::createNonHomogeneousModelSet(model, rootFreqs, tree, globalParameters); 
     model = 0;
@@ -272,7 +272,7 @@ int main(int args, char ** argv)
   }
   else if (nhOpt == "general")
   {
-    modelSet = PhylogeneticsApplicationTools::getSubstitutionModelSet(alphabet, 0, testnh.getParams());
+    modelSet = PhylogeneticsApplicationTools::getSubstitutionModelSet(alphabet, gCode.get(), 0, testnh.getParams());
     if (modelSet->getNumberOfStates() > modelSet->getAlphabet()->getSize())
     {
       //Markov-modulated Markov model!

@@ -207,6 +207,9 @@ int main(int args, char** argv)
     else
       throw Exception("Unsupported substitution categorization: " + regType);
 
+    //Write categories:
+    for (size_t i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i)
+      ApplicationTools::displayResult("  * Count type " + TextTools::toString(i + 1), reg->getTypeName(i + 1));
 
     // specific parameters to the null models
     string nullModelParams = ApplicationTools::getStringParameter("nullModelParams", mapnh.getParams(), "");
@@ -295,7 +298,7 @@ int main(int args, char** argv)
         rateFreqs = vector<double>(n, 1. / static_cast<double>(n)); // Equal rates assumed for now, may be changed later (actually, in the most general case,
         // we should assume a rate distribution for the root also!!!
       }
-      FrequenciesSet* rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, sites, mapnh.getParams(), rateFreqs);
+      FrequenciesSet* rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, gCode.get(), sites, mapnh.getParams(), rateFreqs);
       vector<string> globalParameters = ApplicationTools::getVectorParameter<string>("nonhomogeneous_one_per_branch.shared_parameters", mapnh.getParams(), ',', "");
       modelSet = SubstitutionModelSetTools::createNonHomogeneousModelSet(model, rootFreqs, tree, globalParameters);
       model = 0;
@@ -303,7 +306,7 @@ int main(int args, char** argv)
     }
     else if (nhOpt == "general")
     {
-      modelSet = PhylogeneticsApplicationTools::getSubstitutionModelSet(alphabet, sites, mapnh.getParams());
+      modelSet = PhylogeneticsApplicationTools::getSubstitutionModelSet(alphabet, gCode.get(), sites, mapnh.getParams());
       if (modelSet->getModel(0)->getName() != "RE08")
         SiteContainerTools::changeGapsToUnknownCharacters(*sites);
       if (modelSet->getNumberOfStates() > modelSet->getAlphabet()->getSize())
