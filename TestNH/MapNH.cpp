@@ -241,39 +241,19 @@ int main(int args, char** argv)
 
     if (nhOpt == "no")
     {
-      if (ApplicationTools::parameterExists("model", mapnh.getParams()))
+      model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, mapnh.getParams());
+      if (model->getName() != "RE08")
+        SiteContainerTools::changeGapsToUnknownCharacters(*sites);
+      if (model->getNumberOfStates() > model->getAlphabet()->getSize())
       {
-        model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, mapnh.getParams());
-        if (model->getName() != "RE08")
-          SiteContainerTools::changeGapsToUnknownCharacters(*sites);
-        if (model->getNumberOfStates() > model->getAlphabet()->getSize())
-        {
-          // Markov-modulated Markov model!
-          rDist = new ConstantRateDistribution();
-        }
-        else
-        {
-          rDist = PhylogeneticsApplicationTools::getRateDistribution(mapnh.getParams());
-        }
+        // Markov-modulated Markov model!
+        rDist = new ConstantRateDistribution();
       }
       else
       {
-        if (AlphabetTools::isNucleicAlphabet(alphabet))
-        {
-          model = new JCnuc(dynamic_cast<NucleicAlphabet*>(alphabet));
-        }
-        else if (AlphabetTools::isProteicAlphabet(alphabet))
-        {
-          model = new JCprot(dynamic_cast<ProteicAlphabet*>(alphabet));
-        }
-        else if (AlphabetTools::isCodonAlphabet(alphabet))
-        {
-          model = new CodonRateSubstitutionModel(gCode.get(), new JCnuc(dynamic_cast<CodonAlphabet*>(alphabet)->getNucleicAlphabet()));
-        }
-        else
-          throw Exception("Unsupported alphabet!");
-        rDist = new ConstantRateDistribution();
+        rDist = PhylogeneticsApplicationTools::getRateDistribution(mapnh.getParams());
       }
+      
       drtl = new DRHomogeneousTreeLikelihood(*tree, *sites, model, rDist, false, false);
     }
     else if (nhOpt == "one_per_branch")
@@ -354,7 +334,7 @@ int main(int args, char** argv)
         }
 
         nullModel->matchParametersValues(pl);
-        counts = SubstitutionMappingTools::getNormalizedCountsPerBranch(*drtl, ids, model, nullModel.get(), *reg, thresholdSat);
+        counts = SubstitutionMappingTools::getNormalizedCountsPerBranch(*drtl, ids, model, nullModel.get(), *reg, true);
       }
       else
       {
