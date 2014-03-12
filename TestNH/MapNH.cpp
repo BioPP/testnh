@@ -166,6 +166,7 @@ int main(int args, char** argv)
     SubstitutionRegister* reg = 0;
     string regTypeDesc = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "All", "", true, false);
     string regType = "";
+    string subsList = ApplicationTools::getStringParameter("substitution.list", mapnh.getParams(), "All", "", true, false);
     map<string, string> regArgs;
     KeyvalTools::parseProcedure(regTypeDesc, regType, regArgs);
     bool stationarity = true;
@@ -173,6 +174,13 @@ int main(int args, char** argv)
     {
       stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
       reg = new ComprehensiveSubstitutionRegister(alphabet, false);
+    }
+    else if (regType == "Selected"){  
+      reg = new SelectedSubstitutionRegister(alphabet, subsList);  
+    }
+    else if (regType == "InterAA")
+    {
+      reg = new AAInteriorSubstitutionRegister(alphabet, gCode.get()); 
     }
     else if (regType == "GC")
     {
