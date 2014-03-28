@@ -178,10 +178,24 @@ int main(int args, char** argv)
     else if (regType == "Selected"){  
       reg = new SelectedSubstitutionRegister(alphabet, subsList);  
     }
-    else if (regType == "InterAA")
+    else if (regType == "IntraAA")
     {
-      reg = new AAInteriorSubstitutionRegister(alphabet, gCode.get()); 
+      if (AlphabetTools::isCodonAlphabet(alphabet))
+      {
+        reg = new AAInteriorSubstitutionRegister(alphabet, gCode.get()); 
+      }
+      else
+        throw Exception("Internal amino-acid categorization is only available for codon alphabet!");
     }
+		else if (regType == "InterAA")
+		{
+			if (AlphabetTools::isCodonAlphabet(alphabet))
+      {
+        reg = new AAExteriorSubstitutionRegister(alphabet, gCode.get()); 
+      }
+      else
+        throw Exception("External amino-acid categorization is only available for codon alphabet!");
+		}
     else if (regType == "GC")
     {
       stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
@@ -199,8 +213,10 @@ int main(int args, char** argv)
     {
       if (AlphabetTools::isNucleicAlphabet(alphabet))
         reg = new TsTvSubstitutionRegister(dynamic_cast<NucleicAlphabet*>(alphabet));
+			else if (AlphabetTools::isCodonAlphabet(alphabet))
+				reg = new TsTvSynonymousSubstitutionRegister(dynamic_cast<CodonAlphabet*>(alphabet), gCode.get());
       else
-        throw Exception("TsTv categorization is only available for nucleotide alphabet!");
+        throw Exception("TsTv categorization is only available for nucleotide and codon alphabet!");
     }
 
     else if (regType == "DnDs")
