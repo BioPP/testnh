@@ -225,6 +225,8 @@ int main(int args, char** argv)
       while (mi != npv.end())
       {
         nullParams.addParameter(Parameter(mi->first, TextTools::toDouble(mi->second)));
+        ApplicationTools::displayResult("null Parameter " + mi->first, mi->second);
+        
         mi++;
       }
     }
@@ -320,10 +322,10 @@ int main(int args, char** argv)
       if (model)
       {
         auto_ptr<SubstitutionModel> nullModel(model->clone());
-
+        
         ParameterList pl;
         const ParameterList pl0 = nullModel->getParameters();
-
+        
         for (size_t i = 0; i < nullParams.size(); ++i)
         {
           vector<string> pn = pl0.getMatchingParameterNames(nullParams[i].getName());
@@ -334,6 +336,7 @@ int main(int args, char** argv)
         }
 
         nullModel->matchParametersValues(pl);
+        
         counts = SubstitutionMappingTools::getNormalizedCountsPerBranch(*drtl, ids, model, nullModel.get(), *reg, true);
       }
       else
@@ -352,6 +355,7 @@ int main(int args, char** argv)
         }
 
         nullModelSet->matchParametersValues(pl);
+
         counts = SubstitutionMappingTools::getNormalizedCountsPerBranch(*drtl, ids, modelSet, nullModelSet.get(), *reg, thresholdSat);
       }
     }
