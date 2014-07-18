@@ -176,6 +176,10 @@ int main(int args, char** argv)
       stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
       reg = new ComprehensiveSubstitutionRegister(alphabet, false);
     }
+    else if (regType == "Total")
+    {
+      reg = new TotalSubstitutionRegister(alphabet, false);
+    }    
     else if (regType == "GC")
     {
       stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
