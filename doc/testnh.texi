@@ -157,12 +157,34 @@ Type of substitutions to map:
 Maps all @math{n(n-1)} possible substitutions. This option should be only used for small alphabet sizes like DNA or RNA, as it uses a large amount of memory and dilutes the information.
 @item Total
 Counts the total number of substitutions.
-@item GC @{alphabet=nucleotides@}
-Maps two types of substitutions: @samp{AT to GC} and @samp{GC to AT}. This option takes as input an optional argument telling if the counts should be corrected for nonstationarity: @command{GC(stationarity=no)} (yes by default) will normalize the counts by the ancestral frequencies of the corresponding node.
+@item Selected
+Maps substitutions as defined in a list. This list is built as:
+
+@example
+substitution.list = (Ts:A->G, G->A, C->T, T->C) 
+(Tv: A->C, A->T, T->A, C->A, G->C, G->T, C->G, T->G)
+@end example
+
+The same group of substitutions is delimited by parentheses. The name,
+ if entered, is entered at the start of a string and followed by ":".
+ Substitutions are delimited by ",", and each substitution is defined
+ with a "->" symbol.
+
+@item GC @{alphabet=nucleotides or codons@}
+Maps two types of substitutions: @samp{AT to GC} and @samp{GC to AT}.
+With codon alphabet, synonymous substitutions are considered. This
+option takes as input an optional argument telling if the counts
+should be corrected for nonstationarity: @command{GC(stationarity=no)}
+(yes by default) will normalize the counts by the ancestral
+frequencies of the corresponding node.
 @item TsTv @{alphabet=nucleotides@}
 Counts transitions and transversions.
 @item DnDs @{alphabet=codons@}
 Counts nonsynonymous and synonymous substitutions.
+@item IntraAA @{alphabet=codons@}
+Intra amino-acid substitutions.
+@item IntraAA @{alphabet=codons@}
+Inter amino-acid substitutions (in both directions).
 @end table
 @end table
 
