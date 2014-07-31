@@ -141,6 +141,8 @@ int main(int args, char** argv)
     CodonAlphabet* codonAlphabet = dynamic_cast<CodonAlphabet*>(alphabet);
     if (codonAlphabet) {
       string codeDesc = ApplicationTools::getStringParameter("genetic_code", mapnh.getParams(), "Standard", "", true, true);
+      ApplicationTools::displayResult("Genetic Code", codeDesc);
+      
       gCode.reset(SequenceApplicationTools::getGeneticCode(codonAlphabet->getNucleicAlphabet(), codeDesc));
     }
 
@@ -166,7 +168,6 @@ int main(int args, char** argv)
     SubstitutionRegister* reg = 0;
     string regTypeDesc = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "All", "", true, false);
     string regType = "";
-    string subsList = ApplicationTools::getStringParameter("substitution.list", mapnh.getParams(), "All", "", true, false);
     map<string, string> regArgs;
     KeyvalTools::parseProcedure(regTypeDesc, regType, regArgs);
     bool stationarity = true;
@@ -175,7 +176,12 @@ int main(int args, char** argv)
       stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
       reg = new ComprehensiveSubstitutionRegister(alphabet, false);
     }
+    else if (regType == "Total")
+    {
+      reg = new TotalSubstitutionRegister(alphabet);
+    }    
     else if (regType == "Selected"){  
+      string subsList = ApplicationTools::getStringParameter("substitution.list", mapnh.getParams(), "All", "", true, false);
       reg = new SelectedSubstitutionRegister(alphabet, subsList);  
     }
     else if (regType == "IntraAA")
@@ -245,6 +251,8 @@ int main(int args, char** argv)
       while (mi != npv.end())
       {
         nullParams.addParameter(Parameter(mi->first, TextTools::toDouble(mi->second)));
+        ApplicationTools::displayResult("null Parameter " + mi->first, mi->second);
+        
         mi++;
       }
     }
@@ -340,10 +348,10 @@ int main(int args, char** argv)
       if (model)
       {
         auto_ptr<SubstitutionModel> nullModel(model->clone());
-
+        
         ParameterList pl;
         const ParameterList pl0 = nullModel->getParameters();
-
+        
         for (size_t i = 0; i < nullParams.size(); ++i)
         {
           vector<string> pn = pl0.getMatchingParameterNames(nullParams[i].getName());
@@ -354,6 +362,7 @@ int main(int args, char** argv)
         }
 
         nullModel->matchParametersValues(pl);
+        
         counts = SubstitutionMappingTools::getNormalizedCountsPerBranch(*drtl, ids, model, nullModel.get(), *reg, true);
       }
       else
@@ -372,40 +381,53 @@ int main(int args, char** argv)
         }
 
         nullModelSet->matchParametersValues(pl);
+
         counts = SubstitutionMappingTools::getNormalizedCountsPerBranch(*drtl, ids, modelSet, nullModelSet.get(), *reg, thresholdSat);
       }
     }
     else
       counts = SubstitutionMappingTools::getRelativeCountsPerBranch(*drtl, ids, model ? model : modelSet->getModel(0), *reg, stationarity, thresholdSat);
 
-    string output = ApplicationTools::getStringParameter("output.counts", mapnh.getParams(), "perType");
-    if (output == "perType")
-    {
-      // Write count trees:
-      string treePathPrefix = ApplicationTools::getStringParameter("output.counts.tree.prefix", mapnh.getParams(), "none");
-      if (treePathPrefix != "none")
+    vector<string> outputDesc = ApplicationTools::getVectorParameter<string>("output.counts", mapnh.getParams(), ',', "PerType(prefix=)");
+    for (vector<string>::iterator it = outputDesc.begin(); it != outputDesc.end(); ++it) {
+      string outputType;
+      map<string, string> outputArgs;
+      KeyvalTools::parseProcedure(*it, outputType, outputArgs);
+      if (outputType == "PerType")
       {
-        Newick newick;
-        for (size_t i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i)
+        // Write count trees:
+        string treePathPrefix = ApplicationTools::getStringParameter("prefix", outputArgs, "mapping_counts_per_type_", "", true, 1);
+        if (treePathPrefix != "none")
         {
-          string path = treePathPrefix + TextTools::toString(i + 1) + string(".dnd");
-          ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
-          Tree* cTree = tree->clone();
-          buildCountTree(counts, ids, cTree, i);
-          newick.write(*cTree, path);
-          delete cTree;
+          Newick newick;
+          for (size_t i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i)
+          {
+            string path = treePathPrefix + TextTools::toString(i + 1) + string(".dnd");
+            ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
+            Tree* cTree = tree->clone();
+            buildCountTree(counts, ids, cTree, i);
+            newick.write(*cTree, path);
+            delete cTree;
+          }
+        }
+      }
+      else if (outputType == "PerSite")
+      {
+        string perSitenf = ApplicationTools::getStringParameter("file", outputArgs, "mapping_counts_per_site.txt", "", true, 1);
+        if (perSitenf != "none")
+        {
+          SubstitutionMappingTools::outputTotalCountsPerBranchPerSite(perSitenf, *drtl, ids, model ? model : modelSet->getModel(0), *reg);
+        }
+      }
+      else if (outputType == "PerSitePerType")
+      {
+        string tablePathPrefix = ApplicationTools::getStringParameter("prefix", outputArgs, "mapping_counts_per_site_per_type_", "", true, 1);
+        if (tablePathPrefix != "none")
+        {
+          SubstitutionMappingTools::outputIndividualCountsPerBranchPerSite(tablePathPrefix, *drtl, ids, model ? model : modelSet->getModel(0), *reg);
         }
       }
     }
-    else if (output == "perSite")
-    {
-      string perSitenf = ApplicationTools::getStringParameter("output.counts.file", mapnh.getParams(), "none");
-      if (perSitenf != "none")
-      {
-        SubstitutionMappingTools::outputTotalCountsPerBranchPerSite(perSitenf, *drtl, ids, model ? model : modelSet->getModel(0), *reg);
-      }
-    }
-
 
     // Rounded counts
     vector< vector<size_t> > countsint;

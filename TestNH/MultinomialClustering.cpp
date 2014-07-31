@@ -100,7 +100,7 @@ MultinomialClustering::MultinomialClustering(
   test_.reset(new SimpleSubstitutionCountsComparison());
   size_t n = counts.size();
   matrix_.resize(n);
-  MatrixTools::fill(matrix_, (neighborsOnly_ ? 2. : 1.));
+  MatrixTools::fill(matrix_.asMatrix(), (neighborsOnly_ ? 2. : 1.));
   vector<string> names(n);
   for (size_t i = 0; i < n; ++i)
     names[i] = TextTools::toString(ids[i]);
