@@ -164,100 +164,9 @@ int main(int args, char** argv)
       nhx.write(*tree, treeIdOut);
     }
 
-    // Initialize the parameters for the mapping:
-    SubstitutionRegister* reg = 0;
-    string regTypeDesc = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "All", "", true, false);
-    string regType = "";
-    map<string, string> regArgs;
-    KeyvalTools::parseProcedure(regTypeDesc, regType, regArgs);
-    bool stationarity = true;
-    if (regType == "All")
-    {
-      stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
-      reg = new ComprehensiveSubstitutionRegister(alphabet, false);
-    }
-    else if (regType == "Total")
-    {
-      reg = new TotalSubstitutionRegister(alphabet);
-    }    
-    else if (regType == "Selected"){  
-      string subsList = ApplicationTools::getStringParameter("substitution.list", mapnh.getParams(), "All", "", true, false);
-      reg = new SelectedSubstitutionRegister(alphabet, subsList);  
-    }
-    else if (regType == "IntraAA")
-    {
-      if (AlphabetTools::isCodonAlphabet(alphabet))
-      {
-        reg = new AAInteriorSubstitutionRegister(alphabet, gCode.get()); 
-      }
-      else
-        throw Exception("Internal amino-acid categorization is only available for codon alphabet!");
-    }
-    else if (regType == "InterAA")
-    {
-      if (AlphabetTools::isCodonAlphabet(alphabet))
-      {
-        reg = new AAExteriorSubstitutionRegister(alphabet, gCode.get()); 
-      }
-      else
-        throw Exception("External amino-acid categorization is only available for codon alphabet!");
-    }
-    else if (regType == "GC")
-    {
-      stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
-      if (AlphabetTools::isNucleicAlphabet(alphabet))
-        reg = new GCSubstitutionRegister(dynamic_cast<NucleicAlphabet*>(alphabet), false);
-      else if (AlphabetTools::isCodonAlphabet(alphabet))
-      {
-        reg = new GCSynonymousSubstitutionRegister(gCode.get());
-      }
-      else
-        throw Exception("GC categorization is only available for nucleotide or codon alphabets!");
-    }
-    else if (regType == "TsTv")
-    {
-      if (AlphabetTools::isNucleicAlphabet(alphabet))
-        reg = new TsTvSubstitutionRegister(dynamic_cast<NucleicAlphabet*>(alphabet));
-      throw Exception("TsTv categorization is only available for nucleotide alphabet!");
-    }
-
-    else if (regType == "DnDs")
-    {
-      if (AlphabetTools::isCodonAlphabet(alphabet))
-      {
-        reg = new DnDsSubstitutionRegister(gCode.get(), false);
-      }
-      else
-        throw Exception("DnDs categorization is only available for codon alphabet!");
-    }
-    else
-      throw Exception("Unsupported substitution categorization: " + regType);
-
-    //Write categories:
-    for (size_t i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i)
-      ApplicationTools::displayResult("  * Count type " + TextTools::toString(i + 1), reg->getTypeName(i + 1));
-
-    // specific parameters to the null models
-    string nullModelParams = ApplicationTools::getStringParameter("nullModelParams", mapnh.getParams(), "");
-
-    ParameterList nullParams;
-    if (nullModelParams != "")
-    {
-      string modelName = "";
-      map<string, string> npv;
-      KeyvalTools::multipleKeyvals(nullModelParams, npv, ",", false);
-
-      map<string, string>::iterator mi(npv.begin());
-      while (mi != npv.end())
-      {
-        nullParams.addParameter(Parameter(mi->first, TextTools::toDouble(mi->second)));
-        ApplicationTools::displayResult("null Parameter " + mi->first, mi->second);
-        
-        mi++;
-      }
-    }
-
-    // Now compute likelihood arrays
+    //
+    // Get substitution model and compute likelihood arrays
+    //
 
     string nhOpt = ApplicationTools::getStringParameter("nonhomogeneous", mapnh.getParams(), "no", "", true, false);
     ApplicationTools::displayResult("Heterogeneous model", nhOpt);
@@ -309,12 +218,12 @@ int main(int args, char** argv)
       FrequenciesSet* rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, gCode.get(), sites, mapnh.getParams(), rateFreqs);
       vector<string> globalParameters = ApplicationTools::getVectorParameter<string>("nonhomogeneous_one_per_branch.shared_parameters", mapnh.getParams(), ',', "");
       modelSet = SubstitutionModelSetTools::createNonHomogeneousModelSet(model, rootFreqs, tree, globalParameters);
-      model = 0;
       drtl = new DRNonHomogeneousTreeLikelihood(*tree, *sites, modelSet, rDist, false, false);
     }
     else if (nhOpt == "general")
     {
       modelSet = PhylogeneticsApplicationTools::getSubstitutionModelSet(alphabet, gCode.get(), sites, mapnh.getParams());
+      model = modelSet->getModel(0);
       if (modelSet->getModel(0)->getName() != "RE08")
         SiteContainerTools::changeGapsToUnknownCharacters(*sites);
       if (modelSet->getNumberOfStates() > modelSet->getAlphabet()->getSize())
@@ -333,8 +242,106 @@ int main(int args, char** argv)
     drtl->initialize();
 
 
-    // //
-    // Performs the mapping
+    //
+    // Initialize the parameters for the mapping:
+    //
+
+    SubstitutionRegister* reg = 0;
+    string regTypeDesc = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "All", "", true, false);
+    string regType = "";
+    map<string, string> regArgs;
+    KeyvalTools::parseProcedure(regTypeDesc, regType, regArgs);
+    bool stationarity = true;
+    if (regType == "All")
+    {
+      stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
+      reg = new ComprehensiveSubstitutionRegister(model, false);
+    }
+    else if (regType == "Total")
+    {
+      reg = new TotalSubstitutionRegister(model);
+    }    
+    else if (regType == "Selected"){  
+      string subsList = ApplicationTools::getStringParameter("substitution.list", mapnh.getParams(), "All", "", true, false);
+      reg = new SelectedSubstitutionRegister(model, subsList);  
+    }
+    else if (regType == "IntraAA")
+    {
+      if (AlphabetTools::isCodonAlphabet(alphabet))
+      {
+        reg = new AAInteriorSubstitutionRegister(dynamic_cast<CodonSubstitutionModel*>(model)); 
+      }
+      else
+        throw Exception("Internal amino-acid categorization is only available for codon alphabet!");
+    }
+    else if (regType == "InterAA")
+    {
+      if (AlphabetTools::isCodonAlphabet(alphabet))
+      {
+        reg = new AAExteriorSubstitutionRegister(dynamic_cast<CodonSubstitutionModel*>(model)); 
+      }
+      else
+        throw Exception("External amino-acid categorization is only available for codon alphabet!");
+    }
+    else if (regType == "GC")
+    {
+      stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
+      if (AlphabetTools::isNucleicAlphabet(alphabet))
+        reg = new GCSubstitutionRegister(dynamic_cast<NucleotideSubstitutionModel*>(model), false);
+      else if (AlphabetTools::isCodonAlphabet(alphabet))
+      {
+        reg = new GCSynonymousSubstitutionRegister(dynamic_cast<CodonSubstitutionModel*>(model));
+      }
+      else
+        throw Exception("GC categorization is only available for nucleotide or codon alphabets!");
+    }
+    else if (regType == "TsTv")
+    {
+      if (AlphabetTools::isNucleicAlphabet(alphabet))
+        reg = new TsTvSubstitutionRegister(dynamic_cast<NucleotideSubstitutionModel*>(model));
+      throw Exception("TsTv categorization is only available for nucleotide alphabet!");
+    }
+
+    else if (regType == "DnDs")
+    {
+      if (AlphabetTools::isCodonAlphabet(alphabet))
+      {
+        reg = new DnDsSubstitutionRegister(dynamic_cast<CodonSubstitutionModel*>(model), false);
+      }
+      else
+        throw Exception("DnDs categorization is only available for codon alphabet!");
+    }
+    else
+      throw Exception("Unsupported substitution categorization: " + regType);
+
+    //Write categories:
+    for (size_t i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i)
+      ApplicationTools::displayResult("  * Count type " + TextTools::toString(i + 1), reg->getTypeName(i + 1));
+
+    // specific parameters to the null models
+    string nullModelParams = ApplicationTools::getStringParameter("nullModelParams", mapnh.getParams(), "");
+
+    ParameterList nullParams;
+    if (nullModelParams != "")
+    {
+      string modelName = "";
+      map<string, string> npv;
+      KeyvalTools::multipleKeyvals(nullModelParams, npv, ",", false);
+
+      map<string, string>::iterator mi(npv.begin());
+      while (mi != npv.end())
+      {
+        nullParams.addParameter(Parameter(mi->first, TextTools::toDouble(mi->second)));
+        ApplicationTools::displayResult("null Parameter " + mi->first, mi->second);
+        
+        mi++;
+      }
+    }
+
+ 
+    //
+    // Performs mapping
+    //
 
     vector<int> ids = drtl->getTree().getNodesId();
     ids.pop_back(); // remove root id.
@@ -382,7 +389,7 @@ int main(int args, char** argv)
 
         nullModelSet->matchParametersValues(pl);
 
-        counts = SubstitutionMappingTools::getNormalizedCountsPerBranch(*drtl, ids, modelSet, nullModelSet.get(), *reg, thresholdSat);
+        counts = SubstitutionMappingTools::getNormalizedCountsPerBranch(*drtl, ids, modelSet, nullModelSet.get(), *reg, true);
       }
     }
     else
@@ -454,7 +461,7 @@ int main(int args, char** argv)
         if (VectorTools::sum(counts2[i - 1]) == 0)
         {
           ApplicationTools::displayResult("Remove branch with no substitution", ids[i - 1]);
-          counts2.erase(counts2.begin() + i - 1);
+          counts2.erase(counts2.begin() + static_cast<ptrdiff_t>(i - 1));
           // ids.erase(ids.begin() + i - 1);
         }
       }
@@ -530,10 +537,10 @@ int main(int args, char** argv)
     delete alphabet;
     delete sites;
     delete tree;
-    if (model)
-      delete model;
     if (modelSet)
       delete modelSet;
+    else
+      delete model;
     delete rDist;
     delete reg;
     mapnh.done();
