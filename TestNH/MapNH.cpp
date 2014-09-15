@@ -243,6 +243,7 @@ int main(int args, char** argv)
 
     ApplicationTools::displayResult("Log-Likelihood", drtl->getLogLikelihood());
 
+    //Check for saturation:
     double ll = drtl->getValue();
     if (isinf(ll))
     {
