@@ -163,7 +163,7 @@ int main(int args, char ** argv)
   {
     //For now we assume that all partitions are equally likely.
     for (size_t i = 0; i < ids.size(); ++i)
-      partitionsIndex[ids[i]] = RandomTools::giveIntRandomNumberBetweenZeroAndEntry(static_cast<int>(nbParts));
+      partitionsIndex[ids[i]] = RandomTools::giveIntRandomNumberBetweenZeroAndEntry<size_t>(nbParts);
   }
   else throw Exception("Model type should be one of 'free' or 'join'");
 

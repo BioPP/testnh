@@ -241,7 +241,61 @@ int main(int args, char** argv)
       throw Exception("Unknown option for nonhomogeneous: " + nhOpt);
     drtl->initialize();
 
+    ApplicationTools::displayResult("Log-Likelihood", drtl->getLogLikelihood());
 
+    double ll = drtl->getValue();
+    if (isinf(ll))
+    {
+      ApplicationTools::displayError("!!! Unexpected initial likelihood == 0.");
+      if (codonAlphabet)
+      {
+        bool f = false;
+        size_t s;
+        for (size_t i = 0; i < sites->getNumberOfSites(); i++) {
+          if (isinf(drtl->getLogLikelihoodForASite(i))) {
+            const Site& site = sites->getSite(i);
+            s = site.size();
+            for (size_t j = 0; j < s; j++) {
+              if (gCode->isStop(site.getValue(j))) {
+                (*ApplicationTools::error << "Stop Codon at site " << site.getPosition() << " in sequence " << sites->getSequence(j).getName()).endLine();
+                f = true;
+              }
+            }
+          }
+        }
+        if (f)
+          exit(-1);
+      }
+      bool removeSaturated = ApplicationTools::getBooleanParameter("input.sequence.remove_saturated_sites", mapnh.getParams(), false, "", true, 1);
+      if (!removeSaturated) {
+        ofstream debug ("DEBUG_likelihoods.txt", ios::out);
+        for (size_t i = 0; i < sites->getNumberOfSites(); i++)
+        {
+          debug << "Position " << sites->getSite(i).getPosition() << " = " << drtl->getLogLikelihoodForASite(i) << endl; 
+        }
+        debug.close();
+        ApplicationTools::displayError("!!! Site-specific likelihood have been written in file DEBUG_likelihoods.txt .");
+        ApplicationTools::displayError("!!! 0 values (inf in log) may be due to computer overflow, particularily if datasets are big (>~500 sequences).");
+        ApplicationTools::displayError("!!! You may want to try input.sequence.remove_saturated_sites = yes to ignore positions with likelihood 0.");
+        exit(1);
+      } else {
+        for (size_t i = sites->getNumberOfSites(); i > 0; --i) {
+          if (isinf(drtl->getLogLikelihoodForASite(i - 1))) {
+            ApplicationTools::displayResult("Ignore saturated site", sites->getSite(i - 1).getPosition());
+            sites->deleteSite(i - 1);
+          }
+        }
+        ApplicationTools::displayResult("Number of sites retained", sites->getNumberOfSites());
+        drtl->setData(*sites);
+        drtl->initialize();
+        ll = drtl->getValue();
+        if (isinf(ll)) {
+          throw Exception("Likelihood is still 0 after saturated sites are removed! Looks like a bug...");
+        }
+        ApplicationTools::displayResult("Initial log likelihood", TextTools::toString(-ll, 15));
+      }
+    }
+    
     //
     // Initialize the parameters for the mapping:
     //
