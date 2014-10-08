@@ -60,6 +60,7 @@ using namespace std;
 #include <Bpp/Phyl/Io/Newick.h>
 #include <Bpp/Phyl/Model/SubstitutionModelSet.h>
 #include <Bpp/Phyl/Model/SubstitutionModelSetTools.h>
+#include <Bpp/Phyl/Model/RateDistribution/ConstantRateDistribution.h>
 #include <Bpp/Phyl/Simulation/NonHomogeneousSequenceSimulator.h>
 
 // From bpp-core:
@@ -87,10 +88,10 @@ void help()
 
 void simulate(
     NonHomogeneousSequenceSimulator * sim,
-    unsigned int nbSites,
+    size_t nbSites,
     double threshold,
-    unsigned int nSim,
-    unsigned int observedNbSignif,
+    size_t nSim,
+    size_t observedNbSignif,
     double observedMedian,
     double & nbSignifPValue,
     double & medianPValue,
@@ -105,21 +106,21 @@ void simulate(
   }
 
   SiteContainer * sites;
-  unsigned int nbNbTPVal = 0;
-  unsigned int nbMedPVal = 0;
-  for (unsigned int k = 0; k < nSim; k++)
+  size_t nbNbTPVal = 0;
+  size_t nbMedPVal = 0;
+  for (size_t k = 0; k < nSim; k++)
   {
     ApplicationTools::displayGauge(k, nSim-1, '=');
 
     sites = sim->simulate(nbSites);
-    unsigned int nbSequences = sites->getNumberOfSequences();
+    size_t nbSequences = sites->getNumberOfSequences();
     
-    unsigned nbTest = 0;
+    size_t nbTest = 0;
     vector<double> bstats;
     BowkerTest * test;
-    for (unsigned int i = 0; i < nbSequences; i++)
+    for (size_t i = 0; i < nbSequences; i++)
     {
-      for (unsigned int j = 0; j < i; j++)
+      for (size_t j = 0; j < i; j++)
       {
         test = SequenceTools::bowkerTest(sites->getSequence(i), sites->getSequence(j));
         if (test->getPValue() < threshold) nbTest++;
@@ -167,12 +168,20 @@ int main(int args, char ** argv)
   testnh.startTimer();
 
   Alphabet* alphabet = SequenceApplicationTools::getAlphabet(testnh.getParams(), "", false);
+  auto_ptr<GeneticCode> gCode;
+  CodonAlphabet* codonAlphabet = dynamic_cast<CodonAlphabet*>(alphabet);
+  if (codonAlphabet) {
+    string codeDesc = ApplicationTools::getStringParameter("genetic_code", testnh.getParams(), "Standard", "", true, true);
+    ApplicationTools::displayResult("Genetic Code", codeDesc);
+      
+    gCode.reset(SequenceApplicationTools::getGeneticCode(codonAlphabet->getNucleicAlphabet(), codeDesc));
+  }
   VectorSiteContainer* allSites = SequenceApplicationTools::getSiteContainer(alphabet, testnh.getParams());
   VectorSiteContainer* sites = SequenceApplicationTools::getSitesToAnalyse(* allSites, testnh.getParams());
   delete allSites;
 
-  unsigned nbSequences = sites->getNumberOfSequences();
-  unsigned nbSites = sites->getNumberOfSites();
+  size_t nbSequences = sites->getNumberOfSequences();
+  size_t nbSites = sites->getNumberOfSites();
   ApplicationTools::displayResult("Number of sequences", nbSequences);
   ApplicationTools::displayResult("Number of sites", nbSites);
 
@@ -184,10 +193,10 @@ int main(int args, char ** argv)
   
   BowkerTest* test;
   ApplicationTools::displayTask("Compute pairwise tests", true);
-  for (unsigned int i = 0; i < nbSequences; i++)
+  for (size_t i = 0; i < nbSequences; i++)
   {
     ApplicationTools::displayGauge(i, nbSequences - 1, '=');
-    for(unsigned int j = 0; j < i; j++)
+    for(size_t j = 0; j < i; j++)
     {
       test = SequenceTools::bowkerTest(sites->getSequence(i), sites->getSequence(j));
       if(test->getPValue() < threshold) nbTest++;
@@ -203,7 +212,7 @@ int main(int args, char ** argv)
   
   // 2) Run simulations
   NonHomogeneousSequenceSimulator* nhss;
-  unsigned int nbSim = ApplicationTools::getParameter<unsigned int>("bootstrap.number", testnh.getParams(), 100);
+  size_t nbSim = ApplicationTools::getParameter<size_t>("bootstrap.number", testnh.getParams(), 100);
   ApplicationTools::displayResult("Number of simulations", nbSim);
   double nbSignifPValue, medianPValue;
   string distFile;
@@ -223,11 +232,11 @@ int main(int args, char ** argv)
 
   if (nhOpt == "no")
   {  
-    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, testnh.getParams());
+    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, testnh.getParams());
     if (model->getNumberOfStates() > model->getAlphabet()->getSize())
     {
       //Markov-modulated Markov model!
-      rDist = new ConstantDistribution(1., true);
+      rDist = new ConstantRateDistribution();
     }
     else
     {
@@ -238,11 +247,11 @@ int main(int args, char ** argv)
   }
   else if (nhOpt == "one_per_branch")
   {
-    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, testnh.getParams());
+    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, testnh.getParams());
     if (model->getNumberOfStates() > model->getAlphabet()->getSize())
     {
       //Markov-modulated Markov model!
-      rDist = new ConstantDistribution(1., true);
+      rDist = new ConstantRateDistribution();
     }
     else
     {
@@ -252,11 +261,11 @@ int main(int args, char ** argv)
     if (model->getNumberOfStates() != alphabet->getSize())
     {
       //Markov-Modulated Markov Model...
-      unsigned int n = static_cast<unsigned int>(model->getNumberOfStates() / alphabet->getSize());
+      size_t n = static_cast<size_t>(model->getNumberOfStates() / alphabet->getSize());
       rateFreqs = vector<double>(n, 1./static_cast<double>(n)); // Equal rates assumed for now, may be changed later (actually, in the most general case,
                                                    // we should assume a rate distribution for the root also!!!  
     }
-    FrequenciesSet* rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, sites, testnh.getParams(), rateFreqs);
+    FrequenciesSet* rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, gCode.get(), sites, testnh.getParams(), rateFreqs);
     vector<string> globalParameters = ApplicationTools::getVectorParameter<string>("nonhomogeneous_one_per_branch.shared_parameters", testnh.getParams(), ',', "");
     modelSet = SubstitutionModelSetTools::createNonHomogeneousModelSet(model, rootFreqs, tree, globalParameters); 
     model = 0;
@@ -265,11 +274,11 @@ int main(int args, char ** argv)
   }
   else if (nhOpt == "general")
   {
-    modelSet = PhylogeneticsApplicationTools::getSubstitutionModelSet(alphabet, 0, testnh.getParams());
+    modelSet = PhylogeneticsApplicationTools::getSubstitutionModelSet(alphabet, gCode.get(), 0, testnh.getParams());
     if (modelSet->getNumberOfStates() > modelSet->getAlphabet()->getSize())
     {
       //Markov-modulated Markov model!
-      rDist = new ConstantDistribution(1., true);
+      rDist = new ConstantRateDistribution();
     }
     else
     {

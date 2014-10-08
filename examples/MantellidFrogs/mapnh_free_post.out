@@ -48,7 +48,7 @@ Parameter found........................: model2.YN98.freq_Codon3_Full.theta1=0.5
 Parameter found........................: model2.YN98.freq_Codon3_Full.theta2=0.125542
 Model2 is associated to................: 19 node(s).
 WARNING!!! Parameter nonhomogeneous.alias not specified. Default used instead: 
-Rate distribution......................: Uniform
+Rate distribution......................: Constant
 Number of classes......................: 1
 - Category 0 (Pr = 1) rate.............: 1
 Saturation threshold used..............: 3

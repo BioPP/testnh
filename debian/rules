@@ -65,13 +65,21 @@ clean:
 	[ ! -f Makefile ] || $(MAKE) clean;
 	[ ! -f Makefile ] || rm Makefile;
 	[ ! -f Makefile ] || rm TestNH/Makefile;
+	[ ! -f doc/Makefile ] || rm doc/Makefile;
+	[ ! -f man/Makefile ] || rm man/Makefile;
+	rm -f man/*.gz;
 	rm -f config.sub config.guess
 	rm -f build-stamp
 	rm -f CMakeCache.txt
 	rm -f *.cmake
 	rm -f TestNH/*.cmake
+	rm -f man/*.cmake
+	rm -f doc/*.cmake
 	rm -rf CMakeFiles
 	rm -rf TestNH/CMakeFiles
+	rm -rf man/CMakeFiles
+	rm -rf doc/CMakeFiles
+	rm -rf doc/testnh.info
 	rm -rf _CPack_Packages
 
 	dh_clean 

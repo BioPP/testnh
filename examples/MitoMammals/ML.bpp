@@ -43,7 +43,7 @@ init.brlen.method = Equal(value=1.0)
 #
 model = YN98(kappa=1, omega=1, genetic_code=VertebrateMitochondrial, frequencies=F3X4, useObservedFreqs=yes)
 
-rate_distribution = Uniform #Gamma(n=4, alpha=0.5)
+rate_distribution = Constant #Gamma(n=4, alpha=0.5)
 
 # Likelihood recursion option:
 # - simple: derivatives takes more time to compute, but likelihood computation is faster.

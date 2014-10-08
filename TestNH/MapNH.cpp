@@ -5,36 +5,36 @@
 //
 
 /*
-Copyright or © or Copr. CNRS
+  Copyright or © or Copr. CNRS
 
-This software is a computer program whose purpose is to describe
-the patterns of substitutions along a phylogeny using substitution mapping.
+  This software is a computer program whose purpose is to describe
+  the patterns of substitutions along a phylogeny using substitution mapping.
 
-This software is governed by the CeCILL  license under French law and
-abiding by the rules of distribution of free software.  You can  use, 
-modify and/ or redistribute the software under the terms of the CeCILL
-license as circulated by CEA, CNRS and INRIA at the following URL
-"http://www.cecill.info". 
+  This software is governed by the CeCILL  license under French law and
+  abiding by the rules of distribution of free software.  You can  use,
+  modify and/ or redistribute the software under the terms of the CeCILL
+  license as circulated by CEA, CNRS and INRIA at the following URL
+  "http://www.cecill.info".
 
-As a counterpart to the access to the source code and  rights to copy,
-modify and redistribute granted by the license, users are provided only
-with a limited warranty  and the software's author,  the holder of the
-economic rights,  and the successive licensors  have only  limited
-liability. 
+  As a counterpart to the access to the source code and  rights to copy,
+  modify and redistribute granted by the license, users are provided only
+  with a limited warranty  and the software's author,  the holder of the
+  economic rights,  and the successive licensors  have only  limited
+  liability.
 
-In this respect, the user's attention is drawn to the risks associated
-with loading,  using,  modifying and/or developing or reproducing the
-software by the user in light of its specific status of free software,
-that may mean  that it is complicated to manipulate,  and  that  also
-therefore means  that it is reserved for developers  and  experienced
-professionals having in-depth computer knowledge. Users are therefore
-encouraged to load and test the software's suitability as regards their
-requirements in conditions enabling the security of their systems and/or 
-data to be ensured and,  more generally, to use and operate it in the 
-same conditions as regards security. 
+  In this respect, the user's attention is drawn to the risks associated
+  with loading,  using,  modifying and/or developing or reproducing the
+  software by the user in light of its specific status of free software,
+  that may mean  that it is complicated to manipulate,  and  that  also
+  therefore means  that it is reserved for developers  and  experienced
+  professionals having in-depth computer knowledge. Users are therefore
+  encouraged to load and test the software's suitability as regards their
+  requirements in conditions enabling the security of their systems and/or
+  data to be ensured and,  more generally, to use and operate it in the
+  same conditions as regards security.
 
-The fact that you are presently reading this means that you have had
-knowledge of the CeCILL license and that you accept its terms.
+  The fact that you are presently reading this means that you have had
+  knowledge of the CeCILL license and that you accept its terms.
 */
 
 #include "MultinomialClustering.h"
@@ -48,7 +48,9 @@ using namespace std;
 
 // From bpp-seq:
 #include <Bpp/Seq/Alphabet.all>
+#include <Bpp/Seq/AlphabetIndex/UserAlphabetIndex1.h>
 #include <Bpp/Seq/Container/VectorSiteContainer.h>
+#include <Bpp/Seq/Container/SiteContainerTools.h>
 #include <Bpp/Seq/SiteTools.h>
 #include <Bpp/Seq/App/SequenceApplicationTools.h>
 
@@ -61,11 +63,8 @@ using namespace std;
 #include <Bpp/Phyl/OptimizationTools.h>
 #include <Bpp/Phyl/Io/Newick.h>
 #include <Bpp/Phyl/Io/Nhx.h>
-#include <Bpp/Phyl/Model/JCnuc.h>
-#include <Bpp/Phyl/Model/HKY85.h>
-#include <Bpp/Phyl/Model/JCprot.h>
-#include <Bpp/Phyl/Model/CodonRateSubstitutionModel.h>
-#include <Bpp/Phyl/Model/YN98.h>
+#include <Bpp/Phyl/Io/BppOSubstitutionModelFormat.h>
+#include <Bpp/Phyl/Model.all>
 #include <Bpp/Phyl/Model/SubstitutionModelSet.h>
 #include <Bpp/Phyl/Model/SubstitutionModelSetTools.h>
 
@@ -99,114 +98,30 @@ void help()
   (*ApplicationTools::message << "__________________________________________________________________________").endLine();
 }
 
-vector< vector<unsigned int> > getCountsPerBranch(
-    DRTreeLikelihood& drtl,
-    const vector<int>& ids,
-    SubstitutionModel* model,
-    const SubstitutionRegister& reg,
-    bool stationarity = true,
-    double threshold = -1)
-{
-  auto_ptr<SubstitutionCount> count(new UniformizationSubstitutionCount(model, reg.clone()));
-  //SubstitutionCount* count = new SimpleSubstitutionCount(reg);
-  const CategorySubstitutionRegister* creg = 0;
-  if (!stationarity) {
-    try {
-      creg = &dynamic_cast<const CategorySubstitutionRegister&>(reg);
-    } catch (Exception& ex) {
-      throw Exception("The stationarity option can only be used with a category substitution register.");
-    }
-  }
-  
-  auto_ptr<ProbabilisticSubstitutionMapping> mapping(SubstitutionMappingTools::computeSubstitutionVectors(drtl, *count, false));
-  vector< vector<unsigned int> > counts(ids.size());
-  unsigned int nbSites = mapping->getNumberOfSites();
-  unsigned int nbTypes = mapping->getNumberOfSubstitutionTypes();
-  for (size_t k = 0; k < ids.size(); ++k) {
-    //vector<double> countsf = SubstitutionMappingTools::computeSumForBranch(*mapping, mapping->getNodeIndex(ids[i]));
-    vector<double> countsf(nbTypes, 0);
-    vector<double> tmp(nbTypes, 0);
-    unsigned int nbIgnored = 0;
-    bool error = false;
-    for (unsigned int i = 0; !error && i < nbSites; ++i) {
-      double s = 0;
-      for (unsigned int t = 0; t < nbTypes; ++t) {
-        tmp[t] = (*mapping)(k, i, t);
-        error = isnan(tmp[t]);
-        if (error)
-          goto ERROR;
-        s += tmp[t];
-      }
-      if (threshold >= 0) {
-        if (s <= threshold)
-          countsf += tmp;
-        else {
-          nbIgnored++;
-        }
-      } else {
-        countsf += tmp;
-      }
-    }
-
-ERROR:
-    if (error) {
-      //We do nothing. This happens for small branches.
-      ApplicationTools::displayWarning("On branch " + TextTools::toString(ids[k]) + ", counts could not be computed.");
-      for (unsigned int t = 0; t < nbTypes; ++t)
-        countsf[t] = 0;
-    } else {
-      if (nbIgnored > 0) {
-        ApplicationTools::displayWarning("On branch " + TextTools::toString(ids[k]) + ", " + TextTools::toString(nbIgnored) + " sites (" + TextTools::toString(ceil(static_cast<double>(nbIgnored * 100) / static_cast<double>(nbSites))) + "%) have been ignored because they are presumably saturated.");
-      }
-
-      if (!stationarity) {
-        vector<double> freqs = DRTreeLikelihoodTools::getPosteriorStateFrequencies(drtl, ids[k]);
-        //Compute frequencies for types:
-        vector<double> freqsTypes(creg->getNumberOfCategories());
-        for (size_t i = 0; i < freqs.size(); ++i) {
-          unsigned int c = creg->getCategory(static_cast<int>(i));
-          freqsTypes[c - 1] += freqs[i];
-        }
-        //We devide the counts by the frequencies and rescale:
-        double s = VectorTools::sum(countsf);
-        for (unsigned int t = 0; t < nbTypes; ++t) {
-          countsf[t] /= freqsTypes[creg->getCategoryFrom(t + 1) - 1];
-        }
-        double s2 = VectorTools::sum(countsf);
-        //Scale:
-        countsf = (countsf / s2) * s;
-      }
-    }
-
-    counts[k].resize(countsf.size());
-    for (size_t j = 0; j < countsf.size(); ++j) {
-      counts[k][j] = static_cast<unsigned int>(floor(countsf[j] + 0.5)); //Round counts
-    }
-  }
-  return counts;
-}
-
 
 void buildCountTree(
-    const vector< vector<unsigned int> >& counts,
-    const vector<int>& ids,
-    Tree* cTree, 
-    unsigned int type)
+  const vector< vector<double> >& counts,
+  const vector<int>& ids,
+  Tree* cTree,
+  size_t type)
 {
-  for (size_t i = 0; i < ids.size(); ++i) {
-    if (cTree->hasFather(ids[i])) {
+  for (size_t i = 0; i < ids.size(); ++i)
+  {
+    if (cTree->hasFather(ids[i]))
+    {
       cTree->setDistanceToFather(ids[i], counts[i][type]);
     }
   }
 }
 
 
-int main(int args, char ** argv)
+int main(int args, char** argv)
 {
   cout << "******************************************************************" << endl;
-  cout << "*                     Map NH, version 0.1.0                      *" << endl;
+  cout << "*                     Map NH, version 0.2.0                      *" << endl;
   cout << "* Authors: J. Dutheil                       Created on  09/12/10 *" << endl;
-  cout << "*          B. Boussau                       Last Modif. 17/12/11 *" << endl;
+  cout << "*          B. Boussau                       Modif. 17/12/11      *" << endl;
+  cout << "*          L. Guéguen                       Last Modif. 17/06/13 *" << endl;
   cout << "******************************************************************" << endl;
   cout << endl;
 
@@ -215,256 +130,475 @@ int main(int args, char ** argv)
     help();
     exit(0);
   }
-  
-  try {
 
-  BppApplication mapnh(args, argv, "MapNH");
-  mapnh.startTimer();
+  try
+  {
+    BppApplication mapnh(args, argv, "MapNH");
+    mapnh.startTimer();
 
-  Alphabet* alphabet = SequenceApplicationTools::getAlphabet(mapnh.getParams(), "", false);
-  VectorSiteContainer* allSites = SequenceApplicationTools::getSiteContainer(alphabet, mapnh.getParams());
-  VectorSiteContainer* sites = SequenceApplicationTools::getSitesToAnalyse(*allSites, mapnh.getParams());
-  delete allSites;
+    Alphabet* alphabet = SequenceApplicationTools::getAlphabet(mapnh.getParams(), "", false);
+    auto_ptr<GeneticCode> gCode;
+    CodonAlphabet* codonAlphabet = dynamic_cast<CodonAlphabet*>(alphabet);
+    if (codonAlphabet) {
+      string codeDesc = ApplicationTools::getStringParameter("genetic_code", mapnh.getParams(), "Standard", "", true, true);
+      ApplicationTools::displayResult("Genetic Code", codeDesc);
+      
+      gCode.reset(SequenceApplicationTools::getGeneticCode(codonAlphabet->getNucleicAlphabet(), codeDesc));
+    }
 
-  ApplicationTools::displayResult("Number of sequences", TextTools::toString(sites->getNumberOfSequences()));
-  ApplicationTools::displayResult("Number of sites", TextTools::toString(sites->getNumberOfSites()));
-  
-  //Get the initial tree
-  Tree* tree = PhylogeneticsApplicationTools::getTree(mapnh.getParams());
-  ApplicationTools::displayResult("Number of leaves", TextTools::toString(tree->getNumberOfLeaves()));
-  //Convert to NHX if input tree is newick or nexus?
-  string treeIdOut = ApplicationTools::getAFilePath("output.tree_with_id.file", mapnh.getParams(), false, false);
-  if (treeIdOut != "none") {
-    Nhx nhx(true);
-    nhx.write(*tree, treeIdOut);
-  }
+    VectorSiteContainer* allSites = SequenceApplicationTools::getSiteContainer(alphabet, mapnh.getParams());
+    VectorSiteContainer* sites = SequenceApplicationTools::getSitesToAnalyse(*allSites, mapnh.getParams());
+    delete allSites;
 
-  //Perform the mapping:
-  SubstitutionRegister* reg = 0;
-  string regTypeDesc = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "All", "", true, false);
-  string regType = "";
-  map<string, string> regArgs;
-  KeyvalTools::parseProcedure(regTypeDesc, regType, regArgs);
-  auto_ptr<GeneticCode> geneticCode;
-  bool stationarity = true;
-  if (regType == "All") {
-    stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
-    reg = new ComprehensiveSubstitutionRegister(alphabet, false);
-  }
-  else if (regType == "GC") {
-    if (AlphabetTools::isNucleicAlphabet(alphabet)) {
-      stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
-      reg = new GCSubstitutionRegister(dynamic_cast<NucleicAlphabet*>(alphabet), false);
-    } else
-      throw Exception("GC categorization is only available for nucleotide alphabet!");
-  } else if (regType == "TsTv") {
-    if (AlphabetTools::isNucleicAlphabet(alphabet))
-      reg = new TsTvSubstitutionRegister(dynamic_cast<NucleicAlphabet*>(alphabet));
-    else
-      throw Exception("TsTv categorization is only available for nucleotide alphabet!");
-  } else if (regType == "DnDs") {
-    if (AlphabetTools::isCodonAlphabet(alphabet)) {
-      string code = regArgs["code"];
-      if (TextTools::isEmpty(code)) {
-        code = "Standard";
-        ApplicationTools::displayWarning("No genetic code provided, standard code used.");
-      }
-      geneticCode.reset(SequenceApplicationTools::getGeneticCode(dynamic_cast<CodonAlphabet*>(alphabet)->getNucleicAlphabet(), code));
-      reg = new DnDsSubstitutionRegister(geneticCode.get(), false);
-    } else
-      throw Exception("DnDs categorization is only available for nucleic alphabet!");
-  } else
-    throw Exception("Unsupported substitution categorization: " + regType);
+    ApplicationTools::displayResult("Number of sequences", TextTools::toString(sites->getNumberOfSequences()));
+    ApplicationTools::displayResult("Number of sites", TextTools::toString(sites->getNumberOfSites()));
 
-  //Now perform mapping:
-  string nhOpt = ApplicationTools::getStringParameter("nonhomogeneous", mapnh.getParams(), "no", "", true, false);
-  ApplicationTools::displayResult("Heterogeneous model", nhOpt);
+    // Get the initial tree
+    Tree* tree = PhylogeneticsApplicationTools::getTree(mapnh.getParams());
+    ApplicationTools::displayResult("Number of leaves", TextTools::toString(tree->getNumberOfLeaves()));
+    // Convert to NHX if input tree is newick or nexus?
+    string treeIdOut = ApplicationTools::getAFilePath("output.tree_with_id.file", mapnh.getParams(), false, false);
+    if (treeIdOut != "none")
+    {
+      Nhx nhx(true);
+      nhx.write(*tree, treeIdOut);
+    }
 
-  DRTreeLikelihood     *drtl     = 0;
-  SubstitutionModel    *model    = 0;
-  SubstitutionModelSet *modelSet = 0;
-  DiscreteDistribution *rDist    = 0;
+    //
+    // Get substitution model and compute likelihood arrays
+    //
 
-  if (nhOpt == "no")
-  { 
-    if (ApplicationTools::parameterExists("model", mapnh.getParams())) {
-      model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, mapnh.getParams());
-      if (model->getName() != "RE08") SiteContainerTools::changeGapsToUnknownCharacters(*sites);
-      if(model->getNumberOfStates() > model->getAlphabet()->getSize())
+    string nhOpt = ApplicationTools::getStringParameter("nonhomogeneous", mapnh.getParams(), "no", "", true, false);
+    ApplicationTools::displayResult("Heterogeneous model", nhOpt);
+
+    DRTreeLikelihood* drtl     = 0;
+    SubstitutionModel* model    = 0;
+    SubstitutionModelSet* modelSet = 0;
+    DiscreteDistribution* rDist    = 0;
+
+    if (nhOpt == "no")
+    {
+      model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, mapnh.getParams());
+      if (model->getName() != "RE08")
+        SiteContainerTools::changeGapsToUnknownCharacters(*sites);
+      if (model->getNumberOfStates() > model->getAlphabet()->getSize())
       {
-        //Markov-modulated Markov model!
-        rDist = new ConstantDistribution(1., true);
+        // Markov-modulated Markov model!
+        rDist = new ConstantRateDistribution();
       }
       else
       {
         rDist = PhylogeneticsApplicationTools::getRateDistribution(mapnh.getParams());
       }
-    } else {
-      if (AlphabetTools::isNucleicAlphabet(alphabet)) {
-        model = new JCnuc(dynamic_cast<NucleicAlphabet*>(alphabet));
-      } else if (AlphabetTools::isProteicAlphabet(alphabet)) {
-        model = new JCprot(dynamic_cast<ProteicAlphabet*>(alphabet));
-      } else if (AlphabetTools::isCodonAlphabet(alphabet)) {
-        model = new CodonRateSubstitutionModel(
-            dynamic_cast<const CodonAlphabet*>(geneticCode->getSourceAlphabet()),
-            new JCnuc(dynamic_cast<CodonAlphabet*>(alphabet)->getNucleicAlphabet()));
-      } else
-        throw Exception("Unsupported alphabet!");
-      rDist = new ConstantDistribution(1., true);
+      
+      drtl = new DRHomogeneousTreeLikelihood(*tree, *sites, model, rDist, false, false);
     }
-    drtl = new DRHomogeneousTreeLikelihood(*tree, *sites, model, rDist, false, false);
-  }
-  else if (nhOpt == "one_per_branch")
-  {
-    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, sites, mapnh.getParams());
-    if (model->getName() != "RE08") SiteContainerTools::changeGapsToUnknownCharacters(*sites);
-    if (model->getNumberOfStates() > model->getAlphabet()->getSize())
+    else if (nhOpt == "one_per_branch")
     {
-      //Markov-modulated Markov model!
-      rDist = new ConstantDistribution(1., true);
+      model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, mapnh.getParams());
+      if (model->getName() != "RE08")
+        SiteContainerTools::changeGapsToUnknownCharacters(*sites);
+      if (model->getNumberOfStates() > model->getAlphabet()->getSize())
+      {
+        // Markov-modulated Markov model!
+        rDist = new ConstantRateDistribution();
+      }
+      else
+      {
+        rDist = PhylogeneticsApplicationTools::getRateDistribution(mapnh.getParams());
+      }
+      vector<double> rateFreqs;
+      if (model->getNumberOfStates() != alphabet->getSize())
+      {
+        // Markov-Modulated Markov Model...
+        size_t n = (size_t)(model->getNumberOfStates() / alphabet->getSize());
+        rateFreqs = vector<double>(n, 1. / static_cast<double>(n)); // Equal rates assumed for now, may be changed later (actually, in the most general case,
+        // we should assume a rate distribution for the root also!!!
+      }
+      FrequenciesSet* rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, gCode.get(), sites, mapnh.getParams(), rateFreqs);
+      vector<string> globalParameters = ApplicationTools::getVectorParameter<string>("nonhomogeneous_one_per_branch.shared_parameters", mapnh.getParams(), ',', "");
+      modelSet = SubstitutionModelSetTools::createNonHomogeneousModelSet(model, rootFreqs, tree, globalParameters);
+      drtl = new DRNonHomogeneousTreeLikelihood(*tree, *sites, modelSet, rDist, false, false);
+    }
+    else if (nhOpt == "general")
+    {
+      modelSet = PhylogeneticsApplicationTools::getSubstitutionModelSet(alphabet, gCode.get(), sites, mapnh.getParams());
+      model = modelSet->getModel(0);
+      if (modelSet->getModel(0)->getName() != "RE08")
+        SiteContainerTools::changeGapsToUnknownCharacters(*sites);
+      if (modelSet->getNumberOfStates() > modelSet->getAlphabet()->getSize())
+      {
+        // Markov-modulated Markov model!
+        rDist = new ConstantDistribution(1.);
+      }
+      else
+      {
+        rDist = PhylogeneticsApplicationTools::getRateDistribution(mapnh.getParams());
+      }
+      drtl = new DRNonHomogeneousTreeLikelihood(*tree, *sites, modelSet, rDist, false, false);
     }
     else
-    {
-      rDist = PhylogeneticsApplicationTools::getRateDistribution(mapnh.getParams());
-    }
-    vector<double> rateFreqs;
-    if (model->getNumberOfStates() != alphabet->getSize())
-    {
-      //Markov-Modulated Markov Model...
-      unsigned int n =(unsigned int)(model->getNumberOfStates() / alphabet->getSize());
-      rateFreqs = vector<double>(n, 1./static_cast<double>(n)); // Equal rates assumed for now, may be changed later (actually, in the most general case,
-                                                   // we should assume a rate distribution for the root also!!!  
-    }
-    FrequenciesSet* rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, sites, mapnh.getParams(), rateFreqs);
-    vector<string> globalParameters = ApplicationTools::getVectorParameter<string>("nonhomogeneous_one_per_branch.shared_parameters", mapnh.getParams(), ',', "");
-    modelSet = SubstitutionModelSetTools::createNonHomogeneousModelSet(model, rootFreqs, tree, globalParameters); 
-    model = 0;
-    drtl = new DRNonHomogeneousTreeLikelihood(*tree, *sites, modelSet, rDist, false, false);
-  }
-  else if (nhOpt == "general")
-  {
-    modelSet = PhylogeneticsApplicationTools::getSubstitutionModelSet(alphabet, sites, mapnh.getParams());
-    if (modelSet->getModel(0)->getName() != "RE08") SiteContainerTools::changeGapsToUnknownCharacters(*sites);
-    if (modelSet->getNumberOfStates() > modelSet->getAlphabet()->getSize())
-    {
-      //Markov-modulated Markov model!
-      rDist = new ConstantDistribution(1.);
-    }
-    else
-    {
-      rDist = PhylogeneticsApplicationTools::getRateDistribution(mapnh.getParams());
-    }
-    drtl = new DRNonHomogeneousTreeLikelihood(*tree, *sites, modelSet, rDist, false, false);
-  }
-  else throw Exception("Unknown option for nonhomogeneous: " + nhOpt);
-  drtl->initialize();
+      throw Exception("Unknown option for nonhomogeneous: " + nhOpt);
+    drtl->initialize();
 
-  //Optimization of parameters:
-  //PhylogeneticsApplicationTools::optimizeParameters(&drtl, drtl.getParameters(), mapnh.getParams(), "", true, true);
-  
-  vector<int> ids = drtl->getTree().getNodesId();
-  ids.pop_back(); //remove root id.
-  vector< vector<unsigned int> > counts;
-  double thresholdSat = ApplicationTools::getDoubleParameter("count.max", mapnh.getParams(), -1);
-  if (thresholdSat > 0)
-    ApplicationTools::displayResult("Saturation threshold used", thresholdSat);
-  counts = getCountsPerBranch(*drtl, ids, model ? model : modelSet->getModel(0), *reg, stationarity, thresholdSat);
+    ApplicationTools::displayResult("Log-Likelihood", drtl->getLogLikelihood());
 
-  //Write count trees:
-  string treePathPrefix = ApplicationTools::getStringParameter("output.counts.tree.prefix", mapnh.getParams(), "none");
-  if (treePathPrefix != "none") {
-    Newick newick;
-    for (unsigned int i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i) {
-      string path = treePathPrefix + TextTools::toString(i + 1) + string(".dnd");
-      ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
-      Tree* cTree = tree->clone();
-      buildCountTree(counts, ids, cTree, i);
-      newick.write(*cTree, path);
-      delete cTree;
-    }
-  }
-
-  //Global homogeneity test:
-  bool testGlobal = ApplicationTools::getBooleanParameter("test.global", mapnh.getParams(), true, "", true, false);
-  if (testGlobal) {
-    vector< vector<unsigned int> > counts2 = counts; 
-    //Check if some branches are 0:
-    for (size_t i = counts2.size(); i > 0; --i) {
-      if (VectorTools::sum(counts2[i - 1]) == 0) {
-        ApplicationTools::displayResult("Remove branch with no substitution", ids[i - 1]);
-        counts2.erase(counts2.begin() + i - 1);
-        //ids.erase(ids.begin() + i - 1);
+    //Check for saturation:
+    double ll = drtl->getValue();
+    if (isinf(ll))
+    {
+      ApplicationTools::displayError("!!! Unexpected initial likelihood == 0.");
+      if (codonAlphabet)
+      {
+        bool f = false;
+        size_t s;
+        for (size_t i = 0; i < sites->getNumberOfSites(); i++) {
+          if (isinf(drtl->getLogLikelihoodForASite(i))) {
+            const Site& site = sites->getSite(i);
+            s = site.size();
+            for (size_t j = 0; j < s; j++) {
+              if (gCode->isStop(site.getValue(j))) {
+                (*ApplicationTools::error << "Stop Codon at site " << site.getPosition() << " in sequence " << sites->getSequence(j).getName()).endLine();
+                f = true;
+              }
+            }
+          }
+        }
+        if (f)
+          exit(-1);
+      }
+      bool removeSaturated = ApplicationTools::getBooleanParameter("input.sequence.remove_saturated_sites", mapnh.getParams(), false, "", true, 1);
+      if (!removeSaturated) {
+        ofstream debug ("DEBUG_likelihoods.txt", ios::out);
+        for (size_t i = 0; i < sites->getNumberOfSites(); i++)
+        {
+          debug << "Position " << sites->getSite(i).getPosition() << " = " << drtl->getLogLikelihoodForASite(i) << endl; 
+        }
+        debug.close();
+        ApplicationTools::displayError("!!! Site-specific likelihood have been written in file DEBUG_likelihoods.txt .");
+        ApplicationTools::displayError("!!! 0 values (inf in log) may be due to computer overflow, particularily if datasets are big (>~500 sequences).");
+        ApplicationTools::displayError("!!! You may want to try input.sequence.remove_saturated_sites = yes to ignore positions with likelihood 0.");
+        exit(1);
+      } else {
+        for (size_t i = sites->getNumberOfSites(); i > 0; --i) {
+          if (isinf(drtl->getLogLikelihoodForASite(i - 1))) {
+            ApplicationTools::displayResult("Ignore saturated site", sites->getSite(i - 1).getPosition());
+            sites->deleteSite(i - 1);
+          }
+        }
+        ApplicationTools::displayResult("Number of sites retained", sites->getNumberOfSites());
+        drtl->setData(*sites);
+        drtl->initialize();
+        ll = drtl->getValue();
+        if (isinf(ll)) {
+          throw Exception("Likelihood is still 0 after saturated sites are removed! Looks like a bug...");
+        }
+        ApplicationTools::displayResult("Initial log likelihood", TextTools::toString(-ll, 15));
       }
     }
-    ApplicationTools::displayResult("Nb. of branches included in test", counts2.size());
     
-    ContingencyTableTest test(counts2, 2000);
-    ApplicationTools::displayResult("Global Chi2", test.getStatistic());
-    ApplicationTools::displayResult("Global Chi2, p-value", test.getPValue());
-    double pvalue = SimpleSubstitutionCountsComparison::multinomialTest(counts2);
-    ApplicationTools::displayResult("Global heterogeneity test p-value", pvalue);
-  }
+    //
+    // Initialize the parameters for the mapping:
+    //
 
-  //Branch test!
-  bool testBranch = ApplicationTools::getBooleanParameter("test.branch", mapnh.getParams(), false, "", true, false);
-  if (testBranch) {
-    bool testNeighb = ApplicationTools::getBooleanParameter("test.branch.neighbor", mapnh.getParams(), true, "", true, false);
-    bool testNegBrL = ApplicationTools::getBooleanParameter("test.branch.negbrlen", mapnh.getParams(), false, "", true, false);
-    ApplicationTools::displayBooleanResult("Perform branch clustering", testBranch);
-    ApplicationTools::displayBooleanResult("Cluster only neighbor nodes", testNeighb);
-    ApplicationTools::displayBooleanResult("Allow len < 0 in clustering", testNegBrL);
-    string autoClustDesc = ApplicationTools::getStringParameter("test.branch.auto_cluster", mapnh.getParams(), "Global(threshold=0)");
-    string autoClustName;
-    map<string, string> autoClustParam;
-    KeyvalTools::parseProcedure(autoClustDesc, autoClustName, autoClustParam);
-    ApplicationTools::displayResult("Auto-clustering", autoClustName);
-    auto_ptr<AutomaticGroupingCondition> autoClust;
-    if (autoClustName == "None") {
-      autoClust.reset(new NoAutomaticGroupingCondition());
-    } else if (autoClustName == "Global") {
-      double threshold = ApplicationTools::getParameter<unsigned int>("threshold", autoClustParam, 0);
-      ApplicationTools::displayResult("Auto-clutering threshold", threshold);
-      CategorySubstitutionRegister* creg = dynamic_cast<CategorySubstitutionRegister*>(reg);
-      vector<size_t> ignore;
-      if (creg && creg->allowWithin()) {
-        unsigned int n = creg->getNumberOfCategories();
-        for (unsigned int i = 0; i < n; ++i) {
-          ignore.push_back(n * (n - 1) + i);
+    SubstitutionRegister* reg = 0;
+    string regTypeDesc = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "All", "", true, false);
+    string regType = "";
+    map<string, string> regArgs;
+    KeyvalTools::parseProcedure(regTypeDesc, regType, regArgs);
+    bool stationarity = true;
+    if (regType == "All")
+    {
+      stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
+      reg = new ComprehensiveSubstitutionRegister(model, false);
+    }
+    else if (regType == "Total")
+    {
+      reg = new TotalSubstitutionRegister(model);
+    }    
+    else if (regType == "Selected"){  
+      string subsList = ApplicationTools::getStringParameter("substitution.list", mapnh.getParams(), "All", "", true, false);
+      reg = new SelectedSubstitutionRegister(model, subsList);  
+    }
+    else if (regType == "IntraAA")
+    {
+      if (AlphabetTools::isCodonAlphabet(alphabet))
+      {
+        reg = new AAInteriorSubstitutionRegister(dynamic_cast<CodonSubstitutionModel*>(model)); 
+      }
+      else
+        throw Exception("Internal amino-acid categorization is only available for codon alphabet!");
+    }
+    else if (regType == "InterAA")
+    {
+      if (AlphabetTools::isCodonAlphabet(alphabet))
+      {
+        reg = new AAExteriorSubstitutionRegister(dynamic_cast<CodonSubstitutionModel*>(model)); 
+      }
+      else
+        throw Exception("External amino-acid categorization is only available for codon alphabet!");
+    }
+    else if (regType == "GC")
+    {
+      stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
+      if (AlphabetTools::isNucleicAlphabet(alphabet))
+        reg = new GCSubstitutionRegister(dynamic_cast<NucleotideSubstitutionModel*>(model), false);
+      else if (AlphabetTools::isCodonAlphabet(alphabet))
+      {
+        reg = new GCSynonymousSubstitutionRegister(dynamic_cast<CodonSubstitutionModel*>(model));
+      }
+      else
+        throw Exception("GC categorization is only available for nucleotide or codon alphabets!");
+    }
+    else if (regType == "TsTv")
+    {
+      if (AlphabetTools::isNucleicAlphabet(alphabet))
+        reg = new TsTvSubstitutionRegister(dynamic_cast<NucleotideSubstitutionModel*>(model));
+      throw Exception("TsTv categorization is only available for nucleotide alphabet!");
+    }
+
+    else if (regType == "DnDs")
+    {
+      if (AlphabetTools::isCodonAlphabet(alphabet))
+      {
+        reg = new DnDsSubstitutionRegister(dynamic_cast<CodonSubstitutionModel*>(model), false);
+      }
+      else
+        throw Exception("DnDs categorization is only available for codon alphabet!");
+    }
+    else
+      throw Exception("Unsupported substitution categorization: " + regType);
+
+    //Write categories:
+    for (size_t i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i)
+      ApplicationTools::displayResult("  * Count type " + TextTools::toString(i + 1), reg->getTypeName(i + 1));
+
+    // specific parameters to the null models
+    string nullModelParams = ApplicationTools::getStringParameter("nullModelParams", mapnh.getParams(), "");
+
+    ParameterList nullParams;
+    if (nullModelParams != "")
+    {
+      string modelName = "";
+      map<string, string> npv;
+      KeyvalTools::multipleKeyvals(nullModelParams, npv, ",", false);
+
+      map<string, string>::iterator mi(npv.begin());
+      while (mi != npv.end())
+      {
+        nullParams.addParameter(Parameter(mi->first, TextTools::toDouble(mi->second)));
+        ApplicationTools::displayResult("null Parameter " + mi->first, mi->second);
+        
+        mi++;
+      }
+    }
+
+ 
+    //
+    // Performs mapping
+    //
+
+    vector<int> ids = drtl->getTree().getNodesId();
+    ids.pop_back(); // remove root id.
+    vector< vector<double> > counts;
+    double thresholdSat = ApplicationTools::getDoubleParameter("count.max", mapnh.getParams(), -1);
+    if (thresholdSat > 0)
+      ApplicationTools::displayResult("Saturation threshold used", thresholdSat);
+
+    if (nullModelParams != "")
+    {
+      if (model)
+      {
+        auto_ptr<SubstitutionModel> nullModel(model->clone());
+        
+        ParameterList pl;
+        const ParameterList pl0 = nullModel->getParameters();
+        
+        for (size_t i = 0; i < nullParams.size(); ++i)
+        {
+          vector<string> pn = pl0.getMatchingParameterNames(nullParams[i].getName());
+          for (size_t j = 0; j < pn.size(); ++j)
+          {
+            pl.addParameter(Parameter(pn[j], nullParams[i].getValue()));
+          }
+        }
+
+        nullModel->matchParametersValues(pl);
+        
+        counts = SubstitutionMappingTools::getNormalizedCountsPerBranch(*drtl, ids, model, nullModel.get(), *reg, true);
+      }
+      else
+      {
+        auto_ptr<SubstitutionModelSet> nullModelSet(modelSet->clone());
+        ParameterList pl;
+        const ParameterList pl0 = nullModelSet->getParameters();
+
+        for (size_t i = 0; i < nullParams.size(); ++i)
+        {
+          vector<string> pn = pl0.getMatchingParameterNames(nullParams[i].getName());
+          for (size_t j = 0; j < pn.size(); ++j)
+          {
+            pl.addParameter(Parameter(pn[j], nullParams[i].getValue()));
+          }
+        }
+
+        nullModelSet->matchParametersValues(pl);
+
+        counts = SubstitutionMappingTools::getNormalizedCountsPerBranch(*drtl, ids, modelSet, nullModelSet.get(), *reg, true);
+      }
+    }
+    else
+      counts = SubstitutionMappingTools::getRelativeCountsPerBranch(*drtl, ids, model ? model : modelSet->getModel(0), *reg, stationarity, thresholdSat);
+
+    vector<string> outputDesc = ApplicationTools::getVectorParameter<string>("output.counts", mapnh.getParams(), ',', "PerType(prefix=)");
+    for (vector<string>::iterator it = outputDesc.begin(); it != outputDesc.end(); ++it) {
+      string outputType;
+      map<string, string> outputArgs;
+      KeyvalTools::parseProcedure(*it, outputType, outputArgs);
+      if (outputType == "PerType")
+      {
+        // Write count trees:
+        string treePathPrefix = ApplicationTools::getStringParameter("prefix", outputArgs, "mapping_counts_per_type_", "", true, 1);
+        if (treePathPrefix != "none")
+        {
+          Newick newick;
+          for (size_t i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i)
+          {
+            string path = treePathPrefix + TextTools::toString(i + 1) + string(".dnd");
+            ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
+            Tree* cTree = tree->clone();
+            buildCountTree(counts, ids, cTree, i);
+            newick.write(*cTree, path);
+            delete cTree;
+          }
         }
       }
-      autoClust.reset(new SumCountsAutomaticGroupingCondition(threshold, ignore));
-    } else if (autoClustName == "Marginal") {
-      double threshold = ApplicationTools::getParameter<unsigned int>("threshold", autoClustParam, 0);
-      ApplicationTools::displayResult("Auto-clutering threshold", threshold);
-      autoClust.reset(new AnyCountAutomaticGroupingCondition(threshold));
-    } else {
-      throw Exception("Unknown automatic clustering option: " + autoClustName);
+      else if (outputType == "PerSite")
+      {
+        string perSitenf = ApplicationTools::getStringParameter("file", outputArgs, "mapping_counts_per_site.txt", "", true, 1);
+        if (perSitenf != "none")
+        {
+          SubstitutionMappingTools::outputTotalCountsPerBranchPerSite(perSitenf, *drtl, ids, model ? model : modelSet->getModel(0), *reg);
+        }
+      }
+      else if (outputType == "PerSitePerType")
+      {
+        string tablePathPrefix = ApplicationTools::getStringParameter("prefix", outputArgs, "mapping_counts_per_site_per_type_", "", true, 1);
+        if (tablePathPrefix != "none")
+        {
+          SubstitutionMappingTools::outputIndividualCountsPerBranchPerSite(tablePathPrefix, *drtl, ids, model ? model : modelSet->getModel(0), *reg);
+        }
+      }
     }
 
-    //ChiClustering htest(counts, ids, true);
-    MultinomialClustering htest(counts, ids, drtl->getTree(), *autoClust, testNeighb, testNegBrL, true);
-    ApplicationTools::displayResult("P-value at root node", *(htest.getPValues().rbegin()));
-    ApplicationTools::displayResult("Number of tests performed", htest.getPValues().size());
-    TreeTemplate<Node>* htree = htest.getTree();
-    Newick newick;
-    string clusterTreeOut = ApplicationTools::getAFilePath("output.cluster_tree.file", mapnh.getParams(), false, false);
-    ApplicationTools::displayResult("Output cluster tree to", clusterTreeOut);
-    newick.write(*htree, clusterTreeOut);
-    delete htree;
-  }
+    // Rounded counts
+    vector< vector<size_t> > countsint;
+    for (size_t i = 0; i < counts.size(); i++)
+    {
+      vector<size_t> countsi2;
+      for (size_t j = 0; j < counts[i].size(); j++)
+      {
+        countsi2.push_back(static_cast<size_t>(floor( counts[i][j] + 0.5)));
+      }
+      countsint.push_back(countsi2);
+    }
 
-  //Cleaning up:
-  delete alphabet;
-  delete sites;
-  delete tree;
-  if (model)
-    delete model;
-  if (modelSet)
-    delete modelSet;
-  delete rDist;
-  delete reg;
-  mapnh.done();
 
+    // Global homogeneity test:
+    bool testGlobal = ApplicationTools::getBooleanParameter("test.global", mapnh.getParams(), true, "", true, false);
+    if (testGlobal)
+    {
+      vector< vector<size_t> > counts2 = countsint;
+
+      // Check if some branches are 0:
+      for (size_t i = counts2.size(); i > 0; --i)
+      {
+        if (VectorTools::sum(counts2[i - 1]) == 0)
+        {
+          ApplicationTools::displayResult("Remove branch with no substitution", ids[i - 1]);
+          counts2.erase(counts2.begin() + static_cast<ptrdiff_t>(i - 1));
+          // ids.erase(ids.begin() + i - 1);
+        }
+      }
+      ApplicationTools::displayResult("Nb. of branches included in test", counts2.size());
+
+
+      ContingencyTableTest test(counts2, 2000);
+      ApplicationTools::displayResult("Global Chi2", test.getStatistic());
+      ApplicationTools::displayResult("Global Chi2, p-value", test.getPValue());
+      double pvalue = SimpleSubstitutionCountsComparison::multinomialTest(counts2);
+      ApplicationTools::displayResult("Global heterogeneity test p-value", pvalue);
+    }
+
+    // Branch test!
+    bool testBranch = ApplicationTools::getBooleanParameter("test.branch", mapnh.getParams(), false, "", true, false);
+    if (testBranch)
+    {
+      bool testNeighb = ApplicationTools::getBooleanParameter("test.branch.neighbor", mapnh.getParams(), true, "", true, false);
+      bool testNegBrL = ApplicationTools::getBooleanParameter("test.branch.negbrlen", mapnh.getParams(), false, "", true, false);
+      ApplicationTools::displayBooleanResult("Perform branch clustering", testBranch);
+      ApplicationTools::displayBooleanResult("Cluster only neighbor nodes", testNeighb);
+      ApplicationTools::displayBooleanResult("Allow len < 0 in clustering", testNegBrL);
+      string autoClustDesc = ApplicationTools::getStringParameter("test.branch.auto_cluster", mapnh.getParams(), "Global(threshold=0)");
+      string autoClustName;
+      map<string, string> autoClustParam;
+      KeyvalTools::parseProcedure(autoClustDesc, autoClustName, autoClustParam);
+      ApplicationTools::displayResult("Auto-clustering", autoClustName);
+      auto_ptr<AutomaticGroupingCondition> autoClust;
+      if (autoClustName == "None")
+      {
+        autoClust.reset(new NoAutomaticGroupingCondition());
+      }
+      else if (autoClustName == "Global")
+      {
+        size_t threshold = ApplicationTools::getParameter<size_t>("threshold", autoClustParam, 0);
+        ApplicationTools::displayResult("Auto-clutering threshold", threshold);
+        CategorySubstitutionRegister* creg = dynamic_cast<CategorySubstitutionRegister*>(reg);
+        vector<size_t> ignore;
+        if (creg && creg->allowWithin())
+        {
+          size_t n = creg->getNumberOfCategories();
+          for (size_t i = 0; i < n; ++i)
+          {
+            ignore.push_back(n * (n - 1) + i);
+          }
+        }
+        autoClust.reset(new SumCountsAutomaticGroupingCondition(threshold, ignore));
+      }
+      else if (autoClustName == "Marginal")
+      {
+        size_t threshold = ApplicationTools::getParameter<size_t>("threshold", autoClustParam, 0);
+        ApplicationTools::displayResult("Auto-clutering threshold", threshold);
+        autoClust.reset(new AnyCountAutomaticGroupingCondition(threshold));
+      }
+      else
+      {
+        throw Exception("Unknown automatic clustering option: " + autoClustName);
+      }
+
+      // ChiClustering htest(counts, ids, true);
+      MultinomialClustering htest(countsint, ids, drtl->getTree(), *autoClust, testNeighb, testNegBrL, true);
+      ApplicationTools::displayResult("P-value at root node", *(htest.getPValues().rbegin()));
+      ApplicationTools::displayResult("Number of tests performed", htest.getPValues().size());
+      TreeTemplate<Node>* htree = htest.getTree();
+      Newick newick;
+      string clusterTreeOut = ApplicationTools::getAFilePath("output.cluster_tree.file", mapnh.getParams(), false, false);
+      ApplicationTools::displayResult("Output cluster tree to", clusterTreeOut);
+      newick.write(*htree, clusterTreeOut);
+      delete htree;
+    }
+
+    // Cleaning up:
+    delete alphabet;
+    delete sites;
+    delete tree;
+    if (modelSet)
+      delete modelSet;
+    else
+      delete model;
+    delete rDist;
+    delete reg;
+    mapnh.done();
   }
   catch (exception& e)
   {
@@ -472,5 +606,5 @@ int main(int args, char ** argv)
     exit(-1);
   }
 
-  return (0);
+  return 0;
 }

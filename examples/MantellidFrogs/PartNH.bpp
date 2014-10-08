@@ -29,15 +29,15 @@ alphabet = Codon(letter=DNA, type=InvertebrateMitochondrial)
 input.sequence.file = $(DATA).faln
 input.sequence.format = Fasta
 input.sequence.sites_to_use = all
+input.sequence.max_gap_allowed =100%
 # Remove stop codons
 input.sequence.remove_stop_codons=yes
 
 
-
-model = YN98(genetic_code=InvertebrateMitochondrial, frequencies=F3X4, omega=0.5, kappa=2, initFreqs=observed)
-rate_distribution = Uniform #Gamma(n=4, alpha=0.5)
+model = YN98(genetic_code=InvertebrateMitochondrial, frequencies=F3X4, omega=0.5, kappa=2, initFreqs=observed, initFreqs.observedPseudoCount=0)
+rate_distribution = Constant #Gamma(n=4, alpha=0.5)
 nonhomogeneous.root_freq = None 
-nonhomogeneous.shared_parameters = YN98.kappa, YN98.freq* 
+nonhomogeneous.shared_parameters = YN98.kappa, YN98.1_Full.theta*, YN98.2_Full.theta*, YN98.3_Full.theta*
 
 #How to optimize parameters when fitting models:
 optimization.reparametrization = no
@@ -46,7 +46,7 @@ optimization.max_number_f_eval = 1000
 optimization.tolerance = 0.000001
 optimization.profiler = $(DATA).$(METHOD).profile
 optimization.message_handler = $(DATA).$(METHOD).message
-optimization.ignore_parameter = YN98.freq*
+optimization.ignore_parameter = YN98.1_Full.theta*, YN98.2_Full.theta*, YN98.3_Full.theta*
 
 #Where to write optimal model (for later use with bppSeqGen or bppAncestor for instance):
 output.model.file = 
