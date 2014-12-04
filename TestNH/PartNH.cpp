@@ -224,8 +224,13 @@ SubstitutionModelSet* buildModelSetFromPartitions(
 
 ParameterList getParametersToEstimate(const DRTreeLikelihood* drtl, map<string, string>& params) {
   // Should I ignore some parameters?
+
+  if (params.find("optimization.ignore_parameter") != params.end())
+    throw Exception("optimization.ignore_parameter is deprecated, use optimization.ignore_parameters instead!");
+  
   ParameterList parametersToEstimate = drtl->getParameters();
-  string paramListDesc = ApplicationTools::getStringParameter("optimization.ignore_parameter", params, "", "", true, false);
+  vector<string> parNames = parametersToEstimate.getParameterNames();
+  string paramListDesc = ApplicationTools::getStringParameter("optimization.ignore_parameters", params, "", "", true, false);
   StringTokenizer st(paramListDesc, ",");
   while (st.hasMoreToken())
   {
@@ -241,13 +246,8 @@ ParameterList getParametersToEstimate(const DRTreeLikelihood* drtl, map<string, 
       }
       else if ((starpos = param.find("*")) != string::npos)
       {
-        string pref = param.substr(0, starpos);
-        vector<string> vs;
-        for (size_t j = 0; j < parametersToEstimate.size(); j++)
-        {
-          if (parametersToEstimate[j].getName().find(pref) == 0)
-            vs.push_back(parametersToEstimate[j].getName());
-        }
+        vector<string> vs = ApplicationTools::matchingParameters(param, parNames);
+        
         for (vector<string>::iterator it = vs.begin(); it != vs.end(); it++)
         {
           parametersToEstimate.deleteParameter(*it);
@@ -265,6 +265,7 @@ ParameterList getParametersToEstimate(const DRTreeLikelihood* drtl, map<string, 
       ApplicationTools::displayWarning("Parameter '" + pnfe.getParameter() + "' not found, and so can't be ignored!");
     }
   }
+
   return parametersToEstimate;
 }
 
@@ -307,9 +308,9 @@ void outputHModel(const string& modelPath, double likelihood, const Substitution
 int main(int args, char ** argv)
 {
   cout << "******************************************************************" << endl;
-  cout << "*                     PartNH, version 0.1.0                      *" << endl;
+  cout << "*                     PartNH, version 1.1.1                      *" << endl;
   cout << "* Authors: J. Dutheil                       Created on  09/12/10 *" << endl;
-  cout << "*          B. Boussau                       Last Modif. 08/04/11 *" << endl;
+  cout << "*          B. Boussau                       Last Modif. 24/11/14 *" << endl;
   cout << "******************************************************************" << endl;
   cout << endl;
 
