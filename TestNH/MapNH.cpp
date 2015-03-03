@@ -358,7 +358,12 @@ int main(int args, char** argv)
         reg = new TsTvSubstitutionRegister(dynamic_cast<NucleotideSubstitutionModel*>(model));
       throw Exception("TsTv categorization is only available for nucleotide alphabet!");
     }
-
+    else if (regType == "KrKc")
+    {
+      if (AlphabetTools::isProteicAlphabet(alphabet))
+        reg = new KrKcSubstitutionRegister(dynamic_cast<ProteinSubstitutionModel*>(model));
+      throw Exception("TsTv categorization is only available for amino acid alphabet!");
+    }
     else if (regType == "DnDs")
     {
       if (AlphabetTools::isCodonAlphabet(alphabet))
