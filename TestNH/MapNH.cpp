@@ -140,7 +140,7 @@ int main(int args, char** argv)
     auto_ptr<GeneticCode> gCode;
     CodonAlphabet* codonAlphabet = dynamic_cast<CodonAlphabet*>(alphabet);
     if (codonAlphabet) {
-      string codeDesc = ApplicationTools::getStringParameter("genetic_code", mapnh.getParams(), "Standard", "", true, true);
+      string codeDesc = ApplicationTools::getStringParameter("genetic_code", mapnh.getParams(), "Standard", "", true, 1);
       ApplicationTools::displayResult("Genetic Code", codeDesc);
       
       gCode.reset(SequenceApplicationTools::getGeneticCode(codonAlphabet->getNucleicAlphabet(), codeDesc));
@@ -157,7 +157,7 @@ int main(int args, char** argv)
     Tree* tree = PhylogeneticsApplicationTools::getTree(mapnh.getParams());
     ApplicationTools::displayResult("Number of leaves", TextTools::toString(tree->getNumberOfLeaves()));
     // Convert to NHX if input tree is newick or nexus?
-    string treeIdOut = ApplicationTools::getAFilePath("output.tree_with_id.file", mapnh.getParams(), false, false);
+    string treeIdOut = ApplicationTools::getAFilePath("output.tree_with_id.file", mapnh.getParams(), false, false, "none", 1);
     if (treeIdOut != "none")
     {
       Nhx nhx(true);
@@ -168,7 +168,7 @@ int main(int args, char** argv)
     // Get substitution model and compute likelihood arrays
     //
 
-    string nhOpt = ApplicationTools::getStringParameter("nonhomogeneous", mapnh.getParams(), "no", "", true, false);
+    string nhOpt = ApplicationTools::getStringParameter("nonhomogeneous", mapnh.getParams(), "no", "", true, 1);
     ApplicationTools::displayResult("Heterogeneous model", nhOpt);
 
     DRTreeLikelihood* drtl     = 0;
@@ -302,14 +302,14 @@ int main(int args, char** argv)
     //
 
     SubstitutionRegister* reg = 0;
-    string regTypeDesc = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "All", "", true, false);
+    string regTypeDesc = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "All", "", true, 1);
     string regType = "";
     map<string, string> regArgs;
     KeyvalTools::parseProcedure(regTypeDesc, regType, regArgs);
     bool stationarity = true;
     if (regType == "All")
     {
-      stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
+      stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true, "", true, 1);
       reg = new ComprehensiveSubstitutionRegister(model, false);
     }
     else if (regType == "Total")
@@ -317,7 +317,7 @@ int main(int args, char** argv)
       reg = new TotalSubstitutionRegister(model);
     }    
     else if (regType == "Selected"){  
-      string subsList = ApplicationTools::getStringParameter("substitution.list", mapnh.getParams(), "All", "", true, false);
+      string subsList = ApplicationTools::getStringParameter("substitution.list", mapnh.getParams(), "All", "", true, 1);
       reg = new SelectedSubstitutionRegister(model, subsList);  
     }
     else if (regType == "IntraAA")
@@ -340,7 +340,7 @@ int main(int args, char** argv)
     }
     else if (regType == "GC")
     {
-      stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true);
+      stationarity = ApplicationTools::getBooleanParameter("stationarity", regArgs, true, "", true, 1);
       if (AlphabetTools::isNucleicAlphabet(alphabet))
         reg = new GCSubstitutionRegister(dynamic_cast<NucleotideSubstitutionModel*>(model), false);
       else if (AlphabetTools::isCodonAlphabet(alphabet))
@@ -374,7 +374,7 @@ int main(int args, char** argv)
       ApplicationTools::displayResult("  * Count type " + TextTools::toString(i + 1), reg->getTypeName(i + 1));
 
     // specific parameters to the null models
-    string nullModelParams = ApplicationTools::getStringParameter("nullModelParams", mapnh.getParams(), "");
+    string nullModelParams = ApplicationTools::getStringParameter("nullModelParams", mapnh.getParams(), "", "", false, 1);
 
     ParameterList nullParams;
     if (nullModelParams != "")
@@ -401,7 +401,7 @@ int main(int args, char** argv)
     vector<int> ids = drtl->getTree().getNodesId();
     ids.pop_back(); // remove root id.
     vector< vector<double> > counts;
-    double thresholdSat = ApplicationTools::getDoubleParameter("count.max", mapnh.getParams(), -1);
+    double thresholdSat = ApplicationTools::getDoubleParameter("count.max", mapnh.getParams(), -1, "", true, 1);
     if (thresholdSat > 0)
       ApplicationTools::displayResult("Saturation threshold used", thresholdSat);
 
@@ -450,7 +450,7 @@ int main(int args, char** argv)
     else
       counts = SubstitutionMappingTools::getRelativeCountsPerBranch(*drtl, ids, model ? model : modelSet->getModel(0), *reg, stationarity, thresholdSat);
 
-    vector<string> outputDesc = ApplicationTools::getVectorParameter<string>("output.counts", mapnh.getParams(), ',', "PerType(prefix=)");
+    vector<string> outputDesc = ApplicationTools::getVectorParameter<string>("output.counts", mapnh.getParams(), ',', "PerType(prefix=)", "", true, 1);
     for (vector<string>::iterator it = outputDesc.begin(); it != outputDesc.end(); ++it) {
       string outputType;
       map<string, string> outputArgs;
@@ -505,7 +505,7 @@ int main(int args, char** argv)
 
 
     // Global homogeneity test:
-    bool testGlobal = ApplicationTools::getBooleanParameter("test.global", mapnh.getParams(), true, "", true, false);
+    bool testGlobal = ApplicationTools::getBooleanParameter("test.global", mapnh.getParams(), true, "", true, 1);
     if (testGlobal)
     {
       vector< vector<size_t> > counts2 = countsint;
@@ -531,15 +531,15 @@ int main(int args, char** argv)
     }
 
     // Branch test!
-    bool testBranch = ApplicationTools::getBooleanParameter("test.branch", mapnh.getParams(), false, "", true, false);
+    bool testBranch = ApplicationTools::getBooleanParameter("test.branch", mapnh.getParams(), false, "", true, 1);
     if (testBranch)
     {
-      bool testNeighb = ApplicationTools::getBooleanParameter("test.branch.neighbor", mapnh.getParams(), true, "", true, false);
-      bool testNegBrL = ApplicationTools::getBooleanParameter("test.branch.negbrlen", mapnh.getParams(), false, "", true, false);
+      bool testNeighb = ApplicationTools::getBooleanParameter("test.branch.neighbor", mapnh.getParams(), true, "", true, 1);
+      bool testNegBrL = ApplicationTools::getBooleanParameter("test.branch.negbrlen", mapnh.getParams(), false, "", true, 2);
       ApplicationTools::displayBooleanResult("Perform branch clustering", testBranch);
       ApplicationTools::displayBooleanResult("Cluster only neighbor nodes", testNeighb);
       ApplicationTools::displayBooleanResult("Allow len < 0 in clustering", testNegBrL);
-      string autoClustDesc = ApplicationTools::getStringParameter("test.branch.auto_cluster", mapnh.getParams(), "Global(threshold=0)");
+      string autoClustDesc = ApplicationTools::getStringParameter("test.branch.auto_cluster", mapnh.getParams(), "Global(threshold=0)", "", true, 1);
       string autoClustName;
       map<string, string> autoClustParam;
       KeyvalTools::parseProcedure(autoClustDesc, autoClustName, autoClustParam);
@@ -551,7 +551,7 @@ int main(int args, char** argv)
       }
       else if (autoClustName == "Global")
       {
-        size_t threshold = ApplicationTools::getParameter<size_t>("threshold", autoClustParam, 0);
+        size_t threshold = ApplicationTools::getParameter<size_t>("threshold", autoClustParam, 0, "", true, 1);
         ApplicationTools::displayResult("Auto-clutering threshold", threshold);
         CategorySubstitutionRegister* creg = dynamic_cast<CategorySubstitutionRegister*>(reg);
         vector<size_t> ignore;
@@ -567,7 +567,7 @@ int main(int args, char** argv)
       }
       else if (autoClustName == "Marginal")
       {
-        size_t threshold = ApplicationTools::getParameter<size_t>("threshold", autoClustParam, 0);
+        size_t threshold = ApplicationTools::getParameter<size_t>("threshold", autoClustParam, 0, "", true, 1);
         ApplicationTools::displayResult("Auto-clutering threshold", threshold);
         autoClust.reset(new AnyCountAutomaticGroupingCondition(threshold));
       }
@@ -582,7 +582,7 @@ int main(int args, char** argv)
       ApplicationTools::displayResult("Number of tests performed", htest.getPValues().size());
       TreeTemplate<Node>* htree = htest.getTree();
       Newick newick;
-      string clusterTreeOut = ApplicationTools::getAFilePath("output.cluster_tree.file", mapnh.getParams(), false, false);
+      string clusterTreeOut = ApplicationTools::getAFilePath("output.cluster_tree.file", mapnh.getParams(), false, false, "", true, "clusters.dnd", 1);
       ApplicationTools::displayResult("Output cluster tree to", clusterTreeOut);
       newick.write(*htree, clusterTreeOut);
       delete htree;
