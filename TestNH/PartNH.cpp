@@ -533,9 +533,10 @@ int main(int args, char ** argv)
 
     bool stationarity = ApplicationTools::getBooleanParameter("nonhomogeneous.stationarity", partnh.getParams(), false, "", false, false);
     FrequenciesSet* rootFreqs = 0;
+    std::map<std::string, std::string> aliasFreqNames;
     if (!stationarity)
     {
-      rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, gCode.get(), sites, partnh.getParams(), rateFreqs);
+      rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, gCode.get(), sites, partnh.getParams(), aliasFreqNames, rateFreqs);
       stationarity = !rootFreqs;
     }
     ApplicationTools::displayBooleanResult("Stationarity assumed", stationarity);
