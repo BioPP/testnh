@@ -189,28 +189,36 @@ Inter amino-acid substitutions (in both directions).
 @end table
 
 Mapping counts can be saved into file(s) using the @command{output.counts} command.
-Three types of outputs are available:
+Several types of outputs are available:
 @itemize @bullet
 @item
 Per type, as several newick trees with counts as branch lengths for each type.
+Counts are summed over all sites.
 @item
-Per site, as a table with one row per branch and one site per column.
+Per branch and per site, as a table with one row per site and one column per branch.
+Counts are summed over all types.
 @item
-Per site per type, as several table files, one per type.
+Per type and per site, as a table with one row per site and one column per type.
+Counts are summed over all branches.
+@item
+Per site, per branch, per type, as several table files, one per type.
 @end itemize
 The corresponding options are:
 
 @table @command
 @item PerType(prefix = @{path@})
 With the prefix name for all counts tree files. Tree file for counts of type 1 will be named @samp{prefix2}, for type 2 @samp{prefix2} and so on.
-@item PerSite(file = @{path@})
+@item PerBranchPerSite(file = @{path@})
 The file path indicates where the table should be stored.
-@item PerSitePerType(prefix = @{path@})
+@item PerTypePerSite(file = @{path@})
+The file path indicates where the table should be stored.
+
+@item PerBranchPerSitePerType(prefix = @{path@})
 With the prefix name for all table files. Table file for counts of type 1 will be named @samp{prefix2}, for type 2 @samp{prefix2} and so on.
 @end table
 The distinct outputs can be combined as a list, for instance:
 @example
-output.counts=PerType(prefix=mapping_per_type),PerSite(file=mapping_per_site.txt)
+output.counts=PerType(prefix=mapping_per_type),PerBranchPerSite(file=mapping_per_site.txt)
 @end example
 
 Based on this counts, MapNH can make a global test to assess if there is heterogeneity between branches:
