@@ -480,21 +480,36 @@ int main(int args, char** argv)
           }
         }
       }
-      else if (outputType == "PerSite")
+      else if (outputType == "PerBranchPerSite")
       {
-        string perSitenf = ApplicationTools::getStringParameter("file", outputArgs, "mapping_counts_per_site.txt", "", true, 1);
+        string perSitenf = ApplicationTools::getStringParameter("file", outputArgs, "mapping_counts_per_branch_per_site.txt", "", true, 1);
         if (perSitenf != "none")
         {
+          ApplicationTools::displayResult(string("Output counts (branch/site) to file"), perSitenf);
           SubstitutionMappingTools::outputTotalCountsPerBranchPerSite(perSitenf, *drtl, ids, model ? model : modelSet->getModel(0), *reg);
         }
       }
-      else if (outputType == "PerSitePerType")
+      else if (outputType == "PerTypePerSite")
       {
-        string tablePathPrefix = ApplicationTools::getStringParameter("prefix", outputArgs, "mapping_counts_per_site_per_type_", "", true, 1);
+        string perSitenf = ApplicationTools::getStringParameter("file", outputArgs, "mapping_counts_per_type_per_site.txt", "", true, 1);
+        if (perSitenf != "none")
+        {
+          ApplicationTools::displayResult(string("Output counts (type/site) to file"), perSitenf);
+          SubstitutionMappingTools::outputTotalCountsPerTypePerSite(perSitenf, *drtl, ids, model ? model : modelSet->getModel(0), *reg);
+        }
+      }
+      else if (outputType == "PerBranchPerSitePerType")
+      {
+        string tablePathPrefix = ApplicationTools::getStringParameter("prefix", outputArgs, "mapping_counts_per_branch_per_site_per_type_", "", true, 1);
         if (tablePathPrefix != "none")
         {
+          ApplicationTools::displayResult(string("Output counts (branch/site/type) to files"), tablePathPrefix + "*");
           SubstitutionMappingTools::outputIndividualCountsPerBranchPerSite(tablePathPrefix, *drtl, ids, model ? model : modelSet->getModel(0), *reg);
         }
+      }
+      else
+      {
+        throw Exception("Unknown output option: '" + outputType + "'");
       }
     }
 
