@@ -560,7 +560,7 @@ int main(int args, char** argv)
 
 
     // Global homogeneity test:
-    bool testGlobal = ApplicationTools::getBooleanParameter("test.global", mapnh.getParams(), true, "", true, false);
+    bool testGlobal = ApplicationTools::getBooleanParameter("test.global", mapnh.getParams(), false, "", true, false);
     if (testGlobal)
     {
       vector< vector<size_t> > counts2 = countsint;
