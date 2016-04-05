@@ -521,7 +521,7 @@ int main(int args, char** argv)
           SubstitutionMappingTools::outputTotalCountsPerBranchPerSite(perSitenf, *drtl, ids, model ? model : modelSet->getModel(0), *reg);
         }
       }
-      else if (outputType == "PerTypePerSite")
+      else if (outputType == "PerSitePerType")
       {
         string perSitenf = ApplicationTools::getStringParameter("file", outputArgs, "mapping_counts_per_type_per_site.txt", "", true, 1);
         if (perSitenf != "none")

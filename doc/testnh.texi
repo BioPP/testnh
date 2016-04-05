@@ -214,7 +214,7 @@ The corresponding options are:
 With the prefix name for all counts tree files. Tree file for counts of type 1 will be named @samp{prefix2}, for type 2 @samp{prefix2} and so on.
 @item PerBranchPerSite(file = @{path@})
 The file path indicates where the table should be stored.
-@item PerTypePerSite(file = @{path@})
+@item PerSitePerType(file = @{path@})
 The file path indicates where the table should be stored.
 
 @item PerBranchPerSitePerType(prefix = @{path@})
