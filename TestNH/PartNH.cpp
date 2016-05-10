@@ -363,7 +363,7 @@ int main(int args, char ** argv)
   } else if (method == "auto") {
     //First we need to get the alphabet and data:
     Alphabet* alphabet = SequenceApplicationTools::getAlphabet(partnh.getParams(), "", false);
-    auto_ptr<GeneticCode> gCode;
+    unique_ptr<GeneticCode> gCode;
     CodonAlphabet* codonAlphabet = dynamic_cast<CodonAlphabet*>(alphabet);
     if (codonAlphabet) {
       string codeDesc = ApplicationTools::getStringParameter("genetic_code", partnh.getParams(), "Standard", "", true, true);
@@ -468,7 +468,7 @@ int main(int args, char ** argv)
     ApplicationTools::displayBooleanResult("Output intermediate models", outputIntermediateModels);
     string logPath = ApplicationTools::getAFilePath("output.log.file", partnh.getParams(), false, false);
     ApplicationTools::displayResult("Output log to", logPath);
-    auto_ptr<ofstream> logout;
+    unique_ptr<ofstream> logout;
     if (logPath != "none" && logPath != "None") {
       logout.reset(new ofstream(logPath.c_str(), ios::out));
       *logout << "Threshold\tNbPartitions\tLogL\tDF\tAIC\tAICc\tBIC" << endl;
@@ -478,14 +478,14 @@ int main(int args, char ** argv)
     unsigned int optVerbose = ApplicationTools::getParameter<unsigned int>("optimization.verbose", partnh.getParams(), 2);
     
     string mhPath = ApplicationTools::getAFilePath("optimization.message_handler", partnh.getParams(), false, false);
-    auto_ptr<OutputStream> messageHandler(
+    unique_ptr<OutputStream> messageHandler(
       (mhPath == "none") ? 0 :
       (mhPath == "std") ? ApplicationTools::message :
       new StlOutputStream(new ofstream(mhPath.c_str(), ios::out)));
     ApplicationTools::displayResult("Message handler", mhPath + "*");
 
     string prPath = ApplicationTools::getAFilePath("optimization.profiler", partnh.getParams(), false, false);
-    auto_ptr<OutputStream> profiler(
+    unique_ptr<OutputStream> profiler(
       (prPath == "none") ? 0 :
       (prPath == "std") ? ApplicationTools::message :
       new StlOutputStream(new ofstream(prPath.c_str(), ios::out)));

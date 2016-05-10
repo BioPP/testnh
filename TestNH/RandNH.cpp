@@ -109,7 +109,7 @@ int main(int args, char ** argv)
   randnh.startTimer();
 
   //Take an input tree:
-  auto_ptr<Tree> tree(PhylogeneticsApplicationTools::getTree(randnh.getParams()));
+  unique_ptr<Tree> tree(PhylogeneticsApplicationTools::getTree(randnh.getParams()));
   ApplicationTools::displayResult("Number of leaves", TextTools::toString(tree->getNumberOfLeaves()));
 
   //Output to file in NHX format:

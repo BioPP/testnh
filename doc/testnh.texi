@@ -150,7 +150,7 @@ Non homogeneous models are also supported, mainly for a posteriori validation of
 MapNH can perform several types of substitution mapping, which determine which type of substitution have to be counted and used for clustering branches. This is specified with option
 
 @table @command
-@item map.type = @{All|Total|GC|TsTv|DnDs@}
+@item map.type = ...
 Type of substitutions to map:
 @table @var
 @item All
@@ -177,14 +177,18 @@ option takes as input an optional argument telling if the counts
 should be corrected for nonstationarity: @command{GC(stationarity=no)}
 (yes by default) will normalize the counts by the ancestral
 frequencies of the corresponding node.
-@item TsTv @{alphabet=nucleotides@}
+@item TsTv @{alphabet=nucleotides or codons@}
 Counts transitions and transversions.
 @item DnDs @{alphabet=codons@}
 Counts nonsynonymous and synonymous substitutions.
 @item IntraAA @{alphabet=codons@}
 Intra amino-acid substitutions.
-@item IntraAA @{alphabet=codons@}
+@item InterAA @{alphabet=codons@}
 Inter amino-acid substitutions (in both directions).
+@item KrKc @{alphabet=proteins@}
+Counts conservative or non-conservative substitutions.
+@item Combination(reg1=@{map.type@}, reg2=@{map.type@}, ...)
+Counts combinations of substitution types.
 @end table
 @end table
 
