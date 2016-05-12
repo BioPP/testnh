@@ -493,7 +493,7 @@ int main(int args, char ** argv)
  
     
   double logL = tl->getValue();
-  if (isinf(logL))
+  if (std::isinf(logL))
   {
     // This may be due to null branch lengths, leading to null likelihood!
     ApplicationTools::displayWarning("!!! Warning!!! Initial likelihood is zero.");
@@ -508,7 +508,7 @@ int main(int args, char ** argv)
     logL = tl->getValue();
   }
   ApplicationTools::displayResult("Initial -log(likelihood)", TextTools::toString(logL, 15));
-  if (isinf(logL))
+  if (std::isinf(logL))
   {
     ApplicationTools::displayError("!!! Unexpected initial likelihood == 0.");
     ApplicationTools::displayError("!!! Looking at each site:");
