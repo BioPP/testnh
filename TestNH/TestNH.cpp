@@ -99,7 +99,7 @@ void simulate(
 {
   ApplicationTools::displayTask("Perform simulations", true);
 
-  auto_ptr<ofstream> out;
+  unique_ptr<ofstream> out;
   if (distFile != "none") {
     out.reset(new ofstream(distFile.c_str(), ios::out));
     *out << "Sim\tNbSignif\tMedian" << endl;
@@ -168,7 +168,7 @@ int main(int args, char ** argv)
   testnh.startTimer();
 
   Alphabet* alphabet = SequenceApplicationTools::getAlphabet(testnh.getParams(), "", false);
-  auto_ptr<GeneticCode> gCode;
+  unique_ptr<GeneticCode> gCode;
   CodonAlphabet* codonAlphabet = dynamic_cast<CodonAlphabet*>(alphabet);
   if (codonAlphabet) {
     string codeDesc = ApplicationTools::getStringParameter("genetic_code", testnh.getParams(), "Standard", "", true, true);

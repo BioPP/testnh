@@ -139,7 +139,7 @@ class SumCountsAutomaticGroupingCondition:
       for (size_t i = 0; i < counts.size(); ++i)
         if (!VectorTools::contains(ignore_, i))
           s += counts[i];
-      return s > threshold_;
+      return s >= threshold_;
     }
 };
 
@@ -159,7 +159,7 @@ class AnyCountAutomaticGroupingCondition:
   public:
     bool check(const vector<size_t>& counts) const {
       for (size_t i = 0; i < counts.size(); ++i) {
-        if (counts[i] <= threshold_) return false;
+        if (counts[i] < threshold_) return false;
       }
       return true;
     }
