@@ -48,10 +48,7 @@ using namespace std;
 #include <Bpp/Phyl/App/PhylogeneticsApplicationTools.h>
 #include <Bpp/Phyl/Io/Newick.h>
 #include <Bpp/Phyl/Io/Nhx.h>
-#include <Bpp/Phyl/Likelihood.all>
 
-// From bpp-seq:
-#include <Bpp/Seq/Alphabet.all>
 // From bpp-core:
 #include <Bpp/App/BppApplication.h>
 #include <Bpp/App/ApplicationTools.h>

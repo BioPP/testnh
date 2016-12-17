@@ -126,9 +126,9 @@ class SumCountsAutomaticGroupingCondition:
     vector<size_t> ignore_;
 
   public:
-    SumCountsAutomaticGroupingCondition(size_t threshold = 0, const vector<size_t>& ignore = vector<size_t>(0)):
+    SumCountsAutomaticGroupingCondition(size_t threshold = 0, const vector<size_t>& toIgnore = vector<size_t>(0)):
       threshold_(threshold),
-      ignore_(ignore)
+      ignore_(toIgnore)
     {}
 
     ~SumCountsAutomaticGroupingCondition() {}

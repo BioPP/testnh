@@ -47,7 +47,7 @@
 using namespace std;
 
 // From bpp-seq:
-#include <Bpp/Seq/Alphabet.all>
+#include <Bpp/Seq/Alphabet/AlphabetTools.h>
 #include <Bpp/Seq/AlphabetIndex/UserAlphabetIndex1.h>
 #include <Bpp/Seq/Container/VectorSiteContainer.h>
 #include <Bpp/Seq/Container/SiteContainerTools.h>
@@ -56,17 +56,16 @@ using namespace std;
 
 // From bpp-phyl:
 #include <Bpp/Phyl/Tree.h>
-#include <Bpp/Phyl/Likelihood.all>
-#include <Bpp/Phyl/Mapping.all>
-#include <Bpp/Phyl/Simulation.all>
 #include <Bpp/Phyl/App/PhylogeneticsApplicationTools.h>
 #include <Bpp/Phyl/OptimizationTools.h>
 #include <Bpp/Phyl/Io/Newick.h>
 #include <Bpp/Phyl/Io/Nhx.h>
 #include <Bpp/Phyl/Io/BppOSubstitutionModelFormat.h>
-#include <Bpp/Phyl/Model.all>
 #include <Bpp/Phyl/Model/SubstitutionModelSet.h>
 #include <Bpp/Phyl/Model/SubstitutionModelSetTools.h>
+#include <Bpp/Phyl/Model/RateDistribution/ConstantRateDistribution.h>
+#include <Bpp/Phyl/Likelihood/DRNonHomogeneousTreeLikelihood.h>
+#include <Bpp/Phyl/Mapping/SubstitutionMappingTools.h>
 
 // From bpp-core:
 #include <Bpp/Numeric/Prob/DiscreteDistribution.h>
@@ -608,16 +607,16 @@ int main(int args, char** argv)
         size_t threshold = ApplicationTools::getParameter<size_t>("threshold", autoClustParam, 0, "", true, 1);
         ApplicationTools::displayResult("Auto-clutering threshold", threshold);
         CategorySubstitutionRegister* creg = dynamic_cast<CategorySubstitutionRegister*>(reg);
-        vector<size_t> ignore;
+        vector<size_t> toIgnore;
         if (creg && creg->allowWithin())
         {
           size_t n = creg->getNumberOfCategories();
           for (size_t i = 0; i < n; ++i)
           {
-            ignore.push_back(n * (n - 1) + i);
+            toIgnore.push_back(n * (n - 1) + i);
           }
         }
-        autoClust.reset(new SumCountsAutomaticGroupingCondition(threshold, ignore));
+        autoClust.reset(new SumCountsAutomaticGroupingCondition(threshold, toIgnore));
       }
       else if (autoClustName == "Marginal")
       {
