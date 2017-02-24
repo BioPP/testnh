@@ -545,56 +545,79 @@ int main(int args, char** argv)
       string outputType;
       map<string, string> outputArgs;
       KeyvalTools::parseProcedure(*it, outputType, outputArgs);
-      if (outputType == "PerType")
+
+      size_t outputNum=0;
+
+      if (outputType.find("Type")!=string::npos)
+        outputNum+=1;
+      if (outputType.find("Site")!=string::npos)
+        outputNum+=2;
+      if (outputType.find("Branch")!=string::npos)
+        outputNum+=4;
+
+      switch(outputNum)
       {
-        // Write count trees:
-        string treePathPrefix = ApplicationTools::getStringParameter("prefix", outputArgs, "mapping_counts_per_type_", "", true, 1);
-        if (treePathPrefix != "none")
+      case 1:
+      case 4:
         {
-          Newick newick;
-          for (size_t i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i)
+          // Write count trees:
+          string treePathPrefix = ApplicationTools::getStringParameter("prefix", outputArgs, "mapping_counts_per_type_", "", true, 1);
+          if (treePathPrefix != "none")
           {
-            string path = treePathPrefix + TextTools::toString(i + 1) + string(".dnd");
-            ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
-            Tree* cTree = tree->clone();
-            buildCountTree(counts, ids, cTree, i);
-            newick.write(*cTree, path);
-            delete cTree;
+            Newick newick;
+            for (size_t i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i)
+            {
+              string name=reg->getTypeName(i+1);
+              if (name=="")
+                name=TextTools::toString(i + 1);
+              
+              string path = treePathPrefix + name + string(".dnd");
+              ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
+              Tree* cTree = tree->clone();
+              buildCountTree(counts, ids, cTree, i);
+              newick.write(*cTree, path);
+              delete cTree;
+            }
           }
+          break;
         }
-      }
-      else if (outputType == "PerBranchPerSite")
-      {
-        string perSitenf = ApplicationTools::getStringParameter("file", outputArgs, "mapping_counts_per_branch_per_site.txt", "", true, 1);
-        if (perSitenf != "none")
+      case 6:
         {
-          ApplicationTools::displayResult(string("Output counts (branch/site) to file"), perSitenf);
-          SubstitutionMappingTools::outputTotalCountsPerBranchPerSite(perSitenf, *drtl, ids, model ? model : modelSet->getModel(0), *reg);
+          string perSitenf = ApplicationTools::getStringParameter("file", outputArgs, "mapping_counts_per_branch_per_site.txt", "", true, 1);
+          if (perSitenf != "none")
+          {
+            ApplicationTools::displayResult(string("Output counts (branch/site) to file"), perSitenf);
+            SubstitutionMappingTools::outputTotalCountsPerBranchPerSite(perSitenf, *drtl, ids, model ? model : modelSet->getModel(0), *reg);
+          }
+          break;
         }
-      }
-      else if (outputType == "PerSitePerType")
-      {
-        string perSitenf = ApplicationTools::getStringParameter("file", outputArgs, "mapping_counts_per_type_per_site.txt", "", true, 1);
-        if (perSitenf != "none")
+      case 2:
+      case 3:
         {
-          ApplicationTools::displayResult(string("Output counts (type/site) to file"), perSitenf);
-          SubstitutionMappingTools::outputTotalCountsPerTypePerSite(perSitenf, *drtl, ids, model ? model : modelSet->getModel(0), *reg);
+          string perSitenf = ApplicationTools::getStringParameter("file", outputArgs, "mapping_counts_per_type_per_site.txt", "", true, 1);
+          if (perSitenf != "none")
+          {
+            ApplicationTools::displayResult(string("Output counts (type/site) to file"), perSitenf);
+            SubstitutionMappingTools::outputTotalCountsPerTypePerSite(perSitenf, *drtl, ids, model ? model : modelSet->getModel(0), *reg);
+          }
+          break;
         }
-      }
-      else if (outputType == "PerBranchPerSitePerType")
-      {
-        string tablePathPrefix = ApplicationTools::getStringParameter("prefix", outputArgs, "mapping_counts_per_branch_per_site_per_type_", "", true, 1);
-        if (tablePathPrefix != "none")
+      case 7:
         {
-          ApplicationTools::displayResult(string("Output counts (branch/site/type) to files"), tablePathPrefix + "*");
-          SubstitutionMappingTools::outputIndividualCountsPerBranchPerSite(tablePathPrefix, *drtl, ids, model ? model : modelSet->getModel(0), *reg);
+          string tablePathPrefix = ApplicationTools::getStringParameter("prefix", outputArgs, "mapping_counts_per_branch_per_site_per_type_", "", true, 1);
+          if (tablePathPrefix != "none")
+          {
+            ApplicationTools::displayResult(string("Output counts (branch/site/type) to files"), tablePathPrefix + "*");
+            SubstitutionMappingTools::outputIndividualCountsPerBranchPerSite(tablePathPrefix, *drtl, ids, model ? model : modelSet->getModel(0), *reg);
+          }
+          break;
         }
-      }
-      else
-      {
+      default:
         throw Exception("Unknown output option: '" + outputType + "'");
       }
+      
     }
+    
 
     // Rounded counts
     vector< vector<size_t> > countsint;
