@@ -446,27 +446,10 @@ int main(int args, char** argv)
       if (model)
       {
         unique_ptr<SubstitutionModel> nullModel(model->clone());
-        nullModel->setScalable(false);
-
+        
         ParameterList pl;
         const ParameterList pl0 = nullModel->getParameters();
-        ParameterList pla = nullModel->getParameters();
         
-        for (size_t i = 0; i < pla.size(); ++i)
-        {
-          try
-          {
-            pla[i].setValue(pla[i].getValue()+NumConstants::TINY());
-          }
-          catch (Exception& e)
-          {
-            pla[i].setValue(pla[i].getValue()-NumConstants::TINY());
-          }
-        }
-        
-        nullModel->matchParametersValues(pla);
-        nullModel->matchParametersValues(pl0);
-        double scale=nullModel->getScale();
         for (size_t i = 0; i < nullParams.size(); ++i)
         {
           vector<string> pn = pl0.getMatchingParameterNames(nullParams[i].getName());
@@ -475,44 +458,14 @@ int main(int args, char** argv)
             pl.addParameter(Parameter(pn[j], nullParams[i].getValue()));
           }
         }
-        
+
         nullModel->matchParametersValues(pl);
-        
-        nullModel->setScalable(true);
-        nullModel->setScale(1/scale);
         
         counts = SubstitutionMappingTools::getNormalizedCountsPerBranch(*drtl, ids, model, nullModel.get(), *reg, true);
       }
       else
       {
         unique_ptr<SubstitutionModelSet> nullModelSet(modelSet->clone());
-        size_t nmod=nullModelSet->getNumberOfModels();
-        
-        Vdouble vScale;
-        for (size_t i = 0; i<nmod; i++){
-          SubstitutionModel* sim=nullModelSet->getModel(i);
-          const ParameterList pla0 = sim->getParameters();
-          ParameterList pla = sim->getParameters();
-        
-          for (size_t j = 0; j < pla.size(); ++j)
-          {
-            try
-            {
-              pla[j].setValue(pla[j].getValue()+NumConstants::TINY());
-            }
-            catch (Exception& e)
-            {
-              pla[j].setValue(pla[j].getValue()-NumConstants::TINY());
-            }
-          }
-
-          sim->setScalable(false);
-          sim->matchParametersValues(pla);
-          sim->matchParametersValues(pla0);
-          vScale.push_back(sim->getScale());
-
-        }
-        
         ParameterList pl;
         const ParameterList pl0 = nullModelSet->getParameters();
 
@@ -526,11 +479,6 @@ int main(int args, char** argv)
         }
 
         nullModelSet->matchParametersValues(pl);
-        for (size_t i = 0; i<nmod; i++){
-          SubstitutionModel* asim=nullModelSet->getModel(i);
-          asim->setScalable(true);
-          asim->setScale(1/vScale[i]);
-        }
 
         counts = SubstitutionMappingTools::getNormalizedCountsPerBranch(*drtl, ids, modelSet, nullModelSet.get(), *reg, true);
       }
