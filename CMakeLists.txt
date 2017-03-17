@@ -22,19 +22,6 @@ IF(NOT NO_DEP_CHECK)
       FORCE)
 ENDIF(NOT NO_DEP_CHECK)
 
-IF(NOT DOC_COMPRESS)
-  SET(DOC_COMPRESS gzip CACHE STRING
-      "Set program for compressing documentation."
-      FORCE)
-ENDIF(NOT DOC_COMPRESS)
-
-IF(NOT DOC_COMPRESS_EXT)
-  SET(DOC_COMPRESS_EXT gz CACHE STRING
-      "Set extension of compressed documentation."
-      FORCE)
-ENDIF(NOT DOC_COMPRESS_EXT)
-
-
 IF(NO_DEP_CHECK)
   MESSAGE(STATUS "Dependencies checking disabled. Only distribution can be built.")
 ELSE(NO_DEP_CHECK)
@@ -50,73 +37,12 @@ IF(BUILD_STATIC)
   list (APPEND private-compile-options -static -static-libgcc)
 ENDIF()
 
-#build man pages?
-IF(NOT DEFINED MAN)
-  SET(MAN UNIX)
-ENDIF(NOT DEFINED MAN)
-
-#find executables for documentation
-FIND_PROGRAM(MAKEINFO_EXE NAMES makeinfo)
-FIND_PROGRAM(PDFTEX_EXE NAMES pdftex)
-FIND_PROGRAM(NROFF_EXE NAMES nroff)
-
 # Find dependencies (add install directory to search)
 if (CMAKE_INSTALL_PREFIX)
   set (CMAKE_PREFIX_PATH "${CMAKE_INSTALL_PREFIX}" ${CMAKE_PREFIX_PATH})
 endif (CMAKE_INSTALL_PREFIX)
 
 find_package (bpp-phyl 9.1.3 REQUIRED)
-
-IF(MAKEINFO_EXE)
-  MESSAGE("-- Found makeinfo here: ${MAKEINFO_EXE}")
-  MESSAGE("   Adding targets: info, html")
-
-  IF(INFO)
-    SET(ADD_INFO_TO "ALL")
-    MESSAGE("   Adding target info to target all")
-  ENDIF(INFO)
-
-  ADD_CUSTOM_TARGET(info
-    ${ADD_INFO_TO}
-    COMMAND ${MAKEINFO_EXE} testnh.texi
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/doc
-    )
-
-  ADD_CUSTOM_TARGET(html
-    COMMAND ${MAKEINFO_EXE} --html --css-ref=http://www.w3.org/StyleSheets/Core/Oldstyle testnh.texi
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/doc
-    )
-ENDIF(MAKEINFO_EXE)
-
-IF(PDFTEX_EXE)
-  MESSAGE("-- Found pdftex here: ${PDFTEX_EXE}")
-  MESSAGE("   Adding target: pdf")
-
-  ADD_CUSTOM_TARGET(pdf
-    COMMAND ${PDFTEX_EXE} testnh.texi
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/doc
-    )
-  SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "doc/testnh.pdf;doc/testnh.aux;doc/testnh.cp;doc/testnh.fn;doc/testnh.info;doc/testnh.ky;doc/testnh.log;doc/testnh.pg;doc/testnh.toc;doc/testnh.tp;doc/testnh.vr")
-ENDIF(PDFTEX_EXE)
-
-IF(NROFF_EXE)
-  MESSAGE("-- Found nroff here: ${NROFF_EXE}")
-  MESSAGE("   Adding targets: man")
-
-  ADD_CUSTOM_TARGET(man
-    ALL
-    COMMAND cp testnh.1.txt testnh.1
-    COMMAND gzip -f testnh.1
-    COMMAND cp mapnh.1.txt mapnh.1
-    COMMAND gzip -f mapnh.1
-    COMMAND cp partnh.1.txt partnh.1
-    COMMAND gzip -f partnh.1
-    COMMAND cp randnh.1.txt randnh.1
-    COMMAND gzip -f randnh.1
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/man
-    )
-  SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "man/testnh.1.gz;man/mapnh.1.gz;man/partnh.1.gz;man/randnh.1.gz")
-ENDIF(NROFF_EXE)
 
 # Subdirectories
 add_subdirectory (TestNH)
@@ -226,12 +152,6 @@ IF("${CMAKE_GENERATOR}" MATCHES "Make")
     WORKING_DIRECTORY ${CMAKE_CURRENT_DIR}
   )
   ADD_DEPENDENCIES(dist make_clean)
-
-  ADD_CUSTOM_TARGET(make_clean_man
-    COMMAND rm -f *.${DOC_COMPRESS_EXT}
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/man
-  )
-  ADD_DEPENDENCIES(dist make_clean_man)
 ENDIF()
 
 IF(NOT NO_DEP_CHECK)
