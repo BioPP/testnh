@@ -1,17 +1,20 @@
 # CMake script for TestNH package
-# Author: Julien Dutheil
+# Authors:
+#   Julien Dutheil
+#   Francois Gindraud (2017)
 # Created: 07/04/2010
 
-# Global parameters
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
-PROJECT(testnh CXX)
+cmake_minimum_required (VERSION 2.8.12)
+project (testnh CXX)
+
+# Compile options
+set (private-compile-options -std=c++11 -Wall -Weffc++ -Wshadow -Wconversion)
+
 IF(NOT CMAKE_BUILD_TYPE)
   SET(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING
       "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
       FORCE)
-ENDIF()
-
-SET(CMAKE_CXX_FLAGS "-std=c++11 -Wall -Weffc++ -Wshadow -Wconversion")
+ENDIF(NOT CMAKE_BUILD_TYPE)
 
 IF(NOT NO_DEP_CHECK)
   SET(NO_DEP_CHECK FALSE CACHE BOOL
@@ -19,21 +22,8 @@ IF(NOT NO_DEP_CHECK)
       FORCE)
 ENDIF(NOT NO_DEP_CHECK)
 
-IF(NOT DOC_COMPRESS)
-  SET(DOC_COMPRESS gzip CACHE STRING
-      "Set program for compressing documentation."
-      FORCE)
-ENDIF(NOT DOC_COMPRESS)
-
-IF(NOT DOC_COMPRESS_EXT)
-  SET(DOC_COMPRESS_EXT gz CACHE STRING
-      "Set extension of compressed documentation."
-      FORCE)
-ENDIF(NOT DOC_COMPRESS_EXT)
-
-
 IF(NO_DEP_CHECK)
-  MESSAGE("-- Dependencies checking disabled. Only distribution can be built.")
+  MESSAGE(STATUS "Dependencies checking disabled. Only distribution can be built.")
 ELSE(NO_DEP_CHECK)
 
 #static linkage?
@@ -43,126 +33,21 @@ IF(NOT BUILD_STATIC)
       FORCE)
 ENDIF()
 IF(BUILD_STATIC)
-  MESSAGE("-- Static linkage requested.")
-  SET(CMAKE_CXX_FLAGS "-static -static-libgcc ${CMAKE_CXX_FLAGS}")
+  MESSAGE(STATUS "Static linkage requested.")
+  list (APPEND private-compile-options -static -static-libgcc)
 ENDIF()
 
-#build info?
-IF(NOT DEFINED INFO)
-  SET(INFO UNIX)
-ENDIF(NOT DEFINED INFO)
+# Find dependencies (add install directory to search)
+if (CMAKE_INSTALL_PREFIX)
+  set (CMAKE_PREFIX_PATH "${CMAKE_INSTALL_PREFIX}" ${CMAKE_PREFIX_PATH})
+endif (CMAKE_INSTALL_PREFIX)
 
-#build man pages?
-IF(NOT DEFINED MAN)
-  SET(MAN UNIX)
-ENDIF(NOT DEFINED MAN)
-
-#find executables for documentation
-FIND_PROGRAM(MAKEINFO_EXE NAMES makeinfo)
-FIND_PROGRAM(PDFTEX_EXE NAMES pdftex)
-FIND_PROGRAM(NROFF_EXE NAMES nroff)
-
-#here is a useful function:
-MACRO(IMPROVED_FIND_LIBRARY OUTPUT_LIBS lib_name include_to_find)
-  #start:
-  FIND_PATH(${lib_name}_INCLUDE_DIR ${include_to_find})
-  INCLUDE_DIRECTORIES(${${lib_name}_INCLUDE_DIR})
-
-  IF(BUILD_STATIC)
-    SET(${lib_name}_STATIC_NAMES lib${lib_name}.a)
-    FIND_LIBRARY(${lib_name}_STATIC_LIBRARY NAMES ${${lib_name}_STATIC_NAMES} PATH_SUFFIXES lib${LIB_SUFFIX})
-    IF(${lib_name}_STATIC_LIBRARY)
-      MESSAGE("-- Library ${lib_name} found here:")
-      MESSAGE("   includes: ${${lib_name}_INCLUDE_DIR}")
-      MESSAGE("   static libraries: ${${lib_name}_STATIC_LIBRARY}")
-    ELSE()
-      MESSAGE(FATAL_ERROR "${lib_name} required but not found.")
-    ENDIF()
-    #add the dependency:
-    SET(${OUTPUT_LIBS} ${${OUTPUT_LIBS}} ${${lib_name}_STATIC_LIBRARY})
-  ELSE()
-    SET(${lib_name}_NAMES ${lib_name} ${lib_name}.lib ${lib_name}.dll)
-    FIND_LIBRARY(${lib_name}_LIBRARY NAMES ${${lib_name}_NAMES} PATH_SUFFIXES lib${LIB_SUFFIX})
-    IF(${lib_name}_LIBRARY)
-      MESSAGE("-- Library ${lib_name} found here:")
-      MESSAGE("   includes: ${${lib_name}_INCLUDE_DIR}")
-      MESSAGE("   dynamic libraries: ${${lib_name}_LIBRARY}")
-    ELSE()
-      MESSAGE(FATAL_ERROR "${lib_name} required but not found.")
-    ENDIF()
-    #add the dependency:
-    SET(${OUTPUT_LIBS} ${${OUTPUT_LIBS}} ${${lib_name}_LIBRARY})
-  ENDIF()
-  
-ENDMACRO(IMPROVED_FIND_LIBRARY)
-
-# Set the CMAKE_PREFIX_PATH for the find_library fonction when using non
-# standard install location
-IF(CMAKE_INSTALL_PREFIX)
-  SET(CMAKE_PREFIX_PATH "${CMAKE_INSTALL_PREFIX}" ${CMAKE_PREFIX_PATH})
-ENDIF(CMAKE_INSTALL_PREFIX)
-
-#Find the libraries. The order is very important for static linkage, it won't
-#link if you change it!
-IMPROVED_FIND_LIBRARY(LIBS bpp-phyl Bpp/Phyl/Tree.h)
-IMPROVED_FIND_LIBRARY(LIBS bpp-seq Bpp/Seq/Alphabet/Alphabet.h)
-IMPROVED_FIND_LIBRARY(LIBS bpp-core Bpp/Clonable.h)
-
-IF(MAKEINFO_EXE)
-  MESSAGE("-- Found makeinfo here: ${MAKEINFO_EXE}")
-  MESSAGE("   Adding targets: info, html")
-
-  IF(INFO)
-    SET(ADD_INFO_TO "ALL")
-    MESSAGE("   Adding target info to target all")
-  ENDIF(INFO)
-
-  ADD_CUSTOM_TARGET(info
-    ${ADD_INFO_TO}
-    COMMAND ${MAKEINFO_EXE} testnh.texi
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/doc
-    )
-
-  ADD_CUSTOM_TARGET(html
-    COMMAND ${MAKEINFO_EXE} --html --css-ref=http://www.w3.org/StyleSheets/Core/Oldstyle testnh.texi
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/doc
-    )
-ENDIF(MAKEINFO_EXE)
-
-IF(PDFTEX_EXE)
-  MESSAGE("-- Found pdftex here: ${PDFTEX_EXE}")
-  MESSAGE("   Adding target: pdf")
-
-  ADD_CUSTOM_TARGET(pdf
-    COMMAND ${PDFTEX_EXE} testnh.texi
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/doc
-    )
-  SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "doc/testnh.pdf;doc/testnh.aux;doc/testnh.cp;doc/testnh.fn;doc/testnh.info;doc/testnh.ky;doc/testnh.log;doc/testnh.pg;doc/testnh.toc;doc/testnh.tp;doc/testnh.vr")
-ENDIF(PDFTEX_EXE)
-
-IF(NROFF_EXE)
-  MESSAGE("-- Found nroff here: ${NROFF_EXE}")
-  MESSAGE("   Adding targets: man")
-
-  ADD_CUSTOM_TARGET(man
-    ALL
-    COMMAND cp testnh.1.txt testnh.1
-    COMMAND gzip -f testnh.1
-    COMMAND cp mapnh.1.txt mapnh.1
-    COMMAND gzip -f mapnh.1
-    COMMAND cp partnh.1.txt partnh.1
-    COMMAND gzip -f partnh.1
-    COMMAND cp randnh.1.txt randnh.1
-    COMMAND gzip -f randnh.1
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/man
-    )
-  SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "man/testnh.1.gz;man/mapnh.1.gz;man/partnh.1.gz;man/randnh.1.gz")
-ENDIF(NROFF_EXE)
+find_package (bpp-phyl 9.1.3 REQUIRED)
 
 # Subdirectories
-ADD_SUBDIRECTORY(TestNH)
-ADD_SUBDIRECTORY(doc)
-ADD_SUBDIRECTORY(man)
+add_subdirectory (TestNH)
+add_subdirectory (doc)
+add_subdirectory (man)
 
 ENDIF(NO_DEP_CHECK)
 
@@ -267,12 +152,6 @@ IF("${CMAKE_GENERATOR}" MATCHES "Make")
     WORKING_DIRECTORY ${CMAKE_CURRENT_DIR}
   )
   ADD_DEPENDENCIES(dist make_clean)
-
-  ADD_CUSTOM_TARGET(make_clean_man
-    COMMAND rm -f *.${DOC_COMPRESS_EXT}
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/man
-  )
-  ADD_DEPENDENCIES(dist make_clean_man)
 ENDIF()
 
 IF(NOT NO_DEP_CHECK)

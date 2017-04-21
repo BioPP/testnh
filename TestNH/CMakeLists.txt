@@ -1,31 +1,34 @@
 # CMake script for TestNH package
-# Author: Julien Dutheil
+# Authors:
+#   Julien Dutheil
+#   Francois Gindraud (2017)
 # Created: 07/04/2010
 
-ADD_EXECUTABLE(testnh TestNH.cpp)
-TARGET_LINK_LIBRARIES(testnh ${LIBS})
-SET_TARGET_PROPERTIES(testnh PROPERTIES LINK_SEARCH_END_STATIC ${BUILD_STATIC})
+# Executables of TestNH
+add_executable (testnh TestNH.cpp)
+#add_executable (stepnh StepNH.cpp)
+add_executable (mapnh MultinomialClustering.cpp MapNH.cpp)
+add_executable (partnh PartNH.cpp)
+add_executable (randnh RandNH.cpp)
 
-#ADD_EXECUTABLE(stepnh StepNH.cpp)
-#TARGET_LINK_LIBRARIES(stepnh ${LIBS})
-
-ADD_EXECUTABLE(mapnh MultinomialClustering.cpp MapNH.cpp)
-TARGET_LINK_LIBRARIES(mapnh ${LIBS})
-SET_TARGET_PROPERTIES(mapnh PROPERTIES LINK_SEARCH_END_STATIC ${BUILD_STATIC})
-
-ADD_EXECUTABLE(partnh PartNH.cpp)
-TARGET_LINK_LIBRARIES(partnh ${LIBS})
-SET_TARGET_PROPERTIES(partnh PROPERTIES LINK_SEARCH_END_STATIC ${BUILD_STATIC})
-
-ADD_EXECUTABLE(randnh RandNH.cpp)
-TARGET_LINK_LIBRARIES(randnh ${LIBS})
-SET_TARGET_PROPERTIES(randnh PROPERTIES LINK_SEARCH_END_STATIC ${BUILD_STATIC})
-
-# Install progs
-INSTALL(TARGETS
+set (testnh-targets
   testnh
-  #  stepnh
+  # stepnh
   mapnh
   partnh
   randnh
-  DESTINATION bin)
+  )
+
+foreach (target ${testnh-targets})
+  # Link (static or shared)
+  if (BUILD_STATIC)
+    target_link_libraries (${target} ${BPP_LIBS_STATIC})
+    set_target_properties (${target} LINK_SEARCH_END_STATIC TRUE)
+  else (BUILD_STATIC)
+    target_link_libraries (${target} ${BPP_LIBS_SHARED})
+  endif (BUILD_STATIC)
+  # Private compile flags
+  target_compile_options (${target} PRIVATE ${private-compile-options})
+endforeach (target)
+
+install (TARGETS ${testnh-targets} DESTINATION bin)
