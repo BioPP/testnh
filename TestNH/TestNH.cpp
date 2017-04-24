@@ -232,7 +232,11 @@ int main(int args, char ** argv)
 
   if (nhOpt == "no")
   {  
-    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, testnh.getParams());
+    model = dynamic_cast<SubstitutionModel*>(PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, testnh.getParams()));
+    
+    if (model==NULL)
+      throw Exception("Mapping possible only for markovian substitution models.");
+
     if (model->getNumberOfStates() > model->getAlphabet()->getSize())
     {
       //Markov-modulated Markov model!
@@ -247,7 +251,11 @@ int main(int args, char ** argv)
   }
   else if (nhOpt == "one_per_branch")
   {
-    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, testnh.getParams());
+    model = dynamic_cast<SubstitutionModel*>(PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, testnh.getParams()));
+    
+    if (model==NULL)
+      throw Exception("Mapping possible only for markovian substitution models.");
+
     if (model->getNumberOfStates() > model->getAlphabet()->getSize())
     {
       //Markov-modulated Markov model!

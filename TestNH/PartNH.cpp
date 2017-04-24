@@ -383,7 +383,10 @@ int main(int args, char ** argv)
  
     //Then we need the model to be used, including substitution model, rate distribution and root frequencies set.
     //We also need to specify the parameters that will be shared by all partitions.
-    SubstitutionModel* model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, partnh.getParams());
+    SubstitutionModel* model = dynamic_cast<SubstitutionModel*>(PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, partnh.getParams()));
+    if (model==NULL)
+      throw Exception("Mapping possible only for markovian substitution models.");
+
     DiscreteDistribution* rDist = 0;
     if (model->getName() != "RE08") SiteContainerTools::changeGapsToUnknownCharacters(*sites);
     if (model->getNumberOfStates() >= 2 * model->getAlphabet()->getSize())
