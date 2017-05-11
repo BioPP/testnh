@@ -27,8 +27,6 @@ foreach (target ${testnh-targets})
   else (BUILD_STATIC)
     target_link_libraries (${target} ${BPP_LIBS_SHARED})
   endif (BUILD_STATIC)
-  # Private compile flags
-  target_compile_options (${target} PRIVATE ${private-compile-options})
 endforeach (target)
 
 install (TARGETS ${testnh-targets} DESTINATION bin)
