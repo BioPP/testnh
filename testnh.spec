@@ -33,14 +33,14 @@ AutoReq: yes
 AutoProv: yes
 %if 0%{?mdkversion} >= 201100 || %{?distribution} == "Mageia"
 BuildRequires: xz
-%define zipext xz
+%define compress_program xz
 %else
 %if 0%{?mdkversion}
 BuildRequires: lzma
-%define zipext lzma
+%define compress_program lzma
 %else
 BuildRequires: gzip
-%define zipext gz
+%define compress_program gzip
 %endif
 %endif
 
@@ -55,21 +55,10 @@ Includes programs:
 %setup -q
 
 %build
-CFLAGS="-I%{_prefix}/include $RPM_OPT_FLAGS"
-CMAKE_FLAGS="-DCMAKE_INSTALL_PREFIX=%{_prefix}"
-if [ %{_lib} == 'lib64' ] ; then
-  CMAKE_FLAGS="$CMAKE_FLAGS -DLIB_SUFFIX=64"
-fi
-if [ %{zipext} == 'lzma' ] ; then
-  CMAKE_FLAGS="$CMAKE_FLAGS -DDOC_COMPRESS=lzma -DDOC_COMPRESS_EXT=lzma"
-fi
-if [ %{zipext} == 'xz' ] ; then
-  CMAKE_FLAGS="$CMAKE_FLAGS -DDOC_COMPRESS=xz -DDOC_COMPRESS_EXT=xz"
-fi
-
+CFLAGS="$RPM_OPT_FLAGS"
+CMAKE_FLAGS="-DCMAKE_INSTALL_PREFIX=%{_prefix} -DCOMPRESS_PROGRAM=%{compress_program}"
 cmake $CMAKE_FLAGS .
 make
-make info
 
 %install
 make DESTDIR=$RPM_BUILD_ROOT install
@@ -84,15 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %doc AUTHORS.txt COPYING.txt INSTALL.txt ChangeLog
-%{_prefix}/bin/testnh
-%{_prefix}/bin/mapnh
-%{_prefix}/bin/partnh
-%{_prefix}/bin/randnh
-%{_prefix}/share/info/testnh.info.%{zipext}
-%{_prefix}/share/man/man1/testnh.1.%{zipext}
-%{_prefix}/share/man/man1/mapnh.1.%{zipext}
-%{_prefix}/share/man/man1/partnh.1.%{zipext}
-%{_prefix}/share/man/man1/randnh.1.%{zipext}
+%{_prefix}/bin/*
+%{_prefix}/share/info/*.info*
+%{_prefix}/share/man/man1/*.1*
 
 %changelog
 * Mon Oct 06 2014 Julien Dutheil <julien.dutheil@univ-montp2.fr> 1.1.0-1
