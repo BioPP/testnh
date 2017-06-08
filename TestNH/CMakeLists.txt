@@ -29,4 +29,4 @@ foreach (target ${testnh-targets})
   endif (BUILD_STATIC)
 endforeach (target)
 
-install (TARGETS ${testnh-targets} DESTINATION bin)
+install (TARGETS ${testnh-targets} DESTINATION ${CMAKE_INSTALL_BINDIR})
