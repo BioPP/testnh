@@ -224,7 +224,7 @@ int main(int args, char** argv)
     else if (nhOpt == "general")
     {
       modelSet = PhylogeneticsApplicationTools::getSubstitutionModelSet(alphabet, gCode.get(), sites, mapnh.getParams());
-      if (modelSet->getModel(0)->getName() != "RE08")
+      if (modelSet->getTransitionModel(0)->getName() != "RE08")
         SiteContainerTools::changeGapsToUnknownCharacters(*sites);
       if (modelSet->getNumberOfStates() > modelSet->getAlphabet()->getSize())
       {
@@ -303,7 +303,7 @@ int main(int args, char** argv)
 
     string regTypeDesc = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "All", "", true, false);
 
-    SubstitutionRegister* reg = PhylogeneticsApplicationTools::getSubstitutionRegister(regTypeDesc, model ? model : modelSet->getModel(0));
+    SubstitutionRegister* reg = PhylogeneticsApplicationTools::getSubstitutionRegister(regTypeDesc, model ? model : modelSet->getSubstitutionModel(0));
         
     //Write categories:
     for (size_t i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i)
@@ -385,7 +385,7 @@ int main(int args, char** argv)
     }
     else
     {
-      counts = SubstitutionMappingTools::getRelativeCountsPerBranch(*drtl, ids, model ? model : modelSet->getModel(0), *reg, thresholdSat);
+      counts = SubstitutionMappingTools::getRelativeCountsPerBranch(*drtl, ids, model ? model : modelSet->getSubstitutionModel(0), *reg, thresholdSat);
     }
     
     vector<string> outputDesc = ApplicationTools::getVectorParameter<string>("output.counts", mapnh.getParams(), ',', "PerType(prefix=)");
@@ -435,7 +435,7 @@ int main(int args, char** argv)
           if (perSitenf != "none")
           {
             ApplicationTools::displayResult(string("Output counts (branch/site) to file"), perSitenf);
-            SubstitutionMappingTools::outputTotalCountsPerBranchPerSite(perSitenf, *drtl, ids, model ? model : modelSet->getModel(0), *reg);
+            SubstitutionMappingTools::outputTotalCountsPerBranchPerSite(perSitenf, *drtl, ids, model ? model : modelSet->getSubstitutionModel(0), *reg);
           }
           break;
         }
@@ -446,7 +446,7 @@ int main(int args, char** argv)
           if (perSitenf != "none")
           {
             ApplicationTools::displayResult(string("Output counts (type/site) to file"), perSitenf);
-            SubstitutionMappingTools::outputTotalCountsPerTypePerSite(perSitenf, *drtl, ids, model ? model : modelSet->getModel(0), *reg);
+            SubstitutionMappingTools::outputTotalCountsPerTypePerSite(perSitenf, *drtl, ids, model ? model : modelSet->getSubstitutionModel(0), *reg);
           }
           break;
         }
@@ -456,7 +456,7 @@ int main(int args, char** argv)
           if (tablePathPrefix != "none")
           {
             ApplicationTools::displayResult(string("Output counts (branch/site/type) to files"), tablePathPrefix + "*");
-            SubstitutionMappingTools::outputIndividualCountsPerBranchPerSite(tablePathPrefix, *drtl, ids, model ? model : modelSet->getModel(0), *reg);
+            SubstitutionMappingTools::outputIndividualCountsPerBranchPerSite(tablePathPrefix, *drtl, ids, model ? model : modelSet->getSubstitutionModel(0), *reg);
           }
           break;
         }

@@ -781,7 +781,7 @@ int main(int args, char ** argv)
       paramFile << endl;
       if (bestModelSet) {
         for (unsigned k = 0; k < bestModelSet->getNumberOfModels(); ++k) {
-          ParameterList pl = bestModelSet->getModel(k)->getParameters();
+          ParameterList pl = bestModelSet->getSubstitutionModel(k)->getParameters();
           vector<int> idsk = bestModelSet->getNodesWithModel(k);
           for (size_t j = 0; j < idsk.size(); ++j) {
             paramFile << idsk[j];
