@@ -4,11 +4,11 @@
 #   Francois Gindraud (2017)
 # Created: 07/04/2010
 
-cmake_minimum_required (VERSION 2.8.12)
+cmake_minimum_required (VERSION 2.8.11)
 project (testnh CXX)
 
 # Compile options
-set (private-compile-options -std=c++11 -Wall -Weffc++ -Wshadow -Wconversion)
+set (CMAKE_CXX_FLAGS "-std=c++11 -Wall -Weffc++ -Wshadow -Wconversion")
 
 IF(NOT CMAKE_BUILD_TYPE)
   SET(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING
@@ -34,15 +34,46 @@ IF(NOT BUILD_STATIC)
 ENDIF()
 IF(BUILD_STATIC)
   MESSAGE(STATUS "Static linkage requested.")
-  list (APPEND private-compile-options -static -static-libgcc)
+  set (CMAKE_CXX_FLAGS "-static -static-libgcc ${CMAKE_CXX_FLAGS}")
 ENDIF()
+
+# Check compression program
+# COMPRESS_PROGRAM controls the choice of program
+# COMPRESS_EXT can be used to override the file extension
+if (NOT COMPRESS_PROGRAM)
+  set (COMPRESS_PROGRAM gzip CACHE STRING "Set program for compressing documentation" FORCE)
+endif ()
+find_program (COMPRESS_BIN NAMES ${COMPRESS_PROGRAM} DOC "${COMPRESS_PROGRAM} compression program")
+if (NOT COMPRESS_BIN)
+  message (STATUS "${COMPRESS_PROGRAM} program not found, text doc will not be compressed")
+else ()
+  # Deduce COMPRESS_EXT for known compression programs if not set
+  if (NOT COMPRESS_EXT)
+    if (${COMPRESS_PROGRAM} STREQUAL "gzip")
+      set (COMPRESS_EXT "gz")
+    elseif (${COMPRESS_PROGRAM} STREQUAL "bzip2")
+      set (COMPRESS_EXT "bz2")
+    else ()
+      set (COMPRESS_EXT "${COMPRESS_PROGRAM}") # Default: program name (works for xz/lzma)
+    endif ()
+  endif ()
+  # Generate command line args (always add -c to output compressed file to stdout)
+  if (${COMPRESS_PROGRAM} STREQUAL "gzip")
+    # -n for no timestamp in files (reproducible builds)
+    set (COMPRESS_ARGS -c -n)
+  else ()
+    set (COMPRESS_ARGS -c)
+  endif ()
+  message (STATUS "Found ${COMPRESS_BIN} compression program, using file extension .${COMPRESS_EXT}")
+endif ()
 
 # Find dependencies (add install directory to search)
 if (CMAKE_INSTALL_PREFIX)
   set (CMAKE_PREFIX_PATH "${CMAKE_INSTALL_PREFIX}" ${CMAKE_PREFIX_PATH})
 endif (CMAKE_INSTALL_PREFIX)
 
-find_package (bpp-phyl 9.1.3 REQUIRED)
+include (GNUInstallDirs)
+find_package (bpp-phyl 11.0.0 REQUIRED)
 
 # Subdirectories
 add_subdirectory (TestNH)
@@ -63,81 +94,13 @@ SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING.txt")
 SET(CPACK_RESOURCE_FILE_AUTHORS "${CMAKE_SOURCE_DIR}/AUTHORS.txt")
 SET(CPACK_RESOURCE_FILE_INSTALL "${CMAKE_SOURCE_DIR}/INSTALL.txt")
 SET(CPACK_SOURCE_GENERATOR "TGZ")
-SET(CPACK_SOURCE_IGNORE_FILES
- "CMakeFiles"
- "Makefile"
- "_CPack_Packages"
- "CMakeCache.txt"
- ".*\\\\.cmake"
- ".*\\\\.git"
- ".*\\\\.gz"
- ".*\\\\.zip"
- ".*\\\\.deb"
- ".*\\\\.rpm"
- ".*\\\\.dmg"
- ".*\\\\.sh"
- ".*\\\\..*\\\\.swp"
- ".*stamp"
- "\\\\.sh"
- "examples/.*/.*\\\\BIC.*"
- "examples/.*/.*\\\\AIC.*"
- "examples/.*/.*\\\\.out"
- "examples/.*/.*\\\\.profile.*"
- "examples/.*/.*\\\\.message.*"
- "examples/.*/.*\\\\.ml.*"
- "examples/.*/.*\\\\.counts.*"
- "examples/.*/.*\\\\.cluster.*"
- "examples/.*/.*\\\\.params.*"
- "examples/.*/.*\\\\.infos"
- "examples/.*/.*\\\\.csv"
- "examples/.*/.*\\\\.R"
- "examples/.*/.*\\\\.txt"
- "examples/.*/treefile.*"
- "examples/.*/Figures/.*"
- "examples/.*/rst"
- "examples/.*/rst1"
- "examples/.*/rub"
- "examples/.*/lnf"
- "examples/.*/mlc"
- "examples/.*/4fold.nuc"
- "examples/.*/2NG.*"
- "examples/.*/PAML.*/rst"
- "examples/.*/PAML.*/rst1"
- "examples/.*/PAML.*/rub"
- "doc/testnh/"
- "doc/testnh\\\\.info"
- "doc/testnh\\\\.toc"
- "doc/testnh\\\\.vr"
- "doc/testnh\\\\.tp"
- "doc/testnh\\\\.log"
- "doc/testnh\\\\.fn"
- "doc/testnh\\\\.ky"
- "doc/testnh\\\\.cp"
- "doc/testnh\\\\.pg"
- "doc/testnh\\\\.aux"
- "doc/testnh\\\\.pdf"
- "man/.*\\\\.1.gz"
- "examples/.*/PAML.*/lnf"
- "examples/.*/PAML.*/mlc"
- "examples/.*/PAML.*/4fold.nuc"
- "examples/.*/PAML.*/2NG.*"
- "TestNH/\\\\..*"
- "TestNH/testnh"
- "TestNH/mapnh"
- "TestNH/partnh"
- "TestNH/randnh"
- "debian/tmp"
- "debian/testnh"
- "debian/testnh\\\\.substvars"
- "debian/testnh\\\\.debhelper"
- "debian/debhelper\\\\.log"
- "install_manifest.txt"
- "DartConfiguration.tcl"
- ${CPACK_SOURCE_IGNORE_FILES}
-)
-IF (MACOS)
-  SET(CPACK_GENERATOR "Bundle")
-ENDIF()
+# /!\ This assumes that an external build is used
+SET(CPACK_SOURCE_IGNORE_FILES 
+       "/build/" 
+       "/\\\\.git/" 
+       "/\\\\.gitignore" 
+       ${CPACK_SOURCE_IGNORE_FILES}
+       )
 
 SET(CPACK_SOURCE_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
 SET(CPACK_DEBSOURCE_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}_${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}.orig")
@@ -145,14 +108,6 @@ INCLUDE(CPack)
 
 #This adds the 'dist' target
 ADD_CUSTOM_TARGET(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
-# 'clean' is not (yet) a first class target. However, we need to clean the directories before building the sources:
-IF("${CMAKE_GENERATOR}" MATCHES "Make")
-  ADD_CUSTOM_TARGET(make_clean
-    COMMAND ${CMAKE_MAKE_PROGRAM} clean
-    WORKING_DIRECTORY ${CMAKE_CURRENT_DIR}
-  )
-  ADD_DEPENDENCIES(dist make_clean)
-ENDIF()
 
 IF(NOT NO_DEP_CHECK)
 IF (UNIX)
