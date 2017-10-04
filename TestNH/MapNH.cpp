@@ -399,7 +399,7 @@ int main(int args, char** argv)
 
     vector<int> ids = drtl->getTree().getNodesId();
     ids.pop_back(); // remove root id.
-    vector< vector<double> > counts;
+    VVdouble counts;
 
     if (perBranch)
     {
@@ -427,7 +427,7 @@ int main(int args, char** argv)
           
           nullModel->matchParametersValues(pl);
           
-          counts = SubstitutionMappingTools::getNormalizedCountsPerBranch(*drtl, ids, model, nullModel.get(), *reg, true);
+          SubstitutionMappingTools::computeCountsPerTypePerBranch(*drtl, ids, model, nullModel.get(), *reg, counts, false, false);
         }
         else
         {
@@ -446,7 +446,7 @@ int main(int args, char** argv)
           
           nullModelSet->matchParametersValues(pl);
           
-          counts = SubstitutionMappingTools::getNormalizedCountsPerBranch(*drtl, ids, modelSet, nullModelSet.get(), *reg, true);
+          SubstitutionMappingTools::computeCountsPerTypePerBranch(*drtl, ids, modelSet, nullModelSet.get(), *reg, counts, false, false);
         }
       }
       else
@@ -456,7 +456,7 @@ int main(int args, char** argv)
         if (model00==NULL)
           throw Exception("Mapping possible only for markovian substitution models.");
         
-        counts = SubstitutionMappingTools::getRelativeCountsPerBranch(*drtl, ids, model ? model : model00, *reg, thresholdSat);
+        SubstitutionMappingTools::computeCountsPerTypePerBranch(*drtl, ids, model ? model : model00, *reg, counts, thresholdSat);
       }
     }
     
@@ -509,7 +509,7 @@ int main(int args, char** argv)
         }
       case 6:
         {
-          string perSitenf = ApplicationTools::getStringParameter("file", outputArgs, "mapping_counts_per_branch_per_site.txt", "", true, 1);
+          string perSitenf = ApplicationTools::getStringParameter("file", outputArgs, "mapping_counts_per_site_per_branch.txt", "", true, 1);
           if (perSitenf != "none")
           {
             ApplicationTools::displayResult(string("Output counts (branch/site) to file"), perSitenf);
@@ -521,28 +521,29 @@ int main(int args, char** argv)
               throw Exception("Mapping possible only for markovian substitution models.");
 
             if (nullModelParams == "")
-              SubstitutionMappingTools::outputTotalCountsPerBranchPerSite(perSitenf, *drtl, ids, model ? model : model00, *reg);
+              SubstitutionMappingTools::computeCountsPerSitePerBranch(*drtl, ids, model ? model : model00, *reg, counts);
             else
               throw Exception("Site-Branch mapping developped only without normalization.");
-            
+
+            SubstitutionMappingTools::outputPerSitePerBranch(perSitenf, ids, counts);
           }
           break;
         }
       case 2:
       case 3:
         {
-          string perSitenf = ApplicationTools::getStringParameter("file", outputArgs, "mapping_counts_per_type_per_site.txt", "", true, 1);
+          string perSitenf = ApplicationTools::getStringParameter("file", outputArgs, "mapping_counts_per_site_per_type.txt", "", true, 1);
           if (perSitenf != "none")
           {
-            ApplicationTools::displayResult(string("Output counts (type/site) to file"), perSitenf);
+            ApplicationTools::displayResult(string("Output counts (site/type) to file"), perSitenf);
             
             SubstitutionModel* model00=modelSet->getSubstitutionModel(0);
-    
+
             if (model00==NULL)
               throw Exception("Mapping possible only for markovian substitution models.");
             
             if (nullModelParams == "")
-              SubstitutionMappingTools::outputTotalCountsPerTypePerSite(perSitenf, *drtl, ids, model ? model : model00, *reg);
+              SubstitutionMappingTools::computeCountsPerSitePerType(*drtl, ids, model ? model : model00, *reg, counts);
             else
             {
               if (model)
@@ -560,9 +561,9 @@ int main(int args, char** argv)
                     pl.addParameter(Parameter(pn[j], nullParams[i].getValue()));
                   }
                 }
-          
+
                 nullModel->matchParametersValues(pl);
-                SubstitutionMappingTools::outputTotalCountsPerTypePerSite(perSitenf, *drtl, ids, model, nullModel.get(), *reg);
+                SubstitutionMappingTools::computeCountsPerSitePerType(*drtl, ids, model, nullModel.get(), *reg, counts, false, false);
           
               }
               else
@@ -582,27 +583,30 @@ int main(int args, char** argv)
           
                 nullModelSet->matchParametersValues(pl);
           
-                SubstitutionMappingTools::outputTotalCountsPerTypePerSite(perSitenf, *drtl, ids, modelSet, nullModelSet.get(), *reg);
+                SubstitutionMappingTools::computeCountsPerSitePerType(*drtl, ids, modelSet, nullModelSet.get(), *reg, counts, false, false);
               }
             }
           }
-          
+
+          SubstitutionMappingTools::outputPerSitePerType(perSitenf, *reg, counts);
           break;
         }
       case 7:
         {
-          string tablePathPrefix = ApplicationTools::getStringParameter("prefix", outputArgs, "mapping_counts_per_branch_per_site_per_type_", "", true, 1);
+          string tablePathPrefix = ApplicationTools::getStringParameter("prefix", outputArgs, "mapping_counts_per_site_per_branch_per_type_", "", true, 1);
           if (tablePathPrefix != "none")
           {
-            ApplicationTools::displayResult(string("Output counts (branch/site/type) to files"), tablePathPrefix + "*");
+            ApplicationTools::displayResult(string("Output counts (site/branch/type) to files"), tablePathPrefix + "*");
 
+            VVVdouble counts3;
+            
             SubstitutionModel* model00=modelSet->getSubstitutionModel(0);
     
             if (model00==NULL)
               throw Exception("Mapping possible only for markovian substitution models.");
 
             if (nullModelParams == "")
-              SubstitutionMappingTools::outputIndividualCountsPerBranchPerSite(tablePathPrefix, *drtl, ids, model ? model : model00, *reg);
+              SubstitutionMappingTools::computeCountsPerSitePerBranchPerType(*drtl, ids, model ? model : model00, *reg, counts3);
             else
               if (model)
               {
@@ -621,7 +625,7 @@ int main(int args, char** argv)
                 }
           
                 nullModel->matchParametersValues(pl);
-                SubstitutionMappingTools::outputIndividualCountsPerBranchPerSite(tablePathPrefix, *drtl, ids, model, nullModel.get(), *reg);
+                SubstitutionMappingTools::computeCountsPerSitePerBranchPerType(*drtl, ids, model, nullModel.get(), *reg, counts3, false, false);
           
               }
               else
@@ -641,10 +645,12 @@ int main(int args, char** argv)
           
                 nullModelSet->matchParametersValues(pl);
           
-                SubstitutionMappingTools::outputIndividualCountsPerBranchPerSite(tablePathPrefix, *drtl, ids, modelSet, nullModelSet.get(), *reg);
+                SubstitutionMappingTools::computeCountsPerSitePerBranchPerType(*drtl, ids, modelSet, nullModelSet.get(), *reg, counts3, false, false);
               }
+            SubstitutionMappingTools::outputPerSitePerBranchPerType(tablePathPrefix, ids, *reg, counts3);
 
           }
+          
           break;
         }
       default:
