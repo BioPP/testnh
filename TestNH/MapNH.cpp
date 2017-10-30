@@ -163,11 +163,9 @@ int main(int args, char** argv)
       nhx.write(*tree, treeIdOut);
     }
 
-    
-    //////////////////////////////////////
+    //
     // Get substitution model and compute likelihood arrays
-    //////////////////////
-    
+    //
 
     string nhOpt = ApplicationTools::getStringParameter("nonhomogeneous", mapnh.getParams(), "no", "", true, 1);
     ApplicationTools::displayResult("Heterogeneous model", nhOpt);
@@ -179,7 +177,7 @@ int main(int args, char** argv)
 
     if (nhOpt == "no")
     {
-      model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, mapnh.getParams());
+      model = dynamic_cast<SubstitutionModel*>(PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, mapnh.getParams()));
       if (model==NULL)
         throw Exception("Mapping possible only for markovian substitution models.");
       
@@ -199,7 +197,7 @@ int main(int args, char** argv)
     }
     else if (nhOpt == "one_per_branch")
     {
-      model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, mapnh.getParams());
+      model = dynamic_cast<SubstitutionModel*>(PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, mapnh.getParams()));
       if (model==NULL)
         throw Exception("Mapping possible only for markovian substitution models.");
       if (model->getName() != "RE08")
@@ -303,17 +301,14 @@ int main(int args, char** argv)
         ApplicationTools::displayResult("Initial log likelihood", TextTools::toString(-ll, 15));
       }
     }
-
-
     
-    //////////////////////////////////
+    //
     // Initialize the parameters for the mapping:
-    //////////////
-    
+    //
 
     string regTypeDesc = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "All", "", true, false);
 
-    const SubstitutionModel* model0=modelSet->getSubstitutionModel(0);
+    const SubstitutionModel* model0=dynamic_cast<const SubstitutionModel*>(modelSet->getModel(0));
     
     if (model0==NULL)
       throw Exception("Mapping possible only for markovian substitution models.");
@@ -344,128 +339,71 @@ int main(int args, char** argv)
       }
     }
 
-
-    ////////////////////////////////////
-    /////////////
-    //// CHECK WHAT WILL BE DONE
-    
-    bool testGlobal = ApplicationTools::getBooleanParameter("test.global", mapnh.getParams(), false, "", true, false);
-    bool testBranch = ApplicationTools::getBooleanParameter("test.branch", mapnh.getParams(), false, "", true, false);
-
-    bool perBranch= testGlobal || testBranch;
-
-    vector<string> outputDesc = ApplicationTools::getVectorParameter<string>("output.counts", mapnh.getParams(), ',', "PerType(prefix=)");
-
-    for (vector<string>::iterator it = outputDesc.begin(); it != outputDesc.end(); ++it) {
-      string outputType;
-      map<string, string> outputArgs;
-      KeyvalTools::parseProcedure(*it, outputType, outputArgs);
-
-      size_t outputNum=0;
-
-      if (outputType.find("Type")!=string::npos)
-        outputNum+=1;
-      if (outputType.find("Site")!=string::npos)
-        outputNum+=2;
-      if (outputType.find("Branch")!=string::npos)
-        outputNum+=4;
-
-      switch(outputNum)
-      {
-      case 1:
-      case 4:
-      case 5:
-        perBranch = true;
-        break;
-      case 6:
-        // per branch per site
-        break;
-      case 2:
-      case 3:
-        // per type per site
-        break;
-      case 7:
-        // per type per site per branch
-        break;
-      default:
-        throw Exception("Unknown output option: '" + outputType + "'");
-      }      
-    }
-      
-    //////////////////////////////////////
-    // PERFORMS MAPPING PER BRANCH
+ 
     //
-    /////////////
+    // Performs mapping
+    //
 
     vector<int> ids = drtl->getTree().getNodesId();
     ids.pop_back(); // remove root id.
     vector< vector<double> > counts;
+    double thresholdSat = ApplicationTools::getDoubleParameter("count.max", mapnh.getParams(), -1, "", true, 1);
+    if (thresholdSat > 0)
+      ApplicationTools::displayResult("Saturation threshold used", thresholdSat);
 
-    if (perBranch)
+    if (nullModelParams != "")
     {
-      double thresholdSat = ApplicationTools::getDoubleParameter("count.max", mapnh.getParams(), -1, "", true, 1);
-      if (thresholdSat > 0)
-        ApplicationTools::displayResult("Saturation threshold used", thresholdSat);
-
-      if (nullModelParams != "")
+      if (model)
       {
-        if (model)
+        unique_ptr<SubstitutionModel> nullModel(model->clone());
+        
+        ParameterList pl;
+        const ParameterList pl0 = nullModel->getParameters();
+        
+        for (size_t i = 0; i < nullParams.size(); ++i)
         {
-          unique_ptr<SubstitutionModel> nullModel(model->clone());
-          
-          ParameterList pl;
-          const ParameterList pl0 = nullModel->getParameters();
-          
-          for (size_t i = 0; i < nullParams.size(); ++i)
+          vector<string> pn = pl0.getMatchingParameterNames(nullParams[i].getName());
+          for (size_t j = 0; j < pn.size(); ++j)
           {
-            vector<string> pn = pl0.getMatchingParameterNames(nullParams[i].getName());
-            for (size_t j = 0; j < pn.size(); ++j)
-            {
-              pl.addParameter(Parameter(pn[j], nullParams[i].getValue()));
-            }
+            pl.addParameter(Parameter(pn[j], nullParams[i].getValue()));
           }
-          
-          nullModel->matchParametersValues(pl);
-          
-          counts = SubstitutionMappingTools::getNormalizedCountsPerBranch(*drtl, ids, model, nullModel.get(), *reg, true);
         }
-        else
-        {
-          unique_ptr<SubstitutionModelSet> nullModelSet(modelSet->clone());
-          ParameterList pl;
-          const ParameterList pl0 = nullModelSet->getParameters();
-          
-          for (size_t i = 0; i < nullParams.size(); ++i)
-          {
-            vector<string> pn = pl0.getMatchingParameterNames(nullParams[i].getName());
-            for (size_t j = 0; j < pn.size(); ++j)
-            {
-              pl.addParameter(Parameter(pn[j], nullParams[i].getValue()));
-            }
-          }
-          
-          nullModelSet->matchParametersValues(pl);
-          
-          counts = SubstitutionMappingTools::getNormalizedCountsPerBranch(*drtl, ids, modelSet, nullModelSet.get(), *reg, true);
-        }
+
+        nullModel->matchParametersValues(pl);
+        
+        counts = SubstitutionMappingTools::getNormalizedCountsPerBranch(*drtl, ids, model, nullModel.get(), *reg, true);
       }
       else
       {
-        SubstitutionModel* model00=modelSet->getSubstitutionModel(0);
-        
-        if (model00==NULL)
-          throw Exception("Mapping possible only for markovian substitution models.");
-        
-        counts = SubstitutionMappingTools::getRelativeCountsPerBranch(*drtl, ids, model ? model : model00, *reg, thresholdSat);
+        unique_ptr<SubstitutionModelSet> nullModelSet(modelSet->clone());
+        ParameterList pl;
+        const ParameterList pl0 = nullModelSet->getParameters();
+
+        for (size_t i = 0; i < nullParams.size(); ++i)
+        {
+          vector<string> pn = pl0.getMatchingParameterNames(nullParams[i].getName());
+          for (size_t j = 0; j < pn.size(); ++j)
+          {
+            pl.addParameter(Parameter(pn[j], nullParams[i].getValue()));
+          }
+        }
+
+        nullModelSet->matchParametersValues(pl);
+
+        counts = SubstitutionMappingTools::getNormalizedCountsPerBranch(*drtl, ids, modelSet, nullModelSet.get(), *reg, true);
       }
     }
-    
+    else
+    {
+      SubstitutionModel* model00=dynamic_cast<SubstitutionModel*>(modelSet->getModel(0));
 
-    ////////////////////////////////////////////
-    //// OUTPUT
-    ////////////////////////////////////////////
+      if (model00==NULL)
+        throw Exception("Mapping possible only for markovian substitution models.");
 
+      counts = SubstitutionMappingTools::getRelativeCountsPerBranch(*drtl, ids, model ? model : model00, *reg, thresholdSat);
+    }
     
+    vector<string> outputDesc = ApplicationTools::getVectorParameter<string>("output.counts", mapnh.getParams(), ',', "PerType(prefix=)");
     for (vector<string>::iterator it = outputDesc.begin(); it != outputDesc.end(); ++it) {
       string outputType;
       map<string, string> outputArgs;
@@ -484,7 +422,6 @@ int main(int args, char** argv)
       {
       case 1:
       case 4:
-      case 5:
         {
           // Write count trees:
           string treePathPrefix = ApplicationTools::getStringParameter("prefix", outputArgs, "mapping_counts_per_type_", "", true, 1);
@@ -514,16 +451,12 @@ int main(int args, char** argv)
           {
             ApplicationTools::displayResult(string("Output counts (branch/site) to file"), perSitenf);
 
-            SubstitutionModel* model00=modelSet->getSubstitutionModel(0);
+            SubstitutionModel* model00=dynamic_cast<SubstitutionModel*>(modelSet->getModel(0));
     
             if (model00==NULL)
               throw Exception("Mapping possible only for markovian substitution models.");
 
-            if (nullModelParams == "")
-              SubstitutionMappingTools::outputTotalCountsPerBranchPerSite(perSitenf, *drtl, ids, model ? model : model00, *reg);
-            else
-              throw Exception("Site-Branch mapping developped only without normalization.");
-            
+            SubstitutionMappingTools::outputTotalCountsPerBranchPerSite(perSitenf, *drtl, ids, model ? model : model00, *reg);
           }
           break;
         }
@@ -535,57 +468,13 @@ int main(int args, char** argv)
           {
             ApplicationTools::displayResult(string("Output counts (type/site) to file"), perSitenf);
             
-            SubstitutionModel* model00=modelSet->getSubstitutionModel(0);
+            SubstitutionModel* model00=dynamic_cast<SubstitutionModel*>(modelSet->getModel(0));
     
             if (model00==NULL)
               throw Exception("Mapping possible only for markovian substitution models.");
             
-            if (nullModelParams == "")
-              SubstitutionMappingTools::outputTotalCountsPerTypePerSite(perSitenf, *drtl, ids, model ? model : model00, *reg);
-            else
-            {
-              if (model)
-              {
-                unique_ptr<SubstitutionModel> nullModel(model->clone());
-                
-                ParameterList pl;
-                const ParameterList pl0 = nullModel->getParameters();
-          
-                for (size_t i = 0; i < nullParams.size(); ++i)
-                {
-                  vector<string> pn = pl0.getMatchingParameterNames(nullParams[i].getName());
-                  for (size_t j = 0; j < pn.size(); ++j)
-                  {
-                    pl.addParameter(Parameter(pn[j], nullParams[i].getValue()));
-                  }
-                }
-          
-                nullModel->matchParametersValues(pl);
-                SubstitutionMappingTools::outputTotalCountsPerTypePerSite(perSitenf, *drtl, ids, model, nullModel.get(), *reg);
-          
-              }
-              else
-              {
-                unique_ptr<SubstitutionModelSet> nullModelSet(modelSet->clone());
-                ParameterList pl;
-                const ParameterList pl0 = nullModelSet->getParameters();
-          
-                for (size_t i = 0; i < nullParams.size(); ++i)
-                {
-                  vector<string> pn = pl0.getMatchingParameterNames(nullParams[i].getName());
-                  for (size_t j = 0; j < pn.size(); ++j)
-                  {
-                    pl.addParameter(Parameter(pn[j], nullParams[i].getValue()));
-                  }
-                }
-          
-                nullModelSet->matchParametersValues(pl);
-          
-                SubstitutionMappingTools::outputTotalCountsPerTypePerSite(perSitenf, *drtl, ids, modelSet, nullModelSet.get(), *reg);
-              }
-            }
+            SubstitutionMappingTools::outputTotalCountsPerTypePerSite(perSitenf, *drtl, ids, model ? model : model00, *reg);
           }
-          
           break;
         }
       case 7:
@@ -595,54 +484,11 @@ int main(int args, char** argv)
           {
             ApplicationTools::displayResult(string("Output counts (branch/site/type) to files"), tablePathPrefix + "*");
 
-            SubstitutionModel* model00=modelSet->getSubstitutionModel(0);
+            SubstitutionModel* model00=dynamic_cast<SubstitutionModel*>(modelSet->getModel(0));
     
             if (model00==NULL)
               throw Exception("Mapping possible only for markovian substitution models.");
-
-            if (nullModelParams == "")
-              SubstitutionMappingTools::outputIndividualCountsPerBranchPerSite(tablePathPrefix, *drtl, ids, model ? model : model00, *reg);
-            else
-              if (model)
-              {
-                unique_ptr<SubstitutionModel> nullModel(model->clone());
-                
-                ParameterList pl;
-                const ParameterList pl0 = nullModel->getParameters();
-          
-                for (size_t i = 0; i < nullParams.size(); ++i)
-                {
-                  vector<string> pn = pl0.getMatchingParameterNames(nullParams[i].getName());
-                  for (size_t j = 0; j < pn.size(); ++j)
-                  {
-                    pl.addParameter(Parameter(pn[j], nullParams[i].getValue()));
-                  }
-                }
-          
-                nullModel->matchParametersValues(pl);
-                SubstitutionMappingTools::outputIndividualCountsPerBranchPerSite(tablePathPrefix, *drtl, ids, model, nullModel.get(), *reg);
-          
-              }
-              else
-              {
-                unique_ptr<SubstitutionModelSet> nullModelSet(modelSet->clone());
-                ParameterList pl;
-                const ParameterList pl0 = nullModelSet->getParameters();
-          
-                for (size_t i = 0; i < nullParams.size(); ++i)
-                {
-                  vector<string> pn = pl0.getMatchingParameterNames(nullParams[i].getName());
-                  for (size_t j = 0; j < pn.size(); ++j)
-                  {
-                    pl.addParameter(Parameter(pn[j], nullParams[i].getValue()));
-                  }
-                }
-          
-                nullModelSet->matchParametersValues(pl);
-          
-                SubstitutionMappingTools::outputIndividualCountsPerBranchPerSite(tablePathPrefix, *drtl, ids, modelSet, nullModelSet.get(), *reg);
-              }
-
+            SubstitutionMappingTools::outputIndividualCountsPerBranchPerSite(tablePathPrefix, *drtl, ids, model ? model : model00, *reg);
           }
           break;
         }
@@ -651,13 +497,8 @@ int main(int args, char** argv)
       }
       
     }
-
     
-    //////////////////////////////////////
-    /// HOMOGENEITY TESTS
-    /////////////////////////////////////
 
-    
     // Rounded counts
     vector< vector<size_t> > countsint;
     for (size_t i = 0; i < counts.size(); i++)
@@ -672,6 +513,7 @@ int main(int args, char** argv)
 
 
     // Global homogeneity test:
+    bool testGlobal = ApplicationTools::getBooleanParameter("test.global", mapnh.getParams(), false, "", true, false);
     if (testGlobal)
     {
       vector< vector<size_t> > counts2 = countsint;
@@ -697,6 +539,7 @@ int main(int args, char** argv)
     }
 
     // Branch test!
+    bool testBranch = ApplicationTools::getBooleanParameter("test.branch", mapnh.getParams(), false, "", true, 1);
     if (testBranch)
     {
       bool testNeighb = ApplicationTools::getBooleanParameter("test.branch.neighbor", mapnh.getParams(), true, "", true, 1);
