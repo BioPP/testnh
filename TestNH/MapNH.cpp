@@ -513,7 +513,6 @@ int main(int args, char** argv)
           if (perSitenf != "none")
           {
             ApplicationTools::displayResult(string("Output counts (branch/site) to file"), perSitenf);
-            SubstitutionMappingTools::outputTotalCountsPerBranchPerSite(perSitenf, *drtl, ids, model ? model : modelSet->getModel(0), *reg);
 
             SubstitutionModel* model00=modelSet->getSubstitutionModel(0);
     
