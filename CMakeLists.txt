@@ -73,7 +73,7 @@ if (CMAKE_INSTALL_PREFIX)
 endif (CMAKE_INSTALL_PREFIX)
 
 include (GNUInstallDirs)
-find_package (bpp-phyl 11.0.0 REQUIRED)
+find_package (bpp-phyl 9.1.3 REQUIRED)
 
 # Subdirectories
 add_subdirectory (TestNH)
