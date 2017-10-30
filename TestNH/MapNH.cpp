@@ -313,7 +313,7 @@ int main(int args, char** argv)
     if (model0==NULL)
       throw Exception("Mapping possible only for markovian substitution models.");
 
-    SubstitutionRegister* reg = PhylogeneticsApplicationTools::getSubstitutionRegister(regTypeDesc, model ? model : model0);
+    SubstitutionRegister* reg = PhylogeneticsApplicationTools::getSubstitutionRegister(regTypeDesc, model ? model : model0)Set->getSubstitutionModel(0));
         
     //Write categories:
     for (size_t i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i)
