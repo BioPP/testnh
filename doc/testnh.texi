@@ -178,20 +178,15 @@ should be corrected for nonstationarity: @command{GC(stationarity=no)}
 (yes by default) will normalize the counts by the ancestral
 frequencies of the corresponding node.
 @item TsTv @{alphabet=nucleotides or codons@}
-Counts transitions (type 1) and transversions (type 2).
-@item SW @{alphabet=nucleotides or codons@}
-Counts substitutions between or within GC vs AT Watson-Crick bounds,
-ie whether the bound is strong (GC pair) or weak (AT pair).
-The type numbers are 1 :  S->S,  2 : S->W, 3: W->S, 4: W->W.
+Counts transitions and transversions.
 @item DnDs @{alphabet=codons@}
-Counts nonsynonymous (type 2) and synonymous substitutions (type 1).
+Counts nonsynonymous and synonymous substitutions.
 @item IntraAA @{alphabet=codons@}
-Intra amino-acid substitutions (type following the AA alphabetic
-order).
+Intra amino-acid substitutions.
 @item InterAA @{alphabet=codons@}
 Inter amino-acid substitutions (in both directions).
-@item KrKc @{alphabet=proteins or codons@}
-Counts conservative (type 1) or non-conservative substitutions (type2).
+@item KrKc @{alphabet=proteins@}
+Counts conservative or non-conservative substitutions.
 @item Combination(reg1=@{map.type@}, reg2=@{map.type@}, ...)
 Counts combinations of substitution types.
 @end table
