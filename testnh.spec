@@ -1,5 +1,5 @@
 %define _basename testnh
-%define _version 1.1.0
+%define _version 2.3.2
 %define _release 1
 %define _prefix /usr
 
