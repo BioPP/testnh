@@ -5,18 +5,19 @@
 # Created: 07/04/2010
 
 # Executables of TestNH
-add_executable (testnh TestNH.cpp)
+#add_executable (testnh TestNH.cpp)
 #add_executable (stepnh StepNH.cpp)
-add_executable (mapnh MultinomialClustering.cpp MapNH.cpp)
-add_executable (partnh PartNH.cpp)
-add_executable (randnh RandNH.cpp)
+#add_executable (mapnh MultinomialClustering.cpp MapNH.cpp bppTools.cpp)
+add_executable (mapnh MapNH.cpp bppTools.cpp)
+# add_executable (partnh PartNH.cpp)
+# add_executable (randnh RandNH.cpp)
 
 set (testnh-targets
-  testnh
+  # testnh
   # stepnh
   mapnh
-  partnh
-  randnh
+  # partnh
+  # randnh
   )
 
 foreach (target ${testnh-targets})
