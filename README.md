@@ -35,7 +35,7 @@ needed libraries are [bpp-core](https://github.com/BioPP/bpp-core),
 
 For compiling the programs yourself, from the downloaded sources or
 from the git repository, please follow the instructions from
-[bppsuite](bppsuite).
+[bppsuite](https://github.com/BioPP/bppsuite).
 
 
 
