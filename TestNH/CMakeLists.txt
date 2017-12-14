@@ -8,9 +8,12 @@
 #add_executable (testnh TestNH.cpp)
 #add_executable (stepnh StepNH.cpp)
 #add_executable (mapnh MultinomialClustering.cpp MapNH.cpp bppTools.cpp)
-add_executable (mapnh MapNH.cpp bppTools.cpp)
+add_executable (mapnh MapNH.cpp bppTools)
 # add_executable (partnh PartNH.cpp)
 # add_executable (randnh RandNH.cpp)
+
+
+add_custom_target(bppTools DEPENDS bppTools.cpp)
 
 set (testnh-targets
   # testnh

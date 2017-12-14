@@ -49,7 +49,7 @@ using namespace std;
 // From bpp-seq:
 #include <Bpp/Seq/Alphabet/AlphabetTools.h>
 #include <Bpp/Phyl/Io/Newick.h>
-#include <Bpp/Phyl/Mapping/PhyloMappings/OneProcessSubstitutionMapping.h>
+#include <Bpp/Phyl/Mapping/PhyloMappings/OneProcessSequenceSubstitutionMapping.h>
 #include <Bpp/Phyl/Mapping/PhyloMappings/SingleProcessSubstitutionMapping.h>
 #include <Bpp/App/BppApplication.h>
 #include <Bpp/Text/KeyvalTools.h>
@@ -100,6 +100,8 @@ int main(int args, char** argv)
 
   PhyloLikelihood* pl=(*plc)[1];
 
+  bppTools::fixLikelihood(mapnh.getParams(), alphabet.get(), gCode.get(), pl);
+
   /// For now restriction to OneSequencePhyloLikelihoods:
 
   OneProcessSequencePhyloLikelihood* opspl= dynamic_cast<OneProcessSequencePhyloLikelihood*>(pl);
@@ -130,7 +132,7 @@ int main(int args, char** argv)
   unique_ptr<PhyloSubstitutionMapping> psm;
 
   if (opspl)
-    psm.reset(new OneProcessSubstitutionMapping(*opspl, *reg, thresholdSat));
+    psm.reset(new OneProcessSequenceSubstitutionMapping(*opspl, *reg, thresholdSat));
   else
     psm.reset(new SingleProcessSubstitutionMapping(*sppl, *reg, thresholdSat));
 
@@ -172,7 +174,7 @@ int main(int args, char** argv)
     
   if (nullProcessParams != "" && outputDesc.find("Branch")!=string::npos)
     pCounts=SubstitutionMappingTools::computeNormalizedCounts(
-      &psm->getCounts(), &psm->getNormalizations(), true,  siteSize);
+      &psm->getCounts(), &psm->getNormalizations(), false,  siteSize);
   else
     pCounts=&psm->getCounts();
   
@@ -193,7 +195,7 @@ int main(int args, char** argv)
     outputNum+=2;
   if (outputType.find("Branch")!=string::npos)
     outputNum+=4;
-  
+
   switch(outputNum)
   {
   case 1:
@@ -238,7 +240,7 @@ int main(int args, char** argv)
       VVdouble counts;
       
       if (nullProcessParams!="")
-        counts=SubstitutionMappingTools::getCountsPerSitePerType(psm->getCounts(), psm->getNormalizations(), true, siteSize);
+        counts=SubstitutionMappingTools::getCountsPerSitePerType(psm->getCounts(), psm->getNormalizations(), false, siteSize);
       else
         counts=SubstitutionMappingTools::getCountsPerSitePerType(psm->getCounts());
       
@@ -252,6 +254,7 @@ int main(int args, char** argv)
       ApplicationTools::displayResult(string("Output counts (site/branch/type) to files"), tablePathPrefix + "*");
       
       VVVdouble counts3(SubstitutionMappingTools::getCountsPerSitePerBranchPerType(*pCounts));
+      
       SubstitutionMappingTools::outputPerSitePerBranchPerType(tablePathPrefix, ids, *reg, counts3);
     }
     break;
