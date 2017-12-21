@@ -5,10 +5,12 @@
 # Created: 07/04/2010
 
 # Executables of TestNH
+add_library(bppTools bppTools.cpp)
+
 #add_executable (testnh TestNH.cpp)
 #add_executable (stepnh StepNH.cpp)
 #add_executable (mapnh MultinomialClustering.cpp MapNH.cpp bppTools.cpp)
-add_executable (mapnh MapNH.cpp bppTools)
+add_executable (mapnh MapNH.cpp)
 # add_executable (partnh PartNH.cpp)
 # add_executable (randnh RandNH.cpp)
 
@@ -26,10 +28,10 @@ set (testnh-targets
 foreach (target ${testnh-targets})
   # Link (static or shared)
   if (BUILD_STATIC)
-    target_link_libraries (${target} ${BPP_LIBS_STATIC})
+    target_link_libraries (${target} ${BPP_LIBS_STATIC} bppTools)
     set_target_properties (${target} PROPERTIES LINK_SEARCH_END_STATIC TRUE)
   else (BUILD_STATIC)
-    target_link_libraries (${target} ${BPP_LIBS_SHARED})
+    target_link_libraries (${target} ${BPP_LIBS_SHARED} bppTools)
   endif (BUILD_STATIC)
 endforeach (target)
 

@@ -164,25 +164,14 @@ int main(int args, char** argv)
   }
 
   
-  string outputDesc = ApplicationTools::getStringParameter("output.counts", mapnh.getParams(), "PerType(prefix=)");
-
-  uint siteSize=AlphabetTools::isWordAlphabet(alphabet.get())?dynamic_cast<const CoreWordAlphabet*>(alphabet.get())->getLength():1;
-
-  Vuint ids=psm->getCounts().getAllEdgesIndexes();
-    
-  ProbabilisticSubstitutionMapping* pCounts;
-    
-  if (nullProcessParams != "" && outputDesc.find("Branch")!=string::npos)
-    pCounts=SubstitutionMappingTools::computeNormalizedCounts(
-      &psm->getCounts(), &psm->getNormalizations(), false,  siteSize);
-  else
-    pCounts=&psm->getCounts();
   
   ////////////////////////////////////////////
   //// OUTPUT
   ////////////////////////////////////////////
 
     
+  string outputDesc = ApplicationTools::getStringParameter("output.counts", mapnh.getParams(), "PerType(prefix=counts_)");
+
   string outputType;
   map<string, string> outputArgs;
   KeyvalTools::parseProcedure(outputDesc, outputType, outputArgs);
@@ -195,6 +184,22 @@ int main(int args, char** argv)
     outputNum+=2;
   if (outputType.find("Branch")!=string::npos)
     outputNum+=4;
+
+  bool perTimeUnit = ApplicationTools::getBooleanParameter("perTimeUnit", outputArgs, false, "", true, 0);
+
+  bool perWord = ApplicationTools::getBooleanParameter("perWord", outputArgs, false, "", true, 0);
+
+  uint siteSize=(!perWord && AlphabetTools::isWordAlphabet(alphabet.get()))?dynamic_cast<const CoreWordAlphabet*>(alphabet.get())->getLength():1;
+
+  Vuint ids=psm->getCounts().getAllEdgesIndexes();
+    
+  ProbabilisticSubstitutionMapping* pCounts;
+    
+  if (nullProcessParams != "" && outputDesc.find("Branch")!=string::npos)
+    pCounts=SubstitutionMappingTools::computeNormalizedCounts(
+      &psm->getCounts(), &psm->getNormalizations(), perTimeUnit,  siteSize);
+  else
+    pCounts=&psm->getCounts();
 
   switch(outputNum)
   {
@@ -240,7 +245,7 @@ int main(int args, char** argv)
       VVdouble counts;
       
       if (nullProcessParams!="")
-        counts=SubstitutionMappingTools::getCountsPerSitePerType(psm->getCounts(), psm->getNormalizations(), false, siteSize);
+        counts=SubstitutionMappingTools::getCountsPerSitePerType(psm->getCounts(), psm->getNormalizations(), perTimeUnit, siteSize);
       else
         counts=SubstitutionMappingTools::getCountsPerSitePerType(psm->getCounts());
       
