@@ -147,17 +147,21 @@ int main(int args, char** argv)
   ParameterList nullParams;
   if (nullProcessParams != "")
   {
-    string modelName = "";
+    const ParameterList pl0=psm->getParameters();
+
     map<string, string> npv;
     KeyvalTools::multipleKeyvals(nullProcessParams, npv, ",", false);
     
     map<string, string>::iterator mi(npv.begin());
-    while (mi != npv.end())
+    for (const auto& pv : npv)
     {
-      nullParams.addParameter(Parameter(mi->first, TextTools::toDouble(mi->second)));
-      ApplicationTools::displayResult("null Parameter " + mi->first, mi->second);
-      
-      mi++;
+      vector<string> pn = pl0.getMatchingParameterNames(pv.first);
+      double val=TextTools::toDouble(pv.second);
+      for (const auto& n : pn)
+      {
+        nullParams.addParameter(Parameter(n, val));
+        ApplicationTools::displayResult("null Parameter " + n, val);
+      }
     }
 
     psm->computeNormalizations(nullParams);
@@ -185,10 +189,21 @@ int main(int args, char** argv)
   if (outputType.find("Branch")!=string::npos)
     outputNum+=4;
 
-  bool perTimeUnit = ApplicationTools::getBooleanParameter("perTimeUnit", outputArgs, false, "", true, 0);
+  
+  bool perTimeUnit(0);
+  bool perWord(0);
 
-  bool perWord = ApplicationTools::getBooleanParameter("perWord", outputArgs, false, "", true, 0);
+  if (nullProcessParams != "")
+  {
+    perTimeUnit=ApplicationTools::getBooleanParameter("perTimeUnit", outputArgs, false, "", true, 0);
 
+    ApplicationTools::displayResult("Normalization per time unit", perTimeUnit?"true":"false");
+
+    perWord = ApplicationTools::getBooleanParameter("perWord", outputArgs, false, "", true, 0);
+
+    ApplicationTools::displayResult("Normalization per word size", perWord?"true":"false");
+  }
+  
   uint siteSize=(!perWord && AlphabetTools::isWordAlphabet(alphabet.get()))?dynamic_cast<const CoreWordAlphabet*>(alphabet.get())->getLength():1;
 
   Vuint ids=psm->getCounts().getAllEdgesIndexes();

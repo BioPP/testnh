@@ -76,7 +76,7 @@ GeneticCode* bppTools::getGeneticCode(const map<string, string>& params,
     string codeDesc = ApplicationTools::getStringParameter("genetic_code", params, "Standard", "", true, true);
     ApplicationTools::displayResult("Genetic Code", codeDesc);
     
-    return SequenceApplicationTools::getGeneticCode(codonAlphabet->getNucleicAlphabet(), codeDesc);
+    return SequenceApplicationTools::getGeneticCode(codonAlphabet->getNucleicAlphabet()->clone(), codeDesc);
   }
   else
     return 0;
@@ -157,7 +157,8 @@ map<size_t, SequenceEvolution*> bppTools::getProcesses(const map<string, string>
 {
   return PhylogeneticsApplicationTools::getSequenceEvolutions(collection, params, unparsedparams);
 }
-    
+
+
 PhyloLikelihoodContainer* bppTools::getPhyloLikelihoods(const map<string, string>& params,
                                                         map<size_t, SequenceEvolution*> mSeqEvol, 
                                                         SubstitutionProcessCollection& collection,
@@ -332,9 +333,15 @@ void bppTools::displayParameters(const PhyloLikelihood& tl)
 {
   // Write parameters to screen:
   ApplicationTools::displayResult("Log likelihood", TextTools::toString(-tl.getValue(), 15));
-  ParameterList parameters = tl.getParameters();
-  parameters.deleteParameters(tl.getBranchLengthParameters().getParameterNames(),false);
-              
-  for (unsigned int i = 0; i < parameters.size(); i++)
-    ApplicationTools::displayResult(parameters[i].getName(), TextTools::toString(parameters[i].getValue()));
+
+  if (tl.getNumberOfParameters()-tl.getBranchLengthParameters().size()>=30)
+    ApplicationTools::displayMessage("Too many parameters for screen output!");
+  else
+  {
+    ParameterList parameters = tl.getParameters();
+    parameters.deleteParameters(tl.getBranchLengthParameters().getParameterNames(),false);
+    for (unsigned int i = 0; i < parameters.size(); i++)
+      ApplicationTools::displayResult(parameters[i].getName(), TextTools::toString(parameters[i].getValue()));
+  }
 }
+

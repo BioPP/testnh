@@ -14,9 +14,6 @@ add_executable (mapnh MapNH.cpp)
 # add_executable (partnh PartNH.cpp)
 # add_executable (randnh RandNH.cpp)
 
-
-add_custom_target(bppTools DEPENDS bppTools.cpp)
-
 set (testnh-targets
   # testnh
   # stepnh
