@@ -208,14 +208,6 @@ int main(int args, char** argv)
 
   Vuint ids=psm->getCounts().getAllEdgesIndexes();
     
-  ProbabilisticSubstitutionMapping* pCounts;
-    
-  if (nullProcessParams != "" && outputDesc.find("Branch")!=string::npos)
-    pCounts=SubstitutionMappingTools::computeNormalizedCounts(
-      &psm->getCounts(), &psm->getNormalizations(), perTimeUnit,  siteSize);
-  else
-    pCounts=&psm->getCounts();
-
   switch(outputNum)
   {
   case 1:
@@ -232,7 +224,12 @@ int main(int args, char** argv)
         if (name=="")
           name=TextTools::toString(i + 1);
         
-        unique_ptr<PhyloTree> pt(SubstitutionMappingTools::getTreeForType(*pCounts,i));
+        unique_ptr<PhyloTree> pt;
+
+        if (nullProcessParams!="")
+          pt.reset(SubstitutionMappingTools::getTreeForType(psm->getCounts(),psm->getNormalizations(),i));
+        else
+          pt.reset(SubstitutionMappingTools::getTreeForType(psm->getCounts(),i));
         
         string path = treePathPrefix + name + string(".dnd");
         ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
@@ -246,7 +243,13 @@ int main(int args, char** argv)
       
       ApplicationTools::displayResult(string("Output counts (branch/site) to file"), perSitenf);
       
-      VVdouble counts(SubstitutionMappingTools::getCountsPerSitePerBranch(*pCounts));
+      VVdouble counts;
+
+      if (nullProcessParams!="")
+        counts=SubstitutionMappingTools::getCountsPerSitePerBranch(psm->getCounts(),psm->getNormalizations());
+      else
+        counts=SubstitutionMappingTools::getCountsPerSitePerBranch(psm->getCounts());
+
       SubstitutionMappingTools::outputPerSitePerBranch(perSitenf, ids, counts);
     }
     break;
@@ -272,6 +275,14 @@ int main(int args, char** argv)
       string tablePathPrefix = ApplicationTools::getStringParameter("prefix", outputArgs, "mapping_counts_per_site_per_branch_per_type_", "", true, 1);
       
       ApplicationTools::displayResult(string("Output counts (site/branch/type) to files"), tablePathPrefix + "*");
+
+      ProbabilisticSubstitutionMapping* pCounts;
+      
+      if (nullProcessParams != "" && outputDesc.find("Branch")!=string::npos)
+        pCounts=SubstitutionMappingTools::computeNormalizedCounts(
+          &psm->getCounts(), &psm->getNormalizations(), perTimeUnit,  siteSize);
+      else
+        pCounts=&psm->getCounts();
       
       VVVdouble counts3(SubstitutionMappingTools::getCountsPerSitePerBranchPerType(*pCounts));
       
