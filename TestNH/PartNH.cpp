@@ -479,17 +479,27 @@ int main(int args, char ** argv)
     unsigned int optVerbose = ApplicationTools::getParameter<unsigned int>("optimization.verbose", partnh.getParams(), 2);
     
     string mhPath = ApplicationTools::getAFilePath("optimization.message_handler", partnh.getParams(), false, false);
-    unique_ptr<OutputStream> messageHandler(
-      (mhPath == "none") ? 0 :
-      (mhPath == "std") ? ApplicationTools::message :
-      new StlOutputStream(new ofstream(mhPath.c_str(), ios::out)));
+    shared_ptr<OutputStream> messageHandler(0);
+    if (mhPath != "none")
+    {
+      if (mhPath == "std")
+        messageHandler= ApplicationTools::message;
+      else
+        messageHandler=shared_ptr<OutputStream>(new StlOutputStream(new ofstream(mhPath.c_str(), ios::out)));
+    }
+    
     ApplicationTools::displayResult("Message handler", mhPath + "*");
 
     string prPath = ApplicationTools::getAFilePath("optimization.profiler", partnh.getParams(), false, false);
-    unique_ptr<OutputStream> profiler(
-      (prPath == "none") ? 0 :
-      (prPath == "std") ? ApplicationTools::message :
-      new StlOutputStream(new ofstream(prPath.c_str(), ios::out)));
+    shared_ptr<OutputStream> profiler(0);
+    if (prPath != "none")
+    {
+      if (prPath == "std")
+        messageHandler= ApplicationTools::message;
+      else
+        messageHandler=shared_ptr<OutputStream>(new StlOutputStream(new ofstream(prPath.c_str(), ios::out)));
+    }
+    
     if (profiler.get()) profiler->setPrecision(20);
     ApplicationTools::displayResult("Profiler", prPath + "*");
 
@@ -647,15 +657,23 @@ int main(int args, char ** argv)
       drtl->matchParametersValues(previousParameters); //This will save some time during optimization!
       
       //Optimize parameters
-      messageHandler.reset(
-        (mhPath == "none") ? 0 :
-        (mhPath == "std") ? ApplicationTools::message :
-        new StlOutputStream(new ofstream((mhPath + TextTools::toString(modelCount)).c_str(), ios::out)));
+      
+      if (mhPath == "none")
+        messageHandler=0;
+      else
+        if (mhPath == "std") 
+          messageHandler=ApplicationTools::message;
+        else
+          messageHandler.reset(new StlOutputStream(new ofstream((mhPath + TextTools::toString(modelCount)).c_str(), ios::out)));
 
-      profiler.reset(
-        (prPath == "none") ? 0 :
-        (prPath == "std") ? ApplicationTools::message :
-        new StlOutputStream(new ofstream((prPath + TextTools::toString(modelCount)).c_str(), ios::out)));
+      if (prPath == "none")
+        profiler=0;
+      else
+        if (prPath == "std")
+          profiler=ApplicationTools::message;
+        else
+          profiler.reset(new StlOutputStream(new ofstream((prPath + TextTools::toString(modelCount)).c_str(), ios::out)));
+    
       if (profiler.get()) profiler->setPrecision(20);
 
       //Reevaluate parameters, as there might be some change when going to a NH model:
