@@ -123,8 +123,14 @@ int main(int args, char** argv)
 
   string regTypeDesc = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "All", "", true, false);
 
-  unique_ptr<SubstitutionRegister> reg(PhylogeneticsApplicationTools::getSubstitutionRegister(regTypeDesc, stmap, gCode.get()));
+  AlphabetIndex2* weights = 0;
+  AlphabetIndex2* distances = 0;
+  
+  unique_ptr<SubstitutionRegister> reg(PhylogeneticsApplicationTools::getSubstitutionRegister(regTypeDesc, stmap, gCode.get(), weights, distances));
 
+  shared_ptr<const AlphabetIndex2> sweights(weights);
+  shared_ptr<const AlphabetIndex2> sdistances(distances);
+  
   double thresholdSat = ApplicationTools::getDoubleParameter("count.max", mapnh.getParams(), -1, "", true, 1);
   if (thresholdSat > 0)
     ApplicationTools::displayResult("Saturation threshold used", thresholdSat);
@@ -132,9 +138,9 @@ int main(int args, char** argv)
   unique_ptr<PhyloSubstitutionMapping> psm;
 
   if (opspl)
-    psm.reset(new OneProcessSequenceSubstitutionMapping(*opspl, *reg, thresholdSat));
+    psm.reset(new OneProcessSequenceSubstitutionMapping(*opspl, *reg, sweights, sdistances, thresholdSat));
   else
-    psm.reset(new SingleProcessSubstitutionMapping(*sppl, *reg, thresholdSat));
+    psm.reset(new SingleProcessSubstitutionMapping(*sppl, *reg, sweights, sdistances, thresholdSat));
 
   //Write categories:
   for (size_t i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i)
