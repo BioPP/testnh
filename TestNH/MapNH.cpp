@@ -312,8 +312,8 @@ int main(int args, char** argv)
     
 
     string regTypeDesc = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "All", "", true, false);
-
-    const SubstitutionModel* model0=modelSet->getSubstitutionModel(0);
+    
+    const SubstitutionModel* model0=modelSet?modelSet->getSubstitutionModel(0):model;
     
     if (model0==NULL)
       throw Exception("Mapping possible only for markovian substitution models.");
@@ -451,12 +451,12 @@ int main(int args, char** argv)
       }
       else
       {
-        SubstitutionModel* model00=modelSet->getSubstitutionModel(0);
+        SubstitutionModel* model00=modelSet?modelSet->getSubstitutionModel(0):model;
         
         if (model00==NULL)
           throw Exception("Mapping possible only for markovian substitution models.");
         
-        SubstitutionMappingTools::computeCountsPerTypePerBranch(*drtl, ids, model ? model : model00, *reg, counts, thresholdSat);
+        SubstitutionMappingTools::computeCountsPerTypePerBranch(*drtl, ids, model00, *reg, counts, thresholdSat);
       }
     }
     
@@ -514,13 +514,13 @@ int main(int args, char** argv)
           {
             ApplicationTools::displayResult(string("Output counts (branch/site) to file"), perSitenf);
 
-            SubstitutionModel* model00=modelSet->getSubstitutionModel(0);
+            SubstitutionModel* model00=modelSet?modelSet->getSubstitutionModel(0):model;
     
             if (model00==NULL)
               throw Exception("Mapping possible only for markovian substitution models.");
 
             if (nullModelParams == "")
-              SubstitutionMappingTools::computeCountsPerSitePerBranch(*drtl, ids, model ? model : model00, *reg, counts);
+              SubstitutionMappingTools::computeCountsPerSitePerBranch(*drtl, ids, model00, *reg, counts);
             else
               throw Exception("Site-Branch mapping developped only without normalization.");
 
@@ -536,13 +536,13 @@ int main(int args, char** argv)
           {
             ApplicationTools::displayResult(string("Output counts (site/type) to file"), perSitenf);
             
-            SubstitutionModel* model00=modelSet->getSubstitutionModel(0);
+            SubstitutionModel* model00=modelSet?modelSet->getSubstitutionModel(0):model;
 
             if (model00==NULL)
               throw Exception("Mapping possible only for markovian substitution models.");
             
             if (nullModelParams == "")
-              SubstitutionMappingTools::computeCountsPerSitePerType(*drtl, ids, model ? model : model00, *reg, counts);
+              SubstitutionMappingTools::computeCountsPerSitePerType(*drtl, ids, model00, *reg, counts);
             else
             {
               if (model)
@@ -599,13 +599,13 @@ int main(int args, char** argv)
 
             VVVdouble counts3;
             
-            SubstitutionModel* model00=modelSet->getSubstitutionModel(0);
+            SubstitutionModel* model00=modelSet?modelSet->getSubstitutionModel(0):model;
     
             if (model00==NULL)
               throw Exception("Mapping possible only for markovian substitution models.");
 
             if (nullModelParams == "")
-              SubstitutionMappingTools::computeCountsPerSitePerBranchPerType(*drtl, ids, model ? model : model00, *reg, counts3);
+              SubstitutionMappingTools::computeCountsPerSitePerBranchPerType(*drtl, ids, model00, *reg, counts3);
             else
               if (model)
               {
