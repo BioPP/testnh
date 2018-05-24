@@ -158,7 +158,7 @@ TreeTemplate<Node>* MultinomialClustering::getTree() const
   return new TreeTemplate<Node>(root);
 }
 
-vector<size_t> MultinomialClustering::getBestPair() throw (Exception)
+vector<size_t> MultinomialClustering::getBestPair()
 {
   vector<size_t> bestPair(2);
   double distMin = -std::log(0.);

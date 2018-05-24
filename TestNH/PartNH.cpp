@@ -141,7 +141,7 @@ SubstitutionModelSet* buildModelSetFromPartitions(
     const vector< vector<int> >& groups,
     const vector<string>& globalParameterNames,
     std::map<int, ParameterList>& initParameters
-  ) throw (AlphabetException, Exception)
+  )
 {
   //Check alphabet:
   if (rootFreqs && model->getAlphabet()->getAlphabetType() != rootFreqs->getAlphabet()->getAlphabetType())

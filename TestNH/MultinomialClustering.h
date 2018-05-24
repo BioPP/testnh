@@ -174,9 +174,9 @@ class MultinomialClustering :
     bool negativeBrlen_;
     bpp_ptr<SubstitutionCountsComparison> test_;
     vector<double> pvalues_;
-	
+  
   public:
-		MultinomialClustering(
+    MultinomialClustering(
         const vector< vector<size_t> >& counts,
         const vector<int>& ids,
         const Tree& tree,
@@ -184,13 +184,13 @@ class MultinomialClustering :
         bool neighborsOnly = false,
         bool negativeBrlen = false,
         bool verbose = false);
-		
+    
     virtual ~MultinomialClustering() {}
 
     MultinomialClustering* clone() const { return new MultinomialClustering(*this); }
 
-	public:
-		TreeTemplate<Node>* getTree() const;
+  public:
+    TreeTemplate<Node>* getTree() const;
     /**
      * @return The list of pvalues, by order of clusters.
      */
@@ -198,19 +198,19 @@ class MultinomialClustering :
 
     std::string getName() const { return "Multinomial clusturing."; }
 
-	protected:
-		/**
-		 * @brief Returns the pair with minimum distance and actualizes the vectors.
-		 *
-		 * The vector at position bestPair[0] is now the sum of vectors bestPair[0] and bestPair[1].
-		 * It is then used for computation of distances.
-		 */
-		vector<size_t> getBestPair() throw (Exception);
-		vector<double> computeBranchLengthsForPair(const vector<size_t>& pair);
-		double computeDistancesFromPair(const vector<size_t>& pair, const vector<double>& branchLengths, size_t pos);
-		void finalStep(int idRoot);	
-		virtual Node* getLeafNode(int id, const string& name);
-		virtual Node* getParentNode(int id, Node* son1, Node* son2);
+  protected:
+    /**
+     * @brief Returns the pair with minimum distance and actualizes the vectors.
+     *
+     * The vector at position bestPair[0] is now the sum of vectors bestPair[0] and bestPair[1].
+     * It is then used for computation of distances.
+     */
+    vector<size_t> getBestPair();
+    vector<double> computeBranchLengthsForPair(const vector<size_t>& pair);
+    double computeDistancesFromPair(const vector<size_t>& pair, const vector<double>& branchLengths, size_t pos);
+    void finalStep(int idRoot);  
+    virtual Node* getLeafNode(int id, const string& name);
+    virtual Node* getParentNode(int id, Node* son1, Node* son2);
     double getDist(const vector<size_t>& v1, const vector<size_t>&v2);
 };
 
