@@ -117,7 +117,7 @@ void buildCountTree(
 int main(int args, char** argv)
 {
   cout << "******************************************************************" << endl;
-  cout << "*                     Map NH, version 1.1.1                      *" << endl;
+  cout << "*                     Map NH, version 1.3.0                      *" << endl;
   cout << "* Authors: J. Dutheil                       Created on  09/12/10 *" << endl;
   cout << "*          B. Boussau                       Modif. 17/12/11      *" << endl;
   cout << "*          L. Guéguen                       Last Modif. 24/11/14 *" << endl;

@@ -309,7 +309,7 @@ void outputHModel(const string& modelPath, double likelihood, const Substitution
 int main(int args, char ** argv)
 {
   cout << "******************************************************************" << endl;
-  cout << "*                     PartNH, version 1.1.1                      *" << endl;
+  cout << "*                     PartNH, version 1.3.0                      *" << endl;
   cout << "* Authors: J. Dutheil                       Created on  09/12/10 *" << endl;
   cout << "*          B. Boussau                       Last Modif. 24/11/14 *" << endl;
   cout << "******************************************************************" << endl;
@@ -481,14 +481,14 @@ int main(int args, char ** argv)
     string mhPath = ApplicationTools::getAFilePath("optimization.message_handler", partnh.getParams(), false, false);
     unique_ptr<OutputStream> messageHandler(
       (mhPath == "none") ? 0 :
-      (mhPath == "std") ? ApplicationTools::message :
+      (mhPath == "std") ? ApplicationTools::message.get() :
       new StlOutputStream(new ofstream(mhPath.c_str(), ios::out)));
     ApplicationTools::displayResult("Message handler", mhPath + "*");
 
     string prPath = ApplicationTools::getAFilePath("optimization.profiler", partnh.getParams(), false, false);
     unique_ptr<OutputStream> profiler(
       (prPath == "none") ? 0 :
-      (prPath == "std") ? ApplicationTools::message :
+      (prPath == "std") ? ApplicationTools::message.get() :
       new StlOutputStream(new ofstream(prPath.c_str(), ios::out)));
     if (profiler.get()) profiler->setPrecision(20);
     ApplicationTools::displayResult("Profiler", prPath + "*");
@@ -649,12 +649,12 @@ int main(int args, char ** argv)
       //Optimize parameters
       messageHandler.reset(
         (mhPath == "none") ? 0 :
-        (mhPath == "std") ? ApplicationTools::message :
+        (mhPath == "std") ? ApplicationTools::message.get() :
         new StlOutputStream(new ofstream((mhPath + TextTools::toString(modelCount)).c_str(), ios::out)));
 
       profiler.reset(
         (prPath == "none") ? 0 :
-        (prPath == "std") ? ApplicationTools::message :
+        (prPath == "std") ? ApplicationTools::message.get() :
         new StlOutputStream(new ofstream((prPath + TextTools::toString(modelCount)).c_str(), ios::out)));
       if (profiler.get()) profiler->setPrecision(20);
 

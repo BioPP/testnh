@@ -4,7 +4,8 @@ DATA = PalandAndLynch28
 
 # The alphabet to use:
 # DNA, RNA or Protein
-alphabet = Codon(letter=DNA, type=InvertebrateMitochondrial)
+alphabet = Codon(letter=DNA)
+genetic_code=InvertebrateMitochondrial
 
 # The sequence file to use (sequences must be aligned!)
 input.sequence.file = $(DATA)Concatenate.fasta
@@ -39,8 +40,8 @@ init.brlen.method = Input
 # See the manual for a description of the syntax and available options.
 #
 nonhomogeneous=one_per_branch
-model = YN98(genetic_code=InvertebrateMitochondrial, frequencies=F3X4, useObservedFreqs=yes, omega=0.5, kappa=2.)
-nonhomogeneous_one_per_branch.shared_parameters=YN98.kappa,YN98.freq*
+model = YN98(frequencies=F3X4(mgmtStopCodon=uniform), initFreqs=observed, omega=0.5, kappa=2.)
+nonhomogeneous_one_per_branch.shared_parameters=YN98.kappa,YN98*theta*
 nonhomogeneous.stationarity=yes
 
 rate_distribution = Constant #Gamma(n=4, alpha=0.5)
@@ -87,7 +88,7 @@ optimization.final = none
 optimization.verbose = 3
 
 # Parameters to ignore (for instance equilibrium frequencies)
-optimization.ignore_parameter = YN98.freq*
+optimization.ignore_parameters = *theta*
 
 # Maximum number of likelihood evaluations:
 optimization.max_number_f_eval = 10000

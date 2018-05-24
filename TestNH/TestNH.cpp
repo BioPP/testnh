@@ -150,7 +150,7 @@ void simulate(
 int main(int args, char ** argv)
 {
   cout << "******************************************************************" << endl;
-  cout << "*                    Test NH, version 0.1.0                      *" << endl;
+  cout << "*                    Test NH, version 1.3.0                      *" << endl;
   cout << "* Authors: J. Dutheil                       Created on  18/03/08 *" << endl;
   cout << "*          B. Boussau                       Last Modif. 20/03/08 *" << endl;
   cout << "******************************************************************" << endl;
