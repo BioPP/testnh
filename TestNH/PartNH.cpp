@@ -483,7 +483,7 @@ int main(int args, char ** argv)
     if (mhPath != "none")
     {
       if (mhPath == "std")
-        messageHandler= ApplicationTools::message.get();
+        messageHandler= ApplicationTools::message;
       else
         messageHandler=shared_ptr<OutputStream>(new StlOutputStream(new ofstream(mhPath.c_str(), ios::out)));
     }
@@ -495,7 +495,7 @@ int main(int args, char ** argv)
     if (prPath != "none")
     {
       if (prPath == "std")
-        messageHandler= ApplicationTools::message.get();
+        messageHandler= ApplicationTools::message;
       else
         messageHandler=shared_ptr<OutputStream>(new StlOutputStream(new ofstream(prPath.c_str(), ios::out)));
     }
@@ -657,23 +657,12 @@ int main(int args, char ** argv)
       drtl->matchParametersValues(previousParameters); //This will save some time during optimization!
       
       //Optimize parameters
-<<<<<<< HEAD
-      messageHandler.reset(
-        (mhPath == "none") ? 0 :
-        (mhPath == "std") ? ApplicationTools::message.get() :
-        new StlOutputStream(new ofstream((mhPath + TextTools::toString(modelCount)).c_str(), ios::out)));
-
-      profiler.reset(
-        (prPath == "none") ? 0 :
-        (prPath == "std") ? ApplicationTools::message.get() :
-        new StlOutputStream(new ofstream((prPath + TextTools::toString(modelCount)).c_str(), ios::out)));
-=======
       
       if (mhPath == "none")
         messageHandler=0;
       else
         if (mhPath == "std") 
-          messageHandler=ApplicationTools::message;
+          messageHandler = ApplicationTools::message;
         else
           messageHandler.reset(new StlOutputStream(new ofstream((mhPath + TextTools::toString(modelCount)).c_str(), ios::out)));
 
@@ -681,11 +670,10 @@ int main(int args, char ** argv)
         profiler=0;
       else
         if (prPath == "std")
-          profiler=ApplicationTools::message;
+          profiler = ApplicationTools::message;
         else
           profiler.reset(new StlOutputStream(new ofstream((prPath + TextTools::toString(modelCount)).c_str(), ios::out)));
     
->>>>>>> ba3943893ff738820ca5d7a4a28d8a5712b43879
       if (profiler.get()) profiler->setPrecision(20);
 
       //Reevaluate parameters, as there might be some change when going to a NH model:
