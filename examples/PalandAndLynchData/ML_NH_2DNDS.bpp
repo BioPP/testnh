@@ -48,7 +48,7 @@ nonhomogeneous = general
 nonhomogeneous.root_freq = None
 
 # Now the general heterogeneous case:
-# Specify the number of distincts models.
+# Specify the number of distinct models.
 nonhomogeneous.number_of_models = 2
 
 

@@ -1,71 +1,73 @@
 ******************************************************************
-*                     Map NH, version 0.1.0                      *
+*                     Map NH, version 1.3.0                      *
 * Authors: J. Dutheil                       Created on  09/12/10 *
-*          B. Boussau                       Last Modif. 17/12/11 *
+*          B. Boussau                       Modif. 17/12/11      *
+*          L. Guéguen                       Last Modif. 24/11/14 *
 ******************************************************************
 
 Parsing options:
 Parsing file MapNH.bpp for options.
 Parsing file PalandAndLynch28.params_h.bpp for options.
 Parsing file PalandAndLynch28.model_join_BIC.bpp for options.
-Alphabet type .........................: Codon(DNA)
-Sequence format .......................: Fasta
+Alphabet type .........................: Codon(letter=DNA)
+Genetic Code...........................: InvertebrateMitochondrial
 Sequence file .........................: PalandAndLynch28Concatenate.fasta
+Sequence format .......................: FASTA file
 Sites to use...........................: all
-WARNING!!! Parameter input.sequence.max_gap_allowed not specified. Default used instead: 100%
 Remove Stop Codons.....................: yes
 Number of sequences....................: 28
 Number of sites........................: 3681
-Tree file..............................: PalandAndLynch28.ml_nh_join_BIC.nhx
+Input tree file .......................: PalandAndLynch28.ml_nh_join_BIC.nhx
+Input tree format .....................: Nhx
 Number of leaves.......................: 28
 Heterogeneous model....................: general
 Number of distinct models..............: 2
+StopCodon frequencies distribution ....: uniform
 Stationarity assumed...................: yes
+StopCodon frequencies distribution ....: uniform
+Substitution model.....................: YN98
 Frequencies Initialization for model...: None
-Parameter found........................: model1.YN98.kappa=12.4924
-Parameter found........................: model1.YN98.omega=0.153384
-Parameter found........................: model1.YN98.freq_Codon1_Full.theta=0.446594
-Parameter found........................: model1.YN98.freq_Codon1_Full.theta1=0.46971
-Parameter found........................: model1.YN98.freq_Codon1_Full.theta2=0.567696
-Parameter found........................: model1.YN98.freq_Codon2_Full.theta=0.374549
-Parameter found........................: model1.YN98.freq_Codon2_Full.theta1=0.277684
-Parameter found........................: model1.YN98.freq_Codon2_Full.theta2=0.44014
-Parameter found........................: model1.YN98.freq_Codon3_Full.theta=0.366634
-Parameter found........................: model1.YN98.freq_Codon3_Full.theta1=0.421688
-Parameter found........................: model1.YN98.freq_Codon3_Full.theta2=0.443592
+Parameter found........................: YN98.kappa_1=12.4924
+Parameter found........................: YN98.omega_1=0.153383
+Parameter found........................: YN98.1_Full.theta_1=0.446594
+Parameter found........................: YN98.1_Full.theta1_1=0.46971
+Parameter found........................: YN98.1_Full.theta2_1=0.567696
+Parameter found........................: YN98.2_Full.theta_1=0.374549
+Parameter found........................: YN98.2_Full.theta1_1=0.277684
+Parameter found........................: YN98.2_Full.theta2_1=0.44014
+Parameter found........................: YN98.3_Full.theta_1=0.366634
+Parameter found........................: YN98.3_Full.theta1_1=0.421688
+Parameter found........................: YN98.3_Full.theta2_1=0.443592
 Model1 is associated to................: 52 node(s).
+StopCodon frequencies distribution ....: uniform
+Substitution model.....................: YN98
 Frequencies Initialization for model...: None
-Parameter found........................: model2.YN98.kappa=12.4924
-Parameter found........................: model2.YN98.omega=0.944976
-Parameter found........................: model2.YN98.freq_Codon1_Full.theta=0.446594
-Parameter found........................: model2.YN98.freq_Codon1_Full.theta1=0.46971
-Parameter found........................: model2.YN98.freq_Codon1_Full.theta2=0.567696
-Parameter found........................: model2.YN98.freq_Codon2_Full.theta=0.374549
-Parameter found........................: model2.YN98.freq_Codon2_Full.theta1=0.277684
-Parameter found........................: model2.YN98.freq_Codon2_Full.theta2=0.44014
-Parameter found........................: model2.YN98.freq_Codon3_Full.theta=0.366634
-Parameter found........................: model2.YN98.freq_Codon3_Full.theta1=0.421688
-Parameter found........................: model2.YN98.freq_Codon3_Full.theta2=0.443592
+Parameter found........................: YN98.omega_2=0.944975
 Model2 is associated to................: 1 node(s).
-WARNING!!! Parameter nonhomogeneous.alias not specified. Default used instead: 
-Rate distribution......................: Constant
+Parameter alias found..................: YN98.1_Full.theta1_2 -> YN98.1_Full.theta1_1 = 0.46971
+Parameter alias found..................: YN98.1_Full.theta2_2 -> YN98.1_Full.theta2_1 = 0.567696
+Parameter alias found..................: YN98.1_Full.theta_2 -> YN98.1_Full.theta_1 = 0.446594
+Parameter alias found..................: YN98.2_Full.theta1_2 -> YN98.2_Full.theta1_1 = 0.277684
+Parameter alias found..................: YN98.2_Full.theta2_2 -> YN98.2_Full.theta2_1 = 0.44014
+Parameter alias found..................: YN98.2_Full.theta_2 -> YN98.2_Full.theta_1 = 0.374549
+Parameter alias found..................: YN98.3_Full.theta1_2 -> YN98.3_Full.theta1_1 = 0.421688
+Parameter alias found..................: YN98.3_Full.theta2_2 -> YN98.3_Full.theta2_1 = 0.443592
+Parameter alias found..................: YN98.3_Full.theta_2 -> YN98.3_Full.theta_1 = 0.366634
+Parameter alias found..................: YN98.kappa_2 -> YN98.kappa_1 = 12.4924
+Distribution...........................: Constant
 Number of classes......................: 1
 - Category 0 (Pr = 1) rate.............: 1
+Rate distribution......................: Constant
+Number of classes......................: 1
+Log-Likelihood.........................: -19462.2
+Substitution Register..................: DnDs
+  * Count type 1.......................: dS
+  * Count type 2.......................: dN
+WARNING!!! Parameter output.counts not specified. Default used instead: PerType(prefix=)
 Saturation threshold used..............: 3
-WARNING!!! On branch 3, counts could not be computed.
-WARNING!!! On branch 10, counts could not be computed.
-WARNING!!! On branch 11, counts could not be computed.
-WARNING!!! On branch 20, counts could not be computed.
-WARNING!!! On branch 21, counts could not be computed.
-WARNING!!! On branch 23, counts could not be computed.
-WARNING!!! On branch 27, counts could not be computed.
-WARNING!!! On branch 28, counts could not be computed.
-WARNING!!! On branch 34, counts could not be computed.
-WARNING!!! On branch 42, counts could not be computed.
-WARNING!!! On branch 43, counts could not be computed.
-WARNING!!! On branch 50, counts could not be computed.
-Output counts of type 1 to file........: PalandAndLynch.counts_post1.dnd
-Output counts of type 2 to file........: PalandAndLynch.counts_post2.dnd
+Saturation threshold used..............: 3
+Output counts of type 1 to file........: mapping_counts_per_type_dS.dnd
+Output counts of type 2 to file........: mapping_counts_per_type_dN.dnd
 Perform branch clustering..............: yes
 Cluster only neighbor nodes............: yes
 Allow len < 0 in clustering............: no
@@ -77,9 +79,7 @@ Automatically cluster node.............: 7 with 11
 ==Automatically cluster node.............: 10 with 11
 Automatically cluster node.............: 11 with 45
 ==Automatically cluster node.............: 15 with 23
-=Automatically cluster node.............: 16 with 22
-=Automatically cluster node.............: 18 with 20
-=Automatically cluster node.............: 20 with 21
+===Automatically cluster node.............: 20 with 21
 Automatically cluster node.............: 21 with 22
 =Automatically cluster node.............: 22 with 23
 Automatically cluster node.............: 23 with 24
@@ -93,12 +93,11 @@ Automatically cluster node.............: 29 with 30
 =Automatically cluster node.............: 42 with 43
 Automatically cluster node.............: 43 with 44
 =Automatically cluster node.............: 44 with 45
-==Automatically cluster node.............: 49 with 50
-=Automatically cluster node.............: 50 with 51
+===Automatically cluster node.............: 50 with 51
 =============]Done.
 [>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>]Done.
-P-value at root node...................: 0.00109029
-Number of tests performed..............: 290
+P-value at root node...................: 0.00103759
+Number of tests performed..............: 303
 Output cluster tree to.................: PalandAndLynch.cluster_equilibrium_join_post.dnd
 MapNH's done. Bye.
-Total execution time: 0.000000d, 0.000000h, 0.000000m, 15.000000s.
+Total execution time: 0.000000d, 0.000000h, 0.000000m, 11.000000s.
