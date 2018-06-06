@@ -1,7 +1,8 @@
 DATA = PalandAndLynch28
 param=PalandAndLynch28.params_h.bpp
 
-alphabet = Codon(letter=DNA, type=InvertebrateMitochondrial)  #DNA
+alphabet = Codon(letter=DNA)
+genetic_code=InvertebrateMitochondrial
 
 #Set imput tree file. Original branch lengths will be used for mapping.
 #input.tree.file = $(DATA)Tree.dnd
@@ -19,7 +20,8 @@ input.sequence.sites_to_use = all
 input.sequence.remove_stop_codons = yes
 
 
-map.type = DnDs(code=InvertebrateMitochondrial)
+map.type = DnDs
+#(code=InvertebrateMitochondrial)
 count.max = 3
 test.global = no
 test.branch = yes

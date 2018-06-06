@@ -88,7 +88,7 @@ struct CandidatePartComp {
 int main(int args, char ** argv)
 {
   cout << "******************************************************************" << endl;
-  cout << "*                     RandNH, version 0.1.0                      *" << endl;
+  cout << "*                     RandNH, version 1.3.0                      *" << endl;
   cout << "* Authors: J. Dutheil                       Created on  25/01/11 *" << endl;
   cout << "*          B. Boussau                       Last Modif. 28/04/11 *" << endl;
   cout << "******************************************************************" << endl;

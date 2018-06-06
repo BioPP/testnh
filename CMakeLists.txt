@@ -34,7 +34,7 @@ IF(NOT BUILD_STATIC)
 ENDIF()
 IF(BUILD_STATIC)
   MESSAGE(STATUS "Static linkage requested.")
-  set (CMAKE_CXX_FLAGS "-static -static-libgcc ${CMAKE_CXX_FLAGS}")
+  SET(CMAKE_CXX_FLAGS "-static -static-libgcc ${CMAKE_CXX_FLAGS}")
 ENDIF()
 
 # Check compression program
@@ -60,7 +60,8 @@ else ()
   # Generate command line args (always add -c to output compressed file to stdout)
   if (${COMPRESS_PROGRAM} STREQUAL "gzip")
     # -n for no timestamp in files (reproducible builds)
-    set (COMPRESS_ARGS -c -n)
+    # -9 for maximum compression
+    set (COMPRESS_ARGS -c -n -9)
   else ()
     set (COMPRESS_ARGS -c)
   endif ()
@@ -85,9 +86,9 @@ ENDIF(NO_DEP_CHECK)
 # Packager
 SET(CPACK_PACKAGE_NAME "testnh")
 SET(CPACK_PACKAGE_VENDOR "Bastien Boussau and Julien Dutheil")
-SET(CPACK_PACKAGE_VERSION "1.2.0")
+SET(CPACK_PACKAGE_VERSION "1.3.0")
 SET(CPACK_PACKAGE_VERSION_MAJOR "1")
-SET(CPACK_PACKAGE_VERSION_MINOR "2")
+SET(CPACK_PACKAGE_VERSION_MINOR "3")
 SET(CPACK_PACKAGE_VERSION_PATCH "0")
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Non-homogeneous model testing")
 SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING")
@@ -111,12 +112,6 @@ ADD_CUSTOM_TARGET(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
 
 IF(NOT NO_DEP_CHECK)
 IF (UNIX)
-#This creates deb packages:
-ADD_CUSTOM_TARGET(origdist COMMAND cp ${CPACK_SOURCE_PACKAGE_FILE_NAME}.tar.gz ../${CPACK_DEBSOURCE_PACKAGE_FILE_NAME}.tar.gz)
-ADD_DEPENDENCIES(origdist dist)
-ADD_CUSTOM_TARGET(deb dpkg-buildpackage -uc -us -i${CPACK_SOURCE_PACKAGE_FILE_NAME}.tar.gz)
-ADD_DEPENDENCIES(deb origdist)
-ADD_DEPENDENCIES(deb info man)
 
 #This creates rpm packages:
 ADD_CUSTOM_TARGET(rpm rpmbuild -ta ${CPACK_SOURCE_PACKAGE_FILE_NAME}.tar.gz)

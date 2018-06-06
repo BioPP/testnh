@@ -198,7 +198,8 @@ int main(int args, char** argv)
   
   bool perTimeUnit(0);
   bool perWord(0);
-
+  bool splitNorm(0);
+  
   if (nullProcessParams != "")
   {
     perTimeUnit=ApplicationTools::getBooleanParameter("perTimeUnit", outputArgs, false, "", true, 0);
@@ -208,6 +209,11 @@ int main(int args, char** argv)
     perWord = ApplicationTools::getBooleanParameter("perWord", outputArgs, false, "", true, 0);
 
     ApplicationTools::displayResult("Normalization per word size", perWord?"true":"false");
+
+    splitNorm = ApplicationTools::getBooleanParameter("splitNorm", outputArgs, false, "", true, 1);
+
+    ApplicationTools::displayResult("Display separate counts and normalizations", splitNorm?"true":"false");
+    
   }
   
   uint siteSize=(!perWord && AlphabetTools::isWordAlphabet(alphabet.get()))?dynamic_cast<const CoreWordAlphabet*>(alphabet.get())->getLength():1;
@@ -219,6 +225,7 @@ int main(int args, char** argv)
   case 1:
   case 4:
   case 5:
+    // Output per branch per type
     {
       // Write count trees:
       string treePathPrefix = ApplicationTools::getStringParameter("prefix", outputArgs, "mapping_counts_per_type_", "", true, 1);
@@ -232,18 +239,29 @@ int main(int args, char** argv)
         
         unique_ptr<PhyloTree> pt;
 
-        if (nullProcessParams!="")
-          pt.reset(SubstitutionMappingTools::getTreeForType(psm->getCounts(),psm->getNormalizations(),i));
-        else
+        if (nullProcessParams=="" || splitNorm)
           pt.reset(SubstitutionMappingTools::getTreeForType(psm->getCounts(),i));
-        
+        else
+          pt.reset(SubstitutionMappingTools::getTreeForType(psm->getCounts(),psm->getNormalizations(),i));
+
         string path = treePathPrefix + name + string(".dnd");
         ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
         newick.write(*pt, path);
+
+        if (nullProcessParams!="" && splitNorm)
+        {
+          unique_ptr<PhyloTree> pn(SubstitutionMappingTools::getTreeForType(psm->getNormalizations(),i));
+          
+          path = treePathPrefix + name + string("_norm.dnd");
+          ApplicationTools::displayResult(string("Output normalizations of type ") + TextTools::toString(i + 1) + string(" to file"), path);
+          newick.write(*pn, path);
+        }
       }
     }
+    
     break;
   case 6:
+    // Output per branch per site
     {
       string perSitenf = ApplicationTools::getStringParameter("file", outputArgs, "mapping_counts_per_site_per_branch.txt", "", true, 1);
       
@@ -251,16 +269,28 @@ int main(int args, char** argv)
       
       VVdouble counts;
 
-      if (nullProcessParams!="")
-        counts=SubstitutionMappingTools::getCountsPerSitePerBranch(psm->getCounts(),psm->getNormalizations());
-      else
+      if (nullProcessParams=="" || splitNorm)
         counts=SubstitutionMappingTools::getCountsPerSitePerBranch(psm->getCounts());
+      else
+        counts=SubstitutionMappingTools::getCountsPerSitePerBranch(psm->getCounts(),psm->getNormalizations());
 
       SubstitutionMappingTools::outputPerSitePerBranch(perSitenf, ids, counts);
+
+      if (nullProcessParams!="" && splitNorm)
+      {
+        counts=SubstitutionMappingTools::getCountsPerSitePerBranch(psm->getNormalizations());
+
+        perSitenf += "_norm";
+      
+        ApplicationTools::displayResult(string("Output normalizations (branch/site) to file"), perSitenf);
+
+        SubstitutionMappingTools::outputPerSitePerBranch(perSitenf, ids, counts);
+      }
     }
     break;
   case 2:
   case 3:
+    // Output per site per type
     {
       string perSitenf = ApplicationTools::getStringParameter("file", outputArgs, "mapping_counts_per_site_per_type.txt", "", true, 1);
       
@@ -268,31 +298,56 @@ int main(int args, char** argv)
       
       VVdouble counts;
       
-      if (nullProcessParams!="")
-        counts=SubstitutionMappingTools::getCountsPerSitePerType(psm->getCounts(), psm->getNormalizations(), perTimeUnit, siteSize);
-      else
+      if (nullProcessParams=="" || splitNorm)
         counts=SubstitutionMappingTools::getCountsPerSitePerType(psm->getCounts());
+      else
+        counts=SubstitutionMappingTools::getCountsPerSitePerType(psm->getCounts(), psm->getNormalizations(), perTimeUnit, siteSize);
       
-      SubstitutionMappingTools::outputPerSitePerType(perSitenf, *reg, counts);          
+      SubstitutionMappingTools::outputPerSitePerType(perSitenf, *reg, counts);
+
+      if (nullProcessParams!="" && splitNorm)
+      {
+        counts=SubstitutionMappingTools::getCountsPerSitePerType(psm->getNormalizations());
+
+        perSitenf += "_norm";
+      
+        ApplicationTools::displayResult(string("Output normalizations (site/type) to file"), perSitenf);
+
+        SubstitutionMappingTools::outputPerSitePerType(perSitenf, *reg, counts);
+      }
     }
     break;
   case 7:
+    // Output per site per type per branch
     {
       string tablePathPrefix = ApplicationTools::getStringParameter("prefix", outputArgs, "mapping_counts_per_site_per_branch_per_type_", "", true, 1);
       
       ApplicationTools::displayResult(string("Output counts (site/branch/type) to files"), tablePathPrefix + "*");
 
       ProbabilisticSubstitutionMapping* pCounts;
-      
-      if (nullProcessParams != "" && outputDesc.find("Branch")!=string::npos)
-        pCounts=SubstitutionMappingTools::computeNormalizedCounts(
-          &psm->getCounts(), &psm->getNormalizations(), perTimeUnit,  siteSize);
-      else
+
+      if (nullProcessParams=="" || splitNorm)
         pCounts=&psm->getCounts();
+      else
+        pCounts=SubstitutionMappingTools::computeNormalizedCounts(
+          &psm->getCounts(), &psm->getNormalizations(), perTimeUnit, siteSize);
       
       VVVdouble counts3(SubstitutionMappingTools::getCountsPerSitePerBranchPerType(*pCounts));
       
-      SubstitutionMappingTools::outputPerSitePerBranchPerType(tablePathPrefix, ids, *reg, counts3);
+      SubstitutionMappingTools::outputPerSitePerBranchPerType(tablePathPrefix+"_", ids, *reg, counts3);
+
+      if (nullProcessParams!="" && splitNorm)
+      {
+        pCounts=&psm->getNormalizations();
+
+        counts3=SubstitutionMappingTools::getCountsPerSitePerBranchPerType(*pCounts);
+        
+        tablePathPrefix += "_norm_";
+        
+        ApplicationTools::displayResult(string("Output normalizations (site/branch/type) to files"), tablePathPrefix + "*");
+
+        SubstitutionMappingTools::outputPerSitePerBranchPerType(tablePathPrefix, ids, *reg, counts3);
+      }
     }
     break;
   default:

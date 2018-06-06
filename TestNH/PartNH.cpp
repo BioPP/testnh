@@ -141,7 +141,7 @@ SubstitutionModelSet* buildModelSetFromPartitions(
     const vector< vector<int> >& groups,
     const vector<string>& globalParameterNames,
     std::map<int, ParameterList>& initParameters
-  ) throw (AlphabetException, Exception)
+  )
 {
   //Check alphabet:
   if (rootFreqs && model->getAlphabet()->getAlphabetType() != rootFreqs->getAlphabet()->getAlphabetType())
@@ -309,7 +309,7 @@ void outputHModel(const string& modelPath, double likelihood, const Substitution
 int main(int args, char ** argv)
 {
   cout << "******************************************************************" << endl;
-  cout << "*                     PartNH, version 1.1.1                      *" << endl;
+  cout << "*                     PartNH, version 1.3.0                      *" << endl;
   cout << "* Authors: J. Dutheil                       Created on  09/12/10 *" << endl;
   cout << "*          B. Boussau                       Last Modif. 24/11/14 *" << endl;
   cout << "******************************************************************" << endl;
@@ -662,7 +662,7 @@ int main(int args, char ** argv)
         messageHandler=0;
       else
         if (mhPath == "std") 
-          messageHandler=ApplicationTools::message;
+          messageHandler = ApplicationTools::message;
         else
           messageHandler.reset(new StlOutputStream(new ofstream((mhPath + TextTools::toString(modelCount)).c_str(), ios::out)));
 
@@ -670,7 +670,7 @@ int main(int args, char ** argv)
         profiler=0;
       else
         if (prPath == "std")
-          profiler=ApplicationTools::message;
+          profiler = ApplicationTools::message;
         else
           profiler.reset(new StlOutputStream(new ofstream((prPath + TextTools::toString(modelCount)).c_str(), ios::out)));
     
