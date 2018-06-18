@@ -1,7 +1,8 @@
 DATA = MantellidDataset
 param = MantellidDataset.params_h.bpp
 
-alphabet = Codon(letter=DNA, type=VertebrateMitochondrial)  #DNA
+alphabet = Codon(letter=DNA)
+genetic_code = VertebrateMitochondrial
 
 #Set imput tree file. Original branch lengths will be used for mapping.
 input.tree.file = $(DATA).ml_h.dnd

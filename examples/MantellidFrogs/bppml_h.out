@@ -1,17 +1,18 @@
 ******************************************************************
-*       Bio++ Maximum Likelihood Computation, version 1.5.0      *
+*       Bio++ Maximum Likelihood Computation, version 2.4.0      *
 *                                                                *
-* Authors: J. Dutheil                       Last Modif. 07/02/11 *
+* Authors: J. Dutheil                       Last Modif. 19/02/18 *
 *          B. Boussau                                            *
-*          L. Gueguen                                            *
+*          L. Guéguen                                            *
+*          M. Groussin                                           *
 ******************************************************************
 
 Parsing options:
 Parsing file ML.bpp for options.
-Alphabet type .........................: Codon(DNA)
+Alphabet type .........................: Codon(letter=DNA)
+Genetic Code...........................: VertebrateMitochondrial
 Sequence file .........................: MantellidDataset.faln
 Sequence format .......................: FASTA file
-Sequence file .........................: MantellidDataset.faln
 Sites to use...........................: all
 Remove sites with gaps.................: 
 [[======================================]Done.
@@ -19,39 +20,49 @@ Remove Stop Codons.....................: yes
 Number of sequences....................: 17
 Number of sites........................: 1518
 Input tree.............................: user
-Tree file..............................: MantellidDataset_unrooted.tree
+Input tree file .......................: MantellidDataset_unrooted.tree
+Input tree format .....................: Newick
 Number of leaves.......................: 17
-Wrote tree to file ....................: MantellidDataset.ml_h.dnd
+Output tree file ......................: MantellidDataset.ml_h.dnd
+Output tree format ....................: Newick
 Branch lengths.........................: Input
 Heterogeneous model....................: no
-Frequencies initialization for model...: observed
-WARNING!!! Parameter YN98.initFreqs.observedPseudoCount not specified. Default used instead: 0
+StopCodon frequencies distribution ....: uniform
+Substitution model.....................: YN98
+External frequencies initialization for: observed
 Parameter found........................: YN98.kappa=2
 Parameter found........................: YN98.omega=0.5
-WARNING!!! Parameter YN98.1_Full.theta not specified. Default used instead: 0.460548
 Parameter found........................: YN98.1_Full.theta=0.460548
-WARNING!!! Parameter YN98.1_Full.theta1 not specified. Default used instead: 0.569985
 Parameter found........................: YN98.1_Full.theta1=0.569985
-WARNING!!! Parameter YN98.1_Full.theta2 not specified. Default used instead: 0.480782
 Parameter found........................: YN98.1_Full.theta2=0.480782
-WARNING!!! Parameter YN98.2_Full.theta not specified. Default used instead: 0.405271
 Parameter found........................: YN98.2_Full.theta=0.405271
-WARNING!!! Parameter YN98.2_Full.theta1 not specified. Default used instead: 0.317366
 Parameter found........................: YN98.2_Full.theta1=0.317366
-WARNING!!! Parameter YN98.2_Full.theta2 not specified. Default used instead: 0.279906
 Parameter found........................: YN98.2_Full.theta2=0.279906
-WARNING!!! Parameter YN98.3_Full.theta not specified. Default used instead: 0.352878
 Parameter found........................: YN98.3_Full.theta=0.352878
-WARNING!!! Parameter YN98.3_Full.theta1 not specified. Default used instead: 0.540054
 Parameter found........................: YN98.3_Full.theta1=0.540054
-WARNING!!! Parameter YN98.3_Full.theta2 not specified. Default used instead: 0.125294
 Parameter found........................: YN98.3_Full.theta2=0.125294
+External frequencies initialization for: observed
+Parameter found........................: YN98.kappa=2
+Parameter found........................: YN98.omega=0.5
+Parameter found........................: YN98.1_Full.theta=0.460548
+Parameter found........................: YN98.1_Full.theta1=0.569985
+Parameter found........................: YN98.1_Full.theta2=0.480782
+Parameter found........................: YN98.2_Full.theta=0.405271
+Parameter found........................: YN98.2_Full.theta1=0.317366
+Parameter found........................: YN98.2_Full.theta2=0.279906
+Parameter found........................: YN98.3_Full.theta=0.352878
+Parameter found........................: YN98.3_Full.theta1=0.540054
+Parameter found........................: YN98.3_Full.theta2=0.125294
+Distribution...........................: Constant
+Number of classes......................: 1
 - Category 0 (Pr = 1) rate.............: 1
+Rate distribution......................: Constant
+Number of classes......................: 1
 Likelihood recursion...................: simple
 Likelihood data compression............: recursive
 Initializing data structure............: Done.
 Number of distinct sites...............: 1491
-Initial log likelihood.................: -50287.4786308177
+Initial log likelihood.................: -50287.478630818
 Message handler........................: MantellidDataset_h.messages
 Profiler...............................: MantellidDataset_h.profile
 Parameter ignored......................: YN98.1_Full.theta
@@ -73,8 +84,9 @@ Molecular clock........................: None
 **********************************
 
 Performed..............................: 35 function evaluations.
-Wrote tree to file ....................: MantellidDataset.ml_h.dnd
-Log likelihood.........................: -44799.288175619
+Output tree file ......................: MantellidDataset.ml_h.dnd
+Output tree format ....................: Newick
+Log likelihood.........................: -44799.2881756184
 YN98.kappa.............................: 2.94929
 YN98.omega.............................: 0.0546493
 YN98.1_Full.theta......................: 0.460548
@@ -86,6 +98,7 @@ YN98.2_Full.theta2.....................: 0.279906
 YN98.3_Full.theta......................: 0.352878
 YN98.3_Full.theta1.....................: 0.540054
 YN98.3_Full.theta2.....................: 0.125294
+WARNING!!! Parameter output.estimates.alias not specified. Default used instead: 1
 Output estimates to file...............: MantellidDataset.params_h.bpp
 
 Posterior rate distribution for dataset:
@@ -95,4 +108,4 @@ Pr(1.000000) = 1.000000
 
 Alignment information logfile..........: MantellidDataset_h.infos
 BppML's done. Bye.
-Total execution time: 0.000000d, 0.000000h, 4.000000m, 24.000000s.
+Total execution time: 0.000000d, 0.000000h, 2.000000m, 33.000000s.

@@ -5,7 +5,7 @@
 bppml --noninteractive=yes param=ML.bpp >& bppml_h.out &
 ```
 
-logL = -44799.288101026
+logL = -44799.2881756184
 
 This will store optimized parameter in file `MantellidDataset.mh_h.params.txt`
 and corresponding tree in file              `MantellidDataset.ml_h.tt`.
@@ -16,7 +16,7 @@ For comparison, here is the full model:
 bppml --noninteractive=yes param=ML_NH_Full.bpp > bppml_nh_full.out &
 ```
 
-logL = -44715.4765196191
+logL = -44715.4752201262
 
 And with PAML:
 ```bash
@@ -61,7 +61,7 @@ partnh --noninteractive=yes param=PartNH.bpp \
        METHOD=free_BIC > partnh_free_BIC.out &
 ```
 
-The resulting log likelihood is -45388.43914054020569892600, for 2 clusters
+The resulting log likelihood is -45298.25456129185477038845, for 2 clusters
 
 ```
 partnh --noninteractive=yes param=PartNH.bpp \
@@ -69,8 +69,8 @@ partnh --noninteractive=yes param=PartNH.bpp \
        partition.test=BIC\
        METHOD=join_BIC > partnh_join_BIC.out &
 ```
-
-The resulting log likelihood is -45388.08342856747913174331, for 5 clusters
+CONTINUE HERE
+The resulting log likelihood is -45297.52684668595611583441, for 5 clusters
 
 ```bash
 partnh --noninteractive=yes param=PartNH.bpp \
@@ -79,7 +79,8 @@ partnh --noninteractive=yes param=PartNH.bpp \
        METHOD=free_AIC > partnh_free_AIC.out &
 ```
 
-The resulting loge likelihood is -45364.23772318652481772006 for 11 clusters
+The resulting loge likelihood is -45274.84135715108277508989
+ for 11 clusters
 
 ```bash
 partnh --noninteractive=yes param=PartNH.bpp \
@@ -88,7 +89,7 @@ partnh --noninteractive=yes param=PartNH.bpp \
        METHOD=join_AIC > partnh_join_AIC.out &
 ```
 
-The resulting log likelihood is -45370.00438022504386026412 for 12 clusters
+The resulting log likelihood is -45280.47620085658127209172 for 12 clusters
 
 4) Assess the robustness of substitution mapping:
 =================================================
@@ -98,7 +99,7 @@ mapnh --noninteractive=yes \
       param=MapNH.bpp \
       param=MantellidDataset.model_free_BIC.bpp \
       input.tree.file=MantellidDataset.ml_nh_free_BIC.nhx \
-      input.tree.format=NHX \
+      input.tree.format=Nhx \
       test.branch.neighbor=no \
       output.counts.tree.prefix=MantellidDataset.counts_post \
       output.cluster_tree.file=MantellidDataset.cluster_free_post.dnd > mapnh_free_post.out &
@@ -108,13 +109,15 @@ partnh --noninteractive=yes param=PartNH.bpp \
        partition.test=BIC \
        partition.test.stop_condition=3 \
        METHOD=free_BIC_post > partnh_free_BIC_post.out &
+```
+-45298.25456145822681719437, 2 clusters
 
-
+```bash
 mapnh --noninteractive=yes \
       param=MapNH.bpp \
       param=MantellidDataset.model_join_BIC.bpp \
       input.tree.file=MantellidDataset.ml_nh_join_BIC.nhx \
-      input.tree.format=NHX \
+      input.tree.format=Nhx \
       test.branch.neighbor=yes \
       output.counts.tree.prefix=MantellidDataset.counts_post \
       output.cluster_tree.file=MantellidDataset.cluster_join_post.dnd > mapnh_join_post.out &
@@ -125,5 +128,7 @@ partnh --noninteractive=yes param=PartNH.bpp \
        partition.test.stop_condition=3 \
        METHOD=join_BIC_post > partnh_join_BIC_post.out &
 ```
+-45297.52684665376727934927, 5 clusters
+
 
      

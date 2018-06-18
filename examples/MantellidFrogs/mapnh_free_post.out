@@ -1,71 +1,85 @@
 ******************************************************************
-*                     Map NH, version 0.1.0                      *
+*                     Map NH, version 1.3.0                      *
 * Authors: J. Dutheil                       Created on  09/12/10 *
-*          B. Boussau                       Last Modif. 17/12/11 *
+*          B. Boussau                       Modif. 17/12/11      *
+*          L. Guéguen                       Last Modif. 24/11/14 *
 ******************************************************************
 
 Parsing options:
 Parsing file MapNH.bpp for options.
 Parsing file MantellidDataset.params_h.bpp for options.
 Parsing file MantellidDataset.model_free_BIC.bpp for options.
-Alphabet type .........................: Codon(DNA)
-Sequence format .......................: Fasta
+Alphabet type .........................: Codon(letter=DNA)
+Genetic Code...........................: VertebrateMitochondrial
 Sequence file .........................: MantellidDataset.faln
+Sequence format .......................: FASTA file
 Sites to use...........................: all
-WARNING!!! Parameter input.sequence.max_gap_allowed not specified. Default used instead: 100%
 Remove Stop Codons.....................: yes
 Number of sequences....................: 17
 Number of sites........................: 1606
-Tree file..............................: MantellidDataset.ml_nh_free_BIC.nhx
+Input tree file .......................: MantellidDataset.ml_nh_free_BIC.nhx
+Input tree format .....................: Nhx
 Number of leaves.......................: 17
 Heterogeneous model....................: general
 Number of distinct models..............: 2
+StopCodon frequencies distribution ....: uniform
 Stationarity assumed...................: yes
+StopCodon frequencies distribution ....: uniform
+Substitution model.....................: YN98
 Frequencies Initialization for model...: None
-Parameter found........................: model1.YN98.kappa=2.96728
-Parameter found........................: model1.YN98.omega=0.0799266
-Parameter found........................: model1.YN98.freq_Codon1_Full.theta=0.459638
-Parameter found........................: model1.YN98.freq_Codon1_Full.theta1=0.569686
-Parameter found........................: model1.YN98.freq_Codon1_Full.theta2=0.479348
-Parameter found........................: model1.YN98.freq_Codon2_Full.theta=0.404291
-Parameter found........................: model1.YN98.freq_Codon2_Full.theta1=0.316323
-Parameter found........................: model1.YN98.freq_Codon2_Full.theta2=0.279422
-Parameter found........................: model1.YN98.freq_Codon3_Full.theta=0.35275
-Parameter found........................: model1.YN98.freq_Codon3_Full.theta1=0.539301
-Parameter found........................: model1.YN98.freq_Codon3_Full.theta2=0.125542
+Parameter found........................: YN98.kappa_1=2.94748
+Parameter found........................: YN98.omega_1=0.0806283
+Parameter found........................: YN98.1_Full.theta_1=0.459638
+Parameter found........................: YN98.1_Full.theta1_1=0.569686
+Parameter found........................: YN98.1_Full.theta2_1=0.479348
+Parameter found........................: YN98.2_Full.theta_1=0.404291
+Parameter found........................: YN98.2_Full.theta1_1=0.316323
+Parameter found........................: YN98.2_Full.theta2_1=0.279422
+Parameter found........................: YN98.3_Full.theta_1=0.35275
+Parameter found........................: YN98.3_Full.theta1_1=0.539301
+Parameter found........................: YN98.3_Full.theta2_1=0.125542
 Model1 is associated to................: 12 node(s).
+StopCodon frequencies distribution ....: uniform
+Substitution model.....................: YN98
 Frequencies Initialization for model...: None
-Parameter found........................: model2.YN98.kappa=2.96728
-Parameter found........................: model2.YN98.omega=0.0438526
-Parameter found........................: model2.YN98.freq_Codon1_Full.theta=0.459638
-Parameter found........................: model2.YN98.freq_Codon1_Full.theta1=0.569686
-Parameter found........................: model2.YN98.freq_Codon1_Full.theta2=0.479348
-Parameter found........................: model2.YN98.freq_Codon2_Full.theta=0.404291
-Parameter found........................: model2.YN98.freq_Codon2_Full.theta1=0.316323
-Parameter found........................: model2.YN98.freq_Codon2_Full.theta2=0.279422
-Parameter found........................: model2.YN98.freq_Codon3_Full.theta=0.35275
-Parameter found........................: model2.YN98.freq_Codon3_Full.theta1=0.539301
-Parameter found........................: model2.YN98.freq_Codon3_Full.theta2=0.125542
+Parameter found........................: YN98.omega_2=0.0439232
 Model2 is associated to................: 19 node(s).
-WARNING!!! Parameter nonhomogeneous.alias not specified. Default used instead: 
-Rate distribution......................: Constant
+Parameter alias found..................: YN98.1_Full.theta1_2 -> YN98.1_Full.theta1_1 = 0.569686
+Parameter alias found..................: YN98.1_Full.theta2_2 -> YN98.1_Full.theta2_1 = 0.479348
+Parameter alias found..................: YN98.1_Full.theta_2 -> YN98.1_Full.theta_1 = 0.459638
+Parameter alias found..................: YN98.2_Full.theta1_2 -> YN98.2_Full.theta1_1 = 0.316323
+Parameter alias found..................: YN98.2_Full.theta2_2 -> YN98.2_Full.theta2_1 = 0.279422
+Parameter alias found..................: YN98.2_Full.theta_2 -> YN98.2_Full.theta_1 = 0.404291
+Parameter alias found..................: YN98.3_Full.theta1_2 -> YN98.3_Full.theta1_1 = 0.539301
+Parameter alias found..................: YN98.3_Full.theta2_2 -> YN98.3_Full.theta2_1 = 0.125542
+Parameter alias found..................: YN98.3_Full.theta_2 -> YN98.3_Full.theta_1 = 0.35275
+Parameter alias found..................: YN98.kappa_2 -> YN98.kappa_1 = 2.94748
+Distribution...........................: Constant
 Number of classes......................: 1
 - Category 0 (Pr = 1) rate.............: 1
+Rate distribution......................: Constant
+Number of classes......................: 1
+Log-Likelihood.........................: -45298.3
+Substitution Register..................: DnDs
+  * Count type 1.......................: dS
+  * Count type 2.......................: dN
+WARNING!!! Parameter output.counts not specified. Default used instead: PerType(prefix=)
 Saturation threshold used..............: 3
-WARNING!!! On branch 1, 45 sites (3%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 1, 48 sites (3%) have been ignored because they are presumably saturated.
 WARNING!!! On branch 3, 4 sites (1%) have been ignored because they are presumably saturated.
 WARNING!!! On branch 4, 7 sites (1%) have been ignored because they are presumably saturated.
 WARNING!!! On branch 7, 4 sites (1%) have been ignored because they are presumably saturated.
 WARNING!!! On branch 9, 2 sites (1%) have been ignored because they are presumably saturated.
-WARNING!!! On branch 16, 34 sites (3%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 16, 36 sites (3%) have been ignored because they are presumably saturated.
 WARNING!!! On branch 18, 9 sites (1%) have been ignored because they are presumably saturated.
 WARNING!!! On branch 19, 1 sites (1%) have been ignored because they are presumably saturated.
-WARNING!!! On branch 24, 8 sites (1%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 24, 9 sites (1%) have been ignored because they are presumably saturated.
 WARNING!!! On branch 25, 24 sites (2%) have been ignored because they are presumably saturated.
-WARNING!!! On branch 26, 4 sites (1%) have been ignored because they are presumably saturated.
-WARNING!!! On branch 28, 318 sites (20%) have been ignored because they are presumably saturated.
-Output counts of type 1 to file........: MantellidDataset.counts_post1.dnd
-Output counts of type 2 to file........: MantellidDataset.counts_post2.dnd
+WARNING!!! On branch 26, 5 sites (1%) have been ignored because they are presumably saturated.
+WARNING!!! On branch 28, 336 sites (21%) have been ignored because they are presumably saturated.
+Saturation threshold used..............: 3
+Output counts of type 1 to file........: mapping_counts_per_type_dS.dnd
+Output counts of type 2 to file........: mapping_counts_per_type_dN.dnd
 Perform branch clustering..............: yes
 Cluster only neighbor nodes............: no
 Allow len < 0 in clustering............: no
@@ -77,4 +91,4 @@ P-value at root node...................: 0
 Number of tests performed..............: 900
 Output cluster tree to.................: MantellidDataset.cluster_free_post.dnd
 MapNH's done. Bye.
-Total execution time: 0.000000d, 0.000000h, 0.000000m, 18.000000s.
+Total execution time: 0.000000d, 0.000000h, 0.000000m, 13.000000s.
