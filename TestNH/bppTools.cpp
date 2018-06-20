@@ -90,7 +90,7 @@ map<size_t, AlignedValuesContainer*> bppTools::getAlignmentsMap(const map<string
   map<size_t, AlignedValuesContainer*> mSites = SequenceApplicationTools::getAlignedContainers(alphabet, params);
   
   if (!optionalData && mSites.size() == 0)
-    throw Exception("Missing data input.sequence.file option");
+    throw Exception("Missing or bad input.data option");
 
   if (changeGapsToUnknownCharacters)
     for (auto itc : mSites)
