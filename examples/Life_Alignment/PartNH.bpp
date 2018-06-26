@@ -46,7 +46,7 @@ optimization.message_handler = $(DATA).$(METHOD).message
 
 #Where to write optimal model (for later use with bppSeqGen or bppAncestor for instance):
 output.tree.file = $(DATA).ml_nh_$(METHOD).nhx
-output.tree.format = NHX
+output.tree.format = Nhx
 output.partitions.file = $(DATA).partitions_$(METHOD).dnd
 output.partitions.record = $(DATA).partitions_record_$(METHOD).txt
 output.model.file = $(DATA).model_$(METHOD).bpp

@@ -1,55 +1,58 @@
-# Log likelihood = -13928.95503078663750784472
+# Log likelihood = -13921.54574188313745253254
 
 # Substitution model parameters:
-nonhomogeneous = general
-nonhomogeneous.number_of_models = 15
+nonhomogeneous=general
+nonhomogeneous.number_of_models=16
 
-model1 = T92(kappa=3.087479138028, theta=0.908346002651)
-model1.nodes_id = 168,170
+model1=T92(kappa=3.076657199315,theta=0.462835782033)
+model1.nodes_id=9,13,14,15,16,17,18,19,47,48,49,57,69,70,72,73,74,84,91,102,116,117,122,179
 
-model2 = T92(kappa=model1.T92.kappa, theta=0.396134823821)
-model2.nodes_id = 22,25,28,29,30,32,33,34,38,40,85,92,100,111,172,173,174,178
+model2=T92(kappa=T92.kappa_1,theta=0.400777939412)
+model2.nodes_id=22,25,28,29,30,32,33,34,38,40,58,85,92,100,107,111,172,173,174,178
 
-model3 = T92(kappa=model1.T92.kappa, theta=0.542815737676)
-model3.nodes_id = 4,43,55,65,66,113,114,119,123,124,125,126,127,128,129,130,131,132,133,134,135,143,148,155,157,158,159,160,169,177,180,181
+model3=T92(kappa=T92.kappa_1,theta=0.572520651176)
+model3.nodes_id=4,21,26,37,41,53,54,55,65,66,109,114,115,123,125,133,148,155,157,158,160,169
 
-model4 = T92(kappa=model1.T92.kappa, theta=0.792890076831)
-model4.nodes_id = 0,11,50,108,110,120
+model4=T92(kappa=T92.kappa_1,theta=0.635713092980)
+model4.nodes_id=10,20,27,52,56,59,63,71,99,137,145,146,176
 
-model5 = T92(kappa=model1.T92.kappa, theta=0.669135027143)
-model5.nodes_id = 8,10,27,31,36,37,45,46,58,60,61,62,64,68,103,121,139,141,145,175
+model5=T92(kappa=T92.kappa_1,theta=0.356011369697)
+model5.nodes_id=1,2,3,5,44,93,94,101,105,106,135,143,159,161,167
 
-model6 = T92(kappa=model1.T92.kappa, theta=0.462219821900)
-model6.nodes_id = 9,13,14,15,16,17,18,19,47,48,49,57,69,70,72,73,74,84,91,102,115,116,117,122,136,138,140,142,179
+model6=T92(kappa=T92.kappa_1,theta=0.249972846475)
+model6.nodes_id=35,79,83,87,89
 
-model7 = T92(kappa=model1.T92.kappa, theta=0.476142595075)
-model7.nodes_id = 23,51,67,75,76,77,88,90,104,118,147
+model7=T92(kappa=T92.kappa_1,theta=0.868720940945)
+model7.nodes_id=124,126,127,128,129,130,131,132,134,170,177
 
-model8 = T92(kappa=model1.T92.kappa, theta=0.412794915092)
-model8.nodes_id = 1,2,3,5,44,93,94,96,98,161,167
+model8=T92(kappa=T92.kappa_1,theta=0.976144433733)
+model8.nodes_id=168
 
-model9 = T92(kappa=model1.T92.kappa, theta=0.255160025768)
-model9.nodes_id = 35,79,83,87,89,101,105
+model9=T92(kappa=T92.kappa_1,theta=0.770247842740)
+model9.nodes_id=0,11,50,108,110,120,166
 
-model10 = T92(kappa=model1.T92.kappa, theta=0.636037772211)
-model10.nodes_id = 20,52,56,59,63,71,99,137,146,176
+model10=T92(kappa=T92.kappa_1,theta=0.663827385182)
+model10.nodes_id=31,45,46,60,61,62,68,103,121,139,141,175
 
-model11 = T92(kappa=model1.T92.kappa, theta=0.609709942414)
-model11.nodes_id = 26,53,54,109,162,163,164,165,166
+model11=T92(kappa=T92.kappa_1,theta=0.486447930508)
+model11.nodes_id=23,51,88,90,104,118,140,142,147
 
-model12 = T92(kappa=model1.T92.kappa, theta=0.349986887368)
-model12.nodes_id = 24,39,86
+model12=T92(kappa=T92.kappa_1,theta=0.539515212016)
+model12.nodes_id=43,67,75,76,77,113,119,180,181
 
-model13 = T92(kappa=model1.T92.kappa, theta=0.319167012100)
-model13.nodes_id = 78,80,82,97,106,107,144
+model13=T92(kappa=T92.kappa_1,theta=0.320017648158)
+model13.nodes_id=24,39,86,96,98,162,163,164,165
 
-model14 = T92(kappa=model1.T92.kappa, theta=0.813829640011)
-model14.nodes_id = 6,7,12,21,41,42,81,95,156,171
+model14=T92(kappa=T92.kappa_1,theta=0.292836959650)
+model14.nodes_id=78,80,82,97,136,138,144
 
-model15 = T92(kappa=model1.T92.kappa, theta=0.800171897329)
-model15.nodes_id = 112,149,150,151,152,153,154
+model15=T92(kappa=T92.kappa_1,theta=0.756517181693)
+model15.nodes_id=6,7,64,81,95,156,171
+
+model16=T92(kappa=T92.kappa_1,theta=0.834829155504)
+model16.nodes_id=8,12,36,42,112,149,150,151,152,153,154
 
 # Root frequencies:
-nonhomogeneous.root_freq = GC(theta=0.459777234146)
-rate_distribution = Gamma(n=4, alpha=0.635606741676)
+nonhomogeneous.root_freq=GC(theta=0.462105016379)
+rate_distribution=Gamma(n=4,alpha=0.637371000124, Gamma.beta=alpha)
 

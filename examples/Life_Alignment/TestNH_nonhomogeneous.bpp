@@ -1,7 +1,7 @@
 #Input tree file must be in NHX format, in order to get proper node id.
 #MapNH can output such an NHX tree if the input one was in Newick or Nexus.
 input.tree.file = 
-input.tree.format = NHX
+input.tree.format = Nhx
 
 alphabet = RNA
 input.sequence.file = Life_Alignment.mase

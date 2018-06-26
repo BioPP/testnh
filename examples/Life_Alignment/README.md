@@ -7,9 +7,10 @@
 ```bash     
 bppml --noninteractive=yes param=ML.bpp > bppml_h.out &
 ```
-     
-This will store optimized parameter in file `Life_Alignment.params_h.txt`
-and corresponding tree in file              `Life_Alignment.ml_h.txt.`
+Log likelihood:  -14122.120990606
+    
+This will store optimized parameter in file `Life_Alignment.params_h.bpp`
+and corresponding tree in file              `Life_Alignment.ml_h.dnd.`
 A T92+Gamma substitution model is used.
 
 1.2) Compute the Bowker statistic and compare to simulations under the estimated model
@@ -104,22 +105,22 @@ partnh --noninteractive=yes param=PartNH.bpp \
 Using the Bowker test against the alternative hypothesis (see Dutheil and Boussau 2008):
 
 ```bash
-testnh param=TestNH_nonhomogeneous.bpp\
+testnh --noninteractive=yes param=TestNH_nonhomogeneous.bpp\
        param=Life_Alignment.model_free_BIC.bpp\
        bootstrap.dist_file=TestNH_nonhomogeneous.null_free_BIC.txt\
        input.tree.file=Life_Alignment.ml_nh_free_BIC.nhx > testnh_nh_free_BIC.out &
 
-testnh param=TestNH_nonhomogeneous.bpp\
+testnh --noninteractive=yes param=TestNH_nonhomogeneous.bpp\
        param=Life_Alignment.model_join_BIC.bpp\
        bootstrap.dist_file=TestNH_nonhomogeneous.null_join_BIC.txt\
        input.tree.file=Life_Alignment.ml_nh_join_BIC.nhx > testnh_nh_join_BIC.out &
 
-testnh param=TestNH_nonhomogeneous.bpp\
+testnh --noninteractive=yes param=TestNH_nonhomogeneous.bpp\
        param=Life_Alignment.model_free_AIC.bpp\
        bootstrap.dist_file=TestNH_nonhomogeneous.null_free_AIC.txt\
        input.tree.file=Life_Alignment.ml_nh_free_AIC.nhx > testnh_nh_free_AIC.out &
 
-testnh param=TestNH_nonhomogeneous.bpp\
+testnh --noninteractive=yes param=TestNH_nonhomogeneous.bpp\
        param=Life_Alignment.model_join_AIC.bpp\
        bootstrap.dist_file=TestNH_nonhomogeneous.null_join_AIC.txt\
        input.tree.file=Life_Alignment.ml_nh_join_AIC.nhx > testnh_nh_join_AIC.out &
