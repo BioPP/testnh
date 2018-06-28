@@ -51,12 +51,45 @@ using namespace std;
 #include <Bpp/Phyl/Io/Newick.h>
 #include <Bpp/Phyl/Mapping/PhyloMappings/OneProcessSequenceSubstitutionMapping.h>
 #include <Bpp/Phyl/Mapping/PhyloMappings/SingleProcessSubstitutionMapping.h>
+#include <Bpp/Phyl/NewLikelihood/PhyloLikelihoods/PartitionProcessPhyloLikelihood.h>
 #include <Bpp/App/BppApplication.h>
 #include <Bpp/Text/KeyvalTools.h>
 
 #include "bppTools.h"
 
 using namespace bpp;
+
+//// utilitary function for Partition PhyloMappings
+
+VVVdouble assignGoodSites(const VVVVdouble& vcount, const PartitionProcessPhyloLikelihood& ppl)
+{
+  VVVdouble count(ppl.getNumberOfSites());
+  for (auto& c:count)
+    c.resize(vcount[0][0].size());
+  
+  const std::vector<ProcPos>& vpp=ppl.getProcessSiteRelations();
+
+  for (size_t i=0; i<count.size(); i++)
+    count[i]=vcount[vpp[i].nProc-1][vpp[i].pos];
+  return count;
+}
+
+VVdouble assignGoodSites(const VVdouble& vlength, const PartitionProcessPhyloLikelihood& ppl)
+{
+  VVdouble lengths(ppl.getNumberOfSites());
+  for (auto& c:lengths)
+    c.resize(vlength[0].size());
+  
+  const std::vector<ProcPos>& vpp=ppl.getProcessSiteRelations();
+
+  for (size_t i=0; i<lengths.size(); i++)
+    lengths[i]=vlength[vpp[i].nProc-1];
+
+  return lengths;
+}
+
+
+//////////////////////////////////////
 
 int main(int args, char** argv)
 {
@@ -76,392 +109,530 @@ int main(int args, char** argv)
   
   try
   {
-  BppApplication mapnh(args, argv, "MapNH");
-  mapnh.startTimer();
-  std::map<std::string, std::string> unparsedparams;
-
-  /*********************************/
-  /* get Basic objects */
-  /*********************************/
-  
-  unique_ptr<Alphabet> alphabet(bppTools::getAlphabet(mapnh.getParams()));
-  unique_ptr<GeneticCode> gCode(bppTools::getGeneticCode(mapnh.getParams(),alphabet.get()));
-
-  map<size_t, AlignedValuesContainer*> mSites=bppTools::getAlignmentsMap(mapnh.getParams(), alphabet.get(), true);
-
-  unique_ptr<SubstitutionProcessCollection> SP(bppTools::getCollection(mapnh.getParams(), alphabet.get(), gCode.get(), mSites, unparsedparams));
-                                               
-  std::map<size_t, SequenceEvolution*> mProc=bppTools::getProcesses(mapnh.getParams(), *SP, unparsedparams);
-  
-  unique_ptr<PhyloLikelihoodContainer> plc(bppTools::getPhyloLikelihoods(mapnh.getParams(), mProc, *SP, mSites));
-
-  if (!plc->hasPhyloLikelihood(1))
-    throw Exception("Missing first phyloLikelihood.");
-
-  PhyloLikelihood* pl=(*plc)[1];
-
-  bppTools::fixLikelihood(mapnh.getParams(), alphabet.get(), gCode.get(), pl);
-
-  /// For now restriction to OneSequencePhyloLikelihoods:
-
-  OneProcessSequencePhyloLikelihood* opspl= dynamic_cast<OneProcessSequencePhyloLikelihood*>(pl);
-  SingleProcessPhyloLikelihood* sppl= dynamic_cast<SingleProcessPhyloLikelihood*>(pl);
-  
-  if (opspl==NULL && sppl==NULL)
-    throw Exception("Mapping only for simple phylo.");
-  
-  // if (model->getName() != "RE08")
-  //   SiteContainerTools::changeGapsToUnknownCharacters(*sites);
-  
-  
-  //////////////////////////////////
-  // Set register and initialize the parameters for the mapping:
-  //////////////
-
-  // Only One alphabet state map
-  const StateMap& stmap=opspl?opspl->getSubstitutionProcess().getStateMap():sppl->getSubstitutionProcess().getStateMap();
-
-  string regTypeDesc = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "All", "", true, false);
-
-  AlphabetIndex2* weights = 0;
-  AlphabetIndex2* distances = 0;
-  
-  unique_ptr<SubstitutionRegister> reg(PhylogeneticsApplicationTools::getSubstitutionRegister(regTypeDesc, stmap, gCode.get(), weights, distances));
-
-  shared_ptr<const AlphabetIndex2> sweights(weights);
-  shared_ptr<const AlphabetIndex2> sdistances(distances);
-  
-  double thresholdSat = ApplicationTools::getDoubleParameter("count.max", mapnh.getParams(), -1, "", true, 1);
-  if (thresholdSat > 0)
-    ApplicationTools::displayResult("Saturation threshold used", thresholdSat);
-
-  unique_ptr<PhyloSubstitutionMapping> psm;
-
-  if (opspl)
-    psm.reset(new OneProcessSequenceSubstitutionMapping(*opspl, *reg, sweights, sdistances, thresholdSat));
-  else
-    psm.reset(new SingleProcessSubstitutionMapping(*sppl, *reg, sweights, sdistances, thresholdSat));
-
-  //Write categories:
-  for (size_t i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i)
-    ApplicationTools::displayResult("  * Count type " + TextTools::toString(i + 1), reg->getTypeName(i + 1));
-
-  
-  // specific parameters to the null models
-  string nullProcessParams = ApplicationTools::getStringParameter("nullProcessParams", mapnh.getParams(), "", "", false, 1);
-  
-  ParameterList nullParams;
-  if (nullProcessParams != "")
-  {
-    const ParameterList pl0=psm->getParameters();
-
-    map<string, string> npv;
-    KeyvalTools::multipleKeyvals(nullProcessParams, npv, ",", false);
+    BppApplication mapnh(args, argv, "MapNH");
+    mapnh.startTimer();
+    std::map<std::string, std::string> unparsedparams;
     
-    map<string, string>::iterator mi(npv.begin());
-    for (const auto& pv : npv)
+    /*********************************/
+    /* get Basic objects */
+    /*********************************/
+  
+    unique_ptr<Alphabet> alphabet(bppTools::getAlphabet(mapnh.getParams()));
+    unique_ptr<GeneticCode> gCode(bppTools::getGeneticCode(mapnh.getParams(),alphabet.get()));
+
+    map<size_t, AlignedValuesContainer*> mSites=bppTools::getAlignmentsMap(mapnh.getParams(), alphabet.get(), true);
+
+    unique_ptr<SubstitutionProcessCollection> SP(bppTools::getCollection(mapnh.getParams(), alphabet.get(), gCode.get(), mSites, unparsedparams));
+                                               
+    std::map<size_t, SequenceEvolution*> mProc=bppTools::getProcesses(mapnh.getParams(), *SP, unparsedparams);
+  
+    unique_ptr<PhyloLikelihoodContainer> plc(bppTools::getPhyloLikelihoods(mapnh.getParams(), mProc, *SP, mSites));
+
+    if (!plc->hasPhyloLikelihood(1))
+      throw Exception("Missing first phyloLikelihood.");
+
+    PhyloLikelihood* pl=(*plc)[1];
+
+    bppTools::fixLikelihood(mapnh.getParams(), alphabet.get(), gCode.get(), pl);
+
+    double thresholdSat = ApplicationTools::getDoubleParameter("count.max", mapnh.getParams(), -1, "", true, 1);
+    if (thresholdSat > 0)
+      ApplicationTools::displayResult("Saturation threshold used", thresholdSat);
+
+  
+    // Checks all phylolikelihoods fit, and only one alphabet state map
+
+    OneProcessSequencePhyloLikelihood* opspl= dynamic_cast<OneProcessSequencePhyloLikelihood*>(pl);
+    SingleProcessPhyloLikelihood* sppl= dynamic_cast<SingleProcessPhyloLikelihood*>(pl);    
+    PartitionProcessPhyloLikelihood* sap = dynamic_cast<PartitionProcessPhyloLikelihood*>(pl);
+  
+    const StateMap* pstmap(0);
+
+    if (opspl==NULL && sppl==NULL && sap==NULL)
+      throw Exception("Mapping not possible for this phylo. Ask the developpers");
+
+    if (opspl)
+      pstmap=&opspl->getSubstitutionProcess().getStateMap();
+    else if (sppl)
+      pstmap=&sppl->getSubstitutionProcess().getStateMap();
+    else
     {
-      vector<string> pn = pl0.getMatchingParameterNames(pv.first);
-      double val=TextTools::toDouble(pv.second);
-      for (const auto& n : pn)
+      const std::vector<size_t>& vpn=sap->getNumbersOfPhyloLikelihoods();
+      for (const auto& pn : vpn)
       {
-        nullParams.addParameter(Parameter(n, val));
-        ApplicationTools::displayResult("null Parameter " + n, val);
+        const AbstractPhyloLikelihood* pap=sap->getAbstractPhyloLikelihood(pn);
+        const OneProcessSequencePhyloLikelihood* opspl2= dynamic_cast<const OneProcessSequencePhyloLikelihood*>(pap);
+        const SingleProcessPhyloLikelihood* sppl2 = dynamic_cast<const SingleProcessPhyloLikelihood*>(pap);
+
+        if (opspl2==NULL && sppl2==NULL)
+          throw Exception("Mapping not possible for a non-single process in container phylo.");
+
+        if (!pstmap)
+          pstmap=opspl2?&opspl2->getSubstitutionProcess().getStateMap():&sppl2->getSubstitutionProcess().getStateMap();
+        else
+        {
+          const StateMap* pstmap2=opspl2?&opspl2->getSubstitutionProcess().getStateMap():&sppl2->getSubstitutionProcess().getStateMap();
+          if (pstmap2->getAlphabetStates()!=pstmap->getAlphabetStates())
+            throw Exception("Discordant alphabet states in container phylo.");
+        }
+      }
+    }
+  
+
+    //////////////////////////////////
+    // set register and initialize the parameters for the mapping:
+    //////////////
+  
+    string regTypeDesc = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "All", "", true, false);
+
+    AlphabetIndex2* weights = 0;
+    AlphabetIndex2* distances = 0;
+  
+    unique_ptr<SubstitutionRegister> reg(PhylogeneticsApplicationTools::getSubstitutionRegister(regTypeDesc, *pstmap, gCode.get(), weights, distances));
+
+    shared_ptr<const AlphabetIndex2> sweights(weights);
+    shared_ptr<const AlphabetIndex2> sdistances(distances);
+
+    //Write categories:
+    for (size_t i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i)
+      ApplicationTools::displayResult("  * Count type " + TextTools::toString(i + 1), reg->getTypeName(i + 1));
+
+  
+    // specific parameters to the null models
+    string nullProcessParams = ApplicationTools::getStringParameter("nullProcessParams", mapnh.getParams(), "", "", false, 1);
+
+    // output
+  
+    string outputDesc = ApplicationTools::getStringParameter("output.counts", mapnh.getParams(), "PerType(prefix=counts_)");
+
+    string outputType;
+    map<string, string> outputArgs;
+    KeyvalTools::parseProcedure(outputDesc, outputType, outputArgs);
+    
+    bool perBranchLength(0);
+    bool perWord(0);
+    bool splitNorm(0);
+  
+    if (nullProcessParams != "")
+    {
+      splitNorm = ApplicationTools::getBooleanParameter("splitNorm", outputArgs, false, "", true, 1);
+
+      ApplicationTools::displayResult("Display separate counts and normalizations", splitNorm?"true":"false");
+    
+      if (!splitNorm)
+      {
+        perBranchLength=ApplicationTools::getBooleanParameter("perBranchLength", outputArgs, true, "", true, 0);
+
+        ApplicationTools::displayResult("Normalization per branch length", perBranchLength?"true":"false");
+
+        perWord = ApplicationTools::getBooleanParameter("perWord", outputArgs, true, "", true, 0);
+        
+        ApplicationTools::displayResult("Normalization per word size", perWord?"true":"false");
+      }
+    }
+    
+    uint siteSize=(perWord && AlphabetTools::isWordAlphabet(alphabet.get()))?dynamic_cast<const CoreWordAlphabet*>(alphabet.get())->getLength():1;
+    
+    // Stock Phylolikelihoods, needed if perBranchLength 
+    vector<const ParametrizablePhyloTree*> vpt;
+    
+    // Compute phylosubstitutionmapping
+    vector<shared_ptr<PhyloSubstitutionMapping> > vpsm;
+  
+    if (opspl || sppl)
+    {
+      if (opspl)
+      {
+        vpsm.push_back(shared_ptr<PhyloSubstitutionMapping>(new OneProcessSequenceSubstitutionMapping(*opspl, *reg, sweights, sdistances, thresholdSat)));
+        if (perBranchLength)
+          vpt.push_back(&opspl->getTree());
+      }
+      else
+      {
+        vpsm.push_back(shared_ptr<PhyloSubstitutionMapping>(new SingleProcessSubstitutionMapping(*sppl, *reg, sweights, sdistances, thresholdSat)));
+        if (perBranchLength)
+          vpt.push_back(&sppl->getTree());
+      }
+    }
+    else
+    {
+      const std::vector<size_t>& vpn=sap->getNumbersOfPhyloLikelihoods();
+      for (const auto& pn : vpn)
+      {
+        OneProcessSequencePhyloLikelihood* opspl2= dynamic_cast<OneProcessSequencePhyloLikelihood*>(sap->getAbstractPhyloLikelihood(pn));
+        SingleProcessPhyloLikelihood* sppl2= dynamic_cast<SingleProcessPhyloLikelihood*>(sap->getAbstractPhyloLikelihood(pn));
+  
+        if (opspl2)
+        {
+          vpsm.push_back(shared_ptr<PhyloSubstitutionMapping>(new OneProcessSequenceSubstitutionMapping(*opspl2, *reg, sweights, sdistances, thresholdSat)));
+          if (perBranchLength)
+            vpt.push_back(&opspl2->getTree());
+        }
+        else
+        {
+          vpsm.push_back(shared_ptr<PhyloSubstitutionMapping>(new SingleProcessSubstitutionMapping(*sppl2, *reg, sweights, sdistances, thresholdSat)));
+          if (perBranchLength)
+            vpt.push_back(&sppl2->getTree());
+        }
       }
     }
 
-    psm->computeNormalizations(nullParams);
-  }
+    ///////////////////////////////////////////////
+    //  Compute normalizations if needed
 
+    for (size_t i=0; i<vpsm.size(); i++)
+    {
+      shared_ptr<PhyloSubstitutionMapping> psm=vpsm[i];
+
+      ParameterList nullParams;
+      if (nullProcessParams != "")
+      {
+        const ParameterList pl0=psm->getParameters();
+      
+        map<string, string> npv;
+        KeyvalTools::multipleKeyvals(nullProcessParams, npv, ",", false);
+      
+        map<string, string>::iterator mi(npv.begin());
+        for (const auto& pv : npv)
+        {
+          vector<string> pn = pl0.getMatchingParameterNames(pv.first);
+          double val=TextTools::toDouble(pv.second);
+          for (const auto& n : pn)
+          {
+            nullParams.addParameter(Parameter(n, val));
+            ApplicationTools::displayResult("null Parameter " + n, val);
+          }
+        }
+
+        psm->computeNormalizations(nullParams);
+      }
+    }
+    
   
-  
-  ////////////////////////////////////////////
-  //// OUTPUT
-  ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    //// OUTPUT
+    ////////////////////////////////////////////
 
     
-  string outputDesc = ApplicationTools::getStringParameter("output.counts", mapnh.getParams(), "PerType(prefix=counts_)");
-
-  string outputType;
-  map<string, string> outputArgs;
-  KeyvalTools::parseProcedure(outputDesc, outputType, outputArgs);
-    
-  size_t outputNum=0;
-  
-  if (outputType.find("Type")!=string::npos)
-    outputNum+=1;
-  if (outputType.find("Site")!=string::npos)
-    outputNum+=2;
-  if (outputType.find("Branch")!=string::npos)
-    outputNum+=4;
-
-  
-  bool perTimeUnit(0);
-  bool perWord(0);
-  bool splitNorm(0);
-  
-  if (nullProcessParams != "")
-  {
-    perTimeUnit=ApplicationTools::getBooleanParameter("perTimeUnit", outputArgs, false, "", true, 0);
-
-    ApplicationTools::displayResult("Normalization per time unit", perTimeUnit?"true":"false");
-
-    perWord = ApplicationTools::getBooleanParameter("perWord", outputArgs, false, "", true, 0);
-
-    ApplicationTools::displayResult("Normalization per word size", perWord?"true":"false");
-
-    splitNorm = ApplicationTools::getBooleanParameter("splitNorm", outputArgs, false, "", true, 1);
-
-    ApplicationTools::displayResult("Display separate counts and normalizations", splitNorm?"true":"false");
-    
-  }
-  
-  uint siteSize=(!perWord && AlphabetTools::isWordAlphabet(alphabet.get()))?dynamic_cast<const CoreWordAlphabet*>(alphabet.get())->getLength():1;
-
-  Vuint ids=psm->getCounts().getAllEdgesIndexes();
-    
-  switch(outputNum)
-  {
-  case 1:
-  case 4:
-  case 5:
-    // Output per branch per type
+    if (outputType.find("Site")==string::npos)
+      // OUTPUT PER BRANCH PER TYPE
     {
       // Write count trees:
       string treePathPrefix = ApplicationTools::getStringParameter("prefix", outputArgs, "mapping_counts_per_type_", "", true, 1);
       
       Newick newick;
+
+      PhyloTree pht;               
+      if (nullProcessParams!="" && !splitNorm && perBranchLength)
+      {
+        size_t nbs(0);
+        
+        for (size_t pr=0;pr<vpt.size();pr++)
+        {
+          PhyloTree pht2(*vpt[pr]);
+          size_t ns=vpsm[pr]->getCounts().getNumberOfSites();
+          pht2.scaleTree((double)(ns));
+          nbs+=ns;
+        // proportional to the number of sites
+          
+          if (pr==0)
+            pht=pht2;
+          else
+            pht+=pht2;
+        }
+        if (perBranchLength)
+          pht.scaleTree(1./(double)nbs);          
+      }
+ 
       for (size_t i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i)
       {
         string name=reg->getTypeName(i+1);
         if (name=="")
           name=TextTools::toString(i + 1);
         
-        unique_ptr<PhyloTree> pt;
-
-        if (nullProcessParams=="" || splitNorm)
-          pt.reset(SubstitutionMappingTools::getTreeForType(psm->getCounts(),i));
+        unique_ptr<PhyloTree> pt, pn, ptt, pnt;
+        
+        for (auto& psm:vpsm)
+        {
+          if (pt==0)
+            pt.reset(SubstitutionMappingTools::getTreeForType(psm->getCounts(),i));
+          else
+          {
+            ptt.reset(SubstitutionMappingTools::getTreeForType(psm->getCounts(),i));
+            (*pt)+=(*ptt);
+          }
+          
+          if (nullProcessParams!="")
+          {
+            if (pn==0)
+              pn.reset(SubstitutionMappingTools::getTreeForType(psm->getNormalizations(),i));
+            else
+            {
+              pnt.reset(SubstitutionMappingTools::getTreeForType(psm->getNormalizations(),i));
+              (*pn)+=(*pnt);
+            }
+          }
+        }
+        
+        if (splitNorm || nullProcessParams=="")
+        {
+          string path = treePathPrefix + name + string(".dnd");
+          ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
+          newick.write(*pt, path);
+          
+          if (splitNorm)
+          {
+            path = treePathPrefix + name + string("_norm.dnd");
+            ApplicationTools::displayResult(string("Output normalizations of type ") + TextTools::toString(i + 1) + string(" to file"), path);
+            newick.write(*pn, path);
+          }
+        }
         else
-          pt.reset(SubstitutionMappingTools::getTreeForType(psm->getCounts(),psm->getNormalizations(),i));
+        {
+          (*pt)/=(*pn);
+          
+          if (perBranchLength)
+            (*pt)*=pht;
+          pt->scaleTree(1./siteSize);
+          
+          string path = treePathPrefix + name + string(".dnd");
+          ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
+          newick.write(*pt, path);
+        }
+      }
+    }
+    else
+    {
+      // ALL PER SITE COUNTS
 
-        string path = treePathPrefix + name + string(".dnd");
-        ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
-        newick.write(*pt, path);
+      // Compute per site per branch per type counts
+      VVVVdouble vcounts, vnorm;
+      VVdouble vlength;
 
+      bool perBranch=(outputType.find("Branch")!=string::npos);
+      bool perType=(outputType.find("Type")!=string::npos);
+
+      vcounts.resize(vpsm.size());
+      if (nullProcessParams!="")
+      {
+        vnorm.resize(vpsm.size());
+        if (perBranchLength)
+          vlength.resize(vpsm.size());
+      }
+      
+      Vuint ids=vpsm[0]->getCounts().getAllEdgesIndexes();
+
+      for (size_t i=0;i<vpsm.size();i++)
+      {
+        shared_ptr<PhyloSubstitutionMapping> psm=vpsm[i];
+
+        if (perBranch && i!=0 && ids!=psm->getCounts().getAllEdgesIndexes())
+          throw Exception("Branch ids of phylolikelihood " + TextTools::toString(i) + " do not match the ones of the first phylolikelihood.");
+          
+        vcounts[i]=SubstitutionMappingTools::getCountsPerSitePerBranchPerType(psm->getCounts());
+              
+        if (nullProcessParams!="")
+        {
+          vnorm[i]=SubstitutionMappingTools::getCountsPerSitePerBranchPerType(psm->getNormalizations());
+          if (perBranchLength)
+            vlength[i]=vpt[i]->getBranchLengths();
+        }
+      }
+      
+      // build final vectors of counts
+      
+      VVVdouble counts, norm;
+      VVdouble lengths;
+      
+      if (!sap)
+      {
+        counts=vcounts[0];
+        if (nullProcessParams!="")
+        {
+          norm=vnorm[0];
+          if (perBranchLength)
+          {
+            lengths.resize(vnorm[0].size());
+            for (auto& l:lengths)
+              l=vlength[0];
+          }
+        }
+      }
+      else
+      {
+        counts=assignGoodSites(vcounts,*sap);
+        if (nullProcessParams!="")
+        {
+          norm=assignGoodSites(vnorm,*sap);
+          if (perBranchLength)
+            lengths=assignGoodSites(vlength,*sap);
+        }
+      }
+
+      // output per site 
+
+      if (!perBranch)
+        // PER SITE PER TYPE UNIQUELY
+      {
+        string perSitenf = ApplicationTools::getStringParameter("file", outputArgs, "mapping_counts_per_site_per_type.txt", "", true, 1);
+        
+        ApplicationTools::displayResult(string("Output counts (site/type) to file"), perSitenf);
+
+        VVdouble counts2(counts.size());
+
+        for (auto& c:counts2)
+          c.resize(reg->getNumberOfSubstitutionTypes());
+
+        for (size_t s=0; s<counts.size(); s++)
+        {
+          VVdouble& counts_s=counts[s];
+          Vdouble& counts2_s=counts2[s];
+          
+          for (const auto& counts_s_br:counts_s)
+            counts2_s+=counts_s_br;
+
+          if (nullProcessParams!="" && !splitNorm)
+          {
+            VVdouble& norm_s=norm[s];
+            Vdouble norm2(reg->getNumberOfSubstitutionTypes(),0);
+            
+            for (const auto& norm_s_br:norm_s)
+              norm2+=norm_s_br;
+
+            counts2_s/=(norm2*siteSize);
+
+            if (perBranchLength)
+              counts2_s*=VectorTools::sum(lengths[s]);
+          }
+        }
+
+        SubstitutionMappingTools::outputPerSitePerType(perSitenf, *reg, counts2);
+        
         if (nullProcessParams!="" && splitNorm)
         {
-          unique_ptr<PhyloTree> pn(SubstitutionMappingTools::getTreeForType(psm->getNormalizations(),i));
+          perSitenf += "_norm";
+              
+          ApplicationTools::displayResult(string("Output normalizations (site/type) to file"), perSitenf);
+              
+          VVdouble norm2(norm.size());
+          for (auto& n:norm2)
+            n.resize(reg->getNumberOfSubstitutionTypes());
           
-          path = treePathPrefix + name + string("_norm.dnd");
-          ApplicationTools::displayResult(string("Output normalizations of type ") + TextTools::toString(i + 1) + string(" to file"), path);
-          newick.write(*pn, path);
+          for (size_t s=0; s<norm.size(); s++)
+          {
+            VVdouble& norm_s=norm[s];
+            Vdouble& norm2_s=norm2[s];
+          
+            for (const auto& norm_s_br:norm_s)
+              norm2_s+=norm_s_br;
+          }
+          SubstitutionMappingTools::outputPerSitePerType(perSitenf, *reg, norm2);
+        }
+      }
+      else {
+        if (!perType)
+          // PER SITE PER BRANCH
+        {
+           string perSitenf = ApplicationTools::getStringParameter("file", outputArgs, "mapping_counts_per_site_per_branch.txt", "", true, 1);
+        
+          ApplicationTools::displayResult(string("Output counts (branch/site) to file"), perSitenf);
+          
+          VVdouble counts2(counts.size());
+          for (auto& c:counts2)
+            c.resize(counts[0].size());
+          
+          for (size_t s=0; s<counts.size(); s++)
+          {
+            VVdouble& counts_s=counts[s];
+            Vdouble& counts2_s=counts2[s];
+          
+            for (size_t br=0; br<counts_s.size(); br++)
+              counts2_s[br]=VectorTools::sum(counts_s[br]);
+
+            if (nullProcessParams!="" && !splitNorm)
+            {
+              VVdouble& norm_s=norm[s];
+              Vdouble norm2(norm_s.size());
+              
+              for (size_t br=0; br<norm_s.size(); br++)
+                norm2[br]=VectorTools::sum(norm_s[br]);
+
+              counts2_s/=(norm2*siteSize);
+
+              if (perBranchLength)
+                counts2_s*=lengths[s];
+            }
+          }
+
+          SubstitutionMappingTools::outputPerSitePerBranch(perSitenf, ids, counts2);
+
+          if (nullProcessParams!="" && splitNorm)
+          {
+            perSitenf += "_norm";
+            
+            ApplicationTools::displayResult(string("Output normalizations (branch/site) to file"), perSitenf);
+              
+            VVdouble norm2(norm.size());
+            for (auto& n:norm2)
+              n.resize(norm[0].size());
+            
+            for (size_t s=0; s<norm.size(); s++)
+            {
+              VVdouble& norm_s=norm[s];
+              Vdouble& norm2_s=norm2[s];
+          
+              for (size_t br=0; br<norm.size(); br++)
+                norm2_s[br]=VectorTools::sum(norm_s[br]);
+            }
+            SubstitutionMappingTools::outputPerSitePerBranch(perSitenf, ids, norm2);
+          }
+        }
+        else
+        {
+          // OUTPUT PER SITE PER TYPE PER BRANCH
+          string tablePathPrefix = ApplicationTools::getStringParameter("prefix", outputArgs, "mapping_counts_per_site_per_branch_per_type_", "", true, 1);
+        
+          ApplicationTools::displayResult(string("Output counts (site/branch/type) to files"), tablePathPrefix + "*");
+
+          if (nullProcessParams!="" && !splitNorm)
+          {
+            for (size_t s=0; s<counts.size(); s++)
+            {
+              VVdouble& counts_s=counts[s];
+              VVdouble& norm_s=norm[s];
+              Vdouble& lengths_s=lengths[s];
+              for (size_t br=0; br<norm_s.size(); br++)
+              {
+                Vdouble& counts_s_br=counts_s[br];                
+                counts_s_br/=(norm_s[br]*siteSize);
+                
+                if (perBranchLength)
+                  counts_s_br*=lengths_s[br];
+              }
+            }
+          }
+
+          SubstitutionMappingTools::outputPerSitePerBranchPerType(tablePathPrefix+"_", ids, *reg, counts);
+        
+          if (nullProcessParams!="" && splitNorm)
+          {
+            tablePathPrefix += "_norm_";
+          
+            ApplicationTools::displayResult(string("Output normalizations (site/branch/type) to files"), tablePathPrefix + "*");
+          
+            SubstitutionMappingTools::outputPerSitePerBranchPerType(tablePathPrefix, ids, *reg, norm);
+          }
         }
       }
     }
     
-    break;
-  case 6:
-    // Output per branch per site
-    {
-      string perSitenf = ApplicationTools::getStringParameter("file", outputArgs, "mapping_counts_per_site_per_branch.txt", "", true, 1);
-      
-      ApplicationTools::displayResult(string("Output counts (branch/site) to file"), perSitenf);
-      
-      VVdouble counts;
+    /////////////////////////////////
+    // clean up
 
-      if (nullProcessParams=="" || splitNorm)
-        counts=SubstitutionMappingTools::getCountsPerSitePerBranch(psm->getCounts());
-      else
-        counts=SubstitutionMappingTools::getCountsPerSitePerBranch(psm->getCounts(),psm->getNormalizations());
-
-      SubstitutionMappingTools::outputPerSitePerBranch(perSitenf, ids, counts);
-
-      if (nullProcessParams!="" && splitNorm)
-      {
-        counts=SubstitutionMappingTools::getCountsPerSitePerBranch(psm->getNormalizations());
-
-        perSitenf += "_norm";
-      
-        ApplicationTools::displayResult(string("Output normalizations (branch/site) to file"), perSitenf);
-
-        SubstitutionMappingTools::outputPerSitePerBranch(perSitenf, ids, counts);
-      }
-    }
-    break;
-  case 2:
-  case 3:
-    // Output per site per type
-    {
-      string perSitenf = ApplicationTools::getStringParameter("file", outputArgs, "mapping_counts_per_site_per_type.txt", "", true, 1);
-      
-      ApplicationTools::displayResult(string("Output counts (site/type) to file"), perSitenf);
-      
-      VVdouble counts;
-      
-      if (nullProcessParams=="" || splitNorm)
-        counts=SubstitutionMappingTools::getCountsPerSitePerType(psm->getCounts());
-      else
-        counts=SubstitutionMappingTools::getCountsPerSitePerType(psm->getCounts(), psm->getNormalizations(), perTimeUnit, siteSize);
-      
-      SubstitutionMappingTools::outputPerSitePerType(perSitenf, *reg, counts);
-
-      if (nullProcessParams!="" && splitNorm)
-      {
-        counts=SubstitutionMappingTools::getCountsPerSitePerType(psm->getNormalizations());
-
-        perSitenf += "_norm";
-      
-        ApplicationTools::displayResult(string("Output normalizations (site/type) to file"), perSitenf);
-
-        SubstitutionMappingTools::outputPerSitePerType(perSitenf, *reg, counts);
-      }
-    }
-    break;
-  case 7:
-    // Output per site per type per branch
-    {
-      string tablePathPrefix = ApplicationTools::getStringParameter("prefix", outputArgs, "mapping_counts_per_site_per_branch_per_type_", "", true, 1);
-      
-      ApplicationTools::displayResult(string("Output counts (site/branch/type) to files"), tablePathPrefix + "*");
-
-      ProbabilisticSubstitutionMapping* pCounts;
-
-      if (nullProcessParams=="" || splitNorm)
-        pCounts=&psm->getCounts();
-      else
-        pCounts=SubstitutionMappingTools::computeNormalizedCounts(
-          &psm->getCounts(), &psm->getNormalizations(), perTimeUnit, siteSize);
-      
-      VVVdouble counts3(SubstitutionMappingTools::getCountsPerSitePerBranchPerType(*pCounts));
-      
-      SubstitutionMappingTools::outputPerSitePerBranchPerType(tablePathPrefix+"_", ids, *reg, counts3);
-
-      if (nullProcessParams!="" && splitNorm)
-      {
-        pCounts=&psm->getNormalizations();
-
-        counts3=SubstitutionMappingTools::getCountsPerSitePerBranchPerType(*pCounts);
-        
-        tablePathPrefix += "_norm_";
-        
-        ApplicationTools::displayResult(string("Output normalizations (site/branch/type) to files"), tablePathPrefix + "*");
-
-        SubstitutionMappingTools::outputPerSitePerBranchPerType(tablePathPrefix, ids, *reg, counts3);
-      }
-    }
-    break;
-  default:
-    throw Exception("Unknown output option: '" + outputType + "'");
-  }
-  
-  //////////////////////////////////////
-  /// HOMOGENEITY TESTS
-  /////////////////////////////////////
-  
-  // bool testGlobal = ApplicationTools::getBooleanParameter("test.global", mapnh.getParams(), false, "", true, false);
-  // bool testBranch = ApplicationTools::getBooleanParameter("test.branch", mapnh.getParams(), false, "", true, false);
-
+    for (auto it : mSites)
+      delete it.second;
     
-    // // Rounded counts
-    // vector< vector<size_t> > countsint;
-    // for (size_t i = 0; i < counts.size(); i++)
-    // {
-    //   vector<size_t> countsi2;
-    //   for (size_t j = 0; j < counts[i].size(); j++)
-    //   {
-    //     countsi2.push_back(static_cast<size_t>(floor( counts[i][j] + 0.5)));
-    //   }
-    //   countsint.push_back(countsi2);
-    // }
-
-
-    // // Global homogeneity test:
-    // if (testGlobal)
-    // {
-    //   vector< vector<size_t> > counts2 = countsint;
-
-    //   // Check if some branches are 0:
-    //   for (size_t i = counts2.size(); i > 0; --i)
-    //   {
-    //     if (VectorTools::sum(counts2[i - 1]) == 0)
-    //     {
-    //       ApplicationTools::displayResult("Remove branch with no substitution", ids[i - 1]);
-    //       counts2.erase(counts2.begin() + static_cast<ptrdiff_t>(i - 1));
-    //       // ids.erase(ids.begin() + i - 1);
-    //     }
-    //   }
-    //   ApplicationTools::displayResult("Nb. of branches included in test", counts2.size());
-
-
-    //   ContingencyTableTest test(counts2, 2000);
-    //   ApplicationTools::displayResult("Global Chi2", test.getStatistic());
-    //   ApplicationTools::displayResult("Global Chi2, p-value", test.getPValue());
-    //   double pvalue = SimpleSubstitutionCountsComparison::multinomialTest(counts2);
-    //   ApplicationTools::displayResult("Global heterogeneity test p-value", pvalue);
-    // }
-
-    // // Branch test!
-    // if (testBranch)
-    // {
-    //   bool testNeighb = ApplicationTools::getBooleanParameter("test.branch.neighbor", mapnh.getParams(), true, "", true, 1);
-    //   bool testNegBrL = ApplicationTools::getBooleanParameter("test.branch.negbrlen", mapnh.getParams(), false, "", true, 2);
-    //   ApplicationTools::displayBooleanResult("Perform branch clustering", testBranch);
-    //   ApplicationTools::displayBooleanResult("Cluster only neighbor nodes", testNeighb);
-    //   ApplicationTools::displayBooleanResult("Allow len < 0 in clustering", testNegBrL);
-    //   string autoClustDesc = ApplicationTools::getStringParameter("test.branch.auto_cluster", mapnh.getParams(), "Global(threshold=0)", "", true, 1);
-    //   string autoClustName;
-    //   map<string, string> autoClustParam;
-    //   KeyvalTools::parseProcedure(autoClustDesc, autoClustName, autoClustParam);
-    //   ApplicationTools::displayResult("Auto-clustering", autoClustName);
-    //   unique_ptr<AutomaticGroupingCondition> autoClust;
-    //   if (autoClustName == "None")
-    //   {
-    //     autoClust.reset(new NoAutomaticGroupingCondition());
-    //   }
-    //   else if (autoClustName == "Global")
-    //   {
-    //     size_t threshold = ApplicationTools::getParameter<size_t>("threshold", autoClustParam, 0, "", true, 1);
-    //     ApplicationTools::displayResult("Auto-clutering threshold", threshold);
-    //     CategorySubstitutionRegister* creg = dynamic_cast<CategorySubstitutionRegister*>(reg.get());
-    //     vector<size_t> toIgnore;
-    //     if (creg && creg->allowWithin())
-    //     {
-    //       size_t n = creg->getNumberOfCategories();
-    //       for (size_t i = 0; i < n; ++i)
-    //       {
-    //         toIgnore.push_back(n * (n - 1) + i);
-    //       }
-    //     }
-    //     autoClust.reset(new SumCountsAutomaticGroupingCondition(threshold, toIgnore));
-    //   }
-    //   else if (autoClustName == "Marginal")
-    //   {
-    //     size_t threshold = ApplicationTools::getParameter<size_t>("threshold", autoClustParam, 0, "", true, 1);
-    //     ApplicationTools::displayResult("Auto-clutering threshold", threshold);
-    //     autoClust.reset(new AnyCountAutomaticGroupingCondition(threshold));
-    //   }
-    //   else
-    //   {
-    //     throw Exception("Unknown automatic clustering option: " + autoClustName);
-    //   }
-
-    //   // ChiClustering htest(counts, ids, true);
-    //   MultinomialClustering htest(countsint, ids, drtl->getTree(), *autoClust, testNeighb, testNegBrL, true);
-    //   ApplicationTools::displayResult("P-value at root node", *(htest.getPValues().rbegin()));
-    //   ApplicationTools::displayResult("Number of tests performed", htest.getPValues().size());
-    //   TreeTemplate<Node>* htree = htest.getTree();
-    //   Newick newick;
-    //   string clusterTreeOut = ApplicationTools::getAFilePath("output.cluster_tree.file", mapnh.getParams(), false, false, "", true, "clusters.dnd", 1);
-    //   ApplicationTools::displayResult("Output cluster tree to", clusterTreeOut);
-    //   newick.write(*htree, clusterTreeOut);
-    //   delete htree;
-    // }
-  
-  // Cleaning up:
-  for (auto it : mSites)
-    delete it.second;
-  
-  mapnh.done();
+    mapnh.done();
   }
   catch (exception& e)
   {
@@ -470,4 +641,6 @@ int main(int args, char** argv)
   }
   
   return 0;
+  
 }
+
