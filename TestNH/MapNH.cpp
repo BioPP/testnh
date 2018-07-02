@@ -257,6 +257,8 @@ int main(int args, char** argv)
     else
     {
       const std::vector<size_t>& vpn=sap->getNumbersOfPhyloLikelihoods();
+      size_t comp(0);
+      
       for (const auto& pn : vpn)
       {
         OneProcessSequencePhyloLikelihood* opspl2= dynamic_cast<OneProcessSequencePhyloLikelihood*>(sap->getAbstractPhyloLikelihood(pn));
@@ -264,16 +266,21 @@ int main(int args, char** argv)
   
         if (opspl2)
         {
-          vpsm.push_back(shared_ptr<PhyloSubstitutionMapping>(new OneProcessSequenceSubstitutionMapping(*opspl2, *reg, sweights, sdistances, thresholdSat)));
+          vpsm.push_back(shared_ptr<PhyloSubstitutionMapping>(new OneProcessSequenceSubstitutionMapping(*opspl2, *reg, sweights, sdistances, thresholdSat, comp<10)));
           if (perBranchLength)
             vpt.push_back(&opspl2->getTree());
         }
         else
         {
-          vpsm.push_back(shared_ptr<PhyloSubstitutionMapping>(new SingleProcessSubstitutionMapping(*sppl2, *reg, sweights, sdistances, thresholdSat)));
+          vpsm.push_back(shared_ptr<PhyloSubstitutionMapping>(new SingleProcessSubstitutionMapping(*sppl2, *reg, sweights, sdistances, thresholdSat, comp<10)));
           if (perBranchLength)
             vpt.push_back(&sppl2->getTree());
         }
+
+        if (comp>=10)
+          ApplicationTools::displayResult("Build Substitution count",TextTools::toString(comp+1));
+
+        comp++;
       }
     }
 
@@ -304,7 +311,9 @@ int main(int args, char** argv)
           }
         }
 
-        psm->computeNormalizations(nullParams);
+        psm->computeNormalizations(nullParams,i<10);
+        if (i>=10)
+          ApplicationTools::displayResult("Build Substitution normalization",TextTools::toString(i+1));
       }
     }
     
