@@ -225,7 +225,7 @@ int main(int args, char** argv)
 
         ApplicationTools::displayResult("Normalization per branch length", perBranchLength?"true":"false");
 
-        perWord = ApplicationTools::getBooleanParameter("perWord", outputArgs, true, "", true, 0);
+        perWord = ApplicationTools::getBooleanParameter("perWordSize", outputArgs, true, "", true, 0);
         
         ApplicationTools::displayResult("Normalization per word size", perWord?"true":"false");
       }
