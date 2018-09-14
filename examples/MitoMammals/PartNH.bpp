@@ -1,0 +1,62 @@
+DATA = mito_mammals.all
+
+#Input tree file must be in NHX format, in order to get proper node id.
+#MapNH can output such an NHX tree if the input one was in Newick or Nexus.
+input.tree.file = $(DATA).nhx
+
+input.cluster_tree.file = Clusters.dnd
+
+#A simple newick tree showing the resulting partitions for visual inspection:
+output.partitions.file = Partitions.dnd
+
+###########################################################################
+#This (fast) method allows you to output partitions from a given threshold:
+###########################################################################
+#partition.method = threshold
+#partition.threshold = 0.001
+
+###########################################################################
+#Alternatively, we can use models comparison to determine the threshold.
+#This requires a data set and a model family to be specified, provided
+#with the following options:
+###########################################################################
+partition.method = auto
+partition.test = BIC #Can be one of LRT, BIC or AIC.
+partition.test.threshold = 0.01 #If LRT is used.
+partition.test.stop_condition = 10
+
+alphabet = Codon(letter=DNA)
+genetic_code = VertebrateMitochondrial
+input.sequence.file = $(DATA).fasta
+input.sequence.format = Fasta
+input.sequence.sites_to_use = all
+# Remove stop codons
+input.sequence.remove_stop_codons = yes
+
+
+
+model = YN98(frequencies=F3X4,kappa=4.256962136755, omega=0.034993311532, freq_Codon.1_Full.theta=0.456066719064, freq_Codon.1_Full.theta1=0.588175796088, freq_Codon.1_Full.theta2=0.447949418086, freq_Codon.2_Full.theta=0.386701598114, freq_Codon.2_Full.theta1=0.319381792085, freq_Codon.2_Full.theta2=0.307606839923, freq_Codon.3_Full.theta=0.357395860624, freq_Codon.3_Full.theta1=0.656914626158, freq_Codon.3_Full.theta2=0.129523474419)
+rate_distribution = Constant #Gamma(n=4, alpha=0.5)
+nonhomogeneous.root_freq = None 
+nonhomogeneous.shared_parameters = YN98.kappa, YN98*theta* 
+
+#How to optimize parameters when fitting models:
+optimization.reparametrization = no
+optimization.verbose = 1
+optimization.max_number_f_eval = 1000
+optimization.tolerance = 0.000001
+optimization.profiler = $(DATA).$(METHOD).profile
+optimization.message_handler = $(DATA).$(METHOD).message
+optimization.ignore_parameters = *theta*
+
+#Where to write optimal model (for later use with bppSeqGen or bppAncestor for instance):
+output.model.file = 
+output.log.file = 
+output.tree.file = $(DATA).ml_nh_$(METHOD).nhx
+output.tree.format = Nhx
+output.partitions.file = $(DATA).partitions_$(METHOD).dnd
+output.partitions.record = $(DATA).partitions_record_$(METHOD).txt
+output.model.file = $(DATA).model_$(METHOD).bpp
+output.intermediate.models = yes
+output.log.file = $(DATA).model_$(METHOD).log.txt
+output.parameters.file = $(DATA).ml_nh_$(METHOD).parameters.csv
