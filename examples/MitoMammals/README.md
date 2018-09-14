@@ -30,36 +30,50 @@ bppml --noninteractive=yes param=ML_NH.bpp > bppml_nh.out &
 ```
 
 2) Try to find a better non-homogeneous model to describe the data.
+===================================================================
 
 2.1) Cluster nodes using substitution mapping.
-     We will map non-synonymous substitutions.
+----------------------------------------------
 
-     We try to cluster nodes freely:
-     mapnh --noninteractive=yes param=MapNH.bpp test.branch.neighbor=no output.cluster_tree.file=mito_mammals.all.cluster_free.dnd >& mapnh_free.out &
+We will map non-synonymous substitutions.
 
-     And also adding the constraint to cluster only adjacent nodes:
-     mapnh --noninteractive=yes param=MapNH.bpp test.branch.neighbor=yes output.cluster_tree.file=mito_mammals.all.cluster_join.dnd >& mapnh_join.out &
+We try to cluster nodes freely:
+```{bash}
+mapnh --noninteractive=yes param=MapNH.bpp test.branch.neighbor=no output.cluster_tree.file=mito_mammals.all.cluster_free.dnd >& mapnh_free.out &
+```
 
-     This will first create a tree in Nhx format, identical to the input one, but with
-     node IDs. It then creates a cluster tree in Newick format, with leaves corresponding to node IDs.
+And also adding the constraint to cluster only adjacent nodes:
+
+```{bash}
+mapnh --noninteractive=yes param=MapNH.bpp test.branch.neighbor=yes output.cluster_tree.file=mito_mammals.all.cluster_join.dnd >& mapnh_join.out &
+```
+
+This will first create a tree in Nhx format, identical to the input one, but with
+node IDs. It then creates a cluster tree in Newick format, with leaves corresponding to node IDs.
 
 2.2) Use the clustering tree to define partitions, and test them using model testing.
-     We test both the clustering with nodes constrained to be adjacent or not in clustering,
-     and use two model selection criteria (AIC and BIC):
-     
-     partnh param=PartNH.bpp --noninteractive=yes\
-            input.cluster_tree.file=mito_mammals.all.cluster_free.dnd\
-            partition.test=BIC\
-            METHOD=_free_BIC >& partnh_free_BIC.out &
+-------------------------------------------------------------------------------------
 
-     The resulting likelihood is -82741.7, for 7 clusters
+We test both the clustering with nodes constrained to be adjacent or not in clustering,
+and use two model selection criteria (AIC and BIC):
 
-     partnh param=PartNH.bpp --noninteractive=yes\
-            input.cluster_tree.file=mito_mammals.all.cluster_join.dnd\
-            partition.test=BIC\
-            METHOD=_join_BIC >& partnh_join_BIC.out &
+```{bash}     
+partnh param=PartNH.bpp --noninteractive=yes\
+       input.cluster_tree.file=mito_mammals.all.cluster_free.dnd\
+       partition.test=BIC\
+       METHOD=_free_BIC >& partnh_free_BIC.out &
+```
 
-     The resulting likelihood is -19436.6, for 0 cluster
+The resulting likelihood is -82741.7, for 7 clusters
+
+```{bash}
+partnh param=PartNH.bpp --noninteractive=yes\
+       input.cluster_tree.file=mito_mammals.all.cluster_join.dnd\
+       partition.test=BIC\
+       METHOD=_join_BIC >& partnh_join_BIC.out &
+```
+
+The resulting likelihood is -19436.6, for 0 cluster
 
 
      partnh param=PartNH.bpp --noninteractive=yes\
