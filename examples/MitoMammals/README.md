@@ -1,22 +1,33 @@
 1) Dn/Ds analysis:
+==================
+
 1.1) Fit a homogeneous model, with a single Dn/Ds for all branches:
-     
+-------------------------------------------------------------------
+
+```{bash}     
      bppml --noninteractive=yes param=ML.bpp > bppml_h.out &
      
      This will store optimized parameter in file *.params_h.bpp
      and corresponding tree in file              *.ml_h.dnd
+```
 
-     A YN98+F3X4 codon substitution model is used.
+A YN98+F3X4 codon substitution model is used.
 
 1.2) Fit a complete NH model, with one dN/dS per branch.
+--------------------------------------------------------
 
-1.2.1) With PAML:
+### 1.2.1) With PAML:
 
+```{bash}
 codeml
+```
 
-1.2.2) With BppML:
+### 1.2.2) With BppML:
 
+Note: this takes a lot of time given the number of parameters! (count several days!)
+```{bash}
 bppml --noninteractive=yes param=ML_NH.bpp > bppml_nh.out &
+```
 
 2) Try to find a better non-homogeneous model to describe the data.
 

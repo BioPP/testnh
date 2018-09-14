@@ -4,7 +4,9 @@ DATA = mito_mammals.all
 
 # The alphabet to use:
 # DNA, RNA or Protein
-alphabet = Codon(letter=DNA, type=VertebrateMitochondrial)
+alphabet = Codon(letter=DNA)
+
+genetic_code = VertebrateMitochondrial
 
 # The sequence file to use (sequences must be aligned!)
 input.sequence.file = $(DATA).fasta
@@ -41,10 +43,10 @@ init.brlen.method = Equal(value=1.0)
 # ----------------------------------------------------------------------------------------
 # See the manual for a description of the syntax and available options.
 #
-model = YN98(kappa=4, omega=0.02, genetic_code=VertebrateMitochondrial, frequencies=F3X4, useObservedFreqs=yes)
-nonhomogeneous=one_per_branch
-nonhomogeneous_one_per_branch.shared_parameters=YN98.kappa, YN98.freq*
-nonhomogeneous.stationarity=yes
+model = YN98(kappa=4, omega=0.02, frequencies=F3X4(mgmtStopCodon=uniform), initFreqs=observed)
+nonhomogeneous = one_per_branch
+nonhomogeneous_one_per_branch.shared_parameters = YN98.kappa, YN98.*theta*
+nonhomogeneous.stationarity = yes
 
 rate_distribution = Constant #Gamma(n=4, alpha=0.5)
 
@@ -90,7 +92,7 @@ optimization.final = none
 optimization.verbose = 3
 
 # Parameters to ignore (for instance equilibrium frequencies)
-optimization.ignore_parameter = YN98.freq* 
+optimization.ignore_parameters = YN98.*theta* 
 
 # Maximum number of likelihood evaluations:
 optimization.max_number_f_eval = 10000
