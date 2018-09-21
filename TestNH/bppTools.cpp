@@ -128,7 +128,10 @@ SubstitutionProcessCollection* bppTools::getCollection(const map<string, string>
   map<size_t, PhyloTree*> mpTree = getPhyloTreesMap(params, mSites, unparsedparams);
 
   SubstitutionProcessCollection* SPC= getCollection(params, alphabet, gCode, mSites, mpTree, unparsedparams);
-      
+
+  for (auto& tree:mpTree)
+    delete tree.second;
+  
   return SPC;
 }
 
