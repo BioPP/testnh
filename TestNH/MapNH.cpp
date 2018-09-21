@@ -243,13 +243,17 @@ int main(int args, char** argv)
     {
       if (opspl)
       {
-        vpsm.push_back(shared_ptr<PhyloSubstitutionMapping>(new OneProcessSequenceSubstitutionMapping(*opspl, *reg, sweights, sdistances, thresholdSat)));
+        shared_ptr<PhyloSubstitutionMapping> spsm(new OneProcessSequenceSubstitutionMapping(*opspl, *reg, sweights, sdistances));
+        spsm->computeCounts(thresholdSat);
+        vpsm.push_back(spsm);
         if (perBranchLength)
           vpt.push_back(&opspl->getTree());
       }
       else
       {
-        vpsm.push_back(shared_ptr<PhyloSubstitutionMapping>(new SingleProcessSubstitutionMapping(*sppl, *reg, sweights, sdistances, thresholdSat)));
+        shared_ptr<PhyloSubstitutionMapping> spsm(new SingleProcessSubstitutionMapping(*sppl, *reg, sweights, sdistances));
+        spsm->computeCounts(thresholdSat);
+        vpsm.push_back(spsm);
         if (perBranchLength)
           vpt.push_back(&sppl->getTree());
       }
@@ -266,13 +270,19 @@ int main(int args, char** argv)
   
         if (opspl2)
         {
-          vpsm.push_back(shared_ptr<PhyloSubstitutionMapping>(new OneProcessSequenceSubstitutionMapping(*opspl2, *reg, sweights, sdistances, thresholdSat, comp<10)));
+          shared_ptr<PhyloSubstitutionMapping> spsm(new OneProcessSequenceSubstitutionMapping(*opspl2, *reg, sweights, sdistances));
+          spsm->computeCounts(thresholdSat,comp<10);
+          vpsm.push_back(spsm);
+          
           if (perBranchLength)
             vpt.push_back(&opspl2->getTree());
         }
         else
         {
-          vpsm.push_back(shared_ptr<PhyloSubstitutionMapping>(new SingleProcessSubstitutionMapping(*sppl2, *reg, sweights, sdistances, thresholdSat, comp<10)));
+          shared_ptr<PhyloSubstitutionMapping> spsm(new SingleProcessSubstitutionMapping(*sppl2, *reg, sweights, sdistances));
+          spsm->computeCounts(thresholdSat,comp<10);
+          vpsm.push_back(spsm);
+          
           if (perBranchLength)
             vpt.push_back(&sppl2->getTree());
         }
