@@ -1,42 +1,51 @@
 ******************************************************************
-*       Bio++ Maximum Likelihood Computation, version 1.5.0      *
+*       Bio++ Maximum Likelihood Computation, version 2.4.0      *
 *                                                                *
-* Authors: J. Dutheil                       Last Modif. 07/02/11 *
+* Authors: J. Dutheil                       Last Modif. 19/02/18 *
 *          B. Boussau                                            *
-*          L. Gueguen                                            *
+*          L. Guéguen                                            *
+*          M. Groussin                                           *
 ******************************************************************
 
 Parsing options:
 Parsing file ML.bpp for options.
 Alphabet type .........................: RNA
-Sequence format .......................: Mase
 Sequence file .........................: Life_Alignment.mase
+Sequence format .......................: MASE file
 Sites to use...........................: complete
 Complete sites.........................: 527
 Number of sequences....................: 92
 Number of sites........................: 527
 Input tree.............................: user
-Tree file..............................: Life_Alignment.dnd
+Input tree file .......................: Life_Alignment.dnd
+Input tree format .....................: Newick
 Number of leaves.......................: 92
-Wrote tree to file ....................: Life_Alignment.ml_h.dnd
+Output tree file ......................: Life_Alignment.ml_h.dnd
+Output tree format ....................: Newick
 Branch lengths.........................: Input
 Heterogeneous model....................: no
 Substitution model.....................: T92
-Frequencies initialization for model...: None
+External frequencies initialization for: None
 Parameter found........................: T92.kappa=2
 Parameter found........................: T92.theta=0.5
-Rate distribution......................: Gamma
+External frequencies initialization for: None
+Parameter found........................: T92.kappa=2
+Parameter found........................: T92.theta=0.5
+Distribution...........................: Gamma
 Number of classes......................: 4
 Parameter found........................: Gamma.alpha=0.5
-- Category 0 (Pr = 0.25) rate..........: 0.033388
-- Category 1 (Pr = 0.25) rate..........: 0.251917
-- Category 2 (Pr = 0.25) rate..........: 0.820269
+- Category 0 (Pr = 0.25) rate..........: 0.0333878
+- Category 1 (Pr = 0.25) rate..........: 0.251916
+- Category 2 (Pr = 0.25) rate..........: 0.820268
 - Category 3 (Pr = 0.25) rate..........: 2.89443
+Rate distribution......................: Gamma
+Number of classes......................: 4
 Likelihood recursion...................: simple
 Likelihood data compression............: recursive
+WARNING!!! Tree has been unrooted.
 Initializing data structure............: Done.
 Number of distinct sites...............: 417
-Initial log likelihood.................: -14360.5270176487
+Initial log likelihood.................: -14360.5271113542
 Message handler........................: Life_Alignment_h.messages
 Profiler...............................: Life_Alignment_h.profile
 Max # ML evaluations...................: 10000
@@ -46,14 +55,15 @@ Optimization method....................: FullD
 Algorithm used for derivable parameters: Newton
 Reparametrization......................: no
 Molecular clock........................: None
-*****************************************
+************************************
 
-Performed..............................: 42 function evaluations.
-Wrote tree to file ....................: Life_Alignment.ml_h.dnd
-Log likelihood.........................: -14122.120992882
-T92.kappa..............................: 3.06975
-T92.theta..............................: 0.556538
-Gamma.alpha............................: 0.640424
+Performed..............................: 37 function evaluations.
+Output tree file ......................: Life_Alignment.ml_h.dnd
+Output tree format ....................: Newick
+Log likelihood.........................: -14122.120990606
+T92.kappa..............................: 3.06976
+T92.theta..............................: 0.556536
+Gamma.alpha............................: 0.640427
 WARNING!!! This parameter has a value close to the boundary: BrLen5(1e-06).
 WARNING!!! This parameter has a value close to the boundary: BrLen15(1e-06).
 WARNING!!! This parameter has a value close to the boundary: BrLen18(1e-06).
@@ -67,20 +77,21 @@ WARNING!!! This parameter has a value close to the boundary: BrLen86(1e-06).
 WARNING!!! This parameter has a value close to the boundary: BrLen87(1e-06).
 WARNING!!! This parameter has a value close to the boundary: BrLen92(1e-06).
 WARNING!!! This parameter has a value close to the boundary: BrLen103(1e-06).
+WARNING!!! This parameter has a value close to the boundary: BrLen118(1e-06).
 WARNING!!! This parameter has a value close to the boundary: BrLen119(1e-06).
-WARNING!!! This parameter has a value close to the boundary: BrLen120(1e-06).
-WARNING!!! This parameter has a value close to the boundary: BrLen132(1e-06).
-WARNING!!! This parameter has a value close to the boundary: BrLen151(1e-06).
+WARNING!!! This parameter has a value close to the boundary: BrLen131(1e-06).
+WARNING!!! This parameter has a value close to the boundary: BrLen150(1e-06).
+WARNING!!! Parameter output.estimates.alias not specified. Default used instead: 1
 Output estimates to file...............: Life_Alignment.params_h.bpp
 
 Posterior rate distribution for dataset:
 
-Pr(0.061538) = 0.307400
-Pr(0.334010) = 0.225806
-Pr(0.900619) = 0.297913
-Pr(2.703832) = 0.168880
+Pr(0.061539) = 0.307400
+Pr(0.334012) = 0.225806
+Pr(0.900621) = 0.297913
+Pr(2.703828) = 0.168880
 
 
 Alignment information logfile..........: Life_Alignment_h.infos
 BppML's done. Bye.
-Total execution time: 0.000000d, 0.000000h, 0.000000m, 18.000000s.
+Total execution time: 0.000000d, 0.000000h, 0.000000m, 9.000000s.

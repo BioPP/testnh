@@ -1,45 +1,43 @@
 ******************************************************************
-*                     PartNH, version 0.1.0                      *
+*                     PartNH, version 1.3.0                      *
 * Authors: J. Dutheil                       Created on  09/12/10 *
-*          B. Boussau                       Last Modif. 08/04/11 *
+*          B. Boussau                       Last Modif. 24/11/14 *
 ******************************************************************
 
 Parsing options:
 Parsing file PartNH.bpp for options.
 Input cluster tree.....................: Mantellid.cluster_join.dnd
 Input tree file........................: MantellidDataset.nhx
-Alphabet type .........................: Codon(DNA)
+Alphabet type .........................: Codon(letter=DNA)
+Genetic Code...........................: VertebrateMitochondrial
 Sequence file .........................: MantellidDataset.faln
 Sequence format .......................: FASTA file
-Sequence file .........................: MantellidDataset.faln
 Sites to use...........................: all
 Remove Stop Codons.....................: yes
 Number of sequences....................: 17
 Number of sites........................: 1606
-Frequencies initialization for model...: observed
+StopCodon frequencies distribution ....: uniform
+Substitution model.....................: YN98
+External frequencies initialization for: observed
 Parameter found........................: YN98.kappa=2
 Parameter found........................: YN98.omega=0.5
-WARNING!!! Parameter YN98.1_Full.theta not specified. Default used instead: 0.459638
 Parameter found........................: YN98.1_Full.theta=0.459638
-WARNING!!! Parameter YN98.1_Full.theta1 not specified. Default used instead: 0.569686
 Parameter found........................: YN98.1_Full.theta1=0.569686
-WARNING!!! Parameter YN98.1_Full.theta2 not specified. Default used instead: 0.479348
 Parameter found........................: YN98.1_Full.theta2=0.479348
-WARNING!!! Parameter YN98.2_Full.theta not specified. Default used instead: 0.404291
 Parameter found........................: YN98.2_Full.theta=0.404291
-WARNING!!! Parameter YN98.2_Full.theta1 not specified. Default used instead: 0.316323
 Parameter found........................: YN98.2_Full.theta1=0.316323
-WARNING!!! Parameter YN98.2_Full.theta2 not specified. Default used instead: 0.279422
 Parameter found........................: YN98.2_Full.theta2=0.279422
-WARNING!!! Parameter YN98.3_Full.theta not specified. Default used instead: 0.35275
 Parameter found........................: YN98.3_Full.theta=0.35275
-WARNING!!! Parameter YN98.3_Full.theta1 not specified. Default used instead: 0.539301
 Parameter found........................: YN98.3_Full.theta1=0.539301
-WARNING!!! Parameter YN98.3_Full.theta2 not specified. Default used instead: 0.125542
 Parameter found........................: YN98.3_Full.theta2=0.125542
+Distribution...........................: Constant
+Number of classes......................: 1
 - Category 0 (Pr = 1) rate.............: 1
+Rate distribution......................: Constant
+Number of classes......................: 1
 Initializing data structure............: Done.
 Number of distinct sites...............: 1554
+Log-Likelihood.........................: -52019.7
 Output intermediate models.............: yes
 Output log to..........................: MantellidDataset.model_join_AIC.log.txt
 Message handler........................: MantellidDataset.join_AIC.message*
@@ -56,19 +54,21 @@ Parameter ignored......................: YN98.3_Full.theta2
 Max # ML evaluations...................: 1000
 Tolerance..............................: 1e-06
 Reparametrization......................: no
+WARNING!!! Parameter optimization.clock not specified. Default used instead: None
 Molecular clock........................: None
-***************************************
+***********************************
 
-* Homogeneous model - LogL.............: -45437.4
+* Homogeneous model - LogL.............: -45347.8
                     - df...............: 42
+WARNING!!! Parameter nonhomogeneous.stationarity not specified. Default used instead: 0
 Stationarity assumed...................: yes
 Global parameter.......................: YN98.kappa
 Global parameter.......................: YN98.1_Full.theta*
 Global parameter.......................: YN98.2_Full.theta*
 Global parameter.......................: YN98.3_Full.theta*
-AIC....................................: 90958.8
-AICc...................................: 90961.1
-BIC....................................: 91184.8
+AIC....................................: 90779.5
+AICc...................................: 90781.8
+BIC....................................: 91005.6
 Likelihood comparison method...........: AIC
 Stop condition.........................: test 10 nested models after local best
 Current threshold......................: 0
@@ -84,19 +84,19 @@ Parameter ignored......................: YN98.2_Full.theta2_1
 Parameter ignored......................: YN98.3_Full.theta_1
 Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
-*******************************************
+************************************************
 
-* New NH model - LogL..................: -45425.8
+* New NH model - LogL..................: -45335.1
                - df....................: 43
-               - LRT p-value...........: 1.42683e-06
-               - AIC...................: 90937.6
-               - AICc..................: 90939.9
-               - BIC...................: 91169
+               - LRT p-value...........: 5.05241e-07
+               - AIC...................: 90756.3
+               - AICc..................: 90758.7
+               - BIC...................: 90987.7
 Current threshold......................: 0.000546
 Number of real partitions..............: 5
 Partition 1............................: 7 element(s).
-Partition 2............................: 5 element(s).
-Partition 3............................: 7 element(s).
+Partition 2............................: 7 element(s).
+Partition 3............................: 5 element(s).
 Partition 4............................: 11 element(s).
 Partition 5............................: 1 element(s).
 Parameter ignored......................: YN98.1_Full.theta_1
@@ -108,18 +108,18 @@ Parameter ignored......................: YN98.2_Full.theta2_1
 Parameter ignored......................: YN98.3_Full.theta_1
 Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
-**************************
+***************************
 
-* New NH model - LogL..................: -45388.1
+* New NH model - LogL..................: -45297.5
                - df....................: 46
                - LRT p-value...........: 3.33067e-16
-               - AIC...................: 90868.2
-               - AICc..................: 90870.6
-               - BIC...................: 91115.7
+               - AIC...................: 90687.1
+               - AICc..................: 90689.8
+               - BIC...................: 90934.6
 Current threshold......................: 0.0065698
 Number of real partitions..............: 7
-Partition 1............................: 5 element(s).
-Partition 2............................: 7 element(s).
+Partition 1............................: 7 element(s).
+Partition 2............................: 5 element(s).
 Partition 3............................: 11 element(s).
 Partition 4............................: 1 element(s).
 Partition 5............................: 5 element(s).
@@ -134,25 +134,25 @@ Parameter ignored......................: YN98.2_Full.theta2_1
 Parameter ignored......................: YN98.3_Full.theta_1
 Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
-*************************************************************
+**************************************************************
 
-* New NH model - LogL..................: -45381
+* New NH model - LogL..................: -45291.1
                - df....................: 48
-               - LRT p-value...........: 0.00083432
-               - AIC...................: 90858
-               - AICc..................: 90860.8
-               - BIC...................: 91116.3
+               - LRT p-value...........: 0.00162664
+               - AIC...................: 90678.2
+               - AICc..................: 90681.2
+               - BIC...................: 90936.5
 Current threshold......................: 0.12166
 Number of real partitions..............: 9
-Partition 1............................: 5 element(s).
-Partition 2............................: 7 element(s).
+Partition 1............................: 7 element(s).
+Partition 2............................: 5 element(s).
 Partition 3............................: 11 element(s).
 Partition 4............................: 1 element(s).
 Partition 5............................: 1 element(s).
 Partition 6............................: 1 element(s).
 Partition 7............................: 1 element(s).
-Partition 8............................: 1 element(s).
-Partition 9............................: 3 element(s).
+Partition 8............................: 3 element(s).
+Partition 9............................: 1 element(s).
 Parameter ignored......................: YN98.1_Full.theta_1
 Parameter ignored......................: YN98.1_Full.theta1_1
 Parameter ignored......................: YN98.1_Full.theta2_1
@@ -162,24 +162,24 @@ Parameter ignored......................: YN98.2_Full.theta2_1
 Parameter ignored......................: YN98.3_Full.theta_1
 Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
-*************************************************************************
+****************************************************************
 
-* New NH model - LogL..................: -45376.9
+* New NH model - LogL..................: -45287.1
                - df....................: 50
-               - LRT p-value...........: 0.0161535
-               - AIC...................: 90853.7
-               - AICc..................: 90856.8
-               - BIC...................: 91122.8
+               - LRT p-value...........: 0.0180073
+               - AIC...................: 90674.2
+               - AICc..................: 90677.5
+               - BIC...................: 90943.3
 Current threshold......................: 0.214856
 Number of real partitions..............: 11
-Partition 1............................: 5 element(s).
-Partition 2............................: 7 element(s).
+Partition 1............................: 7 element(s).
+Partition 2............................: 5 element(s).
 Partition 3............................: 1 element(s).
 Partition 4............................: 1 element(s).
 Partition 5............................: 1 element(s).
 Partition 6............................: 1 element(s).
-Partition 7............................: 1 element(s).
-Partition 8............................: 3 element(s).
+Partition 7............................: 3 element(s).
+Partition 8............................: 1 element(s).
 Partition 9............................: 1 element(s).
 Partition 10...........................: 9 element(s).
 Partition 11...........................: 1 element(s).
@@ -192,24 +192,24 @@ Parameter ignored......................: YN98.2_Full.theta2_1
 Parameter ignored......................: YN98.3_Full.theta_1
 Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
-******************************************
+*******************************************
 
-* New NH model - LogL..................: -45371.9
+* New NH model - LogL..................: -45282.4
                - df....................: 52
-               - LRT p-value...........: 0.00670652
-               - AIC...................: 90847.7
-               - AICc..................: 90851
-               - BIC...................: 91127.6
+               - LRT p-value...........: 0.00878898
+               - AIC...................: 90668.7
+               - AICc..................: 90672.3
+               - BIC...................: 90948.5
 Current threshold......................: 0.22911
 Number of real partitions..............: 12
-Partition 1............................: 5 element(s).
-Partition 2............................: 7 element(s).
+Partition 1............................: 7 element(s).
+Partition 2............................: 5 element(s).
 Partition 3............................: 1 element(s).
 Partition 4............................: 1 element(s).
 Partition 5............................: 1 element(s).
 Partition 6............................: 1 element(s).
-Partition 7............................: 1 element(s).
-Partition 8............................: 3 element(s).
+Partition 7............................: 3 element(s).
+Partition 8............................: 1 element(s).
 Partition 9............................: 1 element(s).
 Partition 10...........................: 1 element(s).
 Partition 11...........................: 8 element(s).
@@ -223,24 +223,24 @@ Parameter ignored......................: YN98.2_Full.theta2_1
 Parameter ignored......................: YN98.3_Full.theta_1
 Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
-***********
+****************************
 
-* New NH model - LogL..................: -45370
+* New NH model - LogL..................: -45280.5
                - df....................: 53
-               - LRT p-value...........: 0.0541554
-               - AIC...................: 90846
-               - AICc..................: 90849.6
-               - BIC...................: 91131.2
+               - LRT p-value...........: 0.0526075
+               - AIC...................: 90667
+               - AICc..................: 90670.6
+               - BIC...................: 90952.2
 Current threshold......................: 0.245656
 Number of real partitions..............: 13
-Partition 1............................: 5 element(s).
-Partition 2............................: 7 element(s).
+Partition 1............................: 7 element(s).
+Partition 2............................: 5 element(s).
 Partition 3............................: 1 element(s).
 Partition 4............................: 1 element(s).
 Partition 5............................: 1 element(s).
 Partition 6............................: 1 element(s).
-Partition 7............................: 1 element(s).
-Partition 8............................: 3 element(s).
+Partition 7............................: 3 element(s).
+Partition 8............................: 1 element(s).
 Partition 9............................: 1 element(s).
 Partition 10...........................: 1 element(s).
 Partition 11...........................: 1 element(s).
@@ -255,18 +255,18 @@ Parameter ignored......................: YN98.2_Full.theta2_1
 Parameter ignored......................: YN98.3_Full.theta_1
 Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
-*********************
+*************************
 
-* New NH model - LogL..................: -45369.8
+* New NH model - LogL..................: -45280.2
                - df....................: 54
-               - LRT p-value...........: 0.535576
-               - AIC...................: 90847.6
-               - AICc..................: 90851.3
-               - BIC...................: 91138.2
+               - LRT p-value...........: 0.480361
+               - AIC...................: 90668.5
+               - AICc..................: 90672.3
+               - BIC...................: 90959.1
 Current threshold......................: 0.444636
 Number of real partitions..............: 14
-Partition 1............................: 5 element(s).
-Partition 2............................: 7 element(s).
+Partition 1............................: 7 element(s).
+Partition 2............................: 5 element(s).
 Partition 3............................: 1 element(s).
 Partition 4............................: 1 element(s).
 Partition 5............................: 1 element(s).
@@ -288,14 +288,14 @@ Parameter ignored......................: YN98.2_Full.theta2_1
 Parameter ignored......................: YN98.3_Full.theta_1
 Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
-*******************************************************************************
+************************************************************************************
 
-* New NH model - LogL..................: -45369.7
+* New NH model - LogL..................: -45280.1
                - df....................: 55
-               - LRT p-value...........: 0.624671
-               - AIC...................: 90849.4
-               - AICc..................: 90853.2
-               - BIC...................: 91145.4
+               - LRT p-value...........: 0.622429
+               - AIC...................: 90670.2
+               - AICc..................: 90674.2
+               - BIC...................: 90966.2
 Current threshold......................: 0.473002
 Number of real partitions..............: 16
 Partition 1............................: 7 element(s).
@@ -323,14 +323,14 @@ Parameter ignored......................: YN98.2_Full.theta2_1
 Parameter ignored......................: YN98.3_Full.theta_1
 Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
-*********************
+**************************
 
-* New NH model - LogL..................: -45369.1
+* New NH model - LogL..................: -45279.5
                - df....................: 57
-               - LRT p-value...........: 0.523909
-               - AIC...................: 90852.1
-               - AICc..................: 90856.1
-               - BIC...................: 91158.9
+               - LRT p-value...........: 0.528017
+               - AIC...................: 90672.9
+               - AICc..................: 90677.2
+               - BIC...................: 90979.7
 Current threshold......................: 0.54448
 Number of real partitions..............: 19
 Partition 1............................: 7 element(s).
@@ -348,10 +348,10 @@ Partition 12...........................: 1 element(s).
 Partition 13...........................: 1 element(s).
 Partition 14...........................: 1 element(s).
 Partition 15...........................: 3 element(s).
-Partition 16...........................: 1 element(s).
-Partition 17...........................: 1 element(s).
-Partition 18...........................: 2 element(s).
-Partition 19...........................: 3 element(s).
+Partition 16...........................: 2 element(s).
+Partition 17...........................: 3 element(s).
+Partition 18...........................: 1 element(s).
+Partition 19...........................: 1 element(s).
 Parameter ignored......................: YN98.1_Full.theta_1
 Parameter ignored......................: YN98.1_Full.theta1_1
 Parameter ignored......................: YN98.1_Full.theta2_1
@@ -361,14 +361,14 @@ Parameter ignored......................: YN98.2_Full.theta2_1
 Parameter ignored......................: YN98.3_Full.theta_1
 Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
-****************************************************
+***********************************************************************************
 
-* New NH model - LogL..................: -45365.9
+* New NH model - LogL..................: -45276.2
                - df....................: 60
-               - LRT p-value...........: 0.101992
-               - AIC...................: 90851.9
-               - AICc..................: 90856.2
-               - BIC...................: 91174.8
+               - LRT p-value...........: 0.0860104
+               - AIC...................: 90672.3
+               - AICc..................: 90677.1
+               - BIC...................: 90995.2
 Current threshold......................: 0.646383
 Number of real partitions..............: 21
 Partition 1............................: 1 element(s).
@@ -385,10 +385,10 @@ Partition 11...........................: 1 element(s).
 Partition 12...........................: 1 element(s).
 Partition 13...........................: 1 element(s).
 Partition 14...........................: 3 element(s).
-Partition 15...........................: 1 element(s).
-Partition 16...........................: 1 element(s).
-Partition 17...........................: 2 element(s).
-Partition 18...........................: 3 element(s).
+Partition 15...........................: 2 element(s).
+Partition 16...........................: 3 element(s).
+Partition 17...........................: 1 element(s).
+Partition 18...........................: 1 element(s).
 Partition 19...........................: 1 element(s).
 Partition 20...........................: 4 element(s).
 Partition 21...........................: 2 element(s).
@@ -401,14 +401,14 @@ Parameter ignored......................: YN98.2_Full.theta2_1
 Parameter ignored......................: YN98.3_Full.theta_1
 Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
-****************************************
+************************************************
 
-* New NH model - LogL..................: -45362.2
+* New NH model - LogL..................: -45272.6
                - df....................: 62
-               - LRT p-value...........: 0.0232978
-               - AIC...................: 90848.4
-               - AICc..................: 90853.1
-               - BIC...................: 91182
+               - LRT p-value...........: 0.0287894
+               - AIC...................: 90669.2
+               - AICc..................: 90674.3
+               - BIC...................: 91002.9
 Current threshold......................: 0.68854
 Number of real partitions..............: 22
 Partition 1............................: 1 element(s).
@@ -425,10 +425,10 @@ Partition 11...........................: 1 element(s).
 Partition 12...........................: 1 element(s).
 Partition 13...........................: 1 element(s).
 Partition 14...........................: 3 element(s).
-Partition 15...........................: 1 element(s).
-Partition 16...........................: 1 element(s).
-Partition 17...........................: 2 element(s).
-Partition 18...........................: 3 element(s).
+Partition 15...........................: 2 element(s).
+Partition 16...........................: 3 element(s).
+Partition 17...........................: 1 element(s).
+Partition 18...........................: 1 element(s).
 Partition 19...........................: 1 element(s).
 Partition 20...........................: 4 element(s).
 Partition 21...........................: 1 element(s).
@@ -442,14 +442,14 @@ Parameter ignored......................: YN98.2_Full.theta2_1
 Parameter ignored......................: YN98.3_Full.theta_1
 Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
-********************************
+****************************************
 
-* New NH model - LogL..................: -45360.9
+* New NH model - LogL..................: -45271.3
                - df....................: 63
-               - LRT p-value...........: 0.111802
-               - AIC...................: 90847.9
-               - AICc..................: 90852.9
-               - BIC...................: 91186.9
+               - LRT p-value...........: 0.105006
+               - AIC...................: 90668.6
+               - AICc..................: 90673.8
+               - BIC...................: 91007.7
 Current threshold......................: 0.699006
 Number of real partitions..............: 23
 Partition 1............................: 1 element(s).
@@ -465,10 +465,10 @@ Partition 10...........................: 2 element(s).
 Partition 11...........................: 1 element(s).
 Partition 12...........................: 1 element(s).
 Partition 13...........................: 1 element(s).
-Partition 14...........................: 1 element(s).
-Partition 15...........................: 1 element(s).
-Partition 16...........................: 2 element(s).
-Partition 17...........................: 3 element(s).
+Partition 14...........................: 2 element(s).
+Partition 15...........................: 3 element(s).
+Partition 16...........................: 1 element(s).
+Partition 17...........................: 1 element(s).
 Partition 18...........................: 1 element(s).
 Partition 19...........................: 4 element(s).
 Partition 20...........................: 1 element(s).
@@ -484,14 +484,14 @@ Parameter ignored......................: YN98.2_Full.theta2_1
 Parameter ignored......................: YN98.3_Full.theta_1
 Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
-********************************
+*******************************
 
-* New NH model - LogL..................: -45360.6
+* New NH model - LogL..................: -45271.1
                - df....................: 64
-               - LRT p-value...........: 0.438934
-               - AIC...................: 90849.3
-               - AICc..................: 90854.5
-               - BIC...................: 91193.7
+               - LRT p-value...........: 0.52156
+               - AIC...................: 90670.2
+               - AICc..................: 90675.6
+               - BIC...................: 91014.6
 Current threshold......................: 0.802248
 Number of real partitions..............: 24
 Partition 1............................: 1 element(s).
@@ -507,9 +507,9 @@ Partition 10...........................: 2 element(s).
 Partition 11...........................: 1 element(s).
 Partition 12...........................: 1 element(s).
 Partition 13...........................: 1 element(s).
-Partition 14...........................: 1 element(s).
+Partition 14...........................: 2 element(s).
 Partition 15...........................: 1 element(s).
-Partition 16...........................: 2 element(s).
+Partition 16...........................: 1 element(s).
 Partition 17...........................: 1 element(s).
 Partition 18...........................: 4 element(s).
 Partition 19...........................: 1 element(s).
@@ -527,14 +527,14 @@ Parameter ignored......................: YN98.2_Full.theta2_1
 Parameter ignored......................: YN98.3_Full.theta_1
 Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
-***********************************************************
+**********************
 
-* New NH model - LogL..................: -45360.5
+* New NH model - LogL..................: -45270.9
                - df....................: 65
-               - LRT p-value...........: 0.648894
-               - AIC...................: 90851
-               - AICc..................: 90856.4
-               - BIC...................: 91200.8
+               - LRT p-value...........: 0.534001
+               - AIC...................: 90671.8
+               - AICc..................: 90677.4
+               - BIC...................: 91021.6
 Current threshold......................: 0.834368
 Number of real partitions..............: 25
 Partition 1............................: 1 element(s).
@@ -549,9 +549,9 @@ Partition 9............................: 1 element(s).
 Partition 10...........................: 1 element(s).
 Partition 11...........................: 1 element(s).
 Partition 12...........................: 1 element(s).
-Partition 13...........................: 1 element(s).
+Partition 13...........................: 2 element(s).
 Partition 14...........................: 1 element(s).
-Partition 15...........................: 2 element(s).
+Partition 15...........................: 1 element(s).
 Partition 16...........................: 1 element(s).
 Partition 17...........................: 4 element(s).
 Partition 18...........................: 1 element(s).
@@ -571,14 +571,14 @@ Parameter ignored......................: YN98.2_Full.theta2_1
 Parameter ignored......................: YN98.3_Full.theta_1
 Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
-****************************************************************************************************************************************************************************************************************************************************************************************
+**************************************************************************************************************************************************************
 
-* New NH model - LogL..................: -45358.8
+* New NH model - LogL..................: -45269.2
                - df....................: 66
-               - LRT p-value...........: 0.0642849
-               - AIC...................: 90849.6
-               - AICc..................: 90855.2
-               - BIC...................: 91204.8
+               - LRT p-value...........: 0.0678519
+               - AIC...................: 90670.5
+               - AICc..................: 90676.2
+               - BIC...................: 91025.7
 Current threshold......................: 0.87739
 Number of real partitions..............: 28
 Partition 1............................: 1 element(s).
@@ -593,9 +593,9 @@ Partition 9............................: 1 element(s).
 Partition 10...........................: 1 element(s).
 Partition 11...........................: 1 element(s).
 Partition 12...........................: 1 element(s).
-Partition 13...........................: 1 element(s).
+Partition 13...........................: 2 element(s).
 Partition 14...........................: 1 element(s).
-Partition 15...........................: 2 element(s).
+Partition 15...........................: 1 element(s).
 Partition 16...........................: 1 element(s).
 Partition 17...........................: 1 element(s).
 Partition 18...........................: 1 element(s).
@@ -618,18 +618,19 @@ Parameter ignored......................: YN98.2_Full.theta2_1
 Parameter ignored......................: YN98.3_Full.theta_1
 Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
-************************************************************
+*****************************************************************************************************************************************
 
-* New NH model - LogL..................: -45356.4
+* New NH model - LogL..................: -45266.9
                - df....................: 69
-               - LRT p-value...........: 0.186667
-               - AIC...................: 90850.8
-               - AICc..................: 90856.6
-               - BIC...................: 91222.1
+               - LRT p-value...........: 0.189949
+               - AIC...................: 90671.7
+               - AICc..................: 90678
+               - BIC...................: 91043
 Model description output to file.......: MantellidDataset.model_join_AIC.bpp
 Output parameter table to..............: MantellidDataset.ml_nh_join_AIC.parameters.csv
 Output partitions record to............: MantellidDataset.partitions_record_join_AIC.txt
-Wrote tree to file ....................: MantellidDataset.ml_nh_join_AIC.nhx
+Output tree file ......................: MantellidDataset.ml_nh_join_AIC.nhx
+Output tree format ....................: Nhx
 Partitions output to file..............: MantellidDataset.partitions_join_AIC.dnd
 PartNH's done. Bye.
-Total execution time: 1.000000d, 9.000000h, 40.000000m, 11.000000s.
+Total execution time: 0.000000d, 13.000000h, 51.000000m, 12.000000s.

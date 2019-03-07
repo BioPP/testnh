@@ -25,7 +25,8 @@ partition.test = BIC #Can be one of LRT, BIC or AIC.
 partition.test.threshold = 0.01 #If LRT is used.
 partition.test.stop_condition = 10
 
-alphabet = Codon(letter=DNA, type=InvertebrateMitochondrial)
+alphabet = Codon(letter=DNA)
+genetic_code = VertebrateMitochondrial
 input.sequence.file = $(DATA).faln
 input.sequence.format = Fasta
 input.sequence.sites_to_use = all
@@ -34,7 +35,7 @@ input.sequence.max_gap_allowed =100%
 input.sequence.remove_stop_codons=yes
 
 
-model = YN98(genetic_code=InvertebrateMitochondrial, frequencies=F3X4, omega=0.5, kappa=2, initFreqs=observed, initFreqs.observedPseudoCount=0)
+model = YN98(frequencies=F3X4(mgmtStopCodon=uniform), omega=0.5, kappa=2, initFreqs=observed, initFreqs.observedPseudoCount=0)
 rate_distribution = Constant #Gamma(n=4, alpha=0.5)
 nonhomogeneous.root_freq = None 
 nonhomogeneous.shared_parameters = YN98.kappa, YN98.1_Full.theta*, YN98.2_Full.theta*, YN98.3_Full.theta*
@@ -46,13 +47,13 @@ optimization.max_number_f_eval = 1000
 optimization.tolerance = 0.000001
 optimization.profiler = $(DATA).$(METHOD).profile
 optimization.message_handler = $(DATA).$(METHOD).message
-optimization.ignore_parameter = YN98.1_Full.theta*, YN98.2_Full.theta*, YN98.3_Full.theta*
+optimization.ignore_parameters = YN98.1_Full.theta*, YN98.2_Full.theta*, YN98.3_Full.theta*
 
 #Where to write optimal model (for later use with bppSeqGen or bppAncestor for instance):
 output.model.file = 
 output.log.file = 
 output.tree.file = $(DATA).ml_nh_$(METHOD).nhx
-output.tree.format = NHX
+output.tree.format = Nhx
 output.partitions.file = $(DATA).partitions_$(METHOD).dnd
 output.partitions.record = $(DATA).partitions_record_$(METHOD).txt
 output.model.file = $(DATA).model_$(METHOD).bpp

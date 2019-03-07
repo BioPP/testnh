@@ -1,25 +1,28 @@
 ******************************************************************
-*                     Map NH, version 0.1.0                      *
+*                     Map NH, version 1.3.0                      *
 * Authors: J. Dutheil                       Created on  09/12/10 *
-*          B. Boussau                       Last Modif. 17/12/11 *
+*          B. Boussau                       Modif. 17/12/11      *
+*          L. Guéguen                       Last Modif. 24/11/14 *
 ******************************************************************
 
 Parsing options:
 Parsing file MapNH.bpp for options.
 Parsing file MantellidDataset.params_h.bpp for options.
-Alphabet type .........................: Codon(DNA)
+Alphabet type .........................: Codon(letter=DNA)
+Genetic Code...........................: VertebrateMitochondrial
 Sequence file .........................: MantellidDataset.faln
 Sequence format .......................: FASTA file
-Sequence file .........................: MantellidDataset.faln
 Sites to use...........................: all
-WARNING!!! Parameter input.sequence.max_gap_allowed not specified. Default used instead: 100%
 Remove Stop Codons.....................: yes
 Number of sequences....................: 17
 Number of sites........................: 1606
-Tree file..............................: MantellidDataset.ml_h.dnd
+Input tree file .......................: MantellidDataset.ml_h.dnd
+Input tree format .....................: Newick
 Number of leaves.......................: 17
 Heterogeneous model....................: no
-Frequencies initialization for model...: None
+StopCodon frequencies distribution ....: uniform
+Substitution model.....................: YN98
+External frequencies initialization for: None
 Parameter found........................: YN98.kappa=2.94929
 Parameter found........................: YN98.omega=0.0546493
 Parameter found........................: YN98.1_Full.theta=0.460548
@@ -31,7 +34,16 @@ Parameter found........................: YN98.2_Full.theta2=0.279906
 Parameter found........................: YN98.3_Full.theta=0.352878
 Parameter found........................: YN98.3_Full.theta1=0.540054
 Parameter found........................: YN98.3_Full.theta2=0.125294
+Distribution...........................: Constant
+Number of classes......................: 1
 - Category 0 (Pr = 1) rate.............: 1
+Rate distribution......................: Constant
+Number of classes......................: 1
+Log-Likelihood.........................: -45347.9
+Substitution Register..................: DnDs
+  * Count type 1.......................: dS
+  * Count type 2.......................: dN
+WARNING!!! Parameter output.counts not specified. Default used instead: PerType(prefix=)
 Saturation threshold used..............: 3
 WARNING!!! On branch 1, 28 sites (2%) have been ignored because they are presumably saturated.
 WARNING!!! On branch 3, 4 sites (1%) have been ignored because they are presumably saturated.
@@ -45,9 +57,9 @@ WARNING!!! On branch 24, 5 sites (1%) have been ignored because they are presuma
 WARNING!!! On branch 25, 19 sites (2%) have been ignored because they are presumably saturated.
 WARNING!!! On branch 26, 2 sites (1%) have been ignored because they are presumably saturated.
 WARNING!!! On branch 28, 136 sites (9%) have been ignored because they are presumably saturated.
-WARNING!!! Parameter output.counts not specified. Default used instead: perType
-Output counts of type 1 to file........: CountsTree1.dnd
-Output counts of type 2 to file........: CountsTree2.dnd
+Saturation threshold used..............: 3
+Output counts of type 1 to file........: mapping_counts_per_type_dS.dnd
+Output counts of type 2 to file........: mapping_counts_per_type_dN.dnd
 Perform branch clustering..............: yes
 Cluster only neighbor nodes............: no
 Allow len < 0 in clustering............: no
@@ -59,4 +71,4 @@ P-value at root node...................: 1.22125e-15
 Number of tests performed..............: 900
 Output cluster tree to.................: Mantellid.cluster_free.dnd
 MapNH's done. Bye.
-Total execution time: 0.000000d, 0.000000h, 0.000000m, 17.000000s.
+Total execution time: 0.000000d, 0.000000h, 0.000000m, 11.000000s.

@@ -4,7 +4,8 @@ DATA = PalandAndLynch28
 
 # The alphabet to use:
 # DNA, RNA or Protein
-alphabet = Codon(letter=DNA, type=InvertebrateMitochondrial)
+alphabet = Codon(letter=DNA)
+genetic_code = InvertebrateMitochondrial
 
 # The sequence file to use (sequences must be aligned!)
 input.sequence.file = $(DATA)Concatenate.fasta
@@ -28,7 +29,7 @@ input.sequence.remove_stop_codons=yes
 # user or random
 init.tree = user
 
-input.tree.file = $(DATA)Tree.dnd
+input.tree.file = $(DATA)Tree_unrooted.dnd
 input.tree.format = Newick
 
 init.brlen.method = Input
@@ -39,7 +40,7 @@ init.brlen.method = Input
 # See the manual for a description of the syntax and available options.
 #
 
-rate_distribution = Uniform #Gamma(n=4, alpha=0.5)
+rate_distribution = Constant #Gamma(n=4, alpha=0.5)
 
 nonhomogeneous = general
 
@@ -55,8 +56,8 @@ nonhomogeneous.number_of_models = 1
 # If we want to get node ids:
 #output.tree_ids.file=$(DATA)TreeWithId.dnd
 # 1 model for all nodes
-model1 = YN98(genetic_code=InvertebrateMitochondrial, codon_freqs=F3X4)
-model1.nodes_id=0:53  # The Ids of the nodes to which this model should be assigned.
+model1 = YN98(frequencies = F3X4(mgmtStopCodon = uniform), initFreqs = observed, omega = 0.5, kappa = 2.)
+model1.nodes_id = 0:52  # The Ids of the nodes to which this model should be assigned.
 
 
 
@@ -89,7 +90,7 @@ likelihood.recursion_simple.compression = recursive
 # - None, no optimization performed
 # - DB derivatives for branch lengths + Brent for other parameters
 # - FullD derivatives for all parameters, using numerical derivatives for non-branch lengths parameters.
-optimization = FullD(derivatives=Newton)
+optimization = FullD(derivatives = Newton)
 
 # Tell if the parameter should be transformed in order to remove constraints.
 # This can improves the optimization, but might be a bit slower.
@@ -103,7 +104,7 @@ optimization.final = none
 optimization.verbose = 3
 
 # Parameters to ignore (for instance equilibrium frequencies)
-optimization.ignore_parameter =
+optimization.ignore_parameters = YN98*theta*
 
 # Maximum number of likelihood evaluations:
 optimization.max_number_f_eval = 10000
