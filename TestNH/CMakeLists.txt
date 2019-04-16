@@ -23,10 +23,10 @@ set (testnh-targets
   )
 
 if (BUILD_STATIC)
-  target_link_libraries (bppTools ${BPP_LIBS_STATIC})
+  target_link_libraries (bppTools ${BPP_LIBS_STATIC} Eigen3::Eigen)
   set_target_properties (bppTools PROPERTIES LINK_SEARCH_END_STATIC TRUE)
 else (BUILD_STATIC)
-  target_link_libraries (bppTools ${BPP_LIBS_SHARED})
+  target_link_libraries (bppTools ${BPP_LIBS_SHARED} Eigen3::Eigen)
   set_target_properties (bppTools PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 endif (BUILD_STATIC)
 

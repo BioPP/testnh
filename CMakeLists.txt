@@ -76,6 +76,8 @@ endif (CMAKE_INSTALL_PREFIX)
 include (GNUInstallDirs)
 find_package (bpp-phyl 12.0.0 REQUIRED)
 
+find_package (Eigen3 3.3 REQUIRED NO_MODULE)
+
 # Subdirectories
 add_subdirectory (TestNH)
 add_subdirectory (doc)
