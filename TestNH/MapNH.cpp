@@ -112,7 +112,10 @@ int main(int args, char** argv)
     BppApplication mapnh(args, argv, "MapNH");
     mapnh.startTimer();
     std::map<std::string, std::string> unparsedparams;
+
+    Context context;
     
+
     /*********************************/
     /* get Basic objects */
     /*********************************/
@@ -126,7 +129,7 @@ int main(int args, char** argv)
                                                
     std::map<size_t, SequenceEvolution*> mProc=bppTools::getProcesses(mapnh.getParams(), *SP, unparsedparams);
   
-    unique_ptr<PhyloLikelihoodContainer> plc(bppTools::getPhyloLikelihoods(mapnh.getParams(), mProc, *SP, mSites));
+    unique_ptr<PhyloLikelihoodContainer> plc(bppTools::getPhyloLikelihoods(mapnh.getParams(), context, mProc, *SP, mSites));
 
     if (!plc->hasPhyloLikelihood(1))
       throw Exception("Missing first phyloLikelihood.");
@@ -397,13 +400,13 @@ int main(int args, char** argv)
         {
           string path = treePathPrefix + name + string(".dnd");
           ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
-          newick.write(*pt, path);
+          newick.writeTree(*pt, path);
           
           if (splitNorm)
           {
             path = treePathPrefix + name + string("_norm.dnd");
             ApplicationTools::displayResult(string("Output normalizations of type ") + TextTools::toString(i + 1) + string(" to file"), path);
-            newick.write(*pn, path);
+            newick.writeTree(*pn, path);
           }
         }
         else
@@ -416,7 +419,7 @@ int main(int args, char** argv)
           
           string path = treePathPrefix + name + string(".dnd");
           ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
-          newick.write(*pt, path);
+          newick.writeTree(*pt, path);
         }
       }
     }

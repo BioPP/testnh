@@ -468,7 +468,7 @@ int main(int args, char ** argv)
       rateFreqs = vector<double>(n, 1./static_cast<double>(n)); // Equal rates assumed for now, may be changed later (actually, in the most general case,
                                                    // we should assume a rate distribution for the root also!!!  
     }
-    FrequenciesSet* rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, sites, stepnh.getParams(), rateFreqs);
+    FrequencySet* rootFreqs = PhylogeneticsApplicationTools::getRootFrequencySet(alphabet, sites, stepnh.getParams(), rateFreqs);
 
     string descGlobal = ApplicationTools::getStringParameter("nonhomogeneous_one_per_branch.shared_parameters", stepnh.getParams(), "", "", true, 1);
 

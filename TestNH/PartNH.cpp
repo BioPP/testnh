@@ -136,7 +136,7 @@ vector< vector<int> > getGroups(vector<const Node*>& candidates) {
  
 SubstitutionModelSet* buildModelSetFromPartitions(
     const SubstitutionModel* model,
-    const FrequenciesSet* rootFreqs,
+    const FrequencySet* rootFreqs,
     const Tree* tree,
     const vector< vector<int> >& groups,
     const vector<string>& globalParameterNames,
@@ -543,11 +543,11 @@ int main(int args, char ** argv)
     }
 
     bool stationarity = ApplicationTools::getBooleanParameter("nonhomogeneous.stationarity", partnh.getParams(), false, "", false, false);
-    FrequenciesSet* rootFreqs = 0;
+    FrequencySet* rootFreqs = 0;
     std::map<std::string, std::string> aliasFreqNames;
     if (!stationarity)
     {
-      rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, gCode.get(), sites, partnh.getParams(), aliasFreqNames, rateFreqs);
+      rootFreqs = PhylogeneticsApplicationTools::getRootFrequencySet(alphabet, gCode.get(), sites, partnh.getParams(), aliasFreqNames, rateFreqs);
       stationarity = !rootFreqs;
     }
     ApplicationTools::displayBooleanResult("Stationarity assumed", stationarity);
