@@ -129,7 +129,7 @@ int main(int args, char** argv)
                                                
     std::map<size_t, SequenceEvolution*> mProc=bppTools::getProcesses(mapnh.getParams(), *SP, unparsedparams);
   
-    unique_ptr<PhyloLikelihoodContainer> plc(bppTools::getPhyloLikelihoods(mapnh.getParams(), context, mProc, *SP, mSites));
+    auto plc(bppTools::getPhyloLikelihoods(mapnh.getParams(), context, mProc, *SP, mSites));
 
     if (!plc->hasPhyloLikelihood(1))
       throw Exception("Missing first phyloLikelihood.");
@@ -312,7 +312,6 @@ int main(int args, char** argv)
         map<string, string> npv;
         KeyvalTools::multipleKeyvals(nullProcessParams, npv, ",", false);
       
-        map<string, string>::iterator mi(npv.begin());
         for (const auto& pv : npv)
         {
           vector<string> pn = pl0.getMatchingParameterNames(pv.first);
