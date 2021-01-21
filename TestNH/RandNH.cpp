@@ -112,7 +112,7 @@ int main(int args, char ** argv)
   //Output to file in NHX format:
   string treeIdOut = ApplicationTools::getAFilePath("output.tree.file", randnh.getParams(), false, false);
   Nhx nhx(true);
-  nhx.write(*tree, treeIdOut);
+  nhx.writeTree(*tree, treeIdOut);
 
   //Now get the number of partitions and assign nodes:
   size_t nbParts = ApplicationTools::getParameter<size_t>("nonhomogeneous.number_of_models", randnh.getParams(), 2);
