@@ -22,7 +22,7 @@ Copyright @copyright{} 2017 Bastien Boussau, Julien Dutheil and Laurent Guéguen
 
 @titlepage
 @title TestNH Manual
-@author Bastien Boussau, Julien Dutheil
+@author Bastien Boussau, Julien Dutheil, Laurent Guéguen
 @author @email{julien.dutheil@@univ-montp2.fr}
 
 @c The following two commands start the copyright page.
@@ -299,6 +299,40 @@ output.counts=PerType(prefix=mapping_per_type),\
               PerBranchPerSite(file=mapping_per_site.txt)
 @end example
 @end cartouche
+
+Counts can be normalized with the counts that could have been
+performed by another model, on the same history as the one described
+by the main model. For this, use option:
+
+@item modelNullParams = @{list@{<chars>=<values>@}@}
+
+to assigne a list of parameter values used to define the normalization
+model from the main one. 
+The '*' wildcard can be used, as in @command{*theta*} for all the
+parameters whose name has @command{theta} in it.
+
+For example, to normalize by the counts performed by a neutral model,
+in YN98 modeling (typically for dN/dS):
+
+@cartouche
+@example
+nullModelParams = YN98.omega*=1
+@end example
+@end cartouche
+
+In the case where we want separate counts (aka raw counts &
+normalizations), use the @command{splitNorm=True} option in the
+@command{ouput.counts} options.
+
+@cartouche
+@example
+output.counts = PerBranchPerType(prefix=$(REP)/$(DATA).counts_,\
+                splitNorm=True)
+@end example
+@end cartouche
+
+In this case, an additional file with suffix _norm is output for
+normalizations, while regular output contains raw counts. 
 
 Based on this counts, MapNH can make a global test to assess if there is heterogeneity between branches:
 @item test.global = @{boolean@}
