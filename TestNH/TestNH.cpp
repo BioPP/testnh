@@ -44,6 +44,9 @@ knowledge of the CeCILL license and that you accept its terms.
 
 using namespace std;
 
+// From bpp-core:
+#include <Bpp/App/NumCalcApplicationTools.h>
+
 // From bpp-seq:
 #include <Bpp/Seq/Alphabet/Alphabet.h>
 #include <Bpp/Seq/Container/VectorSiteContainer.h>
@@ -267,7 +270,7 @@ int main(int args, char ** argv)
                                                    // we should assume a rate distribution for the root also!!!  
     }
     std::map<std::string, std::string> aliasFreqNames;
-    FrequenciesSet* rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, gCode.get(), sites, testnh.getParams(), aliasFreqNames, rateFreqs);
+    auto rootFreqs = PhylogeneticsApplicationTools::getRootFrequencySet(alphabet, gCode.get(), sites, testnh.getParams(), aliasFreqNames, rateFreqs);
 
     string descGlobal = ApplicationTools::getStringParameter("nonhomogeneous_one_per_branch.shared_parameters", testnh.getParams(), "", "", true, 1);
 
@@ -303,6 +306,7 @@ int main(int args, char ** argv)
         for (const auto& vint:globpar.second)
           ApplicationTools::displayResult(" shared between nodes", VectorTools::paste(vint,","));
     }
+
     modelSet = SubstitutionModelSetTools::createNonHomogeneousModelSet(model, rootFreqs, tree, aliasFreqNames, globalParameters); 
     model = 0;
       

@@ -46,6 +46,9 @@
 
 using namespace std;
 
+// From bpp-core:
+#include <Bpp/App/NumCalcApplicationTools.h>
+
 // From bpp-seq:
 #include <Bpp/Seq/Alphabet/AlphabetTools.h>
 #include <Bpp/Seq/AlphabetIndex/UserAlphabetIndex1.h>
@@ -160,7 +163,7 @@ int main(int args, char** argv)
     if (treeIdOut != "none")
     {
       Nhx nhx(true);
-      nhx.write(*tree, treeIdOut);
+      nhx.writeTree(*tree, treeIdOut);
     }
 
     
@@ -222,7 +225,7 @@ int main(int args, char** argv)
         // we should assume a rate distribution for the root also!!!
       }
       std::map<std::string, std::string> aliasFreqNames;
-      FrequenciesSet* rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, gCode.get(), sites, mapnh.getParams(), aliasFreqNames, rateFreqs);
+      auto rootFreqs = PhylogeneticsApplicationTools::getRootFrequencySet(alphabet, gCode.get(), sites, mapnh.getParams(), aliasFreqNames, rateFreqs);
 
       string descGlobal = ApplicationTools::getStringParameter("nonhomogeneous_one_per_branch.shared_parameters", mapnh.getParams(), "", "", true, 1);
 
@@ -558,7 +561,7 @@ int main(int args, char** argv)
               ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
               Tree* cTree = tree->clone();
               buildCountTree(counts, ids, cTree, i);
-              newick.write(*cTree, path);
+              newick.writeTree(*cTree, path);
               delete cTree;
             }
 
@@ -575,7 +578,7 @@ int main(int args, char** argv)
                 ApplicationTools::displayResult(string("Output normalizations of type ") + TextTools::toString(i + 1) + string(" to file"), path);
                 Tree* cTree = tree->clone();
                 buildCountTree(normCount, ids, cTree, i);
-                newick.write(*cTree, path);
+                newick.writeTree(*cTree, path);
                 delete cTree;
               }
             }
@@ -830,7 +833,7 @@ int main(int args, char** argv)
       Newick newick;
       string clusterTreeOut = ApplicationTools::getAFilePath("output.cluster_tree.file", mapnh.getParams(), false, false, "", true, "clusters.dnd", 1);
       ApplicationTools::displayResult("Output cluster tree to", clusterTreeOut);
-      newick.write(*htree, clusterTreeOut);
+      newick.writeTree(*htree, clusterTreeOut);
       delete htree;
     }
 
