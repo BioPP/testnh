@@ -5,18 +5,14 @@ alphabet = Codon(letter=DNA)
 genetic_code = VertebrateMitochondrial
 
 #Set imput tree file. Original branch lengths will be used for mapping.
-input.tree.file = $(DATA).ml_h.dnd
-input.tree.format = Newick
+input.data1=alignment(file = $(DATA).faln, format=Fasta, sites_to_use = all, remove_stop_codons = yes)
+
+input.tree1=user(file = $(DATA).ml_h.dnd, format = Newick)
+
 #We convert the tree to Nhx format for use with PartNH:
 output.tree_with_id.file = $(DATA).nhx
 #Where to output cluster tree:
 output.cluster_tree.file = $(DATA).cluster_join.dnd
-
-input.sequence.file = $(DATA).faln
-input.sequence.format = Fasta
-input.sequence.sites_to_use = all
-# Remove stop codons
-input.sequence.remove_stop_codons = yes
 
 
 map.type = DnDs(code=VertebrateMitochondrial)
