@@ -136,7 +136,7 @@ vector< vector<int> > getGroups(vector<const Node*>& candidates) {
  
 SubstitutionModelSet* buildModelSetFromPartitions(
     const SubstitutionModel* model,
-    const FrequenciesSet* rootFreqs,
+    const std::shared_ptr<FrequencySet> rootFreqs,
     const Tree* tree,
     const vector< vector<int> >& groups,
     const vector<string>& globalParameterNames,
@@ -201,7 +201,7 @@ SubstitutionModelSet* buildModelSetFromPartitions(
 
 
   SubstitutionModelSet* modelSet = rootFreqs ?
-    new SubstitutionModelSet(model->getAlphabet(), rootFreqs->clone()) :
+    new SubstitutionModelSet(model->getAlphabet(), std::shared_ptr<FrequencySet>(rootFreqs->clone())) :
     new SubstitutionModelSet(model->getAlphabet());
 
   //We assign a copy of this model to all nodes in the tree, for each partition, and link all parameters with it.
@@ -329,14 +329,14 @@ int main(int args, char ** argv)
   Newick newick;
   string clusterTree = ApplicationTools::getAFilePath("input.cluster_tree.file", partnh.getParams(), true, true);
   ApplicationTools::displayResult("Input cluster tree", clusterTree);
-  TreeTemplate<Node>* htree = newick.read(clusterTree);
+  TreeTemplate<Node>* htree = newick.readTree(clusterTree);
   
   //We only read NHX tree because we want to be sure to use the correct id:
   //TreeTemplate<Node>* ptree = dynamic_cast<TreeTemplate<Node>*>(PhylogeneticsApplicationTools::getTree(partnh.getParams()));
   string treeIdPath = ApplicationTools::getAFilePath("input.tree.file", partnh.getParams(), true, true);
   ApplicationTools::displayResult("Input tree file", treeIdPath);
   Nhx nhx(true);
-  TreeTemplate<Node>* ptree = nhx.read(treeIdPath);
+  TreeTemplate<Node>* ptree = nhx.readTree(treeIdPath);
 
   map<const Node*, double> heights;
   TreeTemplateTools::getHeights(*htree->getRootNode(), heights);
@@ -543,11 +543,11 @@ int main(int args, char ** argv)
     }
 
     bool stationarity = ApplicationTools::getBooleanParameter("nonhomogeneous.stationarity", partnh.getParams(), false, "", false, false);
-    FrequenciesSet* rootFreqs = 0;
+    std::shared_ptr<FrequencySet> rootFreqs = 0;
     std::map<std::string, std::string> aliasFreqNames;
     if (!stationarity)
     {
-      rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, gCode.get(), sites, partnh.getParams(), aliasFreqNames, rateFreqs);
+      rootFreqs = PhylogeneticsApplicationTools::getRootFrequencySet(alphabet, gCode.get(), sites, partnh.getParams(), aliasFreqNames, rateFreqs);
       stationarity = !rootFreqs;
     }
     ApplicationTools::displayBooleanResult("Stationarity assumed", stationarity);
@@ -869,7 +869,7 @@ int main(int args, char ** argv)
     }
   }
   newick.enableExtendedBootstrapProperty("partition");
-  newick.write(*ptree, partPath);
+  newick.writeTree(*ptree, partPath);
 
   //Cleaning memory:
   delete htree;

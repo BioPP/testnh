@@ -46,6 +46,9 @@
 
 using namespace std;
 
+// From bpp-core:
+#include <Bpp/App/NumCalcApplicationTools.h>
+
 // From bpp-seq:
 #include <Bpp/Seq/Alphabet/AlphabetTools.h>
 #include <Bpp/Seq/AlphabetIndex/UserAlphabetIndex1.h>
@@ -159,7 +162,7 @@ int main(int args, char** argv)
     if (treeIdOut != "none")
     {
       Nhx nhx(true);
-      nhx.write(*tree, treeIdOut);
+      nhx.writeTree(*tree, treeIdOut);
     }
 
     
@@ -221,9 +224,43 @@ int main(int args, char** argv)
         // we should assume a rate distribution for the root also!!!
       }
       std::map<std::string, std::string> aliasFreqNames;
-      FrequenciesSet* rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, gCode.get(), sites, mapnh.getParams(), aliasFreqNames, rateFreqs);
+      auto rootFreqs = PhylogeneticsApplicationTools::getRootFrequencySet(alphabet, gCode.get(), sites, mapnh.getParams(), aliasFreqNames, rateFreqs);
 
-      vector<string> globalParameters = ApplicationTools::getVectorParameter<string>("nonhomogeneous_one_per_branch.shared_parameters", mapnh.getParams(), ',', "");
+      string descGlobal = ApplicationTools::getStringParameter("nonhomogeneous_one_per_branch.shared_parameters", mapnh.getParams(), "", "", true, 1);
+
+      NestedStringTokenizer nst(descGlobal,"[","]",",");
+      const deque<string>& descGlobalParameters=nst.getTokens();
+
+      map<string, vector<Vint> > globalParameters;
+      for (const auto& desc:descGlobalParameters)
+      {
+        size_t post=desc.rfind("_");
+        if (post==std::string::npos || post==desc.size()-1 || desc[post+1]!='[')
+          globalParameters[desc]={};
+        else
+        {
+          string key=desc.substr(0,post);
+          Vint sint=NumCalcApplicationTools::seqFromString(desc.substr(post+2, desc.size()-post-3));
+          if (globalParameters.find(key)==globalParameters.end())
+            globalParameters[key]=vector<Vint>(1, sint);
+          else
+            globalParameters[key].push_back(sint);
+        }
+      }
+
+      for (const auto& globpar:globalParameters)
+      {
+        ApplicationTools::displayResult("Global parameter", globpar.first);
+        if (globpar.second.size()==0)
+        {
+          string all="All nodes";
+          ApplicationTools::displayResult(" set to nodes", all);
+        }
+        else
+          for (const auto& vint:globpar.second)
+            ApplicationTools::displayResult(" set to nodes", VectorTools::paste(vint,","));
+      }
+
       modelSet = SubstitutionModelSetTools::createNonHomogeneousModelSet(model, rootFreqs, tree, aliasFreqNames, globalParameters);
       drtl = new DRNonHomogeneousTreeLikelihood(*tree, *sites, modelSet, rDist, false, false);
     }
@@ -523,7 +560,7 @@ int main(int args, char** argv)
               ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
               Tree* cTree = tree->clone();
               buildCountTree(counts, ids, cTree, i);
-              newick.write(*cTree, path);
+              newick.writeTree(*cTree, path);
               delete cTree;
             }
 
@@ -540,7 +577,7 @@ int main(int args, char** argv)
                 ApplicationTools::displayResult(string("Output normalizations of type ") + TextTools::toString(i + 1) + string(" to file"), path);
                 Tree* cTree = tree->clone();
                 buildCountTree(normCount, ids, cTree, i);
-                newick.write(*cTree, path);
+                newick.writeTree(*cTree, path);
                 delete cTree;
               }
             }
@@ -795,7 +832,7 @@ int main(int args, char** argv)
       Newick newick;
       string clusterTreeOut = ApplicationTools::getAFilePath("output.cluster_tree.file", mapnh.getParams(), false, false, "", true, "clusters.dnd", 1);
       ApplicationTools::displayResult("Output cluster tree to", clusterTreeOut);
-      newick.write(*htree, clusterTreeOut);
+      newick.writeTree(*htree, clusterTreeOut);
       delete htree;
     }
 
