@@ -35,7 +35,7 @@ input.sequence.max_gap_allowed =100%
 input.sequence.remove_stop_codons=yes
 
 
-model = YN98(frequencies=F3X4(mgmtStopCodon=uniform), omega=0.5, kappa=2, initFreqs=observed, initFreqs.observedPseudoCount=0)
+model = YN98(frequencies=F3X4(mgmtStopCodon=uniform), omega=0.5, kappa=2, initFreqs=observed)
 rate_distribution = Constant #Gamma(n=4, alpha=0.5)
 nonhomogeneous.root_freq = None 
 nonhomogeneous.shared_parameters = YN98.kappa, YN98.1_Full.theta*, YN98.2_Full.theta*, YN98.3_Full.theta*

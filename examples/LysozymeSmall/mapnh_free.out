@@ -1,10 +1,74 @@
 ******************************************************************
-*                     Map NH, version 0.1.0                      *
+*                     Map NH, version 2                          *
 * Authors: J. Dutheil                       Created on  09/12/10 *
-*          B. Boussau                       Last Modif. 17/12/11 *
+*          B. Boussau                       Modif. 17/12/11      *
+*          L. Guéguen                       Last Modif. 28/11/17 *
 ******************************************************************
 
 Parsing options:
 Parsing file MapNH.bpp for options.
-Alphabet type .........................: Codon(DNA)
-File does not exists: lysozymeSmall.fasta
+Parsing file lysozymeSmall.ml_h.params.bpp for options.
+Alphabet type .........................: Codon(letter=DNA)
+Genetic Code...........................: Standard
+
+Data 1
+Sequence file .........................: lysozymeSmall.fasta
+Sequence format .......................: FASTA file
+Sites to use...........................: complete
+Complete sites.........................: 130
+Remove Stop Codons.....................: yes
+Number of sites........................: 130
+
+Tree 1
+Number of trees in file................: 1
+Number of leaves.......................: 7
+Branch lengths.........................: Input
+WARNING!!! Parameter input.tree.scale not specified. Default used instead: 1
+
+Rate 1
+Distribution...........................: Constant
+Number of classes......................: 1
+- Category 0 (Pr = 1) rate.............: 1
+
+Model 1
+StopCodon frequencies distribution ....: quadratic
+Substitution model.....................: YN98
+External frequencies initialization for: None
+Parameter found........................: YN98.kappa=4.60324
+Parameter found........................: YN98.omega=0.793759
+Parameter found........................: YN98.1_Full.theta=0.486928
+Parameter found........................: YN98.1_Full.theta1=0.602419
+Parameter found........................: YN98.1_Full.theta2=0.619731
+Parameter found........................: YN98.2_Full.theta=0.425084
+Parameter found........................: YN98.2_Full.theta1=0.60783
+Parameter found........................: YN98.2_Full.theta2=0.637951
+Parameter found........................: YN98.3_Full.theta=0.411871
+Parameter found........................: YN98.3_Full.theta1=0.46553
+Parameter found........................: YN98.3_Full.theta2=0.447235
+
+Process 1
+Process type...........................: Homogeneous
+ Model number..........................: 1
+ Tree number...........................: 1
+ Rate number...........................: 1
+ Stationarity assumed.
+
+Phylolikelihood 1
+ Data used ............................: 1
+ Process ..............................: 1
+ Compression ..........................: simple
+
+Result Phylolikelihood 
+ Result................................: phylo1
+
+Initial log likelihood.................: -902.472611526558
+Substitution Register..................: DnDs
+  * Count type 1.......................: dS
+  * Count type 2.......................: dN
+WARNING!!! Parameter output.counts not specified. Default used instead: PerType(prefix=counts_)
+Compute counts.........................: 
+[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] Done.
+Output counts of type 1 to file........: counts_dS.dnd
+Output counts of type 2 to file........: counts_dN.dnd
+MapNH's done. Bye.
+Total execution time: 0.000000d, 0.000000h, 0.000000m, 0.000000s.

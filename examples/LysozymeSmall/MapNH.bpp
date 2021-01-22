@@ -1,27 +1,26 @@
 DATA = lysozymeSmall
 
-alphabet = Codon(letter=DNA, type=Standard)
+alphabet = Codon(letter=DNA)
+genetic_code = Standard
+
+# The sequence file to use (sequences must be aligned!)
+input.data1=alignment(file = $(DATA).fasta, format=Fasta, sites_to_use = complete, remove_stop_codons = yes)
 
 #Set imput tree file. Original branch lengths will be used for mapping.
-input.tree.file = $(DATA).ml_h.dnd
-input.tree.format = Newick
+input.tree1 = user(file = $(DATA).ml_h.dnd_1, format = Newick, brlen.method = Input)
+
 #We convert the tree to Nhx format for use with PartNH:
 output.tree_with_id.file = $(DATA).nhx
 #Where to output cluster tree:
 output.cluster_tree.file = $(DATA).cluster_join.dnd
 
-input.sequence.file = $(DATA).fasta
-input.sequence.format = Fasta
-input.sequence.sites_to_use = all
-input.sequence.remove_stop_codons = yes
+param = $(DATA).ml_h.params.bpp
 
 map.type = DnDs(code=Standard)
-count.max = 3
 test.global = no
 test.branch = yes
 test.branch.neighbor = #yes or no
 test.branch.negbrlen = no
-test.branch.auto_cluster = Global(threshold=1)
+test.branch.auto_cluster = Marginal(threshold=0)
  
 output.counts.tree.prefix = CountsTree
-

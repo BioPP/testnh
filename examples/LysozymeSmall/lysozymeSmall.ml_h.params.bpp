@@ -1,7 +1,13 @@
-# Log likelihood = -873.52121737027130166098
+# Log likelihood = -902.47261152627015690086
 
-# Substitution model parameters:
-model = YN98(frequencies=F3X4,kappa=4.570734345246, omega=0.852675001292, freq_Codon.1_Full.theta=0.475824175824, freq_Codon.1_Full.theta1=0.616352201258, freq_Codon.1_Full.theta2=0.711316397229, freq_Codon.2_Full.theta=0.469230769231, freq_Codon.2_Full.theta1=0.623188405797, freq_Codon.2_Full.theta2=0.634660421546, freq_Codon.3_Full.theta=0.420879120879, freq_Codon.3_Full.theta1=0.434535104364, freq_Codon.3_Full.theta2=0.456919060052)
+result=phylo1
 
-# Rate distribution parameters:
-rate_distribution = Constant()
+phylo1=Single(process=1,data=1)
+
+
+model1=YN98(frequencies=F3X4(1_Full.theta=0.486927603069,1_Full.theta1=0.602418740907,1_Full.theta2=0.619730532743,2_Full.theta=0.425083796099,2_Full.theta1=0.607829604420,2_Full.theta2=0.637951022567,3_Full.theta=0.411870764215,3_Full.theta1=0.465530031943,3_Full.theta2=0.447234785566),kappa=4.603238194945,omega=0.793759250183)
+
+rate_distribution1=Constant()
+
+process1=Homogeneous(model=1, tree=1, rate=1)
+
