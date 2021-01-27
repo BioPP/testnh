@@ -16,7 +16,7 @@ input.data1=alignment(file = $(DATA).fasta, format = Fasta, sites_to_use = compl
 # ----------------------------------------------------------------------------------------
 
 # user or random
-input.tree1=user(file = mito_mammals.tree, format = Newick, init.brlen.method = Equal(value=2))
+input.tree1=user(file = mito_mammals.tree, format = Newick, init.brlen.method = Equal(value=0.05))
 
 # ----------------------------------------------------------------------------------------
 #                                     Model specification
