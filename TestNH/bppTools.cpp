@@ -96,6 +96,10 @@ map<size_t, AlignedValuesContainer*> bppTools::getAlignmentsMap(const map<string
     for (auto itc : mSites)
       SiteContainerTools::changeGapsToUnknownCharacters(*itc.second);
 
+  for (auto& sites:mSites)
+    if (sites.second->getNumberOfSites()==0)
+      throw Exception("Empty alignment number " + TextTools::toString(sites.first));
+    
   return mSites;
 }
   
@@ -169,30 +173,6 @@ std::shared_ptr<PhyloLikelihoodContainer> bppTools::getPhyloLikelihoods(const ma
 {
   return PhylogeneticsApplicationTools::getPhyloLikelihoodContainer(context, collection, mSeqEvol, mSites, params);
 }
-
-
-PhyloLikelihood* bppTools::getResultPhyloLikelihood(const std::map<std::string, std::string>& params,
-                                                    Context& context,
-                                                    const Alphabet* alphabet,
-                                                    const GeneticCode* gCode,
-                                                    std::map<std::string, std::string>& unparsedparams)
-{
-  auto mSites = getAlignmentsMap(params, alphabet, true);
-
-  auto mTrees = bppTools::getPhyloTreesMap(params, mSites, unparsedparams);
-
-  auto SPC = bppTools::getCollection(params, alphabet, gCode, mSites, mTrees, unparsedparams);
-
-  auto mSeqEvol = PhylogeneticsApplicationTools::getSequenceEvolutions(*SPC, params, unparsedparams);
-
-  auto mPhyl=PhylogeneticsApplicationTools::getPhyloLikelihoodContainer(context, *SPC, mSeqEvol, mSites, params);
-
-  if (!mPhyl->hasPhyloLikelihood(0))
-    throw Exception("Missing phyloLikelihoods.");
-
-  return (*mPhyl)[0];
-}
-
 
 
 void bppTools::fixLikelihood(const map<string, string>& params,
@@ -315,18 +295,6 @@ void bppTools::fixLikelihood(const map<string, string>& params,
           sDP->setData(*vData);
         }
 
-        // Then try factors
-        logL = sDP->getValue();
-        uint factor = 1;
-        while (std::isinf(-logL) )
-        {
-          ApplicationTools::displayError("!!! 0 values (-inf in log) may be due to computer overflow.");
-
-          ApplicationTools::displayError("!!! Try factor " + TextTools::toString(factor) + " to fix this.");
-          sDP->setFactor(factor++);
-          logL = sDP->getValue();
-        }
-        
         if (!std::isnormal(logL))
         {
           ApplicationTools::displayError("!!! No possible factor to fix likelihood.");
