@@ -46,16 +46,15 @@
 
 using namespace std;
 
-// From bpp-seq:
+// From bpp:
+#include <Bpp/Text/KeyvalTools.h>
 #include <Bpp/Seq/Alphabet/AlphabetTools.h>
 #include <Bpp/Phyl/Io/Newick.h>
 #include <Bpp/Phyl/Mapping/PhyloMappings/OneProcessSequenceSubstitutionMapping.h>
 #include <Bpp/Phyl/Mapping/PhyloMappings/SingleProcessSubstitutionMapping.h>
 #include <Bpp/Phyl/NewLikelihood/PhyloLikelihoods/PartitionProcessPhyloLikelihood.h>
-#include <Bpp/App/BppApplication.h>
-#include <Bpp/Text/KeyvalTools.h>
-
-#include "bppTools.h"
+#include <Bpp/Phyl/App/BppPhylogeneticsApplication.h>
+#include <Bpp/Phyl/App/PhylogeneticsApplicationTools.h>
 
 using namespace bpp;
 
@@ -101,17 +100,17 @@ int main(int args, char** argv)
   cout << "******************************************************************" << endl;
   cout << endl;
 
-  if (args == 1)
-  {
-    bppTools::help("mapnh");
-    exit(0);
-  }
-  
   try
   {
-    BppApplication mapnh(args, argv, "MapNH");
+    BppPhylogeneticsApplication mapnh(args, argv, "MapNH");
+    if (args == 1)
+    {
+      mapnh.help("mapnh");
+      exit(0);
+    }
+  
     mapnh.startTimer();
-    std::map<std::string, std::string> unparsedparams;
+    std::map<std::string, std::string> unparsedParams;
 
     Context context;
     
@@ -120,23 +119,23 @@ int main(int args, char** argv)
     /* get Basic objects */
     /*********************************/
   
-    unique_ptr<Alphabet> alphabet(bppTools::getAlphabet(mapnh.getParams()));
-    unique_ptr<GeneticCode> gCode(bppTools::getGeneticCode(mapnh.getParams(),alphabet.get()));
+    unique_ptr<Alphabet> alphabet(mapnh.getAlphabet());
+    unique_ptr<GeneticCode> gCode(mapnh.getGeneticCode(alphabet.get()));
 
-    map<size_t, AlignedValuesContainer*> mSites=bppTools::getAlignmentsMap(mapnh.getParams(), alphabet.get(), true);
+    map<size_t, AlignedValuesContainer*> mSites = mapnh.getAlignmentsMap(alphabet.get(), true);
 
-    unique_ptr<SubstitutionProcessCollection> SP(bppTools::getCollection(mapnh.getParams(), alphabet.get(), gCode.get(), mSites, unparsedparams));
+    unique_ptr<SubstitutionProcessCollection> SP(mapnh.getCollection(alphabet.get(), gCode.get(), mSites, unparsedParams));
                                                
-    std::map<size_t, SequenceEvolution*> mProc=bppTools::getProcesses(mapnh.getParams(), *SP, unparsedparams);
+    std::map<size_t, SequenceEvolution*> mProc = mapnh.getProcesses(*SP, unparsedParams);
   
-    auto plc(bppTools::getPhyloLikelihoods(mapnh.getParams(), context, mProc, *SP, mSites));
+    auto plc(mapnh.getPhyloLikelihoods(context, mProc, *SP, mSites));
 
     if (!plc->hasPhyloLikelihood(1))
       throw Exception("Missing first phyloLikelihood.");
 
     PhyloLikelihood* pl=(*plc)[1];
 
-    bppTools::fixLikelihood(mapnh.getParams(), alphabet.get(), gCode.get(), pl);
+    mapnh.fixLikelihood(alphabet.get(), gCode.get(), pl);
 
     double thresholdSat = ApplicationTools::getDoubleParameter("count.max", mapnh.getParams(), -1, "", true, 1);
     if (thresholdSat > 0)
