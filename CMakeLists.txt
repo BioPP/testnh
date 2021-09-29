@@ -74,9 +74,11 @@ if (CMAKE_INSTALL_PREFIX)
 endif (CMAKE_INSTALL_PREFIX)
 
 include (GNUInstallDirs)
-find_package (bpp-phyl 12.0.0 REQUIRED)
+find_package (bpp-core 5.0.0 REQUIRED)
+find_package (bpp-seq 13.0.0 REQUIRED)
+find_package (bpp-phyl 13.0.0 REQUIRED)
 
-find_package (Eigen3 3.3 REQUIRED NO_MODULE)
+find_package (Eigen3 3.3 REQUIRED PATHS /usr/lib NO_MODULE)
 
 # Subdirectories
 add_subdirectory (TestNH)
@@ -87,10 +89,10 @@ ENDIF(NO_DEP_CHECK)
 
 # Packager
 SET(CPACK_PACKAGE_NAME "testnh")
-SET(CPACK_PACKAGE_VENDOR "Bastien Boussau and Julien Dutheil")
-SET(CPACK_PACKAGE_VERSION "1.3.0")
-SET(CPACK_PACKAGE_VERSION_MAJOR "1")
-SET(CPACK_PACKAGE_VERSION_MINOR "3")
+SET(CPACK_PACKAGE_VENDOR "Bio++ Development Team")
+SET(CPACK_PACKAGE_VERSION "2.0.0")
+SET(CPACK_PACKAGE_VERSION_MAJOR "2")
+SET(CPACK_PACKAGE_VERSION_MINOR "0")
 SET(CPACK_PACKAGE_VERSION_PATCH "0")
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Non-homogeneous model testing")
 SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING")

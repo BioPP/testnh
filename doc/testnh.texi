@@ -1,28 +1,28 @@
 \input texinfo   @c -*-texinfo-*-
 @c %**start of header
 @setfilename testnh.info
-@settitle TestNH Manual 1.2.0
+@settitle TestNH Manual 3.0.0
 @documentencoding UTF-8
 @afourpaper
 @dircategory Science Biology Genetics
 @direntry
-* testnh: (testnh)              TestNH.
+@c * testnh: (testnh)              TestNH.
 * mapnh: (mapnh)                MapNH.
-* partnh: (partnh)              PartNH.
-* randnh: (randnh)              RandNH.
+@c * partnh: (partnh)              PartNH.
+@c * randnh: (randnh)              RandNH.
 @end direntry
 @c %**end of header
 
 
 @copying
-This is the manual of the TestNH package, version 1.2.0.
+This is the manual of the TestNH package, version 3.0.0.
 
 Copyright @copyright{} 2017 Bastien Boussau, Julien Dutheil and Laurent Guéguen
 @end copying
 
 @titlepage
 @title TestNH Manual
-@author Bastien Boussau, Julien Dutheil
+@author Bastien Boussau, Julien Dutheil, Laurent Guéguen
 @author @email{julien.dutheil@@univ-montp2.fr}
 
 @c The following two commands start the copyright page.
