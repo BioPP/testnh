@@ -52,7 +52,7 @@ using namespace std;
 #include <Bpp/Phyl/Io/Newick.h>
 #include <Bpp/Phyl/Mapping/PhyloMappings/OneProcessSequenceSubstitutionMapping.h>
 #include <Bpp/Phyl/Mapping/PhyloMappings/SingleProcessSubstitutionMapping.h>
-#include <Bpp/Phyl/NewLikelihood/PhyloLikelihoods/PartitionProcessPhyloLikelihood.h>
+#include <Bpp/Phyl/Likelihood/PhyloLikelihoods/PartitionProcessPhyloLikelihood.h>
 #include <Bpp/Phyl/App/BppPhylogeneticsApplication.h>
 #include <Bpp/Phyl/App/PhylogeneticsApplicationTools.h>
 
@@ -398,13 +398,13 @@ int main(int args, char** argv)
         {
           string path = treePathPrefix + name + string(".dnd");
           ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
-          newick.writeTree(*pt, path);
+          newick.writePhyloTree(*pt, path);
           
           if (splitNorm)
           {
             path = treePathPrefix + name + string("_norm.dnd");
             ApplicationTools::displayResult(string("Output normalizations of type ") + TextTools::toString(i + 1) + string(" to file"), path);
-            newick.writeTree(*pn, path);
+            newick.writePhyloTree(*pn, path);
           }
         }
         else
@@ -417,7 +417,7 @@ int main(int args, char** argv)
           
           string path = treePathPrefix + name + string(".dnd");
           ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
-          newick.writeTree(*pt, path);
+          newick.writePhyloTree(*pt, path);
         }
       }
     }

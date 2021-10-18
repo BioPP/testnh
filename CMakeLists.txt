@@ -74,9 +74,9 @@ if (CMAKE_INSTALL_PREFIX)
 endif (CMAKE_INSTALL_PREFIX)
 
 include (GNUInstallDirs)
-find_package (bpp-core 5.0.0 REQUIRED)
-find_package (bpp-seq 13.0.0 REQUIRED)
-find_package (bpp-phyl 13.0.0 REQUIRED)
+find_package (bpp-core3 1.0.0 REQUIRED)
+find_package (bpp-seq3 1.0.0 REQUIRED)
+find_package (bpp-phyl3 1.0.0 REQUIRED)
 
 find_package (Eigen3 3.3 REQUIRED PATHS /usr/lib NO_MODULE)
 
@@ -90,8 +90,8 @@ ENDIF(NO_DEP_CHECK)
 # Packager
 SET(CPACK_PACKAGE_NAME "testnh")
 SET(CPACK_PACKAGE_VENDOR "Bio++ Development Team")
-SET(CPACK_PACKAGE_VERSION "2.0.0")
-SET(CPACK_PACKAGE_VERSION_MAJOR "2")
+SET(CPACK_PACKAGE_VERSION "3.0.0")
+SET(CPACK_PACKAGE_VERSION_MAJOR "3")
 SET(CPACK_PACKAGE_VERSION_MINOR "0")
 SET(CPACK_PACKAGE_VERSION_PATCH "0")
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Non-homogeneous model testing")
