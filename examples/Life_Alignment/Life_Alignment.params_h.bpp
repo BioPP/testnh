@@ -1,8 +1,13 @@
-# Log likelihood = -14122.12099060604850819800
-# Number of sites = 527
+# Log likelihood = -14122.11582900171379151288
 
-# Substitution model parameters:
-model=T92(kappa=3.069757454346,theta=0.556536133080)
+result=phylo1
 
-# Rate distribution parameters:
-rate_distribution=Gamma(n=4,alpha=0.640426874445, Gamma.beta=alpha)
+phylo1=Single(process=1,data=1)
+
+
+model1=T92(kappa=3.069730277259,theta=0.556536857970)
+
+rate_distribution1=Gamma(n=4,alpha=0.640422919409, Gamma.beta=alpha)
+
+process1=Homogeneous(model=1, tree=1, rate=1)
+

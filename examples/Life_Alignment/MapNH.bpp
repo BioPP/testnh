@@ -1,19 +1,22 @@
+DATA = Life_Alignment
+
 alphabet = RNA
 
 #Set imput tree file. Original branch lengths will be used for mapping.
-input.tree.file = Life_Alignment.ml_h.rooted.dnd
-input.tree.format = Newick
-#We convert the tree to Nhx format for use with PartNH:
-output.tree_with_id.file = Life_Alignment.nhx
-#Where to output cluster tree:
-output.cluster_tree.file = Life_Alignment.cluster_join.dnd
-output.counts.tree.prefix = Life_Alignment.counts
+input.tree1=user(file = $(DATA).ml_h.rooted.dnd, format = Newick)
 
-input.sequence.file = Life_Alignment.mase
-input.sequence.format = Mase
-input.sequence.sites_to_use = complete
+#We convert the tree to Nhx format for use with PartNH:
+output.tree_with_id.file = $(DATA).nhx
+#Where to output cluster tree:
+output.cluster_tree.file = $(DATA).cluster_join.dnd
+output.counts.tree.prefix = $(DATA).counts
+
+input.data1=alignment(file= $(DATA).mase, format=Mase, sites_to_use = complete, max_gap_allowed = 50%)
 
 map.type = GC(stationarity=yes)
+
+params = Life_Alignment.params_h.bpp
+
 test.global = no
 test.branch = yes
 test.branch.neighbor = #yes or no

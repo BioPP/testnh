@@ -1,8 +1,0 @@
-# Log likelihood = -736363.33915414882358163595
-# Number of sites = 3470
-
-# Substitution model parameters:
-model=YN98(frequencies=F3X4(mgmtStopCodons=uniform,1_Full.theta=0.456066719064,1_Full.theta1=0.588175796088,1_Full.theta2=0.447949418086,2_Full.theta=0.386701598114,2_Full.theta1=0.319381792085,2_Full.theta2=0.307606839923,3_Full.theta=0.357395860624,3_Full.theta1=0.656914626158,3_Full.theta2=0.129523474419),kappa=4.205820418396,omega=0.035592859260)
-
-# Rate distribution parameters:
-rate_distribution=Constant()

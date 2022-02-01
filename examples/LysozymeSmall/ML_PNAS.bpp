@@ -7,33 +7,18 @@ DATA = lysozymeSmall
 
 # The alphabet to use:
 # DNA, RNA or Protein...
-alphabet = Codon(letter=DNA, type=Standard)
+alphabet = Codon(letter=DNA)
+genetic_code = Standard
 
 # The sequence file to use (sequences must be aligned!)
-input.sequence.file = $(DATA).fasta
-
-# The alignment format:
-input.sequence.format=Fasta
-
-#Sites to use:
-# all, nogap or complete (=only resolved chars)
-input.sequence.sites_to_use = complete
-# Specify a maximum amount of gaps: may be an absolute number or a percentage.
-input.sequence.max_gap_allowed = 50%
-
-input.sequence.remove_stop_codons = yes
+input.data1=alignment(file = $(DATA).fasta, format=Fasta, sites_to_use = complete, sequence.max_gap_allowed = 50%, remove_stop_codons = yes)
 
 # ----------------------------------------------------------------------------------------
 #                                     Input tree file
 # ----------------------------------------------------------------------------------------
 
 # user or random
-init.tree = user
-
-input.tree.file = $(DATA).dnd2
-input.tree.format = Newick
-
-init.brlen.method = Input
+input.tree1 = user(file = $(DATA).dnd, format = Newick, brlen.method = Input)
 
 # ----------------------------------------------------------------------------------------
 #                                     Model specification
@@ -41,44 +26,17 @@ init.brlen.method = Input
 # See the manual for a description of the syntax and available options.
 #
 
-nonhomogeneous = general
-nonhomogeneous.number_of_models = 3
+model1 = YN98(kappa=1, omega=0.6114, frequencies=F3X4, initFreqs=observed, data=1)
 
-model1 = YN98(kappa=1, omega=0.6114, frequencies=F3X4, useObservedFreqs=yes, useObservedFreqs.pseudoCount=0)
-model1.nodes_id = 6, 8, 1, 2, 5
+model2 = YN98(frequencies=F3X4,kappa=YN98.kappa_1, omega=4.2878, 1_Full.theta=YN98.1_Full.theta_1, 1_Full.theta1=YN98.1_Full.theta1_1, 1_Full.theta2=YN98.1_Full.theta2_1, 2_Full.theta=YN98.2_Full.theta_1, 2_Full.theta1=YN98.2_Full.theta1_1, 2_Full.theta2=YN98.2_Full.theta2_1, 3_Full.theta=YN98.3_Full.theta_1, 3_Full.theta1=YN98.3_Full.theta1_1, 3_Full.theta2=YN98.3_Full.theta2_1)
 
+model3 = YN98(frequencies=F3X4,kappa=YN98.kappa_1, omega=4.2878, 1_Full.theta=YN98.1_Full.theta_1, 1_Full.theta1=YN98.1_Full.theta1_1, 1_Full.theta2=YN98.1_Full.theta2_1, 2_Full.theta=YN98.2_Full.theta_1, 2_Full.theta1=YN98.2_Full.theta1_1, 2_Full.theta2=YN98.2_Full.theta2_1, 3_Full.theta=YN98.3_Full.theta_1, 3_Full.theta1=YN98.3_Full.theta1_1, 3_Full.theta2=YN98.3_Full.theta2_1)
 
-model2 = YN98(frequencies=F3X4,kappa=model1.YN98.kappa, omega=4.2878, freq_Codon.1_Full.theta=model1.YN98.freq_Codon.1_Full.theta, freq_Codon.1_Full.theta1=model1.YN98.freq_Codon.1_Full.theta1, freq_Codon.1_Full.theta2=model1.YN98.freq_Codon.1_Full.theta2, freq_Codon.2_Full.theta=model1.YN98.freq_Codon.2_Full.theta, freq_Codon.2_Full.theta1=model1.YN98.freq_Codon.2_Full.theta1, freq_Codon.2_Full.theta2=model1.YN98.freq_Codon.2_Full.theta2, freq_Codon.3_Full.theta=model1.YN98.freq_Codon.3_Full.theta, freq_Codon.3_Full.theta1=model1.YN98.freq_Codon.3_Full.theta1, freq_Codon.3_Full.theta2=model1.YN98.freq_Codon.3_Full.theta2)
-model2.nodes_id = 0, 3, 4 
+rate_distribution1 = Constant()
 
-model3 = YN98(frequencies=F3X4,kappa=model1.YN98.kappa, omega=0.00001, freq_Codon.1_Full.theta=model1.YN98.freq_Codon.1_Full.theta, freq_Codon.1_Full.theta1=model1.YN98.freq_Codon.1_Full.theta1, freq_Codon.1_Full.theta2=model1.YN98.freq_Codon.1_Full.theta2, freq_Codon.2_Full.theta=model1.YN98.freq_Codon.2_Full.theta, freq_Codon.2_Full.theta1=model1.YN98.freq_Codon.2_Full.theta1, freq_Codon.2_Full.theta2=model1.YN98.freq_Codon.2_Full.theta2, freq_Codon.3_Full.theta=model1.YN98.freq_Codon.3_Full.theta, freq_Codon.3_Full.theta1=model1.YN98.freq_Codon.3_Full.theta1, freq_Codon.3_Full.theta2=model1.YN98.freq_Codon.3_Full.theta2)
-model3.nodes_id = 7 
+process1 = NonHomogeneous(model1=1, model1.nodes_id = (6, 8, 1, 2, 5), model2=2, model2.nodes_id = (0, 3, 4), model3=3, model3.nodes_id = (7, 9, 10), tree=1, rate=1)
 
-#These lines are for the F1X4 option:
-nonhomogeneous_one_per_branch.shared_parameters=YN98.kappa, YN98.freq*
-nonhomogeneous.stationarity = yes
-#Only if stationarity is set to false:
-nonhomogeneous.root_freq=
-
-rate_distribution = Constant
-
-# Likelihood recursion option:
-# - simple: derivatives takes more time to compute, but likelihood computation is faster.
-#   For big data sets, it can save a lot of memory usage too, particularly when the data are compressed.
-# - double: Uses more memory and need more time to compute likelihood, due to the double recursion.
-#   Analytical derivatives are however faster to compute.
-# This option has no effect in the following cases:
-# - Topology estimation: this requires a double recursive algorithm,
-# - Optimization with a molecular clock: a simple recursion with data compression is used in this case,
-#   due to the impossibility of computing analytical derivatives.
-likelihood.recursion = simple
-
-# Site compression for the simple recursion:
-# - simple: identical sites are not computed twice
-# - recursive: look for site patterns to save computation time during optimization, but
-#   requires extra time for building the patterns.
-#   This is usually the best option, particularly for nucleotide data sets.
-likelihood.recursion_simple.compression = recursive
+phylo1 = Single(process=1, data=1)
 
 # ----------------------------------------------------------------------------------------
 #                                     Optimization
@@ -100,7 +58,7 @@ optimization.final = none
 optimization.verbose = 3
 
 # Parameters to ignore (for instance equilibrium frequencies)
-optimization.ignore_parameter = YN98.freq*
+optimization.ignore_parameters = YN98.*theta*
 
 # Maximum number of likelihood evaluations:
 optimization.max_number_f_eval = 10000

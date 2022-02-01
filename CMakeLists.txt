@@ -4,7 +4,7 @@
 #   Francois Gindraud (2017)
 # Created: 07/04/2010
 
-cmake_minimum_required (VERSION 2.8.11)
+cmake_minimum_required (VERSION 3.0.0)
 project (testnh CXX)
 
 # Compile options
@@ -74,7 +74,10 @@ if (CMAKE_INSTALL_PREFIX)
 endif (CMAKE_INSTALL_PREFIX)
 
 include (GNUInstallDirs)
-find_package (bpp-phyl 12.0.0 REQUIRED)
+find_package (bpp-core3 1.0.0 REQUIRED)
+find_package (bpp-seq3 1.0.0 REQUIRED)
+find_package (bpp-phyl3 1.0.0 REQUIRED)
+find_package (bpp-popgen3 1.0.0 REQUIRED)
 
 # Subdirectories
 add_subdirectory (TestNH)
@@ -85,10 +88,10 @@ ENDIF(NO_DEP_CHECK)
 
 # Packager
 SET(CPACK_PACKAGE_NAME "testnh")
-SET(CPACK_PACKAGE_VENDOR "Bastien Boussau and Julien Dutheil")
-SET(CPACK_PACKAGE_VERSION "1.3.0")
-SET(CPACK_PACKAGE_VERSION_MAJOR "1")
-SET(CPACK_PACKAGE_VERSION_MINOR "3")
+SET(CPACK_PACKAGE_VENDOR "Bastien Boussau and Julien Dutheil and Laurent Guéguen")
+SET(CPACK_PACKAGE_VERSION "3.0.0")
+SET(CPACK_PACKAGE_VERSION_MAJOR "3")
+SET(CPACK_PACKAGE_VERSION_MINOR "0")
 SET(CPACK_PACKAGE_VERSION_PATCH "0")
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Non-homogeneous model testing")
 SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING")

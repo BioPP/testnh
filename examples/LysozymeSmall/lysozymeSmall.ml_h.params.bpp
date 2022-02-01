@@ -1,7 +1,0 @@
-# Log likelihood = -873.52121737027130166098
-
-# Substitution model parameters:
-model = YN98(frequencies=F3X4,kappa=4.570734345246, omega=0.852675001292, freq_Codon.1_Full.theta=0.475824175824, freq_Codon.1_Full.theta1=0.616352201258, freq_Codon.1_Full.theta2=0.711316397229, freq_Codon.2_Full.theta=0.469230769231, freq_Codon.2_Full.theta1=0.623188405797, freq_Codon.2_Full.theta2=0.634660421546, freq_Codon.3_Full.theta=0.420879120879, freq_Codon.3_Full.theta1=0.434535104364, freq_Codon.3_Full.theta2=0.456919060052)
-
-# Rate distribution parameters:
-rate_distribution = Constant()

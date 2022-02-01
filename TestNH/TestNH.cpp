@@ -72,6 +72,7 @@ using namespace std;
 #include <Bpp/Numeric/VectorTools.h>
 #include <Bpp/App/ApplicationTools.h>
 #include <Bpp/App/BppApplication.h>
+#include <Bpp/App/NumCalcApplicationTools.h>
 #include <Bpp/Io/FileTools.h>
 #include <Bpp/Text/TextTools.h>
 
@@ -299,13 +300,12 @@ int main(int args, char ** argv)
       if (globpar.second.size()==0)
       {
         string all="All nodes";
-        ApplicationTools::displayResult(" set to nodes", all);
+        ApplicationTools::displayResult(" shared between nodes", all);
       }
       else
         for (const auto& vint:globpar.second)
-          ApplicationTools::displayResult(" set to nodes", VectorTools::paste(vint,","));
+          ApplicationTools::displayResult(" shared between nodes", VectorTools::paste(vint,","));
     }
-
     modelSet = SubstitutionModelSetTools::createNonHomogeneousModelSet(model, rootFreqs, tree, aliasFreqNames, globalParameters); 
     model = 0;
       

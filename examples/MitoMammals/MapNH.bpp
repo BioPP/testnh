@@ -1,27 +1,26 @@
 DATA = mito_mammals.all
 
+# The alphabet to use:
+# DNA, RNA or Protein
 alphabet = Codon(letter=DNA)
 genetic_code = VertebrateMitochondrial
 
-#Set imput tree file. Original branch lengths will be used for mapping.
-input.tree.file = $(DATA).ml_h.dnd
-input.tree.format = Newick
-#We convert the tree to Nhx format for use with PartNH:
-output.tree_with_id.file = $(DATA).nhx
-#Where to output cluster tree:
-output.cluster_tree.file = $(DATA).cluster_join.dnd
+# The sequence file to use (sequences must be aligned!)
+input.data1=alignment(file = $(DATA).fasta, format = Fasta, sites_to_use = complete, max_gap_allowed = 50%, remove_stop_codons=yes, remove_saturated_sites=yes)
 
-input.sequence.file = $(DATA).fasta
-input.sequence.format = Fasta
-input.sequence.sites_to_use = all
-# Remove stop codons
-input.sequence.remove_stop_codons = yes
 
+# ----------------------------------------------------------------------------------------
+#                                     Input tree file
+# ----------------------------------------------------------------------------------------
+
+# user or random
+input.tree1=user(file = mito_mammals.tree, format = Newick, init.brlen.method = Equal(value=2))
+
+params = mito_mammals.all.ml_h.params.bpp
 
 map.type = DnDs
 
-# Here we use the estimated homogeneous model for mapping:
-model = YN98(frequencies=F3X4,kappa=4.256962136755, omega=0.034993311532, freq_Codon.1_Full.theta=0.456066719064, freq_Codon.1_Full.theta1=0.588175796088, freq_Codon.1_Full.theta2=0.447949418086, freq_Codon.2_Full.theta=0.386701598114, freq_Codon.2_Full.theta1=0.319381792085, freq_Codon.2_Full.theta2=0.307606839923, freq_Codon.3_Full.theta=0.357395860624, freq_Codon.3_Full.theta1=0.656914626158, freq_Codon.3_Full.theta2=0.129523474419)
+
 # Saturation threshold:
 count.max = 3
 

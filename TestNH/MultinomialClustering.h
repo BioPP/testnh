@@ -10,208 +10,189 @@
 using namespace bpp;
 using namespace std;
 
-template<class T>
-class bpp_ptr
-{
-  private:
-    T* ptr_;
-
-  public:
-    bpp_ptr(T* ptr = 0): ptr_(ptr) {}
-    
-    ~bpp_ptr() { delete ptr_; }
-
-    bpp_ptr(const bpp_ptr& ptr):
-      ptr_(ptr->clone()) {}
-    
-    bpp_ptr& operator=(const bpp_ptr& ptr)
-    {
-      delete ptr_;
-      ptr_ = dynamic_cast<T*>(ptr->clone());
-    }
-
-    void reset(T* ptr = 0) {
-      if (ptr_) delete ptr_;
-      ptr_ = ptr;
-    }
-
-    T& operator*() { return *ptr_; } 
-    const T& operator*() const { return *ptr_; } 
-
-    T* operator->() { return ptr_; } 
-    const T* operator->() const { return ptr_; } 
-
-};
-
 class SubstitutionCountsComparison :
   public StatTest
 {
-  protected:
-    vector<size_t> counts1_, counts2_;
-    double statistic_, pvalue_;
+protected:
+  vector<size_t> counts1_, counts2_;
+  double statistic_, pvalue_;
 
-  public:
-    SubstitutionCountsComparison(): counts1_(), counts2_(), statistic_(0), pvalue_(1.) {}
+public:
+  SubstitutionCountsComparison(): counts1_(), counts2_(), statistic_(0), pvalue_(1.) {}
 
-    SubstitutionCountsComparison* clone() const = 0;
+  SubstitutionCountsComparison* clone() const = 0;
 
-  public:
-    void setCounts(const vector<size_t>& c1, const vector<size_t>& c2) {
-      counts1_ = c1;
-      counts2_ = c2;
-      computePValue();
-    }
+public:
+  void setCounts(const vector<size_t>& c1, const vector<size_t>& c2) {
+    counts1_ = c1;
+    counts2_ = c2;
+    computePValue();
+  }
 
-    double getStatistic() const { return statistic_; }
-    double getPValue() const { return pvalue_; }
+  double getStatistic() const { return statistic_; }
+  double getPValue() const { return pvalue_; }
 
-  protected:
-    virtual void computePValue() = 0;
+protected:
+  virtual void computePValue() = 0;
 };
 
 
 class SimpleSubstitutionCountsComparison:
   public SubstitutionCountsComparison
 {
-  public:
-    SimpleSubstitutionCountsComparison* clone() const { return new SimpleSubstitutionCountsComparison(*this); }
+public:
+  SimpleSubstitutionCountsComparison* clone() const { return new SimpleSubstitutionCountsComparison(*this); }
 
-  public:
-    string getName() const { return "Independent multinomial test."; }
+public:
+  string getName() const { return "Independent multinomial test."; }
 
-  protected:
-    void computePValue();
+protected:
+  void computePValue();
 
-  public:
-    static double logFact(size_t x) {
-      double f = 0;
-      for (size_t i = 1; i <= x; ++i)
-        f += log(static_cast<double>(i));
-      return f;
-    }
+public:
+  static double logFact(size_t x) {
+    double f = 0;
+    for (size_t i = 1; i <= x; ++i)
+      f += log(static_cast<double>(i));
+    return f;
+  }
 
-    static double multinomLogL(const vector<size_t>& v, const vector<double>& p);
+  static double multinomLogL(const vector<size_t>& v, const vector<double>& p);
 
-    static double multinomialTest(const vector< vector<size_t> >& counts);
+  static double multinomialTest(const vector< vector<size_t> >& counts);
     
 };
 
 
 class AutomaticGroupingCondition
 {
-  public:
-    virtual ~AutomaticGroupingCondition() {}
+public:
+  virtual ~AutomaticGroupingCondition() {}
 
-  public:
-    virtual bool check(const vector<size_t>& counts) const = 0;
+public:
+  virtual bool check(const vector<size_t>& counts) const = 0;
 };
 
 class NoAutomaticGroupingCondition:
   public AutomaticGroupingCondition
 {
-  public:
-    ~NoAutomaticGroupingCondition() {}
+public:
+  ~NoAutomaticGroupingCondition() {}
 
-  public:
-    bool check(const vector<size_t>& counts) const {
-      return true;
-    }
+public:
+  bool check(const vector<size_t>& counts) const {
+    return true;
+  }
 };
 
 class SumCountsAutomaticGroupingCondition:
   public AutomaticGroupingCondition
 {
-  private:
-    size_t threshold_;
-    vector<size_t> ignore_;
+private:
+  size_t threshold_;
+  vector<size_t> ignore_;
 
-  public:
-    SumCountsAutomaticGroupingCondition(size_t threshold = 0, const vector<size_t>& toIgnore = vector<size_t>(0)):
-      threshold_(threshold),
-      ignore_(toIgnore)
-    {}
+public:
+  SumCountsAutomaticGroupingCondition(size_t threshold = 0, const vector<size_t>& toIgnore = vector<size_t>(0)):
+    threshold_(threshold),
+    ignore_(toIgnore)
+  {}
 
-    ~SumCountsAutomaticGroupingCondition() {}
+  ~SumCountsAutomaticGroupingCondition() {}
 
-  public:
-    bool check(const vector<size_t>& counts) const {
-      size_t s = 0;
-      for (size_t i = 0; i < counts.size(); ++i)
-        if (!VectorTools::contains(ignore_, i))
-          s += counts[i];
-      return s >= threshold_;
-    }
+public:
+  bool check(const vector<size_t>& counts) const {
+    size_t s = 0;
+    for (size_t i = 0; i < counts.size(); ++i)
+      if (!VectorTools::contains(ignore_, i))
+        s += counts[i];
+    return s >= threshold_;
+  }
 };
 
 class AnyCountAutomaticGroupingCondition:
   public AutomaticGroupingCondition
 {
-  private:
-    size_t threshold_;
+private:
+  size_t threshold_;
 
-  public:
-    AnyCountAutomaticGroupingCondition(size_t threshold = 0):
-      threshold_(threshold)
-    {}
+public:
+  AnyCountAutomaticGroupingCondition(size_t threshold = 0):
+    threshold_(threshold)
+  {}
 
-    ~AnyCountAutomaticGroupingCondition() {}
+  ~AnyCountAutomaticGroupingCondition() {}
 
-  public:
-    bool check(const vector<size_t>& counts) const {
-      for (size_t i = 0; i < counts.size(); ++i) {
-        if (counts[i] < threshold_) return false;
-      }
-      return true;
+public:
+  bool check(const vector<size_t>& counts) const {
+    for (size_t i = 0; i < counts.size(); ++i) {
+      if (counts[i] < threshold_) return false;
     }
+    return true;
+  }
 };
 
+class ClusterInfosNode :
+  public PhyloNode,
+  public ClusterInfos
+{
+public:
+  ClusterInfoNode(const PhyloNode& pn) :
+    PhyloNode(pn),
+    ClusterInfo()
+  {}
+};
+  
 class MultinomialClustering :
   public AbstractAgglomerativeDistanceMethod
 {
-  private:
-    vector< vector<size_t> > counts_;
-    bool neighborsOnly_;
-    bool negativeBrlen_;
-    bpp_ptr<SubstitutionCountsComparison> test_;
-    vector<double> pvalues_;
-  
-  public:
-    MultinomialClustering(
-        const vector< vector<size_t> >& counts,
-        const vector<int>& ids,
-        const Tree& tree,
-        const AutomaticGroupingCondition& autoGroup,
-        bool neighborsOnly = false,
-        bool negativeBrlen = false,
-        bool verbose = false);
-    
-    virtual ~MultinomialClustering() {}
+public:
+  typedef AssociationTreeGlobalGraphObserver<ClusterInfoNode, PhyloBranch> clusTree;
 
-    MultinomialClustering* clone() const { return new MultinomialClustering(*this); }
+private:
+  vector< vector<size_t> > counts_;
+  bool neighborsOnly_;
+  bool negativeBrlen_;
+  unique_ptr<SubstitutionCountsComparison> test_;
+  vector<double> pvalues_;
 
-  public:
-    TreeTemplate<Node>* getTree() const;
-    /**
-     * @return The list of pvalues, by order of clusters.
-     */
-    const vector<double> getPValues() const { return pvalues_; }
+public:
+  MultinomialClustering(
+    const vector< vector<size_t> >& counts,
+    const vector<int>& ids,
+    const PhyloTree& tree,
+    const AutomaticGroupingCondition& autoGroup,
+    bool neighborsOnly = false,
+    bool negativeBrlen = false,
+    bool verbose = false);
+		
+  virtual ~MultinomialClustering() {}
 
-    std::string getName() const { return "Multinomial clusturing."; }
+  MultinomialClustering* clone() const { return new MultinomialClustering(*this); }
 
-  protected:
-    /**
-     * @brief Returns the pair with minimum distance and actualizes the vectors.
-     *
-     * The vector at position bestPair[0] is now the sum of vectors bestPair[0] and bestPair[1].
-     * It is then used for computation of distances.
-     */
-    vector<size_t> getBestPair();
-    vector<double> computeBranchLengthsForPair(const vector<size_t>& pair);
-    double computeDistancesFromPair(const vector<size_t>& pair, const vector<double>& branchLengths, size_t pos);
-    void finalStep(int idRoot);  
-    virtual Node* getLeafNode(int id, const string& name);
-    virtual Node* getParentNode(int id, Node* son1, Node* son2);
-    double getDist(const vector<size_t>& v1, const vector<size_t>&v2);
+public:
+  clusTree* getTree() const;
+  /**
+   * @return The list of pvalues, by order of clusters.
+   */
+  const vector<double> getPValues() const { return pvalues_; }
+
+  std::string getName() const { return "Multinomial clusturing."; }
+
+protected:
+  /**
+   * @brief Returns the pair with minimum distance and actualizes the vectors.
+   *
+   * The vector at position bestPair[0] is now the sum of vectors bestPair[0] and bestPair[1].
+   * It is then used for computation of distances.
+   */
+  vector<size_t> getBestPair() throw (Exception);
+  vector<double> computeBranchLengthsForPair(const vector<size_t>& pair);
+  double computeDistancesFromPair(const vector<size_t>& pair, const vector<double>& branchLengths, size_t pos);
+  void finalStep(int idRoot);	
+  virtual Node* getLeafNode(int id, const string& name);
+  virtual Node* getParentNode(int id, Node* son1, Node* son2);
+  double getDist(const vector<size_t>& v1, const vector<size_t>&v2);
 };
 
 #endif //_MULTINOMIALCLUSTERING_H_

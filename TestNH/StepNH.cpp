@@ -68,6 +68,7 @@ using namespace std;
 #include <Bpp/Numeric/AutoParameter.h>
 #include <Bpp/App/BppApplication.h>
 #include <Bpp/App/ApplicationTools.h>
+#include <Bpp/App/NumCalcApplicationTools.h>
 #include <Bpp/Io/FileTools.h>
 #include <Bpp/Text/TextTools.h>
 
@@ -467,8 +468,42 @@ int main(int args, char ** argv)
       rateFreqs = vector<double>(n, 1./static_cast<double>(n)); // Equal rates assumed for now, may be changed later (actually, in the most general case,
                                                    // we should assume a rate distribution for the root also!!!  
     }
-    FrequenciesSet* rootFreqs = PhylogeneticsApplicationTools::getRootFrequenciesSet(alphabet, sites, stepnh.getParams(), rateFreqs);
-    vector<string> globalParameters = ApplicationTools::getVectorParameter<string>("nonhomogeneous_one_per_branch.shared_parameters", stepnh.getParams(), ',', "");
+    FrequencySet* rootFreqs = PhylogeneticsApplicationTools::getRootFrequencySet(alphabet, sites, stepnh.getParams(), rateFreqs);
+
+    string descGlobal = ApplicationTools::getStringParameter("nonhomogeneous_one_per_branch.shared_parameters", stepnh.getParams(), "", "", true, 1);
+
+    NestedStringTokenizer nst(descGlobal,"[","]",",");
+    const deque<string>& descGlobalParameters=nst.getTokens();
+    
+    map<string, vector<Vint> > globalParameters;
+    for (const auto& desc:descGlobalParameters)
+    {
+      size_t post=desc.rfind("_");
+      if (post==std::string::npos || post==desc.size()-1 || desc[post+1]!='[')
+        globalParameters[desc]={};
+      else
+      {
+        string key=desc.substr(0,post);
+        Vint sint=NumCalcApplicationTools::seqFromString(desc.substr(post+2, desc.size()-post-3));
+        if (globalParameters.find(key)==globalParameters.end())
+          globalParameters[key]=vector<Vint>(1, sint);
+        else
+          globalParameters[key].push_back(sint);
+      }
+    }
+    
+    for (const auto& globpar:globalParameters)
+    {
+      ApplicationTools::displayResult("Global parameter", globpar.first);
+      if (globpar.second.size()==0)
+      {
+        string all="All nodes";
+        ApplicationTools::displayResult(" shared between nodes", all);
+      }
+      else
+        for (const auto& vint:globpar.second)
+          ApplicationTools::displayResult(" shared between nodes", VectorTools::paste(vint,","));
+    }
     modelSet = SubstitutionModelSetTools::createNonHomogeneousModelSet(model, rootFreqs, tree, globalParameters); 
     model = 0;
     

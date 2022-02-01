@@ -8,31 +8,15 @@ alphabet = Codon(letter=DNA)
 genetic_code = InvertebrateMitochondrial
 
 # The sequence file to use (sequences must be aligned!)
-input.sequence.file = $(DATA)Concatenate.fasta
-
-# The alignment format:
-input.sequence.format = Fasta
-
-#Sites to use:
-# all, nogap or complete (=only resolved chars)
-input.sequence.sites_to_use = all #complete
-# Specify a maximum amount of gaps: may be an absolute number or a percentage.
-input.sequence.max_gap_allowed = 50%
-# Remove stop codons
-input.sequence.remove_stop_codons=yes
+# The sequence file to use (sequences must be aligned!)
+input.data1=alignment(file = $(DATA)Concatenate.fasta, format = Fasta, sites_to_use = all, remove_stop_codons=yes)
 
 
 # ----------------------------------------------------------------------------------------
 #                                     Input tree file
 # ----------------------------------------------------------------------------------------
 
-# user or random
-init.tree = user
-
-input.tree.file = $(DATA)Tree_unrooted.dnd
-input.tree.format = Newick
-
-init.brlen.method = Input
+input.tree1=user(file = $(DATA)Tree_unrooted.dnd, format = Newick)
 
 # ----------------------------------------------------------------------------------------
 #                                     Model specification
@@ -40,27 +24,8 @@ init.brlen.method = Input
 # See the manual for a description of the syntax and available options.
 #
 
-rate_distribution = Constant #Gamma(n=4, alpha=0.5)
+model1 = YN98(frequencies = F3X4(mgmtStopCodon = uniform), initFreqs = observed, omega = 0.5, kappa = 2., data=1)
 
-nonhomogeneous = general
-
-#nonhomogeneous.root_freq=Fixed(init=observed)
-nonhomogeneous.root_freq = None
-
-# Now the general heterogeneous case:
-# Specify the number of distinct models.
-nonhomogeneous.number_of_models = 2
-
-
-# Set up each model:
-# If we want to get node ids:
-#output.tree_ids.file=$(DATA)UnrootedTreeWithId.dnd
-# 2 models for all nodes
-# Internal branches
-model1 = YN98(frequencies = F3X4(mgmtStopCodon = uniform), initFreqs = observed, omega = 0.5, kappa = 2.)
-model1.nodes_id=4, 5, 52, 51, 9, 12, 13, 17, 16, 30, 21, 29, 28, 26, 27, 50, 41, 49, 44, 48, 47, 35, 36, 37, 40  # The Ids of the nodes to which this model should be assigned.
-
-#External branches
 model2 = YN98(frequencies = F3X4(mgmtStopCodon = uniform), \
               omega = 0.5,                                 \
               1_Full.theta  = YN98.1_Full.theta_1,         \
@@ -73,26 +38,14 @@ model2 = YN98(frequencies = F3X4(mgmtStopCodon = uniform), \
               3_Full.theta1 = YN98.3_Full.theta1_1,        \
               3_Full.theta2 = YN98.3_Full.theta2_1,        \
               kappa = YN98.kappa_1)
-model2.nodes_id=0, 1, 2, 3, 6, 7, 8, 10, 11, 14, 15, 18, 19, 20, 22, 23, 24, 25, 31, 32, 33, 34, 38, 39, 42, 43, 45, 46  # The Ids of the nodes to which this model should be assigned.
 
+rate_distribution1 = Constant #Gamma(n=4, alpha=0.5)
 
-# Likelihood recursion option:
-# - simple: derivatives takes more time to compute, but likelihood computation is faster.
-#   For big data sets, it can save a lot of memory usage too, particularly when the data are compressed.
-# - double: Uses more memory and need more time to compute likelihood, due to the double recursion.
-#   Analytical derivatives are however faster to compute.
-# This option has no effect in the following cases:
-# - Topology estimation: this requires a double recursive algorithm,
-# - Optimization with a molecular clock: a simple recursion with data compression is used in this case,
-#   due to the impossibility of computing analytical derivatives.
-likelihood.recursion = simple
+#nonhomogeneous.root_freq=Fixed(init=observed)
 
-# Site compression for the simple recursion:
-# - simple: identical sites are not computed twice
-# - recursive: look for site patterns to save computation time during optimization, but
-#   requires extra time for building the patterns.
-#   This is usually the best option, particularly for nucleotide data sets.
-likelihood.recursion_simple.compression = recursive
+process1 = NonHomogeneous(model1=1, model2=2, tree=1, rate=1, model1.nodes_id = NoLeaves, model2.nodes_id= Leaves)
+
+phylo1 = Single(process=1, data=1)
 
 # ----------------------------------------------------------------------------------------
 #                                     Optimization
@@ -131,36 +84,6 @@ optimization.message_handler = $(DATA)_NH_2DNDS.messages
 
 # A file where to dump optimization steps (a file path or std for standard output)
 optimization.profiler = $(DATA)_NH_2DNDS.profile
-
-# Shall we optimize tree topology as well?
-optimization.topology = no
-
-# Algorithm to use for topology estimation: only NNI for now
-optimization.topology.algorithm = NNI
-
-# NNI method: fast, better or phyml
-# You should use the phyml option, since it is really more efficient!
-optimization.topology.algorithm_nni.method = phyml
-
-# Number of phyml topology movement steps before reoptimizing parameters:
-optimization.topology.nstep = 4
-
-# Shall we estimate parameters before looking for topology movements?
-optimization.topology.numfirst = no
-
-# Tolerances: These numbers should not be too low, in order to save computation
-# time and also for a better topology estimation.
-# The optimization.tolerance parameter will be used for the final optimization
-# of numerical parameters.
-#
-# Tolerance for the prior-topology estimation
-optimization.topology.tolerance.before = 100
-
-# Tolerance for the during-topology estimation
-optimization.topology.tolerance.during = 100
-
-# Shall we first scale the tree before optimizing parameters? [deprecated]
-optimization.scale_first = no
 
 
 

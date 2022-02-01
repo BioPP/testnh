@@ -1,27 +1,29 @@
+MODEL = M1
+
 DATA = PalandAndLynch28
-param=PalandAndLynch28.params_h.bpp
+
+param=PalandAndLynch28.$(MODEL)_params_h.bpp
 
 alphabet = Codon(letter=DNA)
 genetic_code=InvertebrateMitochondrial
 
-#Set imput tree file. Original branch lengths will be used for mapping.
-#input.tree.file = $(DATA)Tree.dnd
-input.tree.file=PalandAndLynch28.ml_h.dnd
-input.tree.format = Newick
+input.data1=alignment(file = $(DATA)Concatenate.fasta, format = Fasta, sites_to_use = all, remove_stop_codons=yes)
+
+input.tree1=user(file = $(DATA)Tree_unrooted.dnd, format = Newick)
+
 #We convert the tree to Nhx format for use with PartNH:
 output.tree_with_id.file = $(DATA).nhx
 #Where to output cluster tree:
 output.cluster_tree.file = $(DATA).cluster_join.dnd
 
-input.sequence.file = $(DATA)Concatenate.fasta
-input.sequence.format = Fasta
-input.sequence.sites_to_use = all
-# Remove stop codons
-input.sequence.remove_stop_codons = yes
-
 
 map.type = DnDs
-#(code=InvertebrateMitochondrial)
+
+output.counts = PerBranchPerType(prefix=CountsTreeBranch_$(MODEL)_, perBranchLength=false, perWordSize = false, splitNorm=true)
+#output.counts = PerSitePerType(file=CountsTreeBranch_$(MODEL)_, perBranchLength=false, perWordSize = false)
+
+nullProcessParams = *omega=1, *omega0=0.999999, *omega2=1.00000001
+
 count.max = 3
 test.global = no
 test.branch = yes
@@ -29,5 +31,4 @@ test.branch.neighbor = #yes or no
 test.branch.negbrlen = no
 test.branch.auto_cluster = Marginal(threshold=1)
  
-output.counts.tree.prefix = CountsTree
 
