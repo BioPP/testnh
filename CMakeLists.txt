@@ -4,7 +4,7 @@
 #   Francois Gindraud (2017)
 # Created: 07/04/2010
 
-cmake_minimum_required (VERSION 2.8.11)
+cmake_minimum_required (VERSION 3.0.0)
 project (testnh CXX)
 
 # Compile options
@@ -77,8 +77,7 @@ include (GNUInstallDirs)
 find_package (bpp-core3 1.0.0 REQUIRED)
 find_package (bpp-seq3 1.0.0 REQUIRED)
 find_package (bpp-phyl3 1.0.0 REQUIRED)
-
-find_package (Eigen3 3.3 REQUIRED PATHS /usr/lib NO_MODULE)
+find_package (bpp-popgen3 1.0.0 REQUIRED)
 
 # Subdirectories
 add_subdirectory (TestNH)
@@ -89,7 +88,7 @@ ENDIF(NO_DEP_CHECK)
 
 # Packager
 SET(CPACK_PACKAGE_NAME "testnh")
-SET(CPACK_PACKAGE_VENDOR "Bio++ Development Team")
+SET(CPACK_PACKAGE_VENDOR "Bastien Boussau and Julien Dutheil and Laurent Guéguen")
 SET(CPACK_PACKAGE_VERSION "3.0.0")
 SET(CPACK_PACKAGE_VERSION_MAJOR "3")
 SET(CPACK_PACKAGE_VERSION_MINOR "0")

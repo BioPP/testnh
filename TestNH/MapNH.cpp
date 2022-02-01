@@ -122,9 +122,11 @@ int main(int args, char** argv)
     unique_ptr<Alphabet> alphabet(mapnh.getAlphabet());
     unique_ptr<GeneticCode> gCode(mapnh.getGeneticCode(alphabet.get()));
 
-    map<size_t, AlignedValuesContainer*> mSites = mapnh.getAlignmentsMap(alphabet.get(), true);
+    auto mSites = mapnh.getConstAlignmentsMap(alphabet.get(), true);
 
-    unique_ptr<SubstitutionProcessCollection> SP(mapnh.getCollection(alphabet.get(), gCode.get(), mSites, unparsedParams));
+    auto mpTree = mapnh.getPhyloTreesMap(mSites, unparsedParams);
+
+    unique_ptr<SubstitutionProcessCollection> SP(mapnh.getCollection(alphabet.get(), gCode.get(), mSites, mpTree, unparsedParams));
                                                
     std::map<size_t, SequenceEvolution*> mProc = mapnh.getProcesses(*SP, unparsedParams);
   
