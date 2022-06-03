@@ -55,6 +55,7 @@ using namespace std;
 #include <Bpp/Phyl/Likelihood/PhyloLikelihoods/PartitionProcessPhyloLikelihood.h>
 #include <Bpp/Phyl/App/BppPhylogeneticsApplication.h>
 #include <Bpp/Phyl/App/PhylogeneticsApplicationTools.h>
+#include <Bpp/Numeric/AutoParameter.h>
 
 using namespace bpp;
 
@@ -308,18 +309,28 @@ int main(int args, char** argv)
       ParameterList nullParams;
       if (nullProcessParams != "")
       {
-        const ParameterList pl0=psm->getParameters();
-      
+        ParameterList pl0=psm->getParameters();
+
+        for (unsigned int np = 0; np < pl0.size(); np++)
+        {
+          AutoParameter ap(pl0[np]);
+//            ap.setMessageHandlerA(messageHandler_);
+          pl0.setParameter(np, ap);
+        }
+
+
         map<string, string> npv;
         KeyvalTools::multipleKeyvals(nullProcessParams, npv, ",", false);
       
         for (const auto& pv : npv)
         {
           vector<string> pn = pl0.getMatchingParameterNames(pv.first);
+          
           double val=TextTools::toDouble(pv.second);
           for (const auto& n : pn)
           {
-            nullParams.addParameter(Parameter(n, val));
+            pl0.setParameterValue(n,val);
+            nullParams.addParameter(Parameter(n,pl0.getParameterValue(n)));
             ApplicationTools::displayResult("null Parameter " + n, val);
           }
         }
