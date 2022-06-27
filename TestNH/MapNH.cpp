@@ -156,13 +156,21 @@ int main(int args, char** argv)
     if (opspl==NULL && sppl==NULL && sap==NULL)
       throw Exception("Mapping not possible for this phylo. Ask the developpers");
 
+    const AlignedValuesContainer* data;
     if (opspl)
+    {
       pstmap=&opspl->getSubstitutionProcess().getStateMap();
+      data = opspl->getData();
+    }
     else if (sppl)
+    {
       pstmap=&sppl->getSubstitutionProcess().getStateMap();
+      data = sppl->getData();
+    }
     else
     {
       const std::vector<size_t>& vpn=sap->getNumbersOfPhyloLikelihoods();
+      data = sap->getData();
       for (const auto& pn : vpn)
       {
         const AbstractPhyloLikelihood* pap=sap->getAbstractPhyloLikelihood(pn);
@@ -539,7 +547,7 @@ int main(int args, char** argv)
           }
         }
 
-        SubstitutionMappingTools::outputPerSitePerType(perSitenf, *reg, counts2);
+        SubstitutionMappingTools::outputPerSitePerType(perSitenf, *reg, *data, counts2);
         
         if (nullProcessParams!="" && splitNorm)
         {
@@ -559,7 +567,7 @@ int main(int args, char** argv)
             for (const auto& norm_s_br:norm_s)
               norm2_s+=norm_s_br;
           }
-          SubstitutionMappingTools::outputPerSitePerType(perSitenf, *reg, norm2);
+          SubstitutionMappingTools::outputPerSitePerType(perSitenf, *reg, *data, norm2);
         }
       }
       else {
@@ -597,7 +605,7 @@ int main(int args, char** argv)
             }
           }
 
-          SubstitutionMappingTools::outputPerSitePerBranch(perSitenf, ids, counts2);
+          SubstitutionMappingTools::outputPerSitePerBranch(perSitenf, ids, *data, counts2);
 
           if (nullProcessParams!="" && splitNorm)
           {
@@ -617,7 +625,7 @@ int main(int args, char** argv)
               for (size_t br=0; br<norm.size(); br++)
                 norm2_s[br]=VectorTools::sum(norm_s[br]);
             }
-            SubstitutionMappingTools::outputPerSitePerBranch(perSitenf, ids, norm2);
+            SubstitutionMappingTools::outputPerSitePerBranch(perSitenf, ids, *data, norm2);
           }
         }
         else
@@ -645,7 +653,7 @@ int main(int args, char** argv)
             }
           }
 
-          SubstitutionMappingTools::outputPerSitePerBranchPerType(tablePathPrefix+"_", ids, *reg, counts);
+          SubstitutionMappingTools::outputPerSitePerBranchPerType(tablePathPrefix+"_", ids, *reg, *data, counts);
         
           if (nullProcessParams!="" && splitNorm)
           {
@@ -653,7 +661,7 @@ int main(int args, char** argv)
           
             ApplicationTools::displayResult(string("Output normalizations (site/branch/type) to files"), tablePathPrefix + "*");
           
-            SubstitutionMappingTools::outputPerSitePerBranchPerType(tablePathPrefix, ids, *reg, norm);
+            SubstitutionMappingTools::outputPerSitePerBranchPerType(tablePathPrefix, ids, *reg, *data, norm);
           }
         }
       }
