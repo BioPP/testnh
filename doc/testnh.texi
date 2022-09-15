@@ -288,7 +288,9 @@ The file path indicates where the table should be stored.
 The file path indicates where the table should be stored.
 
 @item PerBranchPerSitePerType(prefix = @{path@})
-With the prefix name for all table files. Table file for counts of type 1 will be named @samp{prefix2}, for type 2 @samp{prefix2} and so on.
+With the prefix name for all table files. Table file for counts of
+type 1 will be named @samp{prefix2}, for type 2 @samp{prefix2} and so
+on.
 @end table
 
 The distinct outputs can be combined as a list, for instance:
@@ -337,6 +339,18 @@ normalizations, while regular output contains raw counts.
 Based on this counts, MapNH can make a global test to assess if there is heterogeneity between branches:
 @item test.global = @{boolean@}
 Tell if global tests should be performed. If yes, two test will be done: a chi square contingency table, and a multinomial test. Note that both tests are indicative only, as the assumptions mode for computing the p-values may be incorrect.
+
+@item manageUnresolved= @{Zero|One|Average@}
+
+describes how unresolved characters are managed in counts:
+
+@itemize
+@item Zero : all counts towards those characters are omitted (default);
+@item One : all unresolved characters are considered as present as
+normal characters (ie sum of counts towards these characters);
+@item Average : the counts towards unresolved characters are averaged
+(ie mean of counts towars these characters).
+@end itemize
 
 @end table
 

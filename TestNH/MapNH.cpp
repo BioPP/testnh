@@ -144,6 +144,15 @@ int main(int args, char** argv)
     if (thresholdSat > 0)
       ApplicationTools::displayResult("Saturation threshold used", thresholdSat);
 
+    // Manage how unresolved characters are managed
+    string unresolvedString = ApplicationTools::getStringParameter("manageUnresolved", mapnh.getParams(), "", "", true, 1);
+    if (unresolvedString!="One" && unresolvedString!="Average")
+      unresolvedString="Zero";
+    
+    short unresolvedOption=(unresolvedString=="One")?1:(unresolvedString=="Average")?2:0;
+
+    ApplicationTools::displayResult("Manage unresolved characters", unresolvedString);
+
   
     // Checks all phylolikelihoods fit, and only one alphabet state map
 
@@ -257,7 +266,7 @@ int main(int args, char** argv)
       if (opspl)
       {
         shared_ptr<PhyloSubstitutionMapping> spsm(new OneProcessSequenceSubstitutionMapping(*opspl, *reg, sweights, sdistances));
-        spsm->computeCounts(thresholdSat);
+        spsm->computeCounts(unresolvedOption, thresholdSat);
         vpsm.push_back(spsm);
         if (perBranchLength)
           vpt.push_back(&opspl->getTree());
@@ -265,7 +274,7 @@ int main(int args, char** argv)
       else
       {
         shared_ptr<PhyloSubstitutionMapping> spsm(new SingleProcessSubstitutionMapping(*sppl, *reg, sweights, sdistances));
-        spsm->computeCounts(thresholdSat);
+        spsm->computeCounts(unresolvedOption, thresholdSat);
         vpsm.push_back(spsm);
         if (perBranchLength)
           vpt.push_back(&sppl->getTree());
@@ -284,7 +293,7 @@ int main(int args, char** argv)
         if (opspl2)
         {
           shared_ptr<PhyloSubstitutionMapping> spsm(new OneProcessSequenceSubstitutionMapping(*opspl2, *reg, sweights, sdistances));
-          spsm->computeCounts(thresholdSat,comp<10);
+          spsm->computeCounts(unresolvedOption, thresholdSat,comp<10);
           vpsm.push_back(spsm);
           
           if (perBranchLength)
@@ -293,7 +302,7 @@ int main(int args, char** argv)
         else
         {
           shared_ptr<PhyloSubstitutionMapping> spsm(new SingleProcessSubstitutionMapping(*sppl2, *reg, sweights, sdistances));
-          spsm->computeCounts(thresholdSat,comp<10);
+          spsm->computeCounts(unresolvedOption, thresholdSat,comp<10);
           vpsm.push_back(spsm);
           
           if (perBranchLength)
@@ -343,7 +352,7 @@ int main(int args, char** argv)
           }
         }
 
-        psm->computeNormalizations(nullParams,i<10);
+        psm->computeNormalizations(nullParams,unresolvedOption,i<10);
         if (i>=10)
           ApplicationTools::displayResult("Build Substitution normalization",TextTools::toString(i+1));
       }
@@ -657,7 +666,7 @@ int main(int args, char** argv)
         
           if (nullProcessParams!="" && splitNorm)
           {
-            tablePathPrefix += "_norm_";
+            tablePathPrefix += "norm_";
           
             ApplicationTools::displayResult(string("Output normalizations (site/branch/type) to files"), tablePathPrefix + "*");
           
