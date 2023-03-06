@@ -554,7 +554,7 @@ int main(int args, char** argv)
             if (perBranchLength)
               counts2_s*=VectorTools::sum(lengths[s]);
           }
-        }
+       }
 
         SubstitutionMappingTools::outputPerSitePerType(perSitenf, *reg, *data, counts2);
         
@@ -631,7 +631,7 @@ int main(int args, char** argv)
               VVdouble& norm_s=norm[s];
               Vdouble& norm2_s=norm2[s];
           
-              for (size_t br=0; br<norm.size(); br++)
+              for (size_t br=0; br<norm_s.size(); br++)
                 norm2_s[br]=VectorTools::sum(norm_s[br]);
             }
             SubstitutionMappingTools::outputPerSitePerBranch(perSitenf, ids, *data, norm2);
