@@ -561,7 +561,7 @@ int main(int args, char** argv)
             if (perBranchLength)
               counts2_s*=VectorTools::sum(lengths[s]);
           }
-        }
+       }
 
         SubstitutionMappingTools::outputPerSitePerType(perSitenf+".txt", *reg, *data, counts2);
         
