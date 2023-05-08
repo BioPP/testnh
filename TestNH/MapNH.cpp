@@ -120,25 +120,30 @@ int main(int args, char** argv)
     /* get Basic objects */
     /*********************************/
   
-    unique_ptr<Alphabet> alphabet(mapnh.getAlphabet());
-    unique_ptr<GeneticCode> gCode(mapnh.getGeneticCode(alphabet.get()));
+    shared_ptr<const Alphabet> alphabet(mapnh.getAlphabet());
+    shared_ptr<const GeneticCode> gCode(mapnh.getGeneticCode(alphabet));
 
-    auto mSites = mapnh.getConstAlignmentsMap(alphabet.get(), true);
+    auto mSitesuniq = mapnh.getConstAlignmentsMap(alphabet, true);
 
+    const std::map<size_t, std::shared_ptr<const AlignmentDataInterface > > mSites = PhylogeneticsApplicationTools::uniqueToSharedMap<const TemplateAlignmentDataInterface<string>>(mSitesuniq);
+
+    
     auto mpTree = mapnh.getPhyloTreesMap(mSites, unparsedParams);
 
-    unique_ptr<SubstitutionProcessCollection> SP(mapnh.getCollection(alphabet.get(), gCode.get(), mSites, mpTree, unparsedParams));
+    shared_ptr<SubstitutionProcessCollection> SP(mapnh.getCollection(alphabet, gCode, mSites, mpTree, unparsedParams));
                                                
-    auto mProc = mapnh.getProcesses(*SP, unparsedParams);
-  
-    auto plc(mapnh.getPhyloLikelihoods(context, mProc, *SP, mSites));
+    auto mProctmp = mapnh.getProcesses(SP, unparsedParams);
+    
+    auto mProc = PhylogeneticsApplicationTools::uniqueToSharedMap<SequenceEvolution>(mProctmp);
+      
+    auto plc(mapnh.getPhyloLikelihoods(context, mProc, SP, mSites));
 
     if (!plc->hasPhyloLikelihood(1))
       throw Exception("Missing first phyloLikelihood.");
 
-    PhyloLikelihood* pl=(*plc)[1];
+    auto pl=(*plc)[1];
 
-    mapnh.fixLikelihood(alphabet.get(), gCode.get(), pl);
+    mapnh.fixLikelihood(alphabet, gCode, pl);
 
     double thresholdSat = ApplicationTools::getDoubleParameter("count.max", mapnh.getParams(), -1, "", true, 1);
     if (thresholdSat > 0)
@@ -156,24 +161,24 @@ int main(int args, char** argv)
   
     // Checks all phylolikelihoods fit, and only one alphabet state map
 
-    OneProcessSequencePhyloLikelihood* opspl= dynamic_cast<OneProcessSequencePhyloLikelihood*>(pl);
-    SingleProcessPhyloLikelihood* sppl= dynamic_cast<SingleProcessPhyloLikelihood*>(pl);    
-    PartitionProcessPhyloLikelihood* sap = dynamic_cast<PartitionProcessPhyloLikelihood*>(pl);
+    auto opspl= dynamic_pointer_cast<OneProcessSequencePhyloLikelihood>(pl);
+    auto sppl= dynamic_pointer_cast<SingleProcessPhyloLikelihood>(pl);    
+    auto sap = dynamic_pointer_cast<PartitionProcessPhyloLikelihood>(pl);
   
-    const StateMap* pstmap(0);
+    shared_ptr<const StateMapInterface> pstmap=0;
 
     if (opspl==NULL && sppl==NULL && sap==NULL)
       throw Exception("Mapping not possible for this phylo. Ask the developpers");
 
-    const AlignedValuesContainer* data;
+    shared_ptr<const AlignmentDataInterface> data;
     if (opspl)
     {
-      pstmap=&opspl->getSubstitutionProcess().getStateMap();
+      pstmap= opspl->getSubstitutionProcess()->getStateMap();
       data = opspl->getData();
     }
     else if (sppl)
     {
-      pstmap=&sppl->getSubstitutionProcess().getStateMap();
+      pstmap= sppl->getSubstitutionProcess()->getStateMap();
       data = sppl->getData();
     }
     else
@@ -182,18 +187,18 @@ int main(int args, char** argv)
       data = sap->getData();
       for (const auto& pn : vpn)
       {
-        const AbstractPhyloLikelihood* pap=sap->getAbstractPhyloLikelihood(pn);
-        const OneProcessSequencePhyloLikelihood* opspl2= dynamic_cast<const OneProcessSequencePhyloLikelihood*>(pap);
-        const SingleProcessPhyloLikelihood* sppl2 = dynamic_cast<const SingleProcessPhyloLikelihood*>(pap);
+        const auto pap = sap->getPhyloLikelihood(pn);
+        const auto opspl2= dynamic_pointer_cast<const OneProcessSequencePhyloLikelihood>(pap);
+        const auto sppl2 = dynamic_pointer_cast<const SingleProcessPhyloLikelihood>(pap);
 
         if (opspl2==NULL && sppl2==NULL)
           throw Exception("Mapping not possible for a non-single process in container phylo.");
 
         if (!pstmap)
-          pstmap=opspl2?&opspl2->getSubstitutionProcess().getStateMap():&sppl2->getSubstitutionProcess().getStateMap();
+          pstmap=opspl2?opspl2->getSubstitutionProcess()->getStateMap():sppl2->getSubstitutionProcess()->getStateMap();
         else
         {
-          const StateMap* pstmap2=opspl2?&opspl2->getSubstitutionProcess().getStateMap():&sppl2->getSubstitutionProcess().getStateMap();
+          const auto pstmap2=opspl2?opspl2->getSubstitutionProcess()->getStateMap():sppl2->getSubstitutionProcess()->getStateMap();
           if (pstmap2->getAlphabetStates()!=pstmap->getAlphabetStates())
             throw Exception("Discordant alphabet states in container phylo.");
         }
@@ -207,10 +212,10 @@ int main(int args, char** argv)
   
     string regTypeDesc = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "All", "", true, false);
 
-    AlphabetIndex2* weights = 0;
-    AlphabetIndex2* distances = 0;
+    shared_ptr<AlphabetIndex2> weights = 0;
+    shared_ptr<AlphabetIndex2> distances = 0;
   
-    unique_ptr<SubstitutionRegister> reg(PhylogeneticsApplicationTools::getSubstitutionRegister(regTypeDesc, *pstmap, gCode.get(), weights, distances));
+    shared_ptr<SubstitutionRegisterInterface> reg(PhylogeneticsApplicationTools::getSubstitutionRegister(regTypeDesc, pstmap, gCode, weights, distances));
 
     shared_ptr<const AlphabetIndex2> sweights(weights);
     shared_ptr<const AlphabetIndex2> sdistances(distances);
@@ -253,10 +258,10 @@ int main(int args, char** argv)
       }
     }
     
-    uint siteSize=(perWord && AlphabetTools::isWordAlphabet(alphabet.get()))?dynamic_cast<const CoreWordAlphabet*>(alphabet.get())->getLength():1;
+    uint siteSize=(perWord && AlphabetTools::isWordAlphabet(alphabet.get()))?dynamic_pointer_cast<const CoreWordAlphabet>(alphabet)->getLength():1;
     
     // Stock Phylolikelihoods, needed if perBranchLength 
-    vector<const ParametrizablePhyloTree*> vpt;
+    vector<shared_ptr<const ParametrizablePhyloTree> > vpt;
     
     // Compute phylosubstitutionmapping
     vector<shared_ptr<PhyloSubstitutionMapping> > vpsm;
@@ -265,19 +270,19 @@ int main(int args, char** argv)
     {
       if (opspl)
       {
-        shared_ptr<PhyloSubstitutionMapping> spsm(new OneProcessSequenceSubstitutionMapping(*opspl, *reg, sweights, sdistances));
+        shared_ptr<PhyloSubstitutionMapping> spsm(new OneProcessSequenceSubstitutionMapping(opspl, reg, sweights, sdistances));
         spsm->computeCounts(unresolvedOption, thresholdSat);
         vpsm.push_back(spsm);
         if (perBranchLength)
-          vpt.push_back(&opspl->getTree());
+          vpt.push_back(opspl->tree());
       }
       else
       {
-        shared_ptr<PhyloSubstitutionMapping> spsm(new SingleProcessSubstitutionMapping(*sppl, *reg, sweights, sdistances));
+        shared_ptr<PhyloSubstitutionMapping> spsm(new SingleProcessSubstitutionMapping(sppl, reg, sweights, sdistances));
         spsm->computeCounts(unresolvedOption, thresholdSat);
         vpsm.push_back(spsm);
         if (perBranchLength)
-          vpt.push_back(&sppl->getTree());
+          vpt.push_back(sppl->tree());
       }
     }
     else
@@ -287,26 +292,26 @@ int main(int args, char** argv)
       
       for (const auto& pn : vpn)
       {
-        OneProcessSequencePhyloLikelihood* opspl2= dynamic_cast<OneProcessSequencePhyloLikelihood*>(sap->getAbstractPhyloLikelihood(pn));
-        SingleProcessPhyloLikelihood* sppl2= dynamic_cast<SingleProcessPhyloLikelihood*>(sap->getAbstractPhyloLikelihood(pn));
+        auto opspl2= dynamic_pointer_cast<OneProcessSequencePhyloLikelihood>(sap->getPhyloLikelihood(pn));
+        auto sppl2= dynamic_pointer_cast<SingleProcessPhyloLikelihood>(sap->getPhyloLikelihood(pn));
   
         if (opspl2)
         {
-          shared_ptr<PhyloSubstitutionMapping> spsm(new OneProcessSequenceSubstitutionMapping(*opspl2, *reg, sweights, sdistances));
+          shared_ptr<PhyloSubstitutionMapping> spsm(new OneProcessSequenceSubstitutionMapping(opspl2, reg, sweights, sdistances));
           spsm->computeCounts(unresolvedOption, thresholdSat,comp<10);
           vpsm.push_back(spsm);
           
           if (perBranchLength)
-            vpt.push_back(&opspl2->getTree());
+            vpt.push_back(opspl2->tree());
         }
         else
         {
-          shared_ptr<PhyloSubstitutionMapping> spsm(new SingleProcessSubstitutionMapping(*sppl2, *reg, sweights, sdistances));
+          shared_ptr<PhyloSubstitutionMapping> spsm(new SingleProcessSubstitutionMapping(sppl2, reg, sweights, sdistances));
           spsm->computeCounts(unresolvedOption, thresholdSat,comp<10);
           vpsm.push_back(spsm);
           
           if (perBranchLength)
-            vpt.push_back(&sppl2->getTree());
+            vpt.push_back(sppl2->tree());
         }
 
         if (comp>=10)
@@ -388,7 +393,7 @@ int main(int args, char** argv)
           for (size_t pr=0;pr<vpt.size();pr++)
           {
             PhyloTree pht2(*vpt[pr]);
-            size_t ns=vpsm[pr]->getCounts().getNumberOfSites();
+            size_t ns=vpsm[pr]->counts().getNumberOfSites();
             pht2.scaleTree((double)(ns));
             nbs+=ns;
             // proportional to the number of sites
@@ -413,20 +418,20 @@ int main(int args, char** argv)
           for (auto& psm:vpsm)
           {
             if (pt==0)
-              pt.reset(SubstitutionMappingTools::getTreeForType(psm->getCounts(),i));
+              pt = SubstitutionMappingTools::getTreeForType(psm->counts(),i);
             else
             {
-              ptt.reset(SubstitutionMappingTools::getTreeForType(psm->getCounts(),i));
+              ptt = SubstitutionMappingTools::getTreeForType(psm->counts(),i);
               (*pt)+=(*ptt);
             }
             
             if (nullProcessParams!="")
             {
               if (pn==0)
-                pn.reset(SubstitutionMappingTools::getTreeForType(psm->getNormalizations(),i));
+                pn = SubstitutionMappingTools::getTreeForType(psm->normalizations(),i);
               else
               {
-                pnt.reset(SubstitutionMappingTools::getTreeForType(psm->getNormalizations(),i));
+                pnt = SubstitutionMappingTools::getTreeForType(psm->normalizations(),i);
                 (*pn)+=(*pnt);
               }
             }
@@ -436,13 +441,13 @@ int main(int args, char** argv)
           {
             string path = treePathPrefix + "_" + name + string(".dnd");
             ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
-            newick.writePhyloTree(*pt, path);
+            newick.writePhyloTree(*pt, path, true);
             
             if (splitNorm)
             {
               path = treePathPrefix + "_" + name + string("_norm.dnd");
               ApplicationTools::displayResult(string("Output normalizations of type ") + TextTools::toString(i + 1) + string(" to file"), path);
-              newick.writePhyloTree(*pn, path);
+              newick.writePhyloTree(*pn, path, true);
             }
           }
           else
@@ -455,7 +460,7 @@ int main(int args, char** argv)
             
             string path = treePathPrefix + "_" + name + string(".dnd");
             ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
-            newick.writePhyloTree(*pt, path);
+            newick.writePhyloTree(*pt, path, true);
           }
         }
       }
@@ -477,20 +482,20 @@ int main(int args, char** argv)
           vlength.resize(vpsm.size());
       }
       
-      Vuint ids=vpsm[0]->getCounts().getAllEdgesIndexes();
+      Vuint ids=vpsm[0]->counts().getAllEdgesIndexes();
 
       for (size_t i=0;i<vpsm.size();i++)
       {
         shared_ptr<PhyloSubstitutionMapping> psm=vpsm[i];
 
-        if (perBranch && i!=0 && ids!=psm->getCounts().getAllEdgesIndexes())
+        if (perBranch && i!=0 && ids!=psm->counts().getAllEdgesIndexes())
           throw Exception("Branch ids of phylolikelihood " + TextTools::toString(i) + " do not match the ones of the first phylolikelihood.");
           
-        vcounts[i]=SubstitutionMappingTools::getCountsPerSitePerBranchPerType(psm->getCounts());
+        vcounts[i]=SubstitutionMappingTools::getCountsPerSitePerBranchPerType(psm->counts());
               
         if (nullProcessParams!="")
         {
-          vnorm[i]=SubstitutionMappingTools::getCountsPerSitePerBranchPerType(psm->getNormalizations());
+          vnorm[i]=SubstitutionMappingTools::getCountsPerSitePerBranchPerType(psm->normalizations());
           if (perBranchLength)
             vlength[i]=vpt[i]->getBranchLengths();
         }
@@ -688,9 +693,6 @@ int main(int args, char** argv)
     /////////////////////////////////
     // clean up
 
-    for (auto it : mSites)
-      delete it.second;
-    
     mapnh.done();
   }
   catch (exception& e)
