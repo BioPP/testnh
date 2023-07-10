@@ -251,15 +251,15 @@ int main(int args, char** argv)
         perBranchLength=ApplicationTools::getBooleanParameter("perBranchLength", outputArgs, true, "", true, 0);
 
         ApplicationTools::displayResult("Normalization per branch length", perBranchLength?"true":"false");
-
-        perWord = ApplicationTools::getBooleanParameter("perWordSize", outputArgs, true, "", true, 0);
-        
-        ApplicationTools::displayResult("Normalization per word size", perWord?"true":"false");
       }
+
+      perWord = ApplicationTools::getBooleanParameter("perWordSize", outputArgs, true, "", true, 0);
+        
+      ApplicationTools::displayResult("Normalization per word size", perWord?"true":"false");
     }
-    
+
     uint siteSize=(perWord && AlphabetTools::isWordAlphabet(alphabet.get()))?dynamic_pointer_cast<const CoreWordAlphabet>(alphabet)->getLength():1;
-    
+
     // Stock Phylolikelihoods, needed if perBranchLength 
     vector<shared_ptr<const ParametrizablePhyloTree> > vpt;
     
@@ -386,7 +386,7 @@ int main(int args, char** argv)
         Newick newick;
 
         PhyloTree pht;               
-        if (nullProcessParams!="" && !splitNorm && perBranchLength)
+        if (nullProcessParams!="" && !splitNorm)
         {
           size_t nbs(0);
           
@@ -436,7 +436,10 @@ int main(int args, char** argv)
               }
             }
           }
-          
+
+          // Normalize per word size
+          pt->scaleTree(1./siteSize);
+
           if (splitNorm || nullProcessParams=="")
           {
             string path = treePathPrefix + "_" + name + string(".dnd");
@@ -456,7 +459,6 @@ int main(int args, char** argv)
             
             if (perBranchLength)
               (*pt)*=pht;
-            pt->scaleTree(1./siteSize);
             
             string path = treePathPrefix + "_" + name + string(".dnd");
             ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
@@ -667,8 +669,9 @@ int main(int args, char** argv)
               Vdouble& lengths_s=lengths[s];
               for (size_t br=0; br<norm_s.size(); br++)
               {
-                Vdouble& counts_s_br=counts_s[br];                
-                counts_s_br/=(norm_s[br]*siteSize);
+                Vdouble& counts_s_br=counts_s[br];
+                
+                counts_s_br/= norm_s[br];
                 
                 if (perBranchLength)
                   counts_s_br*=lengths_s[br];
@@ -676,6 +679,9 @@ int main(int args, char** argv)
             }
           }
 
+          // normalize per word length
+          counts/=siteSize;
+          
           SubstitutionMappingTools::outputPerSitePerBranchPerType(tablePathPrefix+"_", ids, *reg, *data, counts);
         
           if (nullProcessParams!="" && splitNorm)
