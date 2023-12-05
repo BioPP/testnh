@@ -34,8 +34,8 @@ needed libraries are [bpp-core](https://github.com/BioPP/bpp-core),
 
 
 For compiling the programs yourself, from the downloaded sources or
-from the git repository, please follow the instructions from
-[bppsuite](https://github.com/BioPP/bppsuite).
+from the git repository, please follow the instructions from old
+[testnh](https://github.com/BioPP/bppsuite) and up to date [mapnh](https://pbil.univ-lyon1.fr/bpp-doc/testnh/testnh.html).
 
 
 
@@ -44,11 +44,6 @@ from the git repository, please follow the instructions from
 Several example data sets are distributed along with the source code
 of the package. A reference manual is also available at
 http://bioweb.me/testnh/releases.
-
-## How can I get help?
-
-A dedicated discussion forum is available at Google Groups
-https://groups.google.com/forum/#!forum/testnh-help-forum.
 
 ## References
 
