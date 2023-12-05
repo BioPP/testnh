@@ -36,8 +36,8 @@ needed libraries are [bpp-core](https://github.com/BioPP/bpp-core),
 
 
 For compiling the programs yourself, from the downloaded sources or
-from the git repository, please follow the instructions from [bppsuite]
-(https://github.com/BioPP/bppsuite#readme) and up to date [mapnh](https://pbil.univ-lyon1.fr/bpp-doc/testnh/testnh.html).
+from the git repository, please follow the instructions from 
+[bppsuite](https://github.com/BioPP/bppsuite#readme) and up to date [mapnh](https://pbil.univ-lyon1.fr/bpp-doc/testnh/testnh.html).
 
 
 
