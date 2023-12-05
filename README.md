@@ -17,7 +17,9 @@ It currently contains the following programs:
 ## How can i get it?
 
 The TestNH programs are command-line driven. The programs depend on
-the Bio++ libraries. Pre-compiled executables are statically linked
+the Bio++ libraries. 
+
+<!-- Pre-compiled executables are statically linked
 (see http://bioweb.me/testnh/releases) and therefore already include
 all required code from the libraries.
 
@@ -30,12 +32,12 @@ dependencies, which can be found in the same download directory. The
 needed libraries are [bpp-core](https://github.com/BioPP/bpp-core),
 [bpp-seq](https://github.com/BioPP/bpp-seq),
 [bpp-phyl](https://github.com/BioPP/bpp-phyl).
-
+-->
 
 
 For compiling the programs yourself, from the downloaded sources or
-from the git repository, please follow the instructions from old
-[testnh](https://github.com/BioPP/bppsuite) and up to date [mapnh](https://pbil.univ-lyon1.fr/bpp-doc/testnh/testnh.html).
+from the git repository, please follow the instructions from [bppsuite]
+(https://github.com/BioPP/bppsuite#readme) and up to date [mapnh](https://pbil.univ-lyon1.fr/bpp-doc/testnh/testnh.html).
 
 
 
