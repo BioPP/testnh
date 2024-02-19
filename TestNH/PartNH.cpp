@@ -263,7 +263,7 @@ ParameterList getParametersToEstimate(const DRTreeLikelihood* drtl, map<string, 
     }
     catch (ParameterNotFoundException& pnfe)
     {
-      ApplicationTools::displayWarning("Parameter '" + pnfe.getParameter() + "' not found, and so can't be ignored!");
+      ApplicationTools::displayWarning("Parameter '" + pnfe.parameter() + "' not found, and so can't be ignored!");
     }
   }
 
@@ -804,7 +804,7 @@ int main(int args, char ** argv)
           for (size_t j = 0; j < idsk.size(); ++j) {
             paramFile << idsk[j];
             for (size_t i = 0; i < paramNames.size(); ++i) {
-              paramFile << "\t" << pl.getParameter(paramNames[i]).getValue();
+              paramFile << "\t" << pl.parameter(paramNames[i]).getValue();
             }
             paramFile << endl;
           }
@@ -815,7 +815,7 @@ int main(int args, char ** argv)
         for (size_t j = 0; j < ids.size(); ++j) {
           paramFile << ids[j];
           for (size_t i = 0; i < paramNames.size(); ++i) {
-            paramFile << "\t" << pl.getParameter(paramNames[i]).getValue();
+            paramFile << "\t" << pl.parameter(paramNames[i]).getValue();
           }
           paramFile << endl;
         }

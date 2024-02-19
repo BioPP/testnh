@@ -227,7 +227,6 @@ int main(int args, char** argv)
   
     // specific parameters to the null models
     string nullProcessParams = ApplicationTools::getStringParameter("nullProcessParams", mapnh.getParams(), "", "", false, 1);
-
     // output
   
     string outputDesc = ApplicationTools::getStringParameter("output.counts", mapnh.getParams(), "PerType(file=counts_)");
