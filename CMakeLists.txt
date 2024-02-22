@@ -4,7 +4,7 @@
 #   Francois Gindraud (2017)
 # Created: 07/04/2010
 
-cmake_minimum_required (VERSION 3.0.0)
+cmake_minimum_required (VERSION 3.5.0)
 project (testnh CXX)
 
 # Compile options

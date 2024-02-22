@@ -5,7 +5,7 @@
 -----------------------------
 
 ```bash     
-bppml --noninteractive=yes param=ML.bpp > bppml_h.out &
+bppml --noninteractive=yes param=ML.bpp > bppml_h.out
 ```
 Log likelihood:  -14122.120990606
     
@@ -23,7 +23,7 @@ testnh param=TestNH_homogeneous.bpp
 ```
 
 The test is significant, sign of non-homogeneity.
-All simulations details are output in file TestNH_homogeneous.null.txt, and can
+All simulations details are output in file `TestNH_homogeneous.null.tsv`, and can
 be analyzed and/or plotted using R for instance.
 
 1.3) Compare with the full model:
@@ -32,14 +32,14 @@ be analyzed and/or plotted using R for instance.
 ### 1.3.1) bppML
 
 ```bash
-bppml --noninteractive=yes param=ML_NH_Full.bpp > bppml_nh_full.out &
+bppml --noninteractive=yes param=ML_NH_Full.bpp > bppml_nh_full.out
 ```
     
 ### 1.3.2) NHML
 
 (requires `eval_nh` program from Nicolas Galtier
 ```bash     
-/usr/bin/time -v eval_nhg Life_Alignment.mase Life_Alignment.dnd nhml.opt >& nhml.out &
+/usr/bin/time -v eval_nhg Life_Alignment.mase Life_Alignment.dnd nhml.opt >& nhml.out
 ```
 
 

@@ -1,13 +1,14 @@
-# Log likelihood = -14122.11582900171379151288
+# Log likelihood = -14122.11584864551150531042
 
 result=phylo1
 
-phylo1=Single(process=1,data=1)
+phylo1=Single(process=1, data=1)
 
 
-model1=T92(kappa=3.069730277259,theta=0.556536857970)
+model1=T92(kappa=3.069722646644,theta=0.556539921892)
 
-rate_distribution1=Gamma(n=4,alpha=0.640422919409, Gamma.beta=alpha)
+
+rate_distribution1=Gamma(n=4,alpha=0.640414950659, Gamma.beta=alpha)
 
 process1=Homogeneous(model=1, tree=1, rate=1)
 

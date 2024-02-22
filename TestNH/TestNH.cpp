@@ -55,16 +55,17 @@ using namespace std;
 #include <Bpp/Seq/App/SequenceApplicationTools.h>
 
 // From bpp-phyl:
-#include <Bpp/Phyl/Tree.h>
-#include <Bpp/Phyl/Likelihood/RHomogeneousTreeLikelihood.h>
-#include <Bpp/Phyl/Likelihood/RNonHomogeneousTreeLikelihood.h>
+#include <Bpp/Phyl/Tree/Tree.h>
+#include <Bpp/Phyl/Legacy/Likelihood/RHomogeneousTreeLikelihood.h>
+#include <Bpp/Phyl/Legacy/Likelihood/RNonHomogeneousTreeLikelihood.h>
 #include <Bpp/Phyl/App/PhylogeneticsApplicationTools.h>
+#include <Bpp/Phyl/Legacy/App/PhylogeneticsApplicationTools.h>
 #include <Bpp/Phyl/OptimizationTools.h>
 #include <Bpp/Phyl/Io/Newick.h>
-#include <Bpp/Phyl/Model/SubstitutionModelSet.h>
-#include <Bpp/Phyl/Model/SubstitutionModelSetTools.h>
+#include <Bpp/Phyl/Legacy/Model/SubstitutionModelSet.h>
+#include <Bpp/Phyl/Legacy/Model/SubstitutionModelSetTools.h>
 #include <Bpp/Phyl/Model/RateDistribution/ConstantRateDistribution.h>
-#include <Bpp/Phyl/Simulation/NonHomogeneousSequenceSimulator.h>
+#include <Bpp/Phyl/Legacy/Simulation/NonHomogeneousSequenceSimulator.h>
 
 // From bpp-core:
 #include <Bpp/Numeric/Prob/DiscreteDistribution.h>
@@ -91,15 +92,15 @@ void help()
 }
 
 void simulate(
-    NonHomogeneousSequenceSimulator * sim,
+    NonHomogeneousSequenceSimulator& sim,
     size_t nbSites,
     double threshold,
     size_t nSim,
     size_t observedNbSignif,
     double observedMedian,
-    double & nbSignifPValue,
-    double & medianPValue,
-    const string & distFile)
+    double& nbSignifPValue,
+    double& medianPValue,
+    const string& distFile)
 {
   ApplicationTools::displayTask("Perform simulations", true);
 
@@ -109,27 +110,24 @@ void simulate(
     *out << "Sim\tNbSignif\tMedian" << endl;
   }
 
-  SiteContainer * sites;
   size_t nbNbTPVal = 0;
   size_t nbMedPVal = 0;
-  for (size_t k = 0; k < nSim; k++)
+  for (size_t k = 0; k < nSim; ++k)
   {
     ApplicationTools::displayGauge(k, nSim-1, '=');
 
-    sites = sim->simulate(nbSites);
+    auto sites = sim.simulate(nbSites);
     size_t nbSequences = sites->getNumberOfSequences();
     
     size_t nbTest = 0;
     vector<double> bstats;
-    BowkerTest * test;
-    for (size_t i = 0; i < nbSequences; i++)
+    for (size_t i = 0; i < nbSequences; ++i)
     {
-      for (size_t j = 0; j < i; j++)
+      for (size_t j = 0; j < i; ++j)
       {
-        test = SequenceTools::bowkerTest(sites->getSequence(i), sites->getSequence(j));
+        auto test = SequenceTools::bowkerTest(sites->sequence(i), sites->sequence(j));
         if (test->getPValue() < threshold) nbTest++;
         bstats.push_back(test->getStatistic());
-        delete test;
       }
     }
     double median = VectorTools::median(bstats);
@@ -137,10 +135,8 @@ void simulate(
       *out << k << "\t" << nbTest << "\t" << median << endl;
     if (nbTest >= observedNbSignif) nbNbTPVal++;
     if (median >= observedMedian  ) nbMedPVal++;
-   
-    delete sites;
   }
-  if (out.get())
+  if (out)
     out->close();
   nbSignifPValue = static_cast<double>(nbNbTPVal + 1) / static_cast<double>(nSim + 1);
   medianPValue   = static_cast<double>(nbMedPVal + 1) / static_cast<double>(nSim + 1);
@@ -154,9 +150,9 @@ void simulate(
 int main(int args, char ** argv)
 {
   cout << "******************************************************************" << endl;
-  cout << "*                    Test NH, version 1.3.0                      *" << endl;
+  cout << "*                    Test NH, version 3.0.0                      *" << endl;
   cout << "* Authors: J. Dutheil                       Created on  18/03/08 *" << endl;
-  cout << "*          B. Boussau                       Last Modif. 20/03/08 *" << endl;
+  cout << "*          B. Boussau                       Last Modif. 21/02/24 *" << endl;
   cout << "******************************************************************" << endl;
   cout << endl;
 
@@ -171,18 +167,17 @@ int main(int args, char ** argv)
   BppApplication testnh(args, argv, "TestNH");
   testnh.startTimer();
 
-  Alphabet* alphabet = SequenceApplicationTools::getAlphabet(testnh.getParams(), "", false);
-  unique_ptr<GeneticCode> gCode;
-  CodonAlphabet* codonAlphabet = dynamic_cast<CodonAlphabet*>(alphabet);
+  shared_ptr<const Alphabet> alphabet = SequenceApplicationTools::getAlphabet(testnh.getParams(), "", false);
+  shared_ptr<GeneticCode> gCode;
+  auto codonAlphabet = std::dynamic_pointer_cast<const CodonAlphabet>(alphabet);
   if (codonAlphabet) {
     string codeDesc = ApplicationTools::getStringParameter("genetic_code", testnh.getParams(), "Standard", "", true, true);
     ApplicationTools::displayResult("Genetic Code", codeDesc);
       
-    gCode.reset(SequenceApplicationTools::getGeneticCode(codonAlphabet->getNucleicAlphabet(), codeDesc));
+    gCode = SequenceApplicationTools::getGeneticCode(codonAlphabet->getNucleicAlphabet(), codeDesc);
   }
-  VectorSiteContainer* allSites = SequenceApplicationTools::getSiteContainer(alphabet, testnh.getParams());
-  VectorSiteContainer* sites = SequenceApplicationTools::getSitesToAnalyse(* allSites, testnh.getParams());
-  delete allSites;
+  auto allSites = SequenceApplicationTools::getSiteContainer(alphabet, testnh.getParams());
+  shared_ptr<SiteContainerInterface> sites = SequenceApplicationTools::getSitesToAnalyse(*allSites, testnh.getParams());
 
   size_t nbSequences = sites->getNumberOfSequences();
   size_t nbSites = sites->getNumberOfSites();
@@ -195,17 +190,15 @@ int main(int args, char ** argv)
   double threshold = ApplicationTools::getDoubleParameter("bowker_test.threshold", testnh.getParams(), 0.05);
   ApplicationTools::displayResult("Bowker's test threshold", threshold);
   
-  BowkerTest* test;
   ApplicationTools::displayTask("Compute pairwise tests", true);
   for (size_t i = 0; i < nbSequences; i++)
   {
     ApplicationTools::displayGauge(i, nbSequences - 1, '=');
     for(size_t j = 0; j < i; j++)
     {
-      test = SequenceTools::bowkerTest(sites->getSequence(i), sites->getSequence(j));
+      auto test = SequenceTools::bowkerTest(sites->sequence(i), sites->sequence(j));
       if(test->getPValue() < threshold) nbTest++;
       bstats.push_back(test->getStatistic());
-      delete test;
     }
   }
   double median = VectorTools::median(bstats);
@@ -215,47 +208,49 @@ int main(int args, char ** argv)
 
   
   // 2) Run simulations
-  NonHomogeneousSequenceSimulator* nhss;
+  unique_ptr<NonHomogeneousSequenceSimulator> nhss;
   size_t nbSim = ApplicationTools::getParameter<size_t>("bootstrap.number", testnh.getParams(), 100);
   ApplicationTools::displayResult("Number of simulations", nbSim);
   double nbSignifPValue, medianPValue;
   string distFile;
   
   // 2.1) Get the initial tree and model
-  Tree* tree = PhylogeneticsApplicationTools::getTree(testnh.getParams());
+  shared_ptr<Tree> tree = PhylogeneticsApplicationTools::getTree(testnh.getParams());
   ApplicationTools::displayResult("Number of leaves", tree->getNumberOfLeaves());
   ApplicationTools::displayBooleanResult("Is rooted", tree->isRooted());
  
-  SubstitutionModel   * model    = 0;
-  SubstitutionModelSet* modelSet = 0;
-  DiscreteDistribution* rDist    = 0;
-  DiscreteRatesAcrossSitesTreeLikelihood* tl = 0;
+  shared_ptr<SubstitutionModelInterface> model = nullptr;
+  shared_ptr<SubstitutionModelSet> modelSet = nullptr;
+  shared_ptr<DiscreteDistributionInterface> rDist = nullptr;
+  shared_ptr<DiscreteRatesAcrossSitesTreeLikelihoodInterface> tl = nullptr;
 
   string nhOpt = ApplicationTools::getStringParameter("nonhomogeneous", testnh.getParams(), "no", "", true, false);
   ApplicationTools::displayResult("Heterogeneous model", nhOpt);
 
   if (nhOpt == "no")
   {  
-    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, testnh.getParams());
-    if (model->getNumberOfStates() > model->getAlphabet()->getSize())
+    map<string, string> unparsed;
+    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode, sites, testnh.getParams(), unparsed);
+    if (model->getNumberOfStates() > model->alphabet().getSize())
     {
       //Markov-modulated Markov model!
-      rDist = new ConstantRateDistribution();
+      rDist = make_shared<ConstantRateDistribution>();
     }
     else
     {
       rDist = PhylogeneticsApplicationTools::getRateDistribution(testnh.getParams());
     }
   
-    tl = new RHomogeneousTreeLikelihood(*tree, *sites, model, rDist, true, true, true);
+    tl = make_shared<RHomogeneousTreeLikelihood>(*tree, *sites, model, rDist, true, true, true);
   }
   else if (nhOpt == "one_per_branch")
   {
-    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, testnh.getParams());
-    if (model->getNumberOfStates() > model->getAlphabet()->getSize())
+    map<string, string> unparsed;
+    model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode, sites, testnh.getParams(), unparsed);
+    if (model->getNumberOfStates() > model->alphabet().getSize())
     {
       //Markov-modulated Markov model!
-      rDist = new ConstantRateDistribution();
+      rDist = make_shared<ConstantRateDistribution>();
     }
     else
     {
@@ -270,14 +265,14 @@ int main(int args, char ** argv)
                                                    // we should assume a rate distribution for the root also!!!  
     }
     std::map<std::string, std::string> aliasFreqNames;
-    auto rootFreqs = PhylogeneticsApplicationTools::getRootFrequencySet(alphabet, gCode.get(), sites, testnh.getParams(), aliasFreqNames, rateFreqs);
+    shared_ptr<FrequencySetInterface> rootFreqs = PhylogeneticsApplicationTools::getRootFrequencySet(alphabet, gCode, *sites, testnh.getParams(), aliasFreqNames, rateFreqs);
 
     string descGlobal = ApplicationTools::getStringParameter("nonhomogeneous_one_per_branch.shared_parameters", testnh.getParams(), "", "", true, 1);
 
     NestedStringTokenizer nst(descGlobal,"[","]",",");
     const deque<string>& descGlobalParameters=nst.getTokens();
 
-    map<string, vector<Vint> > globalParameters;
+    map<string, VVint> globalParameters;
     for (const auto& desc:descGlobalParameters)
     {
       size_t post=desc.rfind("_");
@@ -306,54 +301,44 @@ int main(int args, char ** argv)
         for (const auto& vint:globpar.second)
           ApplicationTools::displayResult(" shared between nodes", VectorTools::paste(vint,","));
     }
-    modelSet = SubstitutionModelSetTools::createNonHomogeneousModelSet(model, rootFreqs, tree, aliasFreqNames, globalParameters); 
+    modelSet = SubstitutionModelSetTools::createNonHomogeneousModelSet(model, rootFreqs, *tree, aliasFreqNames, globalParameters); 
     model = 0;
       
-    tl = new RNonHomogeneousTreeLikelihood(*tree, *sites, modelSet, rDist, true, true);
+    tl = make_shared<RNonHomogeneousTreeLikelihood>(*tree, *sites, modelSet, rDist, true, true);
   }
   else if (nhOpt == "general")
   {
-    modelSet = PhylogeneticsApplicationTools::getSubstitutionModelSet(alphabet, gCode.get(), 0, testnh.getParams());
-    if (modelSet->getNumberOfStates() > modelSet->getAlphabet()->getSize())
+    modelSet = LegacyPhylogeneticsApplicationTools::getSubstitutionModelSet(alphabet, gCode, 0, testnh.getParams());
+    if (modelSet->getNumberOfStates() > modelSet->alphabet().getSize())
     {
       //Markov-modulated Markov model!
-      rDist = new ConstantRateDistribution();
+      rDist = make_shared<ConstantRateDistribution>();
     }
     else
     {
       rDist = PhylogeneticsApplicationTools::getRateDistribution(testnh.getParams());
     }
 
-    tl = new RNonHomogeneousTreeLikelihood(*tree, *sites, modelSet, rDist, true, true);
+    tl = make_shared<RNonHomogeneousTreeLikelihood>(*tree, *sites, modelSet, rDist, true, true);
   }
   else throw Exception("Unknown option for nonhomogeneous: " + nhOpt);
   tl->initialize();
 
   ApplicationTools::displayResult("Likelihood", TextTools::toString(tl->getValue(), 15));
   
-  delete tree;
-  tree = new TreeTemplate<Node>(tl->getTree());
-  delete tl;
+  tree = make_unique<TreeTemplate<Node>>(tl->tree());
    
   // 2.2) Simulate
   distFile = ApplicationTools::getAFilePath("bootstrap.dist_file", testnh.getParams(), false, false);
   ApplicationTools::displayResult("Null distribution in file", distFile);
   if (nhOpt == "no")
-    nhss = new NonHomogeneousSequenceSimulator(model, rDist, tree);
+    nhss = make_unique<NonHomogeneousSequenceSimulator>(model, rDist, tree);
   else
-    nhss = new NonHomogeneousSequenceSimulator(modelSet, rDist, tree);
-  simulate(nhss, nbSites, threshold, nbSim, nbTest, median, nbSignifPValue, medianPValue, distFile);
+    nhss = make_unique<NonHomogeneousSequenceSimulator>(modelSet, rDist, tree);
+  simulate(*nhss, nbSites, threshold, nbSim, nbTest, median, nbSignifPValue, medianPValue, distFile);
   ApplicationTools::displayResult("Global Bowker test number signif.", nbSignifPValue);
   ApplicationTools::displayResult("Bowker test median signif.", medianPValue);
-  delete nhss;
  
-
-  delete alphabet;
-  delete sites;
-  if(model)    delete model;
-  if(modelSet) delete modelSet;
-  delete rDist;
-  delete tree;
   testnh.done();
  
   }

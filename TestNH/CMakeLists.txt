@@ -5,7 +5,7 @@
 # Created: 07/04/2010
 
 # Executables of TestNH
-#add_executable (testnh TestNH.cpp)
+add_executable (testnh TestNH.cpp)
 #add_executable (stepnh StepNH.cpp)
 #add_executable (mapnh MultinomialClustering.cpp MapNH.cpp)
 add_executable (mapnh MapNH.cpp)
@@ -13,7 +13,7 @@ add_executable (mapnh MapNH.cpp)
 # add_executable (randnh RandNH.cpp)
 
 set (testnh-targets
-  # testnh
+  testnh
   # stepnh
   mapnh
   # partnh
@@ -27,6 +27,7 @@ foreach (target ${testnh-targets})
     set_target_properties (${target} PROPERTIES LINK_SEARCH_END_STATIC TRUE)
   else (BUILD_STATIC)
     target_link_libraries (${target} ${BPP_LIBS_SHARED})
+    set_target_properties (${target} PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
   endif (BUILD_STATIC)
 endforeach (target)
 

@@ -1,6 +1,6 @@
 #Input tree file must be in NHX format, in order to get proper node id.
 #MapNH can output such an NHX tree if the input one was in Newick or Nexus.
-input.tree.file = Life_Alignment.ml_h.dnd
+input.tree.file = Life_Alignment.ml_h.dnd_1
 input.tree.format = Newick
 
 alphabet = RNA
@@ -13,7 +13,7 @@ bowker_test.threshold = 0.05
 
 #Number of simulations to perform (parameric bootstrap):
 bootstrap.number = 1000
-bootstrap.dist_file = TestNH_homogeneous.null.txt
+bootstrap.dist_file = TestNH_homogeneous.null.tsv
 
 #Use the model estimated by bppml:
 param = Life_Alignment.params_h.bpp
