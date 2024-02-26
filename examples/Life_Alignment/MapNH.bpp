@@ -9,7 +9,8 @@ input.tree1=user(file = $(DATA).ml_h.rooted.dnd, format = Newick)
 output.tree_with_id.file = $(DATA).nhx
 #Where to output cluster tree:
 output.cluster_tree.file = $(DATA).cluster_join.dnd
-output.counts.tree.prefix = $(DATA).counts
+
+output.counts = PerType(file = $(DATA).counts)
 
 input.data1=alignment(file= $(DATA).mase, format=Mase, sites_to_use = complete, max_gap_allowed = 50%)
 
