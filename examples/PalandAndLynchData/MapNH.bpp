@@ -19,8 +19,8 @@ output.cluster_tree.file = $(DATA).cluster_join.dnd
 
 map.type = DnDs
 
-output.counts = PerBranchPerType(prefix=CountsTreeBranch_$(MODEL)_, perBranchLength=false, perWordSize = false, splitNorm=true)
-#output.counts = PerSitePerType(file=CountsTreeBranch_$(MODEL)_, perBranchLength=false, perWordSize = false)
+output.counts = PerBranchPerType(prefix=CountsTreeBranch_$(MODEL), perBranchLength=false, perWordSize = false, splitNorm=true)
+
 
 nullProcessParams = *omega=1, *omega0=0.999999, *omega2=1.00000001
 

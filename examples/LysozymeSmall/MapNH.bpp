@@ -23,4 +23,5 @@ test.branch.neighbor = #yes or no
 test.branch.negbrlen = no
 test.branch.auto_cluster = Marginal(threshold=0)
  
-output.counts.tree.prefix = CountsTree
+output.counts = PerType(file=CountsTree)
+
