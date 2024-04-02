@@ -6,16 +6,17 @@
 
 # Executables of TestNH
 add_executable (testnh TestNH.cpp)
-#add_executable (stepnh StepNH.cpp)
-#add_executable (mapnh MultinomialClustering.cpp MapNH.cpp)
 add_executable (mapnh MapNH.cpp)
+add_executable (clustnh MultinomialClustering.cpp ClustNH.cpp)
+#add_executable (stepnh StepNH.cpp)
 # add_executable (partnh PartNH.cpp)
 # add_executable (randnh RandNH.cpp)
 
 set (testnh-targets
   testnh
-  # stepnh
+  clustnh
   mapnh
+  # stepnh
   # partnh
   # randnh
   )

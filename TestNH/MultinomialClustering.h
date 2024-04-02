@@ -18,12 +18,13 @@ protected:
   double statistic_, pvalue_;
 
 public:
-  SubstitutionCountsComparison(): counts1_(), counts2_(), statistic_(0), pvalue_(1.) {}
+  SubstitutionCountsComparison() : counts1_(), counts2_(), statistic_(0), pvalue_(1.) {}
 
   SubstitutionCountsComparison* clone() const = 0;
 
 public:
-  void setCounts(const vector<size_t>& c1, const vector<size_t>& c2) {
+  void setCounts(const vector<size_t>& c1, const vector<size_t>& c2)
+  {
     counts1_ = c1;
     counts2_ = c2;
     computePValue();
@@ -37,7 +38,7 @@ protected:
 };
 
 
-class SimpleSubstitutionCountsComparison:
+class SimpleSubstitutionCountsComparison :
   public SubstitutionCountsComparison
 {
 public:
@@ -50,17 +51,19 @@ protected:
   void computePValue();
 
 public:
-  static double logFact(size_t x) {
+  static double logFact(size_t x)
+  {
     double f = 0;
     for (size_t i = 1; i <= x; ++i)
+    {
       f += log(static_cast<double>(i));
+    }
     return f;
   }
 
   static double multinomLogL(const vector<size_t>& v, const vector<double>& p);
 
-  static double multinomialTest(const vector< vector<size_t> >& counts);
-    
+  static double multinomialTest(const vector< vector<size_t>>& counts);
 };
 
 
@@ -73,19 +76,20 @@ public:
   virtual bool check(const vector<size_t>& counts) const = 0;
 };
 
-class NoAutomaticGroupingCondition:
+class NoAutomaticGroupingCondition :
   public AutomaticGroupingCondition
 {
 public:
   ~NoAutomaticGroupingCondition() {}
 
 public:
-  bool check(const vector<size_t>& counts) const {
+  bool check(const vector<size_t>& counts) const
+  {
     return true;
   }
 };
 
-class SumCountsAutomaticGroupingCondition:
+class SumCountsAutomaticGroupingCondition :
   public AutomaticGroupingCondition
 {
 private:
@@ -93,7 +97,7 @@ private:
   vector<size_t> ignore_;
 
 public:
-  SumCountsAutomaticGroupingCondition(size_t threshold = 0, const vector<size_t>& toIgnore = vector<size_t>(0)):
+  SumCountsAutomaticGroupingCondition(size_t threshold = 0, const vector<size_t>& toIgnore = vector<size_t>(0)) :
     threshold_(threshold),
     ignore_(toIgnore)
   {}
@@ -101,31 +105,36 @@ public:
   ~SumCountsAutomaticGroupingCondition() {}
 
 public:
-  bool check(const vector<size_t>& counts) const {
+  bool check(const vector<size_t>& counts) const
+  {
     size_t s = 0;
     for (size_t i = 0; i < counts.size(); ++i)
+    {
       if (!VectorTools::contains(ignore_, i))
         s += counts[i];
+    }
     return s >= threshold_;
   }
 };
 
-class AnyCountAutomaticGroupingCondition:
+class AnyCountAutomaticGroupingCondition :
   public AutomaticGroupingCondition
 {
 private:
   size_t threshold_;
 
 public:
-  AnyCountAutomaticGroupingCondition(size_t threshold = 0):
+  AnyCountAutomaticGroupingCondition(size_t threshold = 0) :
     threshold_(threshold)
   {}
 
   ~AnyCountAutomaticGroupingCondition() {}
 
 public:
-  bool check(const vector<size_t>& counts) const {
-    for (size_t i = 0; i < counts.size(); ++i) {
+  bool check(const vector<size_t>& counts) const
+  {
+    for (size_t i = 0; i < counts.size(); ++i)
+    {
       if (counts[i] < threshold_) return false;
     }
     return true;
@@ -142,7 +151,7 @@ public:
     ClusterInfo()
   {}
 };
-  
+
 class MultinomialClustering :
   public AbstractAgglomerativeDistanceMethod
 {
@@ -150,7 +159,7 @@ public:
   typedef AssociationTreeGlobalGraphObserver<ClusterInfoNode, PhyloBranch> clusTree;
 
 private:
-  vector< vector<size_t> > counts_;
+  vector< vector<size_t>> counts_;
   bool neighborsOnly_;
   bool negativeBrlen_;
   unique_ptr<SubstitutionCountsComparison> test_;
@@ -158,14 +167,14 @@ private:
 
 public:
   MultinomialClustering(
-    const vector< vector<size_t> >& counts,
-    const vector<int>& ids,
-    const PhyloTree& tree,
-    const AutomaticGroupingCondition& autoGroup,
-    bool neighborsOnly = false,
-    bool negativeBrlen = false,
-    bool verbose = false);
-		
+      const vector< vector<size_t>>& counts,
+      const vector<int>& ids,
+      const PhyloTree& tree,
+      const AutomaticGroupingCondition& autoGroup,
+      bool neighborsOnly = false,
+      bool negativeBrlen = false,
+      bool verbose = false);
+
   virtual ~MultinomialClustering() {}
 
   MultinomialClustering* clone() const { return new MultinomialClustering(*this); }
@@ -189,11 +198,10 @@ protected:
   vector<size_t> getBestPair() throw (Exception);
   vector<double> computeBranchLengthsForPair(const vector<size_t>& pair);
   double computeDistancesFromPair(const vector<size_t>& pair, const vector<double>& branchLengths, size_t pos);
-  void finalStep(int idRoot);	
+  void finalStep(int idRoot);
   virtual Node* getLeafNode(int id, const string& name);
   virtual Node* getParentNode(int id, Node* son1, Node* son2);
-  double getDist(const vector<size_t>& v1, const vector<size_t>&v2);
+  double getDist(const vector<size_t>& v1, const vector<size_t>& v2);
 };
 
-#endif //_MULTINOMIALCLUSTERING_H_
-
+#endif // _MULTINOMIALCLUSTERING_H_
