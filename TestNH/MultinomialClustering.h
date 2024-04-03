@@ -10,6 +10,39 @@
 using namespace bpp;
 using namespace std;
 
+template<class T>
+class bpp_ptr
+{
+private:
+  T* ptr_;
+
+public:
+  bpp_ptr(T* ptr = 0): ptr_(ptr) {}
+    
+  ~bpp_ptr() { delete ptr_; }
+
+  bpp_ptr(const bpp_ptr& ptr):
+    ptr_(ptr->clone()) {}
+    
+  bpp_ptr& operator=(const bpp_ptr& ptr)
+  {
+    delete ptr_;
+    ptr_ = dynamic_cast<T*>(ptr->clone());
+  }
+
+  void reset(T* ptr = 0) {
+    if (ptr_) delete ptr_;
+    ptr_ = ptr;
+  }
+
+  T& operator*() { return *ptr_; } 
+  const T& operator*() const { return *ptr_; } 
+
+  T* operator->() { return ptr_; } 
+  const T* operator->() const { return ptr_; } 
+
+};
+
 class SubstitutionCountsComparison :
   public StatTest
 {
@@ -93,9 +126,9 @@ private:
   vector<size_t> ignore_;
 
 public:
-  SumCountsAutomaticGroupingCondition(size_t threshold = 0, const vector<size_t>& toIgnore = vector<size_t>(0)):
+  SumCountsAutomaticGroupingCondition(size_t threshold = 0, const vector<size_t>& ignore = vector<size_t>(0)):
     threshold_(threshold),
-    ignore_(toIgnore)
+    ignore_(ignore)
   {}
 
   ~SumCountsAutomaticGroupingCondition() {}
@@ -106,7 +139,7 @@ public:
     for (size_t i = 0; i < counts.size(); ++i)
       if (!VectorTools::contains(ignore_, i))
         s += counts[i];
-    return s >= threshold_;
+    return s > threshold_;
   }
 };
 
@@ -126,41 +159,27 @@ public:
 public:
   bool check(const vector<size_t>& counts) const {
     for (size_t i = 0; i < counts.size(); ++i) {
-      if (counts[i] < threshold_) return false;
+      if (counts[i] <= threshold_) return false;
     }
     return true;
   }
 };
 
-class ClusterInfosNode :
-  public PhyloNode,
-  public ClusterInfos
-{
-public:
-  ClusterInfoNode(const PhyloNode& pn) :
-    PhyloNode(pn),
-    ClusterInfo()
-  {}
-};
-  
 class MultinomialClustering :
   public AbstractAgglomerativeDistanceMethod
 {
-public:
-  typedef AssociationTreeGlobalGraphObserver<ClusterInfoNode, PhyloBranch> clusTree;
-
 private:
   vector< vector<size_t> > counts_;
   bool neighborsOnly_;
   bool negativeBrlen_;
-  unique_ptr<SubstitutionCountsComparison> test_;
+  bpp_ptr<SubstitutionCountsComparison> test_;
   vector<double> pvalues_;
-
+	
 public:
   MultinomialClustering(
     const vector< vector<size_t> >& counts,
     const vector<int>& ids,
-    const PhyloTree& tree,
+    const Tree& tree,
     const AutomaticGroupingCondition& autoGroup,
     bool neighborsOnly = false,
     bool negativeBrlen = false,
@@ -171,7 +190,7 @@ public:
   MultinomialClustering* clone() const { return new MultinomialClustering(*this); }
 
 public:
-  clusTree* getTree() const;
+  TreeTemplate<Node>* getTree() const;
   /**
    * @return The list of pvalues, by order of clusters.
    */
@@ -186,7 +205,7 @@ protected:
    * The vector at position bestPair[0] is now the sum of vectors bestPair[0] and bestPair[1].
    * It is then used for computation of distances.
    */
-  vector<size_t> getBestPair() throw (Exception);
+  vector<size_t> getBestPair();
   vector<double> computeBranchLengthsForPair(const vector<size_t>& pair);
   double computeDistancesFromPair(const vector<size_t>& pair, const vector<double>& branchLengths, size_t pos);
   void finalStep(int idRoot);	

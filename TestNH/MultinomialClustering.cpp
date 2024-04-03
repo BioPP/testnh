@@ -1,7 +1,7 @@
 #include "MultinomialClustering.h"
 #include <Bpp/Numeric/Matrix/MatrixTools.h>
 #include <Bpp/Numeric/AutoParameter.h>
-#include <Bpp/Phyl/Tree/PhyloTree.h>
+#include <Bpp/Phyl/Tree/NodeTemplate.h>
 #include <Bpp/Phyl/PseudoNewtonOptimizer.h>
 
 // From the STL:
@@ -90,13 +90,14 @@ void SimpleSubstitutionCountsComparison::computePValue() {
 }
 
 MultinomialClustering::MultinomialClustering(
-  const vector< vector<size_t> >& counts,
-  const vector<uint>& ids,
-  const PhyloTree& tree,
-  const AutomaticGroupingCondition& autoGroup,
-  bool neighborsOnly, bool negativeBrlen, bool verbose):
-  AbstractAgglomerativeDistanceMethod(verbose, true), counts_(counts), neighborsOnly_(neighborsOnly), negativeBrlen_(negativeBrlen), test_(new SimpleSubstitutionCountsComparison()), pvalues_()
+    const vector< vector<size_t> >& counts,
+    const vector<int>& ids,
+    const Tree& tree,
+    const AutomaticGroupingCondition& autoGroup,
+    bool neighborsOnly, bool negativeBrlen, bool verbose):
+  AbstractAgglomerativeDistanceMethod(verbose, true), counts_(counts), neighborsOnly_(neighborsOnly), negativeBrlen_(negativeBrlen), test_(), pvalues_()
 {
+  test_.reset(new SimpleSubstitutionCountsComparison());
   size_t n = counts.size();
   matrix_.resize(n);
   MatrixTools::fill(matrix_.asMatrix(), (neighborsOnly_ ? 2. : 1.));
@@ -112,12 +113,12 @@ MultinomialClustering::MultinomialClustering(
       for (size_t j = 0; j < i; ++j) {
         if (matrix_(i, j) > 0) {
           if (neighborsOnly_) {
-            if (tree.getFather(ids[i]) == ids[j])
+            if (tree.getFatherId(ids[i]) == ids[j])
               matrix_(i, j) = matrix_(j, i) = getDist(counts_[i], counts_[j]);
-            if (tree.getFather(ids[j]) == ids[i])
+            if (tree.getFatherId(ids[j]) == ids[i])
               matrix_(i, j) = matrix_(j, i) = getDist(counts_[i], counts_[j]);
-            if (tree.getFather(ids[i]) == tree.getRootIndex()
-                && tree.getFather(ids[j]) == tree.getRootIndex())
+            if (tree.getFatherId(ids[i]) == tree.getRootId()
+             && tree.getFatherId(ids[j]) == tree.getRootId())
               matrix_(i, j) = matrix_(j, i) = getDist(counts_[i], counts_[j]);
           } else {
             matrix_(i, j) = matrix_(j, i) = getDist(counts_[i], counts_[j]);
@@ -128,8 +129,8 @@ MultinomialClustering::MultinomialClustering(
       //node i has distance -1 with his father, 1. with brothers and sons and 2. with all others
       for (size_t j = 0; j < n; ++j) {
         if (j != i) {
-          uint fatherId_i = tree.getFather(ids[i]);
-          uint fatherId_j = tree.getFather(ids[j]);
+          int fatherId_i = tree.getFatherId(ids[i]);
+          int fatherId_j = tree.getFatherId(ids[j]);
           if (fatherId_i == ids[j]) {
             matrix_(i, j) = matrix_(j, i) = -1.;
             ApplicationTools::displayResult("Automatically cluster node", names[i] + " with " + names[j]);
@@ -151,9 +152,9 @@ MultinomialClustering::MultinomialClustering(
     ApplicationTools::displayTaskDone();
 }
 
-ClusterPhyloTree* MultinomialClustering::getTree() const
+TreeTemplate<Node>* MultinomialClustering::getTree() const
 {
-  Node* root = TreeTemplateTools::cloneSubtree<Node>(* dynamic_cast<TreeTemplate<NodeTemplate<ClusterInfos> > *>(tree_)->getRootNode());
+  auto root = TreeTemplateTools::cloneSubtree<Node>(* dynamic_cast<TreeTemplate<NodeTemplate<ClusterInfos> > *>(tree_.get())->getRootNode());
   return new TreeTemplate<Node>(root);
 }
 
@@ -239,7 +240,7 @@ void MultinomialClustering::finalStep(int idRoot)
   }
   //n1->setDistanceToFather(d); 
   //n2->setDistanceToFather(d); 
-  tree_ = new TreeTemplate< NodeTemplate<ClusterInfos> >(root);
+  tree_.reset(new TreeTemplate< NodeTemplate<ClusterInfos> >(root));
 }
 
 Node* MultinomialClustering::getLeafNode(int id, const string& name)
@@ -257,7 +258,7 @@ Node* MultinomialClustering::getParentNode(int id, Node* son1, Node* son2)
   ClusterInfos infos;
   infos.numberOfLeaves = 
     dynamic_cast<NodeTemplate<ClusterInfos> *>(son1)->getInfos().numberOfLeaves
-    + dynamic_cast<NodeTemplate<ClusterInfos> *>(son2)->getInfos().numberOfLeaves;
+  + dynamic_cast<NodeTemplate<ClusterInfos> *>(son2)->getInfos().numberOfLeaves;
   infos.length = dynamic_cast<NodeTemplate<ClusterInfos> *>(son1)->getInfos().length + son1->getDistanceToFather();
   Node* parent = new NodeTemplate<ClusterInfos>(id);
   dynamic_cast<NodeTemplate<ClusterInfos> *>(parent)->setInfos(infos);
