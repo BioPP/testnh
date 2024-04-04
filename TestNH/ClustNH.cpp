@@ -18,6 +18,8 @@ using namespace std;
 #include <Bpp/Phyl/App/BppPhylogeneticsApplication.h>
 #include <Bpp/Phyl/App/PhylogeneticsApplicationTools.h>
 #include <Bpp/Numeric/AutoParameter.h>
+#include <Bpp/Numeric/Stat/ContingencyTableTest.h>
+
 
 using namespace bpp;
 
@@ -44,19 +46,33 @@ int main(int args, char** argv)
     std::map<std::string, std::string> unparsedParams;
 
     //Read counts from file:
-    string perSitenf = ApplicationTools::getStringParameter("input.mapping.file", outputArgs, "mapping_counts_per_site_per_branch", "", true, 1);
+    string perSitenf = ApplicationTools::getStringParameter("input.counts.file", clustnh.getParams(), "mapping_counts_per_branch_per_type", "", true, 1);
 
     ApplicationTools::displayResult(string("Input counts (branch/site) to file"), perSitenf);
 
+    std::ifstream inputStream(perSitenf, ios::in);
+    auto countsTable = DataTable::read(inputStream, "\t", true, 1);
 
-    auto countsTable = DataTable::read(ifstream(perSitenf, ios::in), sep = '\t', header = true, row.names = 1);
-
-    VVdouble counts = 
+    //Branches are columns, sites are rows, need to transpose and convert to numbers:
+    VVdouble counts(countsTable->getNumberOfColumns());
+    Vint ids(countsTable->getNumberOfColumns());
+    for (size_t i = 0; i < countsTable->getNumberOfColumns(); ++i)
+    {
+      counts[i].resize(countsTable->getNumberOfRows());
+      ids[i] = TextTools::toInt(countsTable->getColumnName(i));
+      for (size_t j = 0; j < countsTable->getNumberOfRows(); ++j)
+      {
+        counts[i][j] = TextTools::toDouble((*countsTable)(j, i));
+      } 
+    } 
 
     //////////////////////////////////////
     /// HOMOGENEITY TESTS
     /////////////////////////////////////
 
+
+    bool testGlobal = ApplicationTools::getBooleanParameter("test.global", clustnh.getParams(), false, "", true, false);
+    bool testBranch = ApplicationTools::getBooleanParameter("test.branch", clustnh.getParams(), false, "", true, false);
 
     // Rounded counts
     vector<vector<size_t>> countsint;
@@ -99,12 +115,12 @@ int main(int args, char** argv)
     // Branch test!
     if (testBranch)
     {
-      bool testNeighb = ApplicationTools::getBooleanParameter("test.branch.neighbor", mapnh.getParams(), true, "", true, 1);
-      bool testNegBrL = ApplicationTools::getBooleanParameter("test.branch.negbrlen", mapnh.getParams(), false, "", true, 2);
-      ApplicationTools::displayBooleanResult("Perform branch clustering", testBranch);
+      bool testNeighb = ApplicationTools::getBooleanParameter("test.branch.neighbor", clustnh.getParams(), true, "", true, 1);
+      bool testNegBrL = ApplicationTools::getBooleanParameter("test.branch.negbrlen", clustnh.getParams(), false, "", true, 2);
+      ApplicationTools::displayBooleanResult("Perform branch clustering"  , testBranch);
       ApplicationTools::displayBooleanResult("Cluster only neighbor nodes", testNeighb);
       ApplicationTools::displayBooleanResult("Allow len < 0 in clustering", testNegBrL);
-      string autoClustDesc = ApplicationTools::getStringParameter("test.branch.auto_cluster", mapnh.getParams(), "Global(threshold=0)", "", true, 1);
+      string autoClustDesc = ApplicationTools::getStringParameter("test.branch.auto_cluster", clustnh.getParams(), "Global(threshold=0)", "", true, 1);
       string autoClustName;
       map<string, string> autoClustParam;
       KeyvalTools::parseProcedure(autoClustDesc, autoClustName, autoClustParam);
@@ -117,7 +133,7 @@ int main(int args, char** argv)
       else if (autoClustName == "Global")
       {
         size_t threshold = ApplicationTools::getParameter<size_t>("threshold", autoClustParam, 0, "", true, 1);
-        ApplicationTools::displayResult("Auto-clutering threshold", threshold);
+        ApplicationTools::displayResult("Auto-clustering threshold", threshold);
         CategorySubstitutionRegister* creg = dynamic_cast<CategorySubstitutionRegister*>(reg);
         vector<size_t> toIgnore;
         if (creg && creg->allowWithin())
@@ -133,7 +149,7 @@ int main(int args, char** argv)
       else if (autoClustName == "Marginal")
       {
         size_t threshold = ApplicationTools::getParameter<size_t>("threshold", autoClustParam, 0, "", true, 1);
-        ApplicationTools::displayResult("Auto-clutering threshold", threshold);
+        ApplicationTools::displayResult("Auto-clustering threshold", threshold);
         autoClust.reset(new AnyCountAutomaticGroupingCondition(threshold));
       }
       else
