@@ -8,7 +8,7 @@ input.tree1=user(file = $(DATA).ml_h.rooted.dnd, format = Newick)
 #We convert the tree to Nhx format for use with PartNH:
 output.tree_with_id.file = $(DATA).nhx
 output.counts.tree.prefix = $(DATA).counts
-output.counts = PerSitePerBranch(file=$(DATA).mapping.sged)
+output.counts = PerBranchPerType(file=$(DATA).mapping.tsv)
 input.data1=alignment(file= $(DATA).mase, format=Mase, sites_to_use = complete, max_gap_allowed = 50%)
 
 map.type = GC(stationarity=yes)
