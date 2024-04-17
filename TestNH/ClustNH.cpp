@@ -44,7 +44,7 @@ int main(int args, char** argv)
 
     clustnh.startTimer();
     std::map<std::string, std::string> unparsedParams;
-
+    
     //Read counts from file:
     string perSitenf = ApplicationTools::getStringParameter("input.counts.file", clustnh.getParams(), "mapping_counts_per_branch_per_type", "", true, 1);
 
@@ -134,11 +134,14 @@ int main(int args, char** argv)
       {
         size_t threshold = ApplicationTools::getParameter<size_t>("threshold", autoClustParam, 0, "", true, 1);
         ApplicationTools::displayResult("Auto-clustering threshold", threshold);
-        CategorySubstitutionRegister* creg = dynamic_cast<CategorySubstitutionRegister*>(reg);
+	//which counts to use:
+    	size_t numberOfCategories = 0;
+	numberOfCategories = ApplicationTools::getParameter<size_t>("number_of_categories", clustnh.getParams(), numberOfCategories, "", false, false);
+	bool allowWithin = ApplicationTools::getBooleanParameter("allow_within_category_substitutions", clustnh.getParams(), false, "", true, false);
         vector<size_t> toIgnore;
-        if (creg && creg->allowWithin())
+        if (numberOfCategories > 0 && allowWithin)
         {
-          size_t n = creg->getNumberOfCategories();
+          size_t n = numberOfCategories;
           for (size_t i = 0; i < n; ++i)
           {
             toIgnore.push_back(n * (n - 1) + i);
@@ -157,15 +160,18 @@ int main(int args, char** argv)
         throw Exception("Unknown automatic clustering option: " + autoClustName);
       }
 
+      // Read the tree:
+      shared_ptr<Tree> tree = PhylogeneticsApplicationTools::getTree(clustnh.getParams());
+
       // ChiClustering htest(counts, ids, true);
-      MultinomialClustering htest(countsint, ids, drtl->getTree(), *autoClust, testNeighb, testNegBrL, true);
+      MultinomialClustering htest(countsint, ids, *tree, *autoClust, testNeighb, testNegBrL, true);
       ApplicationTools::displayResult("P-value at root node", *(htest.getPValues().rbegin()));
       ApplicationTools::displayResult("Number of tests performed", htest.getPValues().size());
       TreeTemplate<Node>* htree = htest.getTree();
       Newick newick;
-      string clusterTreeOut = ApplicationTools::getAFilePath("output.cluster_tree.file", mapnh.getParams(), false, false, "", true, "clusters.dnd", 1);
+      string clusterTreeOut = ApplicationTools::getAFilePath("output.cluster_tree.file", clustnh.getParams(), false, false, "", true, "clusters.dnd", 1);
       ApplicationTools::displayResult("Output cluster tree to", clusterTreeOut);
-      newick.write(*htree, clusterTreeOut);
+      newick.writeTree(*htree, clusterTreeOut, true);
       delete htree;
     }
 
