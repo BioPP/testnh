@@ -280,24 +280,34 @@ Per site, per branch, per type, as several table files, one per type.
 The corresponding options are:
 
 @table @var
-@item PerType(prefix = @{path@})
-With the prefix name for all counts tree files. Tree file for counts of type 1 will be named @samp{prefix2}, for type 2 @samp{prefix2} and so on.
+
+@item PerType(file = @{path@})
+With the prefix name for all counts tree files. Tree file for counts of type 1 will be named @samp{prefix1}, for type 2 @samp{prefix2} and so on.
+
+@item PerTypePerBranch(file = @{path@}, format = @{Newick|NHX|Tsv@})
+If @var{format}=@samp{Tsv}, counts are written in a tsv file,
+otherwise they are written in specified tree format, with the prefix
+name for all counts tree files. Tree file for counts of type 1 will be
+named @samp{prefix1}, for type 2 @samp{prefix2} and so on.
+
 @item PerBranchPerSite(file = @{path@})
 The file path indicates where the table should be stored.
+
 @item PerSitePerType(file = @{path@})
 The file path indicates where the table should be stored.
 
-@item PerBranchPerSitePerType(prefix = @{path@})
+@item PerBranchPerSitePerType(file = @{path@})
 With the prefix name for all table files. Table file for counts of
-type 1 will be named @samp{prefix2}, for type 2 @samp{prefix2} and so
+type 1 will be named @samp{prefix1}, for type 2 @samp{prefix2} and so
 on.
+
 @end table
 
 The distinct outputs can be combined as a list, for instance:
 
 @cartouche
 @example
-output.counts=PerType(prefix=mapping_per_type),\
+output.counts=PerType(file=mapping_per_type),\
               PerBranchPerSite(file=mapping_per_site.txt)
 @end example
 @end cartouche
@@ -306,7 +316,7 @@ Counts can be normalized with the counts that could have been
 performed by another model, on the same history as the one described
 by the main model. For this, use option:
 
-@item modelNullParams = @{list@{<chars>=<values>@}@}
+@item nullModelParams = @{list@{<chars>=<values>@}@}
 
 to assigne a list of parameter values used to define the normalization
 model from the main one. 
@@ -328,7 +338,7 @@ normalizations), use the @command{splitNorm=True} option in the
 
 @cartouche
 @example
-output.counts = PerBranchPerType(prefix=$(REP)/$(DATA).counts_,\
+output.counts = PerBranchPerType(file=$(REP)/$(DATA).counts_,\
                 splitNorm=True)
 @end example
 @end cartouche

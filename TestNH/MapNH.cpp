@@ -48,12 +48,14 @@ using namespace std;
 #include <Bpp/Text/KeyvalTools.h>
 #include <Bpp/Seq/Alphabet/AlphabetTools.h>
 #include <Bpp/Phyl/Io/Newick.h>
+#include <Bpp/Phyl/Io/Nhx.h>
 #include <Bpp/Phyl/Mapping/PhyloMappings/OneProcessSequenceSubstitutionMapping.h>
 #include <Bpp/Phyl/Mapping/PhyloMappings/SingleProcessSubstitutionMapping.h>
 #include <Bpp/Phyl/Likelihood/PhyloLikelihoods/PartitionProcessPhyloLikelihood.h>
 #include <Bpp/Phyl/App/BppPhylogeneticsApplication.h>
 #include <Bpp/Phyl/App/PhylogeneticsApplicationTools.h>
 #include <Bpp/Numeric/AutoParameter.h>
+#include <Bpp/Numeric/DataTable.h>
 
 using namespace bpp;
 
@@ -94,6 +96,34 @@ VVdouble assignGoodSites(const VVdouble& vlength, const PartitionProcessPhyloLik
   return lengths;
 }
 
+void appendPhyloTreeToTable(const PhyloTree& tree, const std::string& type, DataTable& infos)
+{
+  if (!infos.hasColumnNames())
+  {
+    auto brIt = tree.allEdgesIterator();
+
+    std::vector<std::string> colNames;
+    for ( ; !brIt->end(); brIt->next())
+      colNames.push_back(TextTools::toString(tree.getEdgeIndex(**brIt)));
+
+    DataTable infotmp(0,colNames);
+      
+    infos = infotmp;
+  }
+
+  infos.addRow(type, std::vector<string>(infos.getNumberOfColumns(),"0"));
+  size_t nRow=infos.getNumberOfRows();
+  
+  auto brIt2 = tree.allEdgesIterator();
+
+  for ( ; !brIt2->end(); brIt2->next())
+  {
+    const auto& brm = (**brIt2);
+    auto index = tree.getEdgeIndex(brm);
+    infos(nRow-1,TextTools::toString(index))=TextTools::toString(brm->getLength(),12);
+  }
+
+}
 
 //////////////////////////////////////
 
@@ -386,10 +416,21 @@ int main(int args, char** argv)
     if (outputnf=="") 
       outputnf = ApplicationTools::getStringParameter("prefix", outputArgs, defaultnf, "", true, 1); // legacy
 
+    string format = ApplicationTools::getStringParameter("format", outputArgs, "Newick", "", true, 1);
+
     if (perBranch && !perSite)
     {
-      // OUTPUTS AS TREES
-      Newick newick;
+      ApplicationTools::displayResult("Format", format);
+
+      // Encode format
+      size_t cformat=(format=="Newick"?0:(format=="NHX"?1:(format=="Tsv" || format=="tsv")?2:3));
+      if (cformat>2)
+      {
+        ApplicationTools::displayWarning("Unknown output format, set to Newick");
+        cformat=0;
+      }
+      
+      // Output Counts Through Trees
 
       PhyloTree pht;               
       if (nullProcessParams!="" && !splitNorm)
@@ -412,6 +453,11 @@ int main(int args, char** argv)
         if (perBranchLength)
           pht.scaleTree(1./(double)nbs);          
       }
+        
+      // Write outputs:
+      Newick newick;
+      Nhx nhx;
+      DataTable table(0,0);
         
       for (size_t i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i)
       {
@@ -446,19 +492,38 @@ int main(int args, char** argv)
         // Normalize per word size
         pt->scaleTree(1./siteSize);
 
-        // Write count trees:
-
         if (splitNorm || nullProcessParams=="")
         {
-          string path = outputnf + "_" + name + string(".dnd");
-          ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
-          newick.writePhyloTree(*pt, path, true);
-          
+          string path = outputnf + "_" + name;
+          switch(cformat){
+          case 0:      
+            newick.writePhyloTree(*pt, path + string(".dnd"), true);
+            ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path + string(".dnd"));
+            break;
+          case 1:
+            nhx.writePhyloTree(*pt, path + string(".nhx"), true);
+            ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path + string(".nhx"));
+            break;
+          case 2:
+            appendPhyloTreeToTable(*pt, name, table);
+            break;
+          };
           if (splitNorm)
           {
-            path = outputnf + "_" + name + string("_norm.dnd");
-            ApplicationTools::displayResult(string("Output normalizations of type ") + TextTools::toString(i + 1) + string(" to file"), path);
-            newick.writePhyloTree(*pn, path, true);
+            path = outputnf + "_" + name + string("_norm");
+            switch(cformat){
+            case 0:      
+              newick.writePhyloTree(*pn, path + string(".dnd"), true);
+            ApplicationTools::displayResult(string("Output normalizations of type ") + TextTools::toString(i + 1) + string(" to file"), path + string(".dnd"));
+              break;
+            case 1:
+              nhx.writePhyloTree(*pn, path + string(".nhx"), true);
+              ApplicationTools::displayResult(string("Output normalizations of type ") + TextTools::toString(i + 1) + string(" to file"), path + string(".nhx"));
+              break;
+            case 2:
+              appendPhyloTreeToTable(*pn, name+"_norm", table);
+              break;
+            };
           }
         }
         else
@@ -468,10 +533,30 @@ int main(int args, char** argv)
           if (perBranchLength)
             (*pt)*=pht;
           
-          string path = outputnf + "_" + name + string(".dnd");
-          ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path);
-          newick.writePhyloTree(*pt, path, true);
+          string path = outputnf + "_" + name;
+          switch(cformat){
+          case 0:      
+            newick.writePhyloTree(*pt, path + string(".dnd"), true);
+            ApplicationTools::displayResult(string("Output normalized counts of type ") + TextTools::toString(i + 1) + string(" to file"), path + string(".dnd"));
+            break;
+          case 1:
+            nhx.writePhyloTree(*pt, path + string(".nhx"), true);
+            ApplicationTools::displayResult(string("Output normalized counts of type ") + TextTools::toString(i + 1) + string(" to file"), path + string(".nhx"));
+            break;
+          case 2:
+            break;
+            appendPhyloTreeToTable(*pt, name, table);
+          };
         }
+      }
+
+      if (cformat==2)
+      {
+        string path = outputnf + string(".tsv");
+        ApplicationTools::displayResult(string("Output counts to file"), path);
+        StlOutputStream out(make_unique<ofstream>(path.c_str(), ios::out));
+
+        DataTable::write(table, out, "\t", true);
       }
     }
     else
