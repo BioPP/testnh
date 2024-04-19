@@ -14,7 +14,7 @@ params = Life_Alignment.params_h.bpp
 #We convert the tree to Nhx format for use with PartNH:
 output.tree_with_id.file = $(DATA).nhx
 output.counts.tree.prefix = $(DATA).counts
-output.counts = PerBranchPerType(file=$(DATA).mapping.tsv)
+output.counts = PerBranchPerType(file=$(DATA).mapping, format=tsv)
 
 #Where to output cluster tree:
 output.cluster_tree.file = $(DATA).cluster_join.dnd

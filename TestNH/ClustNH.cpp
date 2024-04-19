@@ -46,14 +46,14 @@ int main(int args, char** argv)
     std::map<std::string, std::string> unparsedParams;
     
     //Read counts from file:
-    string perSitenf = ApplicationTools::getStringParameter("input.counts.file", clustnh.getParams(), "mapping_counts_per_branch_per_type", "", true, 1);
+    string perSitenf = ApplicationTools::getAFilePath("input.counts.file", clustnh.getParams(), true, true, "", true,  "mapping_counts_per_branch_per_type", 1);
 
     ApplicationTools::displayResult(string("Input counts (branch/site) to file"), perSitenf);
 
     std::ifstream inputStream(perSitenf, ios::in);
     auto countsTable = DataTable::read(inputStream, "\t", true, 1);
 
-    //Branches are columns, sites are rows, need to transpose and convert to numbers:
+    //Branches are columns, types are rows, need to transpose and convert to numbers:
     VVdouble counts(countsTable->getNumberOfColumns());
     Vint ids(countsTable->getNumberOfColumns());
     for (size_t i = 0; i < countsTable->getNumberOfColumns(); ++i)
@@ -64,7 +64,7 @@ int main(int args, char** argv)
       {
         counts[i][j] = TextTools::toDouble((*countsTable)(j, i));
       } 
-    } 
+    }
 
     //////////////////////////////////////
     /// HOMOGENEITY TESTS

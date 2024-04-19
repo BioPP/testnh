@@ -57,15 +57,19 @@ having rooted it with the midpoint method (bppPhyView).
 We try to cluster nodes freely:
 ```bash
 mapnh --noninteractive=yes param=MapNH.bpp \
-      "map.type=GC(stationarity=no)" test.branch.neighbor=no \
-      output.cluster_tree.file=Life_Alignment.cluster_equilibrium_free.dnd > mapnh_free.out &
+      "map.type=GC(stationarity=no)" > mapnh.out 
+
+clustnh--noninteractive=yes param=ClustNH.bpp \
+      test.branch.neighbor=no \
+      output.cluster_tree.file=Life_Alignment.cluster_equilibrium_free.dnd > clustnh_free.out
 ```
 
 And also adding the constraint to cluster only adjacent nodes:
+
 ```bash
-mapnh --noninteractive=yes param=MapNH.bpp \
-      "map.type=GC(stationarity=no)" test.branch.neighbor=yes \
-      output.cluster_tree.file=Life_Alignment.cluster_equilibrium_join.dnd > mapnh_join.out &
+clustnh --noninteractive=yes param=ClustNH.bpp \
+      test.branch.neighbor=yes \
+      output.cluster_tree.file=Life_Alignment.cluster_equilibrium_join.dnd > clustnh_join.out
 ```
 
 This will first create a tree in Nhx format, identical to the input one, but with

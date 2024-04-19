@@ -1,3 +1,7 @@
+DATA = Life_Alignment
+
+input.counts.file = $(DATA).mapping.tsv
+input.tree.file = $(DATA).dnd
 
 test.global = no
 test.branch = yes
@@ -5,6 +9,6 @@ test.branch.neighbor = #yes or no
 test.branch.negbrlen = no
 test.branch.auto_cluster = Marginal(threshold=1)
 
-#Where to output cluster tree:
+# Where to output cluster tree:
 output.cluster_tree.file = $(DATA).cluster_join.dnd
 
