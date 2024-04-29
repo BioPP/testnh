@@ -287,7 +287,7 @@ int main(int args, char** argv)
       ApplicationTools::displayResult("Normalization per word size", perWord?"true":"false");
     }
 
-    uint siteSize=(perWord && AlphabetTools::isWordAlphabet(alphabet.get()))?dynamic_pointer_cast<const CoreWordAlphabet>(alphabet)->getLength():1;
+    uint siteSize=(perWord && AlphabetTools::isWordAlphabet(*alphabet))?dynamic_pointer_cast<const CoreWordAlphabet>(alphabet)->getLength():1;
 
     // Stock Phylolikelihoods, needed if perBranchLength 
     vector<shared_ptr<const ParametrizablePhyloTree> > vpt;
