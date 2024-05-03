@@ -40,18 +40,20 @@
 // From the STL:
 #include <iostream>
 #include <iomanip>
+#include <memory>
 
 using namespace std;
 
 // From bpp-phyl:
-#include <Bpp/Phyl/Tree.h>
+#include <Bpp/Phyl/Tree/Tree.h>
 #include <Bpp/Phyl/App/PhylogeneticsApplicationTools.h>
 #include <Bpp/Phyl/Io/Newick.h>
 #include <Bpp/Phyl/Io/Nhx.h>
-#include <Bpp/Phyl/Likelihood/DRNonHomogeneousTreeLikelihood.h>
-#include <Bpp/Phyl/OptimizationTools.h>
 #include <Bpp/Phyl/Model/RateDistribution/ConstantRateDistribution.h>
-#include <Bpp/Phyl/Model/MixedSubstitutionModel.h>
+#include <Bpp/Phyl/Model/MixedTransitionModel.h>
+#include <Bpp/Phyl/Legacy/Likelihood/DRNonHomogeneousTreeLikelihood.h>
+#include <Bpp/Phyl/Legacy/OptimizationTools.h>
+#include <Bpp/Phyl/Legacy/App/PhylogeneticsApplicationTools.h>
 
 // From bpp-seq:
 #include <Bpp/Seq/Alphabet/AlphabetTools.h>
@@ -152,14 +154,13 @@ vector< vector<int>> getGroups(vector<const Node*>& candidates)
   return groups2;
 }
 
-SubstitutionModelSet* buildModelSetFromPartitions(
-    const SubstitutionModel* model,
-    const std::shared_ptr<FrequencySet> rootFreqs,
-    const Tree* tree,
-    const vector< vector<int>>& groups,
+unique_ptr<SubstitutionModelSet> buildModelSetFromPartitions(
+    shared_ptr<const SubstitutionModelInterface> model,
+    shared_ptr<const FrequencySetInterface> rootFreqs,
+    shared_ptr<const Tree> tree,
+    const vector<vector<int>>& groups,
     const vector<string>& globalParameterNames,
-    std::map<int, ParameterList>& initParameters
-    )
+    map<int, ParameterList>& initParameters)
 {
   // Check alphabet:
   if (rootFreqs && model->getAlphabet()->getAlphabetType() != rootFreqs->getAlphabet()->getAlphabetType())
@@ -221,14 +222,14 @@ SubstitutionModelSet* buildModelSetFromPartitions(
   }
 
 
-  SubstitutionModelSet* modelSet = rootFreqs ?
-      new SubstitutionModelSet(model->getAlphabet(), std::shared_ptr<FrequencySet>(rootFreqs->clone())) :
-      new SubstitutionModelSet(model->getAlphabet());
+  auto modelSet = rootFreqs ?
+      make_unique<SubstitutionModelSet>(model->getAlphabet(), shared_ptr<FrequencySetInterface>(rootFreqs->clone())) :
+      make_unique<SubstitutionModelSet>(model->getAlphabet());
 
   // We assign a copy of this model to all nodes in the tree, for each partition, and link all parameters with it.
   for (size_t i = 0; i < groups.size(); ++i)
   {
-    SubstitutionModel* modelC = dynamic_cast<SubstitutionModel*>(model->clone());
+    shared_ptr<SubstitutionModelInterface> modelC(model->clone());
     modelC->matchParametersValues(initParameters[groups[i][0]]);
     modelSet->addModel(modelC, groups[i]);
   }
@@ -247,14 +248,14 @@ SubstitutionModelSet* buildModelSetFromPartitions(
   return modelSet;
 }
 
-ParameterList getParametersToEstimate(const DRTreeLikelihood* drtl, map<string, string>& params)
+ParameterList getParametersToEstimate(const DRTreeLikelihoodInterface& drtl, map<string, string>& params)
 {
   // Should I ignore some parameters?
 
   if (params.find("optimization.ignore_parameter") != params.end())
     throw Exception("optimization.ignore_parameter is deprecated, use optimization.ignore_parameters instead!");
 
-  ParameterList parametersToEstimate = drtl->getParameters();
+  ParameterList parametersToEstimate = drtl.getParameters();
   vector<string> parNames = parametersToEstimate.getParameterNames();
   string paramListDesc = ApplicationTools::getStringParameter("optimization.ignore_parameters", params, "", "", true, false);
   StringTokenizer st(paramListDesc, ",");
@@ -266,7 +267,7 @@ ParameterList getParametersToEstimate(const DRTreeLikelihood* drtl, map<string, 
       size_t starpos;
       if (param == "BrLen")
       {
-        vector<string> vs = drtl->getBranchLengthsParameters().getParameterNames();
+        vector<string> vs = drtl.getBranchLengthsParameters().getParameterNames();
         parametersToEstimate.deleteParameters(vs);
         ApplicationTools::displayResult("Parameter ignored", string("Branch lengths"));
       }
@@ -295,33 +296,47 @@ ParameterList getParametersToEstimate(const DRTreeLikelihood* drtl, map<string, 
   return parametersToEstimate;
 }
 
-void estimateLikelihood(DRTreeLikelihood* drtl, ParameterList& parametersToEstimate, double tolerance, unsigned int nbEvalMax, OutputStream* messageHandler, OutputStream* profiler, bool reparam, bool useClock, unsigned int verbose)
+void estimateLikelihood(
+    shared_ptr<DRTreeLikelihoodInterface> drtl,
+    ParameterList& parametersToEstimate,
+    double tolerance, unsigned int nbEvalMax,
+    shared_ptr<OutputStream> messageHandler,
+    shared_ptr<OutputStream> profiler,
+    bool reparam, bool useClock, unsigned int verbose)
 {
   // Uses Newton-raphson algorithm with numerical derivatives when required.
   parametersToEstimate.matchParametersValues(drtl->getParameters());
-  OptimizationTools::optimizeNumericalParameters2(
-      dynamic_cast<DiscreteRatesAcrossSitesTreeLikelihood*>(drtl), parametersToEstimate,
+  LegacyOptimizationTools::optimizeNumericalParameters2(
+      dynamic_pointer_cast<DiscreteRatesAcrossSitesTreeLikelihoodInterface>(drtl), parametersToEstimate,
       0, tolerance, nbEvalMax, messageHandler, profiler, reparam, useClock, verbose, OptimizationTools::OPTIMIZATION_NEWTON);
 }
 
-void outputNHModel(const string& modelPath, double likelihood, const SubstitutionModelSet* modelSet, const DiscreteDistribution* rDist)
+void outputNHModel(
+    const string& modelPath,
+    double likelihood,
+    const SubstitutionModelSet& modelSet,
+    const DiscreteDistributionInterface& rDist)
 {
-  StlOutputStream out(new ofstream(modelPath.c_str(), ios::out));
+  StlOutputStream out(make_unique<ofstream>(modelPath.c_str(), ios::out));
   out << "# Log likelihood = ";
   out.setPrecision(20) << likelihood;
   out.endLine();
   out.endLine();
   out << "# Substitution model parameters:";
   out.endLine();
-  PhylogeneticsApplicationTools::printParameters(modelSet, out);
+  LegacyPhylogeneticsApplicationTools::printParameters(modelSet, out);
   out.endLine();
   PhylogeneticsApplicationTools::printParameters(rDist, out);
   out.endLine();
 }
 
-void outputHModel(const string& modelPath, double likelihood, const SubstitutionModel* model, const DiscreteDistribution* rDist)
+void outputHModel(
+    const string& modelPath,
+    double likelihood,
+    const SubstitutionModelInterface& model,
+    const DiscreteDistributionInterface& rDist)
 {
-  StlOutputStream out(new ofstream(modelPath.c_str(), ios::out));
+  StlOutputStream out(make_unique<ofstream>(modelPath.c_str(), ios::out));
   out << "# Log likelihood = ";
   out.setPrecision(20) << likelihood;
   out.endLine();
@@ -357,14 +372,14 @@ int main(int args, char** argv)
     Newick newick;
     string clusterTree = ApplicationTools::getAFilePath("input.cluster_tree.file", partnh.getParams(), true, true);
     ApplicationTools::displayResult("Input cluster tree", clusterTree);
-    TreeTemplate<Node>* htree = newick.readTree(clusterTree);
+    auto htree = newick.readTreeTemplate(clusterTree);
 
     // We only read NHX tree because we want to be sure to use the correct id:
     // TreeTemplate<Node>* ptree = dynamic_cast<TreeTemplate<Node>*>(PhylogeneticsApplicationTools::getTree(partnh.getParams()));
     string treeIdPath = ApplicationTools::getAFilePath("input.tree.file", partnh.getParams(), true, true);
     ApplicationTools::displayResult("Input tree file", treeIdPath);
     Nhx nhx(true);
-    TreeTemplate<Node>* ptree = nhx.readTree(treeIdPath);
+    shared_ptr<TreeTemplate<Node>> ptree = nhx.readTreeTemplate(treeIdPath);
 
     map<const Node*, double> heights;
     TreeTemplateTools::getHeights(*htree->getRootNode(), heights);
@@ -397,20 +412,19 @@ int main(int args, char** argv)
     else if (method == "auto")
     {
       // First we need to get the alphabet and data:
-      Alphabet* alphabet = SequenceApplicationTools::getAlphabet(partnh.getParams(), "", false);
-      unique_ptr<GeneticCode> gCode;
-      CodonAlphabet* codonAlphabet = dynamic_cast<CodonAlphabet*>(alphabet);
+      shared_ptr<const Alphabet> alphabet = SequenceApplicationTools::getAlphabet(partnh.getParams(), "", false);
+      shared_ptr<GeneticCode> gCode;
+      auto codonAlphabet = dynamic_pointer_cast<const CodonAlphabet>(alphabet);
       if (codonAlphabet)
       {
         string codeDesc = ApplicationTools::getStringParameter("genetic_code", partnh.getParams(), "Standard", "", true, true);
         ApplicationTools::displayResult("Genetic Code", codeDesc);
 
-        gCode.reset(SequenceApplicationTools::getGeneticCode(codonAlphabet->getNucleicAlphabet(), codeDesc));
+        gCode = SequenceApplicationTools::getGeneticCode(codonAlphabet->getNucleicAlphabet(), codeDesc);
       }
 
-      VectorSiteContainer* allSites = SequenceApplicationTools::getSiteContainer(alphabet, partnh.getParams());
-      VectorSiteContainer* sites = SequenceApplicationTools::getSitesToAnalyse(*allSites, partnh.getParams());
-      delete allSites;
+      auto allSites = SequenceApplicationTools::getSiteContainer(alphabet, partnh.getParams());
+      shared_ptr<SiteContainerInterface> sites = SequenceApplicationTools::getSitesToAnalyse(*allSites, partnh.getParams());
       size_t nbSites = sites->getNumberOfSites();
 
       ApplicationTools::displayResult("Number of sequences", sites->getNumberOfSequences());
@@ -418,26 +432,26 @@ int main(int args, char** argv)
 
       // Then we need the model to be used, including substitution model, rate distribution and root frequencies set.
       // We also need to specify the parameters that will be shared by all partitions.
-      SubstitutionModel* model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode.get(), sites, partnh.getParams());
-      DiscreteDistribution* rDist = 0;
+      map<string, string> unparsedParams;
+      shared_ptr<SubstitutionModelInterface> model = PhylogeneticsApplicationTools::getSubstitutionModel(alphabet, gCode, sites, partnh.getParams(), unparsedParams);
+      shared_ptr<DiscreteDistributionInterface> rDist = nullptr;
       if (model->getName() != "RE08")
         SiteContainerTools::changeGapsToUnknownCharacters(*sites);
-      if (model->getNumberOfStates() >= 2 * model->getAlphabet()->getSize())
+      if (model->getNumberOfStates() >= 2 * model->alphabet().getSize())
       {
         // Markov-modulated Markov model!
-        rDist = new ConstantRateDistribution();
+        rDist = make_shared<ConstantRateDistribution>();
       }
       else
       {
         rDist = PhylogeneticsApplicationTools::getRateDistribution(partnh.getParams());
       }
       // We initialize the procedure by estimating the homogeneous model.
-      DRTreeLikelihood* drtl = 0;
-      if (dynamic_cast<MixedSubstitutionModel*>(model) == 0)
-        drtl = new DRHomogeneousTreeLikelihood(*ptree, *sites, model, rDist, true);
+      shared_ptr<DRTreeLikelihoodInterface> drtl = nullptr;
+      if (!dynamic_pointer_cast<MixedTransitionModelInterface>(model))
+        drtl = make_shared<DRHomogeneousTreeLikelihood>(*ptree, *sites, model, rDist, true);
       else
         throw Exception("Mixed models not supported so far.");
-      // drtl = new DRHomogeneousMixedTreeLikelihood(*ptree, *sites, model, rDist, true);
       drtl->initialize();
 
       ApplicationTools::displayResult("Log-Likelihood", drtl->getLogLikelihood());
@@ -455,13 +469,13 @@ int main(int args, char** argv)
           {
             if (std::isinf(drtl->getLogLikelihoodForASite(i)))
             {
-              const Site& site = sites->getSite(i);
+              const Site& site = sites->site(i);
               s = site.size();
               for (size_t j = 0; j < s; j++)
               {
                 if (gCode->isStop(site.getValue(j)))
                 {
-                  (*ApplicationTools::error << "Stop Codon at site " << site.getPosition() << " in sequence " << sites->getSequence(j).getName()).endLine();
+                  (*ApplicationTools::error << "Stop Codon at site " << site.getCoordinate() << " in sequence " << sites->sequence(j).getName()).endLine();
                   f = true;
                 }
               }
@@ -476,7 +490,7 @@ int main(int args, char** argv)
           ofstream debug ("DEBUG_likelihoods.txt", ios::out);
           for (size_t i = 0; i < sites->getNumberOfSites(); i++)
           {
-            debug << "Position " << sites->getSite(i).getPosition() << " = " << drtl->getLogLikelihoodForASite(i) << endl;
+            debug << "Position " << sites->site(i).getCoordinate() << " = " << drtl->getLogLikelihoodForASite(i) << endl;
           }
           debug.close();
           ApplicationTools::displayError("!!! Site-specific likelihood have been written in file DEBUG_likelihoods.txt .");
@@ -490,7 +504,7 @@ int main(int args, char** argv)
           {
             if (std::isinf(drtl->getLogLikelihoodForASite(i - 1)))
             {
-              ApplicationTools::displayResult("Ignore saturated site", sites->getSite(i - 1).getPosition());
+              ApplicationTools::displayResult("Ignore saturated site", sites->site(i - 1).getCoordinate());
               sites->deleteSite(i - 1);
             }
           }
@@ -530,7 +544,7 @@ int main(int args, char** argv)
         if (mhPath == "std")
           messageHandler = ApplicationTools::message;
         else
-          messageHandler = shared_ptr<OutputStream>(new StlOutputStream(new ofstream(mhPath.c_str(), ios::out)));
+          messageHandler = make_shared<StlOutputStream>(make_unique<ofstream>(mhPath.c_str(), ios::out));
       }
 
       ApplicationTools::displayResult("Message handler", mhPath + "*");
@@ -542,14 +556,14 @@ int main(int args, char** argv)
         if (prPath == "std")
           messageHandler = ApplicationTools::message;
         else
-          messageHandler = shared_ptr<OutputStream>(new StlOutputStream(new ofstream(prPath.c_str(), ios::out)));
+          messageHandler = make_shared<StlOutputStream>(make_unique<ofstream>(prPath.c_str(), ios::out));
       }
 
       if (profiler.get())
         profiler->setPrecision(20);
       ApplicationTools::displayResult("Profiler", prPath + "*");
 
-      ParameterList parametersToEstimate = getParametersToEstimate(drtl, partnh.getParams());
+      ParameterList parametersToEstimate = getParametersToEstimate(*drtl, partnh.getParams());
 
       unsigned int nbEvalMax = ApplicationTools::getParameter<unsigned int>("optimization.max_number_f_eval", partnh.getParams(), 1000000);
       ApplicationTools::displayResult("Max # ML evaluations", TextTools::toString(nbEvalMax));
@@ -566,7 +580,7 @@ int main(int args, char** argv)
       bool useClock = (clock == "Global");
       ApplicationTools::displayResult("Molecular clock", clock);
 
-      estimateLikelihood(drtl, parametersToEstimate, tolerance, nbEvalMax, messageHandler.get(), profiler.get(), reparam, useClock, optVerbose);
+      estimateLikelihood(drtl, parametersToEstimate, tolerance, nbEvalMax, messageHandler, profiler, reparam, useClock, optVerbose);
 
       double logL = drtl->getValue();
       double df = static_cast<double>(drtl->getParameters().size());
@@ -589,11 +603,11 @@ int main(int args, char** argv)
       }
 
       bool stationarity = ApplicationTools::getBooleanParameter("nonhomogeneous.stationarity", partnh.getParams(), false, "", false, false);
-      std::shared_ptr<FrequencySet> rootFreqs = 0;
+      std::shared_ptr<FrequencySetInterface> rootFreqs = nullptr;
       std::map<std::string, std::string> aliasFreqNames;
       if (!stationarity)
       {
-        rootFreqs = PhylogeneticsApplicationTools::getRootFrequencySet(alphabet, gCode.get(), sites, partnh.getParams(), aliasFreqNames, rateFreqs);
+        rootFreqs = PhylogeneticsApplicationTools::getRootFrequencySet(alphabet, gCode, *sites, partnh.getParams(), aliasFreqNames, rateFreqs);
         stationarity = !rootFreqs;
       }
       ApplicationTools::displayBooleanResult("Stationarity assumed", stationarity);
@@ -655,10 +669,10 @@ int main(int args, char** argv)
       map<double, vector<const Node*>>::iterator it = sortedHeights.begin();
       double currentThreshold = 1.;
 
-      SubstitutionModelSet* modelSet = 0;
-      SubstitutionModelSet* bestModelSet = 0;
-      DiscreteDistribution* bestRDist = 0;
-      TreeTemplate<Node>*   bestTree = 0;
+      shared_ptr<SubstitutionModelSet>          modelSet = nullptr;
+      shared_ptr<SubstitutionModelSet>          bestModelSet = nullptr;
+      shared_ptr<DiscreteDistributionInterface> bestRDist = nullptr;
+      shared_ptr<TreeTemplate<Node>>            bestTree = nullptr;
       double bestLogL = logL;
       double bestAic  = aic;
       double bestAicc = aicc;
@@ -705,18 +719,16 @@ int main(int args, char** argv)
         }
 
         // Now we have to build the corresponding model set:
-        SubstitutionModelSet* newModelSet = buildModelSetFromPartitions(model, rootFreqs, ptree, newGroups, globalParameters, currentParameters);
-        DiscreteDistribution* newRDist = rDist->clone();
+        shared_ptr<SubstitutionModelSet> newModelSet = buildModelSetFromPartitions(model, rootFreqs, ptree, newGroups, globalParameters, currentParameters);
+        shared_ptr<DiscreteDistributionInterface> newRDist(rDist->clone());
         ParameterList previousParameters = drtl->getBranchLengthsParameters();
         previousParameters.addParameters(drtl->getRateDistributionParameters());
         if (!stationarity && modelCount > 1)
-          previousParameters.addParameters(dynamic_cast<DRNonHomogeneousTreeLikelihood*>(drtl)->getSubstitutionModelSet()->getRootFrequenciesParameters());
-        delete drtl;
-        if (dynamic_cast<MixedSubstitutionModel*>(model) == 0)
-          drtl = new DRNonHomogeneousTreeLikelihood(*ptree, *sites, newModelSet, newRDist, false);
+          previousParameters.addParameters(dynamic_cast<DRNonHomogeneousTreeLikelihood&>(*drtl).substitutionModelSet().getRootFrequenciesParameters());
+        if (dynamic_pointer_cast<MixedTransitionModelInterface>(model))
+          drtl = make_shared<DRNonHomogeneousTreeLikelihood>(*ptree, *sites, newModelSet, newRDist, false);
         else
           throw Exception("Mixed models not supported so far.");
-        // drtl = new DRNonHomogeneousMixedTreeLikelihood(*ptree, *sites, modelSet, rDist, true);
         drtl->initialize();
         drtl->matchParametersValues(previousParameters); // This will save some time during optimization!
 
@@ -727,22 +739,22 @@ int main(int args, char** argv)
         else if (mhPath == "std")
           messageHandler = ApplicationTools::message;
         else
-          messageHandler.reset(new StlOutputStream(new ofstream((mhPath + TextTools::toString(modelCount)).c_str(), ios::out)));
+          messageHandler = make_shared<StlOutputStream>(make_unique<ofstream>((mhPath + TextTools::toString(modelCount)).c_str(), ios::out));
 
         if (prPath == "none")
           profiler = 0;
         else if (prPath == "std")
           profiler = ApplicationTools::message;
         else
-          profiler.reset(new StlOutputStream(new ofstream((prPath + TextTools::toString(modelCount)).c_str(), ios::out)));
+          profiler = make_shared<StlOutputStream>(make_unique<ofstream>((prPath + TextTools::toString(modelCount)).c_str(), ios::out));
 
-        if (profiler.get())
+        if (profiler)
           profiler->setPrecision(20);
 
         // Reevaluate parameters, as there might be some change when going to a NH model:
-        parametersToEstimate = getParametersToEstimate(drtl, partnh.getParams());
+        parametersToEstimate = getParametersToEstimate(*drtl, partnh.getParams());
 
-        estimateLikelihood(drtl, parametersToEstimate, tolerance, nbEvalMax, messageHandler.get(), profiler.get(), reparam, useClock, optVerbose);
+        estimateLikelihood(drtl, parametersToEstimate, tolerance, nbEvalMax, messageHandler, profiler, reparam, useClock, optVerbose);
 
         double newLogL = drtl->getValue();
         double newDf = static_cast<double>(drtl->getParameters().size());
@@ -751,12 +763,12 @@ int main(int args, char** argv)
         double newAic  = 2. * (newDf + newLogL);
         double newAicc = newAic + 2 * newDf * (newDf + 1) / (static_cast<double>(nbSites) - newDf - 1);
         double newBic  = 2. * newLogL + newDf * log(nbSites);
-        TreeTemplate<Node>* newTree = new TreeTemplate<Node>(drtl->getTree());
+        auto newTree = make_shared<TreeTemplate<Node>>(drtl->tree());
 
         // Print model:
         if (outputIntermediateModels)
         {
-          outputNHModel(modelPath + TextTools::toString(modelCount), -newLogL, newModelSet, newRDist);
+          outputNHModel(modelPath + TextTools::toString(modelCount), -newLogL, *newModelSet, *newRDist);
         }
 
         double d = 2 * (logL - newLogL);
@@ -819,15 +831,9 @@ int main(int args, char** argv)
 
         if (saveThisModel)
         {
-          if (bestModelSet)
-          {
-            delete bestModelSet;
-            delete bestRDist;
-            delete bestTree;
-          }
-          bestModelSet = newModelSet->clone();
-          bestRDist    = newRDist->clone();
-          bestTree     = newTree->clone();
+          bestModelSet.reset(newModelSet->clone());
+          bestRDist.reset(newRDist->clone());
+          bestTree.reset(newTree->clone());
           bestGroups   = newGroups;
           bestLogL     = newLogL;
         }
@@ -835,12 +841,8 @@ int main(int args, char** argv)
         // Moving forward:
         if (moveForward)
         {
-          delete ptree;
-          if (modelSet)
-            delete modelSet;
-          delete rDist;
           ptree    = newTree;
-          modelSet = newModelSet;
+          modelSet = std::move(newModelSet);
           rDist    = newRDist;
           logL     = newLogL;
           df       = newDf;
@@ -849,16 +851,10 @@ int main(int args, char** argv)
           bic      = newBic;
           groups   = newGroups;
           // Save parameters:
-          for (size_t i = 0; i < ids.size(); ++i)
+          for (auto id : ids)
           {
-            currentParameters[ids[i]] = modelSet->getModelForNode(ids[i])->getParameters();
+            currentParameters[id] = modelSet->getModelForNode(id)->getParameters();
           }
-        }
-        else
-        {
-          delete newModelSet;
-          delete newRDist;
-          delete newTree;
         }
       }
       // Write best model to file and output partition tree.
@@ -866,11 +862,11 @@ int main(int args, char** argv)
       // We have to distinguish two cases...
       if (bestModelSet)
       {
-        outputNHModel(modelPath, bestLogL, bestModelSet, bestRDist);
+        outputNHModel(modelPath, bestLogL, *bestModelSet, *bestRDist);
       }
       else
       {
-        outputHModel(modelPath, bestLogL, model, rDist);
+        outputHModel(modelPath, bestLogL, *model, *rDist);
       }
 
       // Write parameter estimates per node:
@@ -949,10 +945,8 @@ int main(int args, char** argv)
         groups.clear();
         groups.push_back(ptree->getNodesId());
       }
-      delete bestModelSet;
-      delete bestRDist;
 
-      if (logout.get())
+      if (logout)
         logout->close();
     }
     else
@@ -975,11 +969,9 @@ int main(int args, char** argv)
       }
     }
     newick.enableExtendedBootstrapProperty("partition");
-    newick.writeTree(*ptree, partPath);
+    newick.writeTree(*ptree, partPath, true);
 
     // Cleaning memory:
-    delete htree;
-    delete ptree;
     partnh.done();
   }
   catch (exception& e)
