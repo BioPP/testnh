@@ -80,7 +80,6 @@ include (GNUInstallDirs)
 find_package (bpp-core3 1.0.0 REQUIRED)
 find_package (bpp-seq3 1.0.0 REQUIRED)
 find_package (bpp-phyl3 1.0.0 REQUIRED)
-find_package (bpp-popgen3 1.0.0 REQUIRED)
 
 # Subdirectories
 add_subdirectory (TestNH)

@@ -5,37 +5,37 @@
 //
 
 /*
-Copyright or © or Copr. CNRS
+   Copyright or © or Copr. CNRS
 
-This software is a computer program whose purpose is to describe
-the patterns of substitutions along a phylogeny using substitution mapping.
+   This software is a computer program whose purpose is to describe
+   the patterns of substitutions along a phylogeny using substitution mapping.
 
-This software is governed by the CeCILL  license under French law and
-abiding by the rules of distribution of free software.  You can  use, 
-modify and/ or redistribute the software under the terms of the CeCILL
-license as circulated by CEA, CNRS and INRIA at the following URL
-"http://www.cecill.info". 
+   This software is governed by the CeCILL  license under French law and
+   abiding by the rules of distribution of free software.  You can  use,
+   modify and/ or redistribute the software under the terms of the CeCILL
+   license as circulated by CEA, CNRS and INRIA at the following URL
+   "http://www.cecill.info".
 
-As a counterpart to the access to the source code and  rights to copy,
-modify and redistribute granted by the license, users are provided only
-with a limited warranty  and the software's author,  the holder of the
-economic rights,  and the successive licensors  have only  limited
-liability. 
+   As a counterpart to the access to the source code and  rights to copy,
+   modify and redistribute granted by the license, users are provided only
+   with a limited warranty  and the software's author,  the holder of the
+   economic rights,  and the successive licensors  have only  limited
+   liability.
 
-In this respect, the user's attention is drawn to the risks associated
-with loading,  using,  modifying and/or developing or reproducing the
-software by the user in light of its specific status of free software,
-that may mean  that it is complicated to manipulate,  and  that  also
-therefore means  that it is reserved for developers  and  experienced
-professionals having in-depth computer knowledge. Users are therefore
-encouraged to load and test the software's suitability as regards their
-requirements in conditions enabling the security of their systems and/or 
-data to be ensured and,  more generally, to use and operate it in the 
-same conditions as regards security. 
+   In this respect, the user's attention is drawn to the risks associated
+   with loading,  using,  modifying and/or developing or reproducing the
+   software by the user in light of its specific status of free software,
+   that may mean  that it is complicated to manipulate,  and  that  also
+   therefore means  that it is reserved for developers  and  experienced
+   professionals having in-depth computer knowledge. Users are therefore
+   encouraged to load and test the software's suitability as regards their
+   requirements in conditions enabling the security of their systems and/or
+   data to be ensured and,  more generally, to use and operate it in the
+   same conditions as regards security.
 
-The fact that you are presently reading this means that you have had
-knowledge of the CeCILL license and that you accept its terms.
-*/
+   The fact that you are presently reading this means that you have had
+   knowledge of the CeCILL license and that you accept its terms.
+ */
 
 // From the STL:
 #include <iostream>
@@ -71,21 +71,24 @@ void help()
   (*ApplicationTools::message << "__________________________________________________________________________").endLine();
 }
 
-struct CandidatePart {
+struct CandidatePart
+{
   int id;
   size_t depth;
 
-  CandidatePart(int i, size_t d):
+  CandidatePart(int i, size_t d) :
     id(i), depth(d) {}
 };
-   
-struct CandidatePartComp {
-  bool operator()(const CandidatePart& cp1, const CandidatePart& cp2) const {
-    return (cp1.depth > cp2.depth);
+
+struct CandidatePartComp
+{
+  bool operator()(const CandidatePart& cp1, const CandidatePart& cp2) const
+  {
+    return cp1.depth > cp2.depth;
   }
 };
 
-int main(int args, char ** argv)
+int main(int args, char** argv)
 {
   cout << "******************************************************************" << endl;
   cout << "*                     RandNH, version 1.3.0                      *" << endl;
@@ -99,91 +102,105 @@ int main(int args, char ** argv)
     help();
     exit(0);
   }
-  
-  try {
 
-  BppApplication randnh(args, argv, "RandNH");
-  randnh.startTimer();
-
-  //Take an input tree:
-  unique_ptr<Tree> tree(PhylogeneticsApplicationTools::getTree(randnh.getParams()));
-  ApplicationTools::displayResult("Number of leaves", TextTools::toString(tree->getNumberOfLeaves()));
-
-  //Output to file in NHX format:
-  string treeIdOut = ApplicationTools::getAFilePath("output.tree.file", randnh.getParams(), false, false);
-  Nhx nhx(true);
-  nhx.writeTree(*tree, treeIdOut);
-
-  //Now get the number of partitions and assign nodes:
-  size_t nbParts = ApplicationTools::getParameter<size_t>("nonhomogeneous.number_of_models", randnh.getParams(), 2);
-  ApplicationTools::displayResult("Number of partitions", nbParts);
-  if (nbParts < 2)
-    throw Exception("There should be at least 2 partitions.");
-
-  vector<int> ids = tree->getNodesId();
-  ids.pop_back();
-
-  //We create a id vector weighted for node depth:
-  vector<double> idWeights;
-  map<int, size_t> nodesDepths;
-  TreeTools::getDepths(*tree, tree->getRootId(), nodesDepths);
-  for (size_t i = 0; i < ids.size(); ++i) {
-    idWeights.push_back(static_cast<double>(nodesDepths[ids[i]] + 1));
-  }
-
-  map<int, size_t> partitionsIndex;
-  
-  string modelType = ApplicationTools::getStringParameter("nonhomogeneous.type_of_model", randnh.getParams(), "join");
-
-  if (modelType == "join")
+  try
   {
-    vector<int> partRootIds(nbParts - 1);
-    RandomTools::getSample(ids, idWeights, partRootIds);
+    BppApplication randnh(args, argv, "RandNH");
+    randnh.startTimer();
 
-    //we have to make sure we get the larger partition first:
-    multiset<CandidatePart, CandidatePartComp> depths;
-    for (size_t i = 0; i < nbParts - 1; ++i) {
-      depths.insert(CandidatePart(partRootIds[i], TreeTools::getDepth(*tree, partRootIds[i])));
-    }
+    // Take an input tree:
+    unique_ptr<Tree> tree(PhylogeneticsApplicationTools::getTree(randnh.getParams()));
+    ApplicationTools::displayResult("Number of leaves", TextTools::toString(tree->getNumberOfLeaves()));
+
+    // Output to file in NHX format:
+    string treeIdOut = ApplicationTools::getAFilePath("output.tree.file", randnh.getParams(), false, false);
+    Nhx nhx(true);
+    nhx.writeTree(*tree, treeIdOut);
+
+    // Now get the number of partitions and assign nodes:
+    size_t nbParts = ApplicationTools::getParameter<size_t>("nonhomogeneous.number_of_models", randnh.getParams(), 2);
+    ApplicationTools::displayResult("Number of partitions", nbParts);
+    if (nbParts < 2)
+      throw Exception("There should be at least 2 partitions.");
+
+    vector<int> ids = tree->getNodesId();
+    ids.pop_back();
+
+    // We create a id vector weighted for node depth:
+    vector<double> idWeights;
+    map<int, size_t> nodesDepths;
+    TreeTools::getDepths(*tree, tree->getRootId(), nodesDepths);
     for (size_t i = 0; i < ids.size(); ++i)
-      partitionsIndex[ids[i]] = 0;
-    size_t p = 1;
-    for (set<CandidatePart>::iterator it = depths.begin(); it != depths.end(); ++it) {
-      cout << it->id << "\t" << it->depth << endl;
-      vector<int> subids = TreeTools::getNodesId(*tree, it->id);
-      for (size_t i = 0; i < subids.size(); ++i)
-        partitionsIndex[subids[i]] = p;
-      p++;
+    {
+      idWeights.push_back(static_cast<double>(nodesDepths[ids[i]] + 1));
     }
-  }
-  else if (modelType == "free")
-  {
-    //For now we assume that all partitions are equally likely.
-    for (size_t i = 0; i < ids.size(); ++i)
-      partitionsIndex[ids[i]] = RandomTools::giveIntRandomNumberBetweenZeroAndEntry<size_t>(nbParts);
-  }
-  else throw Exception("Model type should be one of 'free' or 'join'");
 
-  map<size_t, vector<int> > partitions;
-  for (map<int, size_t>::iterator it = partitionsIndex.begin(); it != partitionsIndex.end(); ++it) {
-    partitions[it->second].push_back(it->first);
-  }
-    
-  //Print partitions:
-  string modelOutPath = ApplicationTools::getAFilePath("output.model.file", randnh.getParams(), true, false);
-  ofstream modelOut(modelOutPath.c_str(), ios::out);
-  size_t index = 1;
-  for (map<size_t, vector<int> >::iterator it = partitions.begin(); it != partitions.end(); ++it) {
-    modelOut << "model" << index << ".nodes_id = " << it->second[0];
-    for (size_t i = 1; i < it->second.size(); ++i)
-      modelOut << "," << it->second[i];
-    modelOut << endl;
-    index++;
-  }
-  modelOut.close();
+    map<int, size_t> partitionsIndex;
 
-  //Clean and exit:
-  randnh.done();
+    string modelType = ApplicationTools::getStringParameter("nonhomogeneous.type_of_model", randnh.getParams(), "join");
+
+    if (modelType == "join")
+    {
+      vector<int> partRootIds(nbParts - 1);
+      RandomTools::getSample(ids, idWeights, partRootIds);
+
+      // we have to make sure we get the larger partition first:
+      multiset<CandidatePart, CandidatePartComp> depths;
+      for (size_t i = 0; i < nbParts - 1; ++i)
+      {
+        depths.insert(CandidatePart(partRootIds[i], TreeTools::getDepth(*tree, partRootIds[i])));
+      }
+      for (size_t i = 0; i < ids.size(); ++i)
+      {
+        partitionsIndex[ids[i]] = 0;
+      }
+      size_t p = 1;
+      for (set<CandidatePart>::iterator it = depths.begin(); it != depths.end(); ++it)
+      {
+        cout << it->id << "\t" << it->depth << endl;
+        vector<int> subids = TreeTools::getNodesId(*tree, it->id);
+        for (size_t i = 0; i < subids.size(); ++i)
+        {
+          partitionsIndex[subids[i]] = p;
+        }
+        p++;
+      }
+    }
+    else if (modelType == "free")
+    {
+      // For now we assume that all partitions are equally likely.
+      for (size_t i = 0; i < ids.size(); ++i)
+      {
+        partitionsIndex[ids[i]] = RandomTools::giveIntRandomNumberBetweenZeroAndEntry<size_t>(nbParts);
+      }
+    }
+    else
+      throw Exception("Model type should be one of 'free' or 'join'");
+
+    map<size_t, vector<int>> partitions;
+    for (map<int, size_t>::iterator it = partitionsIndex.begin(); it != partitionsIndex.end(); ++it)
+    {
+      partitions[it->second].push_back(it->first);
+    }
+
+    // Print partitions:
+    string modelOutPath = ApplicationTools::getAFilePath("output.model.file", randnh.getParams(), true, false);
+    ofstream modelOut(modelOutPath.c_str(), ios::out);
+    size_t index = 1;
+    for (map<size_t, vector<int>>::iterator it = partitions.begin(); it != partitions.end(); ++it)
+    {
+      modelOut << "model" << index << ".nodes_id = " << it->second[0];
+      for (size_t i = 1; i < it->second.size(); ++i)
+      {
+        modelOut << "," << it->second[i];
+      }
+      modelOut << endl;
+      index++;
+    }
+    modelOut.close();
+
+    // Clean and exit:
+    randnh.done();
   }
   catch (exception& e)
   {
@@ -191,5 +208,5 @@ int main(int args, char ** argv)
     exit(-1);
   }
 
-  return (0);
+  return 0;
 }

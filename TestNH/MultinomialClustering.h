@@ -10,39 +10,6 @@
 using namespace bpp;
 using namespace std;
 
-template<class T>
-class bpp_ptr
-{
-private:
-  T* ptr_;
-
-public:
-  bpp_ptr(T* ptr = 0): ptr_(ptr) {}
-    
-  ~bpp_ptr() { delete ptr_; }
-
-  bpp_ptr(const bpp_ptr& ptr):
-    ptr_(ptr->clone()) {}
-    
-  bpp_ptr& operator=(const bpp_ptr& ptr)
-  {
-    delete ptr_;
-    ptr_ = dynamic_cast<T*>(ptr->clone());
-  }
-
-  void reset(T* ptr = 0) {
-    if (ptr_) delete ptr_;
-    ptr_ = ptr;
-  }
-
-  T& operator*() { return *ptr_; } 
-  const T& operator*() const { return *ptr_; } 
-
-  T* operator->() { return ptr_; } 
-  const T* operator->() const { return ptr_; } 
-
-};
-
 class SubstitutionCountsComparison :
   public StatTest
 {
@@ -126,9 +93,9 @@ private:
   vector<size_t> ignore_;
 
 public:
-  SumCountsAutomaticGroupingCondition(size_t threshold = 0, const vector<size_t>& ignore = vector<size_t>(0)):
+  SumCountsAutomaticGroupingCondition(size_t threshold = 0, const vector<size_t>& ignoreV = std::vector<size_t>(0)):
     threshold_(threshold),
-    ignore_(ignore)
+    ignore_(ignoreV)
   {}
 
   ~SumCountsAutomaticGroupingCondition() {}
@@ -172,10 +139,13 @@ private:
   vector< vector<size_t> > counts_;
   bool neighborsOnly_;
   bool negativeBrlen_;
-  bpp_ptr<SubstitutionCountsComparison> test_;
+  shared_ptr<SubstitutionCountsComparison> test_;
   vector<double> pvalues_;
 	
 public:
+  /**
+   * @param counts Total counts for each type, for each branch.
+   */
   MultinomialClustering(
     const vector< vector<size_t> >& counts,
     const vector<int>& ids,

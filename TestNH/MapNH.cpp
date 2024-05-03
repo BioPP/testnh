@@ -5,39 +5,37 @@
 //
 
 /*
-  Copyright or © or Copr. CNRS
+   Copyright or © or Copr. CNRS
 
-  This software is a computer program whose purpose is to describe
-  the patterns of substitutions along a phylogeny using substitution mapping.
+   This software is a computer program whose purpose is to describe
+   the patterns of substitutions along a phylogeny using substitution mapping.
 
-  This software is governed by the CeCILL  license under French law and
-  abiding by the rules of distribution of free software.  You can  use,
-  modify and/ or redistribute the software under the terms of the CeCILL
-  license as circulated by CEA, CNRS and INRIA at the following URL
-  "http://www.cecill.info".
+   This software is governed by the CeCILL  license under French law and
+   abiding by the rules of distribution of free software.  You can  use,
+   modify and/ or redistribute the software under the terms of the CeCILL
+   license as circulated by CEA, CNRS and INRIA at the following URL
+   "http://www.cecill.info".
 
-  As a counterpart to the access to the source code and  rights to copy,
-  modify and redistribute granted by the license, users are provided only
-  with a limited warranty  and the software's author,  the holder of the
-  economic rights,  and the successive licensors  have only  limited
-  liability.
+   As a counterpart to the access to the source code and  rights to copy,
+   modify and redistribute granted by the license, users are provided only
+   with a limited warranty  and the software's author,  the holder of the
+   economic rights,  and the successive licensors  have only  limited
+   liability.
 
-  In this respect, the user's attention is drawn to the risks associated
-  with loading,  using,  modifying and/or developing or reproducing the
-  software by the user in light of its specific status of free software,
-  that may mean  that it is complicated to manipulate,  and  that  also
-  therefore means  that it is reserved for developers  and  experienced
-  professionals having in-depth computer knowledge. Users are therefore
-  encouraged to load and test the software's suitability as regards their
-  requirements in conditions enabling the security of their systems and/or
-  data to be ensured and,  more generally, to use and operate it in the
-  same conditions as regards security.
+   In this respect, the user's attention is drawn to the risks associated
+   with loading,  using,  modifying and/or developing or reproducing the
+   software by the user in light of its specific status of free software,
+   that may mean  that it is complicated to manipulate,  and  that  also
+   therefore means  that it is reserved for developers  and  experienced
+   professionals having in-depth computer knowledge. Users are therefore
+   encouraged to load and test the software's suitability as regards their
+   requirements in conditions enabling the security of their systems and/or
+   data to be ensured and,  more generally, to use and operate it in the
+   same conditions as regards security.
 
-  The fact that you are presently reading this means that you have had
-  knowledge of the CeCILL license and that you accept its terms.
-*/
-
-//#include "MultinomialClustering.h"
+   The fact that you are presently reading this means that you have had
+   knowledge of the CeCILL license and that you accept its terms.
+ */
 
 // From the STL:
 #include <iostream>
@@ -67,12 +65,16 @@ VVVdouble assignGoodSites(const VVVVdouble& vcount, const PartitionProcessPhyloL
 {
   VVVdouble count(ppl.getNumberOfSites());
   for (auto& c:count)
+  {
     c.resize(vcount[0][0].size());
-  
-  const std::vector<ProcPos>& vpp=ppl.getProcessSiteRelations();
+  }
 
-  for (size_t i=0; i<count.size(); i++)
-    count[i]=vcount[vpp[i].nProc-1][vpp[i].pos];
+  const std::vector<ProcPos>& vpp = ppl.getProcessSiteRelations();
+
+  for (size_t i = 0; i < count.size(); i++)
+  {
+    count[i] = vcount[vpp[i].nProc - 1][vpp[i].pos];
+  }
   return count;
 }
 
@@ -80,12 +82,16 @@ VVdouble assignGoodSites(const VVdouble& vlength, const PartitionProcessPhyloLik
 {
   VVdouble lengths(ppl.getNumberOfSites());
   for (auto& c:lengths)
+  {
     c.resize(vlength[0].size());
-  
-  const std::vector<ProcPos>& vpp=ppl.getProcessSiteRelations();
+  }
 
-  for (size_t i=0; i<lengths.size(); i++)
-    lengths[i]=vlength[vpp[i].nProc-1];
+  const std::vector<ProcPos>& vpp = ppl.getProcessSiteRelations();
+
+  for (size_t i = 0; i < lengths.size(); i++)
+  {
+    lengths[i] = vlength[vpp[i].nProc - 1];
+  }
 
   return lengths;
 }
@@ -139,39 +145,39 @@ int main(int args, char** argv)
       mapnh.help("mapnh");
       exit(0);
     }
-  
+
     mapnh.startTimer();
     std::map<std::string, std::string> unparsedParams;
 
     Context context;
-    
+
 
     /*********************************/
     /* get Basic objects */
     /*********************************/
-  
-    shared_ptr<const Alphabet> alphabet(mapnh.getAlphabet());
-    shared_ptr<const GeneticCode> gCode(mapnh.getGeneticCode(alphabet));
+
+    shared_ptr<const Alphabet> alphabet = mapnh.getAlphabet();
+    shared_ptr<const GeneticCode> gCode = mapnh.getGeneticCode(alphabet);
 
     auto mSitesuniq = mapnh.getConstAlignmentsMap(alphabet, true);
 
-    const std::map<size_t, std::shared_ptr<const AlignmentDataInterface > > mSites = PhylogeneticsApplicationTools::uniqueToSharedMap<const TemplateAlignmentDataInterface<string>>(mSitesuniq);
+    const std::map<size_t, std::shared_ptr<const AlignmentDataInterface >> mSites = PhylogeneticsApplicationTools::uniqueToSharedMap<const TemplateAlignmentDataInterface<string>>(mSitesuniq);
 
-    
+
     auto mpTree = mapnh.getPhyloTreesMap(mSites, unparsedParams);
 
     shared_ptr<SubstitutionProcessCollection> SP(mapnh.getCollection(alphabet, gCode, mSites, mpTree, unparsedParams));
-                                               
+
     auto mProctmp = mapnh.getProcesses(SP, unparsedParams);
-    
+
     auto mProc = PhylogeneticsApplicationTools::uniqueToSharedMap<SequenceEvolution>(mProctmp);
-      
-    auto plc(mapnh.getPhyloLikelihoods(context, mProc, SP, mSites));
+
+    auto plc = mapnh.getPhyloLikelihoods(context, mProc, SP, mSites);
 
     if (!plc->hasPhyloLikelihood(1))
       throw Exception("Missing first phyloLikelihood.");
 
-    auto pl=(*plc)[1];
+    auto pl = (*plc)[1];
 
     mapnh.fixLikelihood(alphabet, gCode, pl);
 
@@ -181,120 +187,122 @@ int main(int args, char** argv)
 
     // Manage how unresolved characters are managed
     string unresolvedString = ApplicationTools::getStringParameter("manageUnresolved", mapnh.getParams(), "", "", true, 1);
-    if (unresolvedString!="One" && unresolvedString!="Average")
-      unresolvedString="Zero";
-    
-    short unresolvedOption=(unresolvedString=="One")?1:(unresolvedString=="Average")?2:0;
+    if (unresolvedString != "One" && unresolvedString != "Average")
+      unresolvedString = "Zero";
+
+    short unresolvedOption = (unresolvedString == "One") ? 1 : (unresolvedString == "Average") ? 2 : 0;
 
     ApplicationTools::displayResult("Manage unresolved characters", unresolvedString);
 
-  
+
     // Checks all phylolikelihoods fit, and only one alphabet state map
 
-    auto opspl= dynamic_pointer_cast<OneProcessSequencePhyloLikelihood>(pl);
-    auto sppl= dynamic_pointer_cast<SingleProcessPhyloLikelihood>(pl);    
+    auto opspl = dynamic_pointer_cast<OneProcessSequencePhyloLikelihood>(pl);
+    auto sppl = dynamic_pointer_cast<SingleProcessPhyloLikelihood>(pl);
     auto sap = dynamic_pointer_cast<PartitionProcessPhyloLikelihood>(pl);
-  
-    shared_ptr<const StateMapInterface> pstmap=0;
 
-    if (opspl==NULL && sppl==NULL && sap==NULL)
+    shared_ptr<const StateMapInterface> pstmap = 0;
+
+    if (opspl == NULL && sppl == NULL && sap == NULL)
       throw Exception("Mapping not possible for this phylo. Ask the developpers");
 
     shared_ptr<const AlignmentDataInterface> data;
     if (opspl)
     {
-      pstmap= opspl->getSubstitutionProcess()->getStateMap();
+      pstmap = opspl->getSubstitutionProcess()->getStateMap();
       data = opspl->getData();
     }
     else if (sppl)
     {
-      pstmap= sppl->getSubstitutionProcess()->getStateMap();
+      pstmap = sppl->getSubstitutionProcess()->getStateMap();
       data = sppl->getData();
     }
     else
     {
-      const std::vector<size_t>& vpn=sap->getNumbersOfPhyloLikelihoods();
+      const std::vector<size_t>& vpn = sap->getNumbersOfPhyloLikelihoods();
       data = sap->getData();
       for (const auto& pn : vpn)
       {
         const auto pap = sap->getPhyloLikelihood(pn);
-        const auto opspl2= dynamic_pointer_cast<const OneProcessSequencePhyloLikelihood>(pap);
+        const auto opspl2 = dynamic_pointer_cast<const OneProcessSequencePhyloLikelihood>(pap);
         const auto sppl2 = dynamic_pointer_cast<const SingleProcessPhyloLikelihood>(pap);
 
-        if (opspl2==NULL && sppl2==NULL)
+        if (opspl2 == NULL && sppl2 == NULL)
           throw Exception("Mapping not possible for a non-single process in container phylo.");
 
         if (!pstmap)
-          pstmap=opspl2?opspl2->getSubstitutionProcess()->getStateMap():sppl2->getSubstitutionProcess()->getStateMap();
+          pstmap = opspl2 ? opspl2->getSubstitutionProcess()->getStateMap() : sppl2->getSubstitutionProcess()->getStateMap();
         else
         {
-          const auto pstmap2=opspl2?opspl2->getSubstitutionProcess()->getStateMap():sppl2->getSubstitutionProcess()->getStateMap();
-          if (pstmap2->getAlphabetStates()!=pstmap->getAlphabetStates())
+          const auto pstmap2 = opspl2 ? opspl2->getSubstitutionProcess()->getStateMap() : sppl2->getSubstitutionProcess()->getStateMap();
+          if (pstmap2->getAlphabetStates() != pstmap->getAlphabetStates())
             throw Exception("Discordant alphabet states in container phylo.");
         }
       }
     }
-  
+
 
     //////////////////////////////////
     // set register and initialize the parameters for the mapping:
     //////////////
-  
+
     string regTypeDesc = ApplicationTools::getStringParameter("map.type", mapnh.getParams(), "All", "", true, false);
 
     shared_ptr<AlphabetIndex2> weights = 0;
     shared_ptr<AlphabetIndex2> distances = 0;
-  
+
     shared_ptr<SubstitutionRegisterInterface> reg(PhylogeneticsApplicationTools::getSubstitutionRegister(regTypeDesc, pstmap, gCode, weights, distances));
 
     shared_ptr<const AlphabetIndex2> sweights(weights);
     shared_ptr<const AlphabetIndex2> sdistances(distances);
 
-    //Write categories:
+    // Write categories:
     for (size_t i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i)
+    {
       ApplicationTools::displayResult("  * Count type " + TextTools::toString(i + 1), reg->getTypeName(i + 1));
+    }
 
-  
+
     // specific parameters to the null models
     string nullProcessParams = ApplicationTools::getStringParameter("nullProcessParams", mapnh.getParams(), "", "", false, 1);
     // output
-  
-    string outputDesc = ApplicationTools::getStringParameter("output.counts", mapnh.getParams(), "PerType(file=counts_)");
+
+    string outputDesc = ApplicationTools::getStringParameter("output.counts", mapnh.getParams(), "PerType(prefix=counts_)");
 
     string outputType;
     map<string, string> outputArgs;
     KeyvalTools::parseProcedure(outputDesc, outputType, outputArgs);
-    
+
     bool perBranchLength(0);
     bool perWord(0);
     bool splitNorm(0);
-  
+
     if (nullProcessParams != "")
     {
       splitNorm = ApplicationTools::getBooleanParameter("splitNorm", outputArgs, false, "", true, 1);
 
-      ApplicationTools::displayResult("Display separate counts and normalizations", splitNorm?"true":"false");
-    
+      ApplicationTools::displayResult("Display separate counts and normalizations", splitNorm ? "true" : "false");
+
       if (!splitNorm)
       {
-        perBranchLength=ApplicationTools::getBooleanParameter("perBranchLength", outputArgs, true, "", true, 0);
+        perBranchLength = ApplicationTools::getBooleanParameter("perBranchLength", outputArgs, true, "", true, 0);
 
-        ApplicationTools::displayResult("Normalization per branch length", perBranchLength?"true":"false");
+        ApplicationTools::displayResult("Normalization per branch length", perBranchLength ? "true" : "false");
       }
 
       perWord = ApplicationTools::getBooleanParameter("perWordSize", outputArgs, true, "", true, 0);
-        
-      ApplicationTools::displayResult("Normalization per word size", perWord?"true":"false");
+
+      ApplicationTools::displayResult("Normalization per word size", perWord ? "true" : "false");
     }
 
-    uint siteSize=(perWord && AlphabetTools::isWordAlphabet(*alphabet))?dynamic_pointer_cast<const CoreWordAlphabet>(alphabet)->getLength():1;
+    uint siteSize = (perWord && AlphabetTools::isWordAlphabet(*alphabet)) ? dynamic_pointer_cast<const CoreWordAlphabet>(alphabet)->getLength() : 1;
 
-    // Stock Phylolikelihoods, needed if perBranchLength 
-    vector<shared_ptr<const ParametrizablePhyloTree> > vpt;
-    
+    // Stock Phylolikelihoods, needed if perBranchLength
+    vector<shared_ptr<const ParametrizablePhyloTree>> vpt;
+
     // Compute phylosubstitutionmapping
-    vector<shared_ptr<PhyloSubstitutionMapping> > vpsm;
-  
+    vector<shared_ptr<PhyloSubstitutionMapping>> vpsm;
+
     if (opspl || sppl)
     {
       if (opspl)
@@ -316,35 +324,35 @@ int main(int args, char** argv)
     }
     else
     {
-      const std::vector<size_t>& vpn=sap->getNumbersOfPhyloLikelihoods();
+      const std::vector<size_t>& vpn = sap->getNumbersOfPhyloLikelihoods();
       size_t comp(0);
-      
+
       for (const auto& pn : vpn)
       {
-        auto opspl2= dynamic_pointer_cast<OneProcessSequencePhyloLikelihood>(sap->getPhyloLikelihood(pn));
-        auto sppl2= dynamic_pointer_cast<SingleProcessPhyloLikelihood>(sap->getPhyloLikelihood(pn));
-  
+        auto opspl2 = dynamic_pointer_cast<OneProcessSequencePhyloLikelihood>(sap->getPhyloLikelihood(pn));
+        auto sppl2 = dynamic_pointer_cast<SingleProcessPhyloLikelihood>(sap->getPhyloLikelihood(pn));
+
         if (opspl2)
         {
           shared_ptr<PhyloSubstitutionMapping> spsm(new OneProcessSequenceSubstitutionMapping(opspl2, reg, sweights, sdistances));
-          spsm->computeCounts(unresolvedOption, thresholdSat,comp<10);
+          spsm->computeCounts(unresolvedOption, thresholdSat, comp < 10);
           vpsm.push_back(spsm);
-          
+
           if (perBranchLength)
             vpt.push_back(opspl2->tree());
         }
         else
         {
           shared_ptr<PhyloSubstitutionMapping> spsm(new SingleProcessSubstitutionMapping(sppl2, reg, sweights, sdistances));
-          spsm->computeCounts(unresolvedOption, thresholdSat,comp<10);
+          spsm->computeCounts(unresolvedOption, thresholdSat, comp < 10);
           vpsm.push_back(spsm);
-          
+
           if (perBranchLength)
             vpt.push_back(sppl2->tree());
         }
 
-        if (comp>=10)
-          ApplicationTools::displayResult("Build Substitution count",TextTools::toString(comp+1));
+        if (comp >= 10)
+          ApplicationTools::displayResult("Build Substitution count", TextTools::toString(comp + 1));
 
         comp++;
       }
@@ -353,14 +361,14 @@ int main(int args, char** argv)
     ///////////////////////////////////////////////
     //  Compute normalizations if needed
 
-    for (size_t i=0; i<vpsm.size(); i++)
+    for (size_t i = 0; i < vpsm.size(); i++)
     {
-      shared_ptr<PhyloSubstitutionMapping> psm=vpsm[i];
+      shared_ptr<PhyloSubstitutionMapping> psm = vpsm[i];
 
       ParameterList nullParams;
       if (nullProcessParams != "")
       {
-        ParameterList pl0=psm->getParameters();
+        ParameterList pl0 = psm->getParameters();
 
         for (unsigned int np = 0; np < pl0.size(); np++)
         {
@@ -372,27 +380,27 @@ int main(int args, char** argv)
 
         map<string, string> npv;
         KeyvalTools::multipleKeyvals(nullProcessParams, npv, ",", false);
-      
+
         for (const auto& pv : npv)
         {
           vector<string> pn = pl0.getMatchingParameterNames(pv.first);
-          
-          double val=TextTools::toDouble(pv.second);
+
+          double val = TextTools::toDouble(pv.second);
           for (const auto& n : pn)
           {
-            pl0.setParameterValue(n,val);
-            nullParams.addParameter(Parameter(n,pl0.getParameterValue(n)));
+            pl0.setParameterValue(n, val);
+            nullParams.addParameter(Parameter(n, pl0.getParameterValue(n)));
             ApplicationTools::displayResult("null Parameter " + n, val);
           }
         }
 
-        psm->computeNormalizations(nullParams,unresolvedOption,i<10);
-        if (i>=10)
-          ApplicationTools::displayResult("Build Substitution normalization",TextTools::toString(i+1));
+        psm->computeNormalizations(nullParams, unresolvedOption, i < 10);
+        if (i >= 10)
+          ApplicationTools::displayResult("Build Substitution normalization", TextTools::toString(i + 1));
       }
     }
-    
-  
+
+
     ////////////////////////////////////////////
     //// OUTPUT
     ////////////////////////////////////////////
@@ -561,118 +569,129 @@ int main(int args, char** argv)
 
 
       vcounts.resize(vpsm.size());
-      if (nullProcessParams!="")
+      if (nullProcessParams != "")
       {
         vnorm.resize(vpsm.size());
         if (perBranchLength)
           vlength.resize(vpsm.size());
       }
-      
-      Vuint ids=vpsm[0]->counts().getAllEdgesIndexes();
 
-      for (size_t i=0;i<vpsm.size();i++)
+      Vuint ids = vpsm[0]->counts().getAllEdgesIndexes();
+
+      for (size_t i = 0; i < vpsm.size(); i++)
       {
-        shared_ptr<PhyloSubstitutionMapping> psm=vpsm[i];
+        shared_ptr<PhyloSubstitutionMapping> psm = vpsm[i];
 
-        if (perBranch && i!=0 && ids!=psm->counts().getAllEdgesIndexes())
+        if (perBranch && i != 0 && ids != psm->counts().getAllEdgesIndexes())
           throw Exception("Branch ids of phylolikelihood " + TextTools::toString(i) + " do not match the ones of the first phylolikelihood.");
-          
-        vcounts[i]=SubstitutionMappingTools::getCountsPerSitePerBranchPerType(psm->counts());
-              
-        if (nullProcessParams!="")
+
+        vcounts[i] = SubstitutionMappingTools::getCountsPerSitePerBranchPerType(psm->counts());
+
+        if (nullProcessParams != "")
         {
-          vnorm[i]=SubstitutionMappingTools::getCountsPerSitePerBranchPerType(psm->normalizations());
+          vnorm[i] = SubstitutionMappingTools::getCountsPerSitePerBranchPerType(psm->normalizations());
           if (perBranchLength)
-            vlength[i]=vpt[i]->getBranchLengths();
+            vlength[i] = vpt[i]->getBranchLengths();
         }
       }
-      
+
       // build final vectors of counts
-      
+
       VVVdouble counts, norm;
       VVdouble lengths;
 
       if (!sap)
       {
-        counts=vcounts[0];
-        if (nullProcessParams!="")
+        counts = vcounts[0];
+        if (nullProcessParams != "")
         {
-          norm=vnorm[0];
+          norm = vnorm[0];
           if (perBranchLength)
           {
             lengths.resize(vnorm[0].size());
             for (auto& l:lengths)
-              l=vlength[0];
+            {
+              l = vlength[0];
+            }
           }
         }
       }
       else
       {
-        counts=assignGoodSites(vcounts,*sap);
-        if (nullProcessParams!="")
+        counts = assignGoodSites(vcounts, *sap);
+        if (nullProcessParams != "")
         {
-          norm=assignGoodSites(vnorm,*sap);
+          norm = assignGoodSites(vnorm, *sap);
           if (perBranchLength)
-            lengths=assignGoodSites(vlength,*sap);
+            lengths = assignGoodSites(vlength, *sap);
         }
       }
-
 
       // output not per branch
       if (!perBranch)
       {
-        ApplicationTools::displayResult(string("Output counts (site/type) to file"), outputnf + ".tsv");
+        ApplicationTools::displayResult(string("Output counts (site/type) to file"), outputnf + ".sged");
 
         VVdouble counts2(counts.size());
 
         for (auto& c:counts2)
-          c.resize(reg->getNumberOfSubstitutionTypes());
-
-        for (size_t s=0; s<counts.size(); s++)
         {
-          VVdouble& counts_s=counts[s];
-          Vdouble& counts2_s=counts2[s];
-          
+          c.resize(reg->getNumberOfSubstitutionTypes());
+        }
+
+        for (size_t s = 0; s < counts.size(); s++)
+        {
+          VVdouble& counts_s = counts[s];
+          Vdouble& counts2_s = counts2[s];
+
           for (const auto& counts_s_br:counts_s)
-            counts2_s+=counts_s_br;
-
-          if (nullProcessParams!="" && !splitNorm)
           {
-            VVdouble& norm_s=norm[s];
-            Vdouble norm2(reg->getNumberOfSubstitutionTypes(),0);
-            
-            for (const auto& norm_s_br:norm_s)
-              norm2+=norm_s_br;
+            counts2_s += counts_s_br;
+          }
 
-            counts2_s/=(norm2*siteSize);
+          if (nullProcessParams != "" && !splitNorm)
+          {
+            VVdouble& norm_s = norm[s];
+            Vdouble norm2(reg->getNumberOfSubstitutionTypes(), 0);
+
+            for (const auto& norm_s_br:norm_s)
+            {
+              norm2 += norm_s_br;
+            }
+
+            counts2_s /= (norm2 * siteSize);
 
             if (perBranchLength)
-              counts2_s*=VectorTools::sum(lengths[s]);
+              counts2_s *= VectorTools::sum(lengths[s]);
           }
         }
 
         if (perSite)
-          SubstitutionMappingTools::outputPerSitePerType(outputnf+".tsv", *reg, *data, counts2);
+          SubstitutionMappingTools::outputPerSitePerType(outputnf+".sged", *reg, *data, counts2);
         else
           SubstitutionMappingTools::outputPerType(outputnf+".tsv", *reg, *data, counts2);
           
         if (nullProcessParams!="" && splitNorm)
         {
-          outputnf += "_norm.tsv";
+          outputnf += "_norm.sged";
               
           ApplicationTools::displayResult(string("Output normalizations (site/type) to file"), outputnf);
               
           VVdouble norm2(norm.size());
           for (auto& n:norm2)
-            n.resize(reg->getNumberOfSubstitutionTypes());
-          
-          for (size_t s=0; s<norm.size(); s++)
           {
-            VVdouble& norm_s=norm[s];
-            Vdouble& norm2_s=norm2[s];
-          
+            n.resize(reg->getNumberOfSubstitutionTypes());
+          }
+
+          for (size_t s = 0; s < norm.size(); s++)
+          {
+            VVdouble& norm_s = norm[s];
+            Vdouble& norm2_s = norm2[s];
+
             for (const auto& norm_s_br:norm_s)
-              norm2_s+=norm_s_br;
+            {
+              norm2_s += norm_s_br;
+            }
           }
 
           if (perSite)
@@ -682,58 +701,69 @@ int main(int args, char** argv)
 
         }
       }
-      else {
+      else
+      {
         if (!perType)
-          // PER SITE PER BRANCH
+        // PER SITE PER BRANCH
         {
           ApplicationTools::displayResult(string("Output counts (branch/site) to file"), outputnf);
           
           VVdouble counts2(counts.size());
-          for (auto& c:counts2)
-            c.resize(counts[0].size());
-          
-          for (size_t s=0; s<counts.size(); s++)
+          for (auto& c : counts2)
           {
-            VVdouble& counts_s=counts[s];
-            Vdouble& counts2_s=counts2[s];
-          
-            for (size_t br=0; br<counts_s.size(); br++)
-              counts2_s[br]=VectorTools::sum(counts_s[br]);
+            c.resize(counts[0].size());
+          }
 
-            if (nullProcessParams!="" && !splitNorm)
+          for (size_t s = 0; s < counts.size(); s++)
+          {
+            VVdouble& counts_s = counts[s];
+            Vdouble& counts2_s = counts2[s];
+
+            for (size_t br = 0; br < counts_s.size(); br++)
             {
-              VVdouble& norm_s=norm[s];
-              Vdouble norm2(norm_s.size());
-              
-              for (size_t br=0; br<norm_s.size(); br++)
-                norm2[br]=VectorTools::sum(norm_s[br]);
+              counts2_s[br] = VectorTools::sum(counts_s[br]);
+            }
 
-              counts2_s/=(norm2*siteSize);
+            if (nullProcessParams != "" && !splitNorm)
+            {
+              VVdouble& norm_s = norm[s];
+              Vdouble norm2(norm_s.size());
+
+              for (size_t br = 0; br < norm_s.size(); br++)
+              {
+                norm2[br] = VectorTools::sum(norm_s[br]);
+              }
+
+              counts2_s /= (norm2 * siteSize);
 
               if (perBranchLength)
-                counts2_s*=lengths[s];
+                counts2_s *= lengths[s];
             }
           }
 
-          SubstitutionMappingTools::outputPerSitePerBranch(outputnf +".tsv", ids, *data, counts2);
+          SubstitutionMappingTools::outputPerSitePerBranch(outputnf +".sged", ids, *data, counts2);
 
-          if (nullProcessParams!="" && splitNorm)
+          if (nullProcessParams != "" && splitNorm)
           {
-            outputnf += "_norm.tsv";
+            outputnf += "_norm.sged";
             
             ApplicationTools::displayResult(string("Output normalizations (branch/site) to file"), outputnf);
               
             VVdouble norm2(norm.size());
             for (auto& n:norm2)
-              n.resize(norm[0].size());
-            
-            for (size_t s=0; s<norm.size(); s++)
             {
-              VVdouble& norm_s=norm[s];
-              Vdouble& norm2_s=norm2[s];
-          
-              for (size_t br=0; br<norm_s.size(); br++)
-                norm2_s[br]=VectorTools::sum(norm_s[br]);
+              n.resize(norm[0].size());
+            }
+
+            for (size_t s = 0; s < norm.size(); s++)
+            {
+              VVdouble& norm_s = norm[s];
+              Vdouble& norm2_s = norm2[s];
+
+              for (size_t br = 0; br < norm_s.size(); br++)
+              {
+                norm2_s[br] = VectorTools::sum(norm_s[br]);
+              }
             }
             SubstitutionMappingTools::outputPerSitePerBranch(outputnf, ids, *data, norm2);
           }
@@ -744,21 +774,21 @@ int main(int args, char** argv)
         
           ApplicationTools::displayResult(string("Output counts (site/branch/type) to files"), outputnf + "*");
 
-          if (nullProcessParams!="" && !splitNorm)
+          if (nullProcessParams != "" && !splitNorm)
           {
-            for (size_t s=0; s<counts.size(); s++)
+            for (size_t s = 0; s < counts.size(); s++)
             {
-              VVdouble& counts_s=counts[s];
-              VVdouble& norm_s=norm[s];
-              Vdouble& lengths_s=lengths[s];
-              for (size_t br=0; br<norm_s.size(); br++)
+              VVdouble& counts_s = counts[s];
+              VVdouble& norm_s = norm[s];
+              Vdouble& lengths_s = lengths[s];
+              for (size_t br = 0; br < norm_s.size(); br++)
               {
-                Vdouble& counts_s_br=counts_s[br];
-                
-                counts_s_br/= norm_s[br];
-                
+                Vdouble& counts_s_br = counts_s[br];
+
+                counts_s_br /= norm_s[br];
+
                 if (perBranchLength)
-                  counts_s_br*=lengths_s[br];
+                  counts_s_br *= lengths_s[br];
               }
             }
           }
@@ -779,7 +809,7 @@ int main(int args, char** argv)
         }
       }
     }
-    
+ 
     /////////////////////////////////
     // clean up
 
@@ -790,8 +820,6 @@ int main(int args, char** argv)
     cout << e.what() << endl;
     exit(-1);
   }
-  
-  return 0;
-  
-}
 
+  return 0;
+}
