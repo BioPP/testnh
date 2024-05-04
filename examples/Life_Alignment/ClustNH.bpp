@@ -11,4 +11,4 @@ test.branch.auto_cluster = Marginal(threshold=1)
 
 # Where to output cluster tree:
 output.cluster_tree.file = $(DATA).cluster_join.dnd
-
+output.tree_with_id.file = $(DATA).nhx

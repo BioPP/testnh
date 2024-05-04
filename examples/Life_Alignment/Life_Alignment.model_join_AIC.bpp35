@@ -1,160 +1,154 @@
-# Log likelihood = -13877.45973357622642652132
+# Log likelihood = -13999.74591907710237137508
 
 # Substitution model parameters:
 nonhomogeneous=general
-nonhomogeneous.number_of_models=50
+nonhomogeneous.number_of_models=48
 
-model1=T92(kappa=3.191340833534,theta=0.698769224338)
-model1.nodes_id=81
+model1=T92(kappa=3.156634334055,theta=0.422150649211)
+model1.nodes_id=110
 
-model2=T92(kappa=T92.kappa_1,theta=0.904900609730)
-model2.nodes_id=168,170,171,177
+model2=T92(kappa=T92.kappa_1,theta=0.435469900275)
+model2.nodes_id=174
 
-model3=T92(kappa=T92.kappa_1,theta=0.656074548162)
-model3.nodes_id=169
+model3=T92(kappa=T92.kappa_1,theta=0.587891921877)
+model3.nodes_id=34,35
 
-model4=T92(kappa=T92.kappa_1,theta=0.177022663972)
-model4.nodes_id=35
+model4=T92(kappa=T92.kappa_1,theta=0.236901634768)
+model4.nodes_id=33
 
-model5=T92(kappa=T92.kappa_1,theta=0.237018270404)
-model5.nodes_id=144
+model5=T92(kappa=T92.kappa_1,theta=0.488962681550)
+model5.nodes_id=128,129,130,131,132,133,134,135,136,137,138
 
-model6=T92(kappa=T92.kappa_1,theta=0.369912363797)
-model6.nodes_id=172,173,174
+model6=T92(kappa=T92.kappa_1,theta=0.405413106661)
+model6.nodes_id=141
 
-model7=T92(kappa=T92.kappa_1,theta=0.591331688206)
-model7.nodes_id=175,176
+model7=T92(kappa=T92.kappa_1,theta=0.816087166360)
+model7.nodes_id=38,44
 
-model8=T92(kappa=T92.kappa_1,theta=0.465090904139)
-model8.nodes_id=44
+model8=T92(kappa=T92.kappa_1,theta=0.856076775594)
+model8.nodes_id=39
 
-model9=T92(kappa=T92.kappa_1,theta=0.741751215121)
-model9.nodes_id=45,46
+model9=T92(kappa=T92.kappa_1,theta=0.348688922747)
+model9.nodes_id=169
 
-model10=T92(kappa=T92.kappa_1,theta=0.634273384552)
-model10.nodes_id=9
+model10=T92(kappa=T92.kappa_1,theta=0.321270440731)
+model10.nodes_id=162,163,164,165,166
 
-model11=T92(kappa=T92.kappa_1,theta=0.772059581388)
-model11.nodes_id=95
+model11=T92(kappa=T92.kappa_1,theta=0.758288865036)
+model11.nodes_id=167
 
-model12=T92(kappa=T92.kappa_1,theta=0.652144195124)
-model12.nodes_id=99
+model12=T92(kappa=T92.kappa_1,theta=0.253065573394)
+model12.nodes_id=168,170
 
-model13=T92(kappa=T92.kappa_1,theta=0.824918549564)
-model13.nodes_id=0,6,7,8,10,11,12,20,21,41,42,110
+model13=T92(kappa=T92.kappa_1,theta=0.628089964799)
+model13.nodes_id=80
 
-model14=T92(kappa=T92.kappa_1,theta=0.699166027461)
-model14.nodes_id=13,14,15,16,17,18,19
+model14=T92(kappa=T92.kappa_1,theta=0.636045771525)
+model14.nodes_id=71,72,73,74,75,76,77
 
-model15=T92(kappa=T92.kappa_1,theta=0.525351595188)
-model15.nodes_id=136,137,138,139,140,141,142
+model15=T92(kappa=T92.kappa_1,theta=0.882826208299)
+model15.nodes_id=79,81
 
-model16=T92(kappa=T92.kappa_1,theta=0.456297651322)
-model16.nodes_id=88
+model16=T92(kappa=T92.kappa_1,theta=0.836569335651)
+model16.nodes_id=78
 
-model17=T92(kappa=T92.kappa_1,theta=0.565784493137)
-model17.nodes_id=1,2,3,5
+model17=T92(kappa=T92.kappa_1,theta=0.999998999999)
+model17.nodes_id=112
 
-model18=T92(kappa=T92.kappa_1,theta=0.685807419322)
-model18.nodes_id=4
+model18=T92(kappa=T92.kappa_1,theta=0.406348303353)
+model18.nodes_id=142
 
-model19=T92(kappa=T92.kappa_1,theta=0.819369972001)
-model19.nodes_id=31
+model19=T92(kappa=T92.kappa_1,theta=0.485128067307)
+model19.nodes_id=140,143,144
 
-model20=T92(kappa=T92.kappa_1,theta=0.751472228565)
-model20.nodes_id=36,37
+model20=T92(kappa=T92.kappa_1,theta=0.382912222305)
+model20.nodes_id=139
 
-model21=T92(kappa=T92.kappa_1,theta=0.023723128014)
-model21.nodes_id=135,143,159,161,167
+model21=T92(kappa=T92.kappa_1,theta=0.286193330941)
+model21.nodes_id=25,26,27,28,29
 
-model22=T92(kappa=T92.kappa_1,theta=0.208344327143)
-model22.nodes_id=160
+model22=T92(kappa=T92.kappa_1,theta=0.463754905051)
+model22.nodes_id=30
 
-model23=T92(kappa=T92.kappa_1,theta=0.537262654535)
-model23.nodes_id=145,146,147,148,155,156,157,158
+model23=T92(kappa=T92.kappa_1,theta=0.392648301479)
+model23.nodes_id=148,149,150
 
-model24=T92(kappa=T92.kappa_1,theta=0.795790302291)
-model24.nodes_id=150,151,152,153,154
+model24=T92(kappa=T92.kappa_1,theta=0.486087591836)
+model24.nodes_id=145,146,147
 
-model25=T92(kappa=T92.kappa_1,theta=0.814592197330)
-model25.nodes_id=149
+model25=T92(kappa=T92.kappa_1,theta=0.454445421242)
+model25.nodes_id=10,11
 
-model26=T92(kappa=T92.kappa_1,theta=0.317815470312)
-model26.nodes_id=79,80,82,83,84,85,86,87,89,93,94,96,97,98,100,101,105,106
+model26=T92(kappa=T92.kappa_1,theta=0.609257867051)
+model26.nodes_id=9
 
-model27=T92(kappa=T92.kappa_1,theta=0.374887630078)
-model27.nodes_id=90,91,92
+model27=T92(kappa=T92.kappa_1,theta=0.477475980022)
+model27.nodes_id=49
 
-model28=T92(kappa=T92.kappa_1,theta=0.708771087751)
-model28.nodes_id=112
+model28=T92(kappa=T92.kappa_1,theta=0.172767454316)
+model28.nodes_id=106
 
-model29=T92(kappa=T92.kappa_1,theta=0.604952879845)
-model29.nodes_id=26
+model29=T92(kappa=T92.kappa_1,theta=0.784605249960)
+model29.nodes_id=107
 
-model30=T92(kappa=T92.kappa_1,theta=0.474621811735)
-model30.nodes_id=47,48,49
+model30=T92(kappa=T92.kappa_1,theta=0.671390279972)
+model30.nodes_id=108
 
-model31=T92(kappa=T92.kappa_1,theta=0.590469083904)
-model31.nodes_id=50,51,52,53,54,55
+model31=T92(kappa=T92.kappa_1,theta=0.478115478564)
+model31.nodes_id=119,120,121,122,123,124,125,126,127,151,155,156,157,158,159,160,161,171,172,173,175,176,177
 
-model32=T92(kappa=T92.kappa_1,theta=0.690788331121)
-model32.nodes_id=120
+model32=T92(kappa=T92.kappa_1,theta=0.440703583528)
+model32.nodes_id=152,153,154
 
-model33=T92(kappa=T92.kappa_1,theta=0.353508783413)
-model33.nodes_id=111,113,114,115,116,117,118,119,122,123
+model33=T92(kappa=T92.kappa_1,theta=0.566847290359)
+model33.nodes_id=97
 
-model34=T92(kappa=T92.kappa_1,theta=0.668952070676)
-model34.nodes_id=121
+model34=T92(kappa=T92.kappa_1,theta=0.570260348021)
+model34.nodes_id=98
 
-model35=T92(kappa=T92.kappa_1,theta=0.000001000001)
-model35.nodes_id=162,163,164
+model35=T92(kappa=T92.kappa_1,theta=0.511510756586)
+model35.nodes_id=93,94,95,96,100,101,102,103,104,105,109,111
 
-model36=T92(kappa=T92.kappa_1,theta=0.485371905882)
-model36.nodes_id=166
+model36=T92(kappa=T92.kappa_1,theta=0.999998999999)
+model36.nodes_id=99
 
-model37=T92(kappa=T92.kappa_1,theta=0.116654783933)
-model37.nodes_id=165
+model37=T92(kappa=T92.kappa_1,theta=0.788366025010)
+model37.nodes_id=82
 
-model38=T92(kappa=T92.kappa_1,theta=0.449694604764)
-model38.nodes_id=65,66,67,68,69,70,71,72,73,74,75,76,77,78
+model38=T92(kappa=T92.kappa_1,theta=0.999998999999)
+model38.nodes_id=57
 
-model39=T92(kappa=T92.kappa_1,theta=0.496430850331)
-model39.nodes_id=22,23,24,25,28,29,30,32,33,34,38,39,40
+model39=T92(kappa=T92.kappa_1,theta=0.747390656040)
+model39.nodes_id=84,85,87,88,89,90,91,92
 
-model40=T92(kappa=T92.kappa_1,theta=0.647221854821)
-model40.nodes_id=27
+model40=T92(kappa=T92.kappa_1,theta=0.628048638475)
+model40.nodes_id=86
 
-model41=T92(kappa=T92.kappa_1,theta=0.722000478469)
-model41.nodes_id=124,125,126,127,128,129,130,131,132,134
+model41=T92(kappa=T92.kappa_1,theta=0.795525372141)
+model41.nodes_id=42
 
-model42=T92(kappa=T92.kappa_1,theta=0.464538152814)
-model42.nodes_id=133
+model42=T92(kappa=T92.kappa_1,theta=0.763842036716)
+model42.nodes_id=40,41,43
 
-model43=T92(kappa=T92.kappa_1,theta=0.293896345061)
-model43.nodes_id=56,57,58
+model43=T92(kappa=T92.kappa_1,theta=0.388958588332)
+model43.nodes_id=0,1,2,3,4,6,7,8,12,13,14,15,16,17,18,19,20,21,22,23,24
 
-model44=T92(kappa=T92.kappa_1,theta=0.602207811349)
-model44.nodes_id=59,60,61,62,63,64
+model44=T92(kappa=T92.kappa_1,theta=0.455356466579)
+model44.nodes_id=5
 
-model45=T92(kappa=T92.kappa_1,theta=0.708859470693)
-model45.nodes_id=43,107
+model45=T92(kappa=T92.kappa_1,theta=0.537407810750)
+model45.nodes_id=67,68,69,70,83,113,114,180,181
 
-model46=T92(kappa=T92.kappa_1,theta=0.796400136540)
-model46.nodes_id=108,109
+model46=T92(kappa=T92.kappa_1,theta=0.603741506584)
+model46.nodes_id=115,116,117,118,178,179
 
-model47=T92(kappa=T92.kappa_1,theta=0.533807390007)
-model47.nodes_id=102,104
+model47=T92(kappa=T92.kappa_1,theta=0.642629866227)
+model47.nodes_id=31,32,36,37,45,46,47,48,50,56,58,59,60,61,62,63,64,65,66
 
-model48=T92(kappa=T92.kappa_1,theta=0.725504225624)
-model48.nodes_id=103
-
-model49=T92(kappa=T92.kappa_1,theta=0.343448535598)
-model49.nodes_id=178
-
-model50=T92(kappa=T92.kappa_1,theta=0.521990349238)
-model50.nodes_id=179,180,181
+model48=T92(kappa=T92.kappa_1,theta=0.510527288729)
+model48.nodes_id=51,52,53,54,55
 
 # Root frequencies:
-nonhomogeneous.root_freq=GC(theta=0.455832067867)
-rate_distribution=Gamma(n=4,alpha=0.622171682464, Gamma.beta=alpha)
+nonhomogeneous.root_freq=GC(theta=0.609764346330)
+rate_distribution=Gamma(n=4,alpha=0.628720272244, Gamma.beta=alpha)
 

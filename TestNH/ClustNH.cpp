@@ -12,6 +12,7 @@ using namespace std;
 #include <Bpp/Text/KeyvalTools.h>
 #include <Bpp/Seq/Alphabet/AlphabetTools.h>
 #include <Bpp/Phyl/Io/Newick.h>
+#include <Bpp/Phyl/Io/Nhx.h>
 #include <Bpp/Phyl/Mapping/PhyloMappings/OneProcessSequenceSubstitutionMapping.h>
 #include <Bpp/Phyl/Mapping/PhyloMappings/SingleProcessSubstitutionMapping.h>
 #include <Bpp/Phyl/Likelihood/PhyloLikelihoods/PartitionProcessPhyloLikelihood.h>
@@ -51,7 +52,7 @@ int main(int args, char** argv)
     ApplicationTools::displayResult(string("Input counts (branch/site) to file"), perSitenf);
 
     std::ifstream inputStream(perSitenf, ios::in);
-    auto countsTable = DataTable::read(inputStream, "\t", true, 1);
+    auto countsTable = DataTable::read(inputStream, "\t", true, -1);
 
     //Branches are columns, types are rows, need to transpose and convert to numbers:
     VVdouble counts(countsTable->getNumberOfColumns());
@@ -162,6 +163,13 @@ int main(int args, char** argv)
 
       // Read the tree:
       shared_ptr<Tree> tree = PhylogeneticsApplicationTools::getTree(clustnh.getParams());
+      // Convert to NHX if input tree is newick or nexus?
+      string treeIdOut = ApplicationTools::getAFilePath("output.tree_with_id.file", clustnh.getParams(), false, false, "none", 1);
+      if (treeIdOut != "none")
+      {
+        Nhx nhx(true);
+        nhx.writeTree(*tree, treeIdOut, true);
+      }
 
       // ChiClustering htest(counts, ids, true);
       MultinomialClustering htest(countsint, ids, *tree, *autoClust, testNeighb, testNegBrL, true);

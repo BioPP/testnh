@@ -59,7 +59,7 @@ We try to cluster nodes freely:
 mapnh --noninteractive=yes param=MapNH.bpp \
       "map.type=GC(stationarity=no)" > mapnh.out 
 
-clustnh--noninteractive=yes param=ClustNH.bpp \
+clustnh --noninteractive=yes param=ClustNH.bpp \
       test.branch.neighbor=no \
       output.cluster_tree.file=Life_Alignment.cluster_equilibrium_free.dnd > clustnh_free.out
 ```
@@ -85,22 +85,22 @@ and use two model selection criteria (AIC and BIC):
 partnh --noninteractive=yes param=PartNH.bpp \
        input.cluster_tree.file=Life_Alignment.cluster_equilibrium_free.dnd\
        partition.test=BIC\
-       METHOD=free_BIC > partnh_free_BIC.out &
+       METHOD=free_BIC > partnh_free_BIC.out
 
 partnh --noninteractive=yes param=PartNH.bpp \
        input.cluster_tree.file=Life_Alignment.cluster_equilibrium_join.dnd\
        partition.test=BIC\
-       METHOD=join_BIC > partnh_join_BIC.out &
+       METHOD=join_BIC > partnh_join_BIC.out
 
 partnh --noninteractive=yes param=PartNH.bpp \
        input.cluster_tree.file=Life_Alignment.cluster_equilibrium_free.dnd\
        partition.test=AIC\
-       METHOD=free_AIC > partnh_free_AIC.out &
+       METHOD=free_AIC > partnh_free_AIC.out
 
 partnh --noninteractive=yes param=PartNH.bpp \
        input.cluster_tree.file=Life_Alignment.cluster_equilibrium_join.dnd\
        partition.test=AIC\
-       METHOD=join_AIC > partnh_join_AIC.out &
+       METHOD=join_AIC > partnh_join_AIC.out
 ```
 
 3) Test if the resulting non-homogeneous models take into account the underlying non-homogeneity

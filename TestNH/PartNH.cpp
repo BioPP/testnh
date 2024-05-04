@@ -111,7 +111,7 @@ vector<const Node*> getCandidateNodesForThreshold(map<double, vector<const Node*
   return candidates;
 }
 
-vector< vector<int>> getGroups(vector<const Node*>& candidates)
+vector<vector<int>> getGroups(vector<const Node*>& candidates)
 {
   map<int, Partition> partitions;
   for (size_t i = 0; i < candidates.size(); ++i)
@@ -257,7 +257,7 @@ ParameterList getParametersToEstimate(const DRTreeLikelihoodInterface& drtl, map
 
   ParameterList parametersToEstimate = drtl.getParameters();
   vector<string> parNames = parametersToEstimate.getParameterNames();
-  string paramListDesc = ApplicationTools::getStringParameter("optimization.ignore_parameters", params, "", "", true, false);
+  string paramListDesc = ApplicationTools::getStringParameter("optimization.ignore_parameters", params, "", "", true, 2);
   StringTokenizer st(paramListDesc, ",");
   while (st.hasMoreToken())
   {
@@ -705,7 +705,7 @@ int main(int args, char** argv)
         }
 
         // Get the corresponding partitions:
-        vector< vector<int>> newGroups = getGroups(candidates);
+        vector<vector<int>> newGroups = getGroups(candidates);
         ApplicationTools::displayResult("Number of real partitions", newGroups.size());
 
         // Display and record partitions:
@@ -725,7 +725,7 @@ int main(int args, char** argv)
         previousParameters.addParameters(drtl->getRateDistributionParameters());
         if (!stationarity && modelCount > 1)
           previousParameters.addParameters(dynamic_cast<DRNonHomogeneousTreeLikelihood&>(*drtl).substitutionModelSet().getRootFrequenciesParameters());
-        if (dynamic_pointer_cast<MixedTransitionModelInterface>(model))
+        if (!dynamic_pointer_cast<MixedTransitionModelInterface>(model))
           drtl = make_shared<DRNonHomogeneousTreeLikelihood>(*ptree, *sites, newModelSet, newRDist, false);
         else
           throw Exception("Mixed models not supported so far.");

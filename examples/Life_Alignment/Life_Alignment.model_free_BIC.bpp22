@@ -1,85 +1,82 @@
-# Log likelihood = -13911.34747898092609830201
+# Log likelihood = -14040.13488019647411420010
 
 # Substitution model parameters:
 nonhomogeneous=general
-nonhomogeneous.number_of_models=25
+nonhomogeneous.number_of_models=24
 
-model1=T92(kappa=3.088014775947,theta=0.251501175979)
-model1.nodes_id=35,79,83,87,89
+model1=T92(kappa=3.088418832933,theta=0.613479889484)
+model1.nodes_id=26,41,43,67,75,76,77,84,123,124,125,126,127,147,151,155,159,180,181
 
-model2=T92(kappa=T92.kappa_1,theta=0.954429283886)
-model2.nodes_id=168
+model2=T92(kappa=T92.kappa_1,theta=0.580583744288)
+model2.nodes_id=34,35
 
-model3=T92(kappa=T92.kappa_1,theta=0.765330546909)
-model3.nodes_id=0,11,50,108,110,120,166
+model3=T92(kappa=T92.kappa_1,theta=0.377104772543)
+model3.nodes_id=0,65,71,83,110,113,114,119,121,157,158,161,172,173,176,177
 
-model4=T92(kappa=T92.kappa_1,theta=0.481112333078)
-model4.nodes_id=23,51,88,90,104,118,140,142,147
+model4=T92(kappa=T92.kappa_1,theta=0.442898665390)
+model4.nodes_id=32,36,45,46,47,48,50,139,141,171
 
-model5=T92(kappa=T92.kappa_1,theta=0.329006181964)
-model5.nodes_id=24,39,86,96,98,162,163,164,165
+model5=T92(kappa=T92.kappa_1,theta=0.421000308599)
+model5.nodes_id=6,42,56,108,137,142,145
 
-model6=T92(kappa=T92.kappa_1,theta=0.296638463711)
-model6.nodes_id=78,80,82,97,136,138,144
+model6=T92(kappa=T92.kappa_1,theta=0.530674386304)
+model6.nodes_id=12,24,28,29,85,93,94,95,111,167
 
-model7=T92(kappa=T92.kappa_1,theta=0.756802594074)
-model7.nodes_id=6,7,64,81,95,156,171
+model7=T92(kappa=T92.kappa_1,theta=0.412097219441)
+model7.nodes_id=9,22,33,40
 
-model8=T92(kappa=T92.kappa_1,theta=0.837853628744)
-model8.nodes_id=8,12,36,42,112,149,150,151,152,153,154
+model8=T92(kappa=T92.kappa_1,theta=0.814898050159)
+model8.nodes_id=38,44
 
-model9=T92(kappa=T92.kappa_1,theta=0.367280731034)
-model9.nodes_id=22,32,34,38,40,58,100,172,173,174,178
+model9=T92(kappa=T92.kappa_1,theta=0.534961220463)
+model9.nodes_id=64,152,153,154,156
 
-model10=T92(kappa=T92.kappa_1,theta=0.506987121055)
-model10.nodes_id=4,21,41,55,65,66,114,115,123,125,133,148,155,157,158,160,169
+model10=T92(kappa=T92.kappa_1,theta=0.090100927546)
+model10.nodes_id=112,150,168
 
-model11=T92(kappa=T92.kappa_1,theta=0.644755039455)
-model11.nodes_id=26,37,53,54,109
+model11=T92(kappa=T92.kappa_1,theta=0.605507624426)
+model11.nodes_id=1,2,8,78,86,89,90,96,97,100
 
-model12=T92(kappa=T92.kappa_1,theta=0.745700778585)
-model12.nodes_id=124,126,127,128,129,130,131,132,134
+model12=T92(kappa=T92.kappa_1,theta=0.661704401090)
+model12.nodes_id=80,92,107
 
-model13=T92(kappa=T92.kappa_1,theta=0.895174169926)
-model13.nodes_id=170,177
+model13=T92(kappa=T92.kappa_1,theta=0.800321898291)
+model13.nodes_id=79,81,120,170
 
-model14=T92(kappa=T92.kappa_1,theta=0.483754378277)
-model14.nodes_id=9,47,48,49,84,116,117
+model14=T92(kappa=T92.kappa_1,theta=0.488603722831)
+model14.nodes_id=128,129,130,131,132,134,135,136,138,148,149
 
-model15=T92(kappa=T92.kappa_1,theta=0.446350624557)
-model15.nodes_id=13,14,15,16,17,18,19,57,69,70,72,73,74,91,102,122,179
+model15=T92(kappa=T92.kappa_1,theta=0.548640839487)
+model15.nodes_id=18,20,55,70,72,73,74,87,88,91,117,122
 
-model16=T92(kappa=T92.kappa_1,theta=0.324779196716)
-model16.nodes_id=1,2,3,5,93,101,105,135,143,159
+model16=T92(kappa=T92.kappa_1,theta=0.509046337149)
+model16.nodes_id=51,115,116,118,169,179
 
-model17=T92(kappa=T92.kappa_1,theta=0.384725434117)
-model17.nodes_id=44,94,106,161,167
+model17=T92(kappa=T92.kappa_1,theta=0.682971552511)
+model17.nodes_id=3,7,10,19,37,53,58,59,60,66,133,160
 
-model18=T92(kappa=T92.kappa_1,theta=0.589063509523)
-model18.nodes_id=43,180,181
+model18=T92(kappa=T92.kappa_1,theta=0.298574568322)
+model18.nodes_id=54,101,103,162,163,164,165,166
 
-model19=T92(kappa=T92.kappa_1,theta=0.467325210001)
-model19.nodes_id=67,75,76,77,113,119
+model19=T92(kappa=T92.kappa_1,theta=0.482656353798)
+model19.nodes_id=4,13,14,15,16,17,21,23,25,27,49,104,105,109
 
-model20=T92(kappa=T92.kappa_1,theta=0.468916614314)
-model20.nodes_id=25,28,29,30,33,92
+model20=T92(kappa=T92.kappa_1,theta=0.801832528501)
+model20.nodes_id=57,69,102,174,178
 
-model21=T92(kappa=T92.kappa_1,theta=0.300646423342)
-model21.nodes_id=85,107,111
+model21=T92(kappa=T92.kappa_1,theta=0.629608174969)
+model21.nodes_id=5,30,82,98,106
 
-model22=T92(kappa=T92.kappa_1,theta=0.700085791520)
-model22.nodes_id=31,45,46,60,62,68,103,121,139,141
+model22=T92(kappa=T92.kappa_1,theta=0.690527031189)
+model22.nodes_id=39,140,143,144
 
-model23=T92(kappa=T92.kappa_1,theta=0.601566330653)
-model23.nodes_id=61,175
+model23=T92(kappa=T92.kappa_1,theta=0.410331428971)
+model23.nodes_id=11,31,52,61,68,146
 
-model24=T92(kappa=T92.kappa_1,theta=0.646109683695)
-model24.nodes_id=10,20,27,52,56,71,99,137,145,176
-
-model25=T92(kappa=T92.kappa_1,theta=0.582222749582)
-model25.nodes_id=59,63,146
+model24=T92(kappa=T92.kappa_1,theta=0.509200630104)
+model24.nodes_id=62,63,99,175
 
 # Root frequencies:
-nonhomogeneous.root_freq=GC(theta=0.450413082654)
-rate_distribution=Gamma(n=4,alpha=0.635543144063, Gamma.beta=alpha)
+nonhomogeneous.root_freq=GC(theta=0.619344969517)
+rate_distribution=Gamma(n=4,alpha=0.630429720834, Gamma.beta=alpha)
 
