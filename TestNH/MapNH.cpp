@@ -370,7 +370,7 @@ int main(int args, char** argv)
       {
         ParameterList pl0 = psm->getParameters();
 
-        for (unsigned int np = 0; np < pl0.size(); np++)
+        for (size_t np = 0; np < pl0.size(); np++)
         {
           AutoParameter ap(pl0[np]);
 //            ap.setMessageHandlerA(messageHandler_);
@@ -409,7 +409,7 @@ int main(int args, char** argv)
     bool perType=(outputType.find("Type")!=string::npos);
     bool perSite=(outputType.find("Site")!=string::npos);
 
-    string defaultnf = string(perBranch?"tree_counts":"mapping_counts")+(perSite?"_per_site":"")+(perType?"_per_type":"");
+    string defaultnf = string(perBranch ? "tree_counts" : "mapping_counts") + (perSite ? "_per_site" : "") + (perType ? "_per_type" : "");
       
     string outputnf = ApplicationTools::getStringParameter("file", outputArgs, defaultnf, "", true, 1);
 
@@ -544,8 +544,8 @@ int main(int args, char** argv)
             ApplicationTools::displayResult(string("Output normalized counts of type ") + TextTools::toString(i + 1) + string(" to file"), path + string(".nhx"));
             break;
           case 2:
-            break;
             appendPhyloTreeToTable(*pt, name, table);
+            break;
           };
         }
       }

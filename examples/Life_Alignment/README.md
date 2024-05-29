@@ -56,12 +56,11 @@ having rooted it with the midpoint method (bppPhyView).
 
 We try to cluster nodes freely:
 ```bash
-mapnh --noninteractive=yes param=MapNH.bpp \
-      "map.type=GC(stationarity=no)" > mapnh.out 
+mapnh --noninteractive=yes param=MapNH.bpp > mapnh.out 
 
 clustnh --noninteractive=yes param=ClustNH.bpp \
       test.branch.neighbor=no \
-      output.cluster_tree.file=Life_Alignment.cluster_equilibrium_free.dnd > clustnh_free.out
+      output.cluster_tree.file=Life_Alignment.cluster_free.dnd > clustnh_free.out
 ```
 
 And also adding the constraint to cluster only adjacent nodes:
@@ -69,7 +68,7 @@ And also adding the constraint to cluster only adjacent nodes:
 ```bash
 clustnh --noninteractive=yes param=ClustNH.bpp \
       test.branch.neighbor=yes \
-      output.cluster_tree.file=Life_Alignment.cluster_equilibrium_join.dnd > clustnh_join.out
+      output.cluster_tree.file=Life_Alignment.cluster_join.dnd > clustnh_join.out
 ```
 
 This will first create a tree in Nhx format, identical to the input one, but with
@@ -83,22 +82,22 @@ and use two model selection criteria (AIC and BIC):
 
 ```bash     
 partnh --noninteractive=yes param=PartNH.bpp \
-       input.cluster_tree.file=Life_Alignment.cluster_equilibrium_free.dnd\
+       input.cluster_tree.file=Life_Alignment.cluster_free.dnd\
        partition.test=BIC\
        METHOD=free_BIC > partnh_free_BIC.out
 
 partnh --noninteractive=yes param=PartNH.bpp \
-       input.cluster_tree.file=Life_Alignment.cluster_equilibrium_join.dnd\
+       input.cluster_tree.file=Life_Alignment.cluster_join.dnd\
        partition.test=BIC\
        METHOD=join_BIC > partnh_join_BIC.out
 
 partnh --noninteractive=yes param=PartNH.bpp \
-       input.cluster_tree.file=Life_Alignment.cluster_equilibrium_free.dnd\
+       input.cluster_tree.file=Life_Alignment.cluster_free.dnd\
        partition.test=AIC\
        METHOD=free_AIC > partnh_free_AIC.out
 
 partnh --noninteractive=yes param=PartNH.bpp \
-       input.cluster_tree.file=Life_Alignment.cluster_equilibrium_join.dnd\
+       input.cluster_tree.file=Life_Alignment.cluster_join.dnd\
        partition.test=AIC\
        METHOD=join_AIC > partnh_join_AIC.out
 ```
@@ -109,25 +108,21 @@ partnh --noninteractive=yes param=PartNH.bpp \
 Using the Bowker test against the alternative hypothesis (see Dutheil and Boussau 2008):
 
 ```bash
-testnh --noninteractive=yes param=TestNH_nonhomogeneous.bpp\
-       param=Life_Alignment.model_free_BIC.bpp\
-       bootstrap.dist_file=TestNH_nonhomogeneous.null_free_BIC.txt\
-       input.tree.file=Life_Alignment.ml_nh_free_BIC.nhx > testnh_nh_free_BIC.out &
+testnh --noninteractive=yes param=TestNH_nonhomogeneous.bpp,Life_Alignment.model_free_BIC.bpp \
+       bootstrap.dist_file=TestNH_nonhomogeneous.null_free_BIC.txt \
+       input.tree.file=Life_Alignment.ml_nh_free_BIC.nhx > testnh_nh_free_BIC.out
 
-testnh --noninteractive=yes param=TestNH_nonhomogeneous.bpp\
-       param=Life_Alignment.model_join_BIC.bpp\
+testnh --noninteractive=yes param=TestNH_nonhomogeneous.bpp,Life_Alignment.model_join_BIC.bpp\
        bootstrap.dist_file=TestNH_nonhomogeneous.null_join_BIC.txt\
-       input.tree.file=Life_Alignment.ml_nh_join_BIC.nhx > testnh_nh_join_BIC.out &
+       input.tree.file=Life_Alignment.ml_nh_join_BIC.nhx > testnh_nh_join_BIC.out
 
-testnh --noninteractive=yes param=TestNH_nonhomogeneous.bpp\
-       param=Life_Alignment.model_free_AIC.bpp\
+testnh --noninteractive=yes param=TestNH_nonhomogeneous.bpp,Life_Alignment.model_free_AIC.bpp\
        bootstrap.dist_file=TestNH_nonhomogeneous.null_free_AIC.txt\
-       input.tree.file=Life_Alignment.ml_nh_free_AIC.nhx > testnh_nh_free_AIC.out &
+       input.tree.file=Life_Alignment.ml_nh_free_AIC.nhx > testnh_nh_free_AIC.out
 
-testnh --noninteractive=yes param=TestNH_nonhomogeneous.bpp\
-       param=Life_Alignment.model_join_AIC.bpp\
+testnh --noninteractive=yes param=TestNH_nonhomogeneous.bpp,Life_Alignment.model_join_AIC.bpp\
        bootstrap.dist_file=TestNH_nonhomogeneous.null_join_AIC.txt\
-       input.tree.file=Life_Alignment.ml_nh_join_AIC.nhx > testnh_nh_join_AIC.out &
+       input.tree.file=Life_Alignment.ml_nh_join_AIC.nhx > testnh_nh_join_AIC.out
 ```
 
 All tests are now not significant!

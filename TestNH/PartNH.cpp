@@ -666,7 +666,7 @@ int main(int args, char** argv)
       // Now try more and more complex non-homogeneous models, using the clustering tree set as input.
       vector<const Node*> candidates;
       bool moveForward = true;
-      map<double, vector<const Node*>>::iterator it = sortedHeights.begin();
+      auto it = sortedHeights.begin();
       double currentThreshold = 1.;
 
       shared_ptr<SubstitutionModelSet>          modelSet = nullptr;
@@ -692,7 +692,7 @@ int main(int args, char** argv)
         }
         else
         {
-          for (vector<const Node*>::iterator it2 = it->second.begin(); it2 != it->second.end(); ++it2)
+          for (auto it2 = it->second.begin(); it2 != it->second.end(); ++it2)
           {
             for (size_t k = 0; k < (*it2)->getNumberOfSons(); ++k)
             {

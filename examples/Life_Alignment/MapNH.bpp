@@ -5,18 +5,19 @@ alphabet = RNA
 #Set imput tree file. Original branch lengths will be used for mapping.
 input.tree1=user(file = $(DATA).ml_h.rooted.dnd, format = Newick)
 
-input.data1=alignment(file= $(DATA).mase, format=Mase, sites_to_use = complete, max_gap_allowed = 50%)
+input.data1=alignment(file= $(DATA).mase, format=Mase, sites_to_use = complete)
 
-map.type = GC(stationarity=yes)
+map.type = GC(stationarity=no)
 
-params = Life_Alignment.params_h.bpp
+param = Life_Alignment.params_h.bpp
+nullProcessParams = T92.theta*=0.5
 
 #We convert the tree to Nhx format for use with PartNH:
 output.tree_with_id.file = $(DATA).nhx
 output.counts.tree.prefix = $(DATA).counts
-output.counts = PerBranchPerType(file=$(DATA).mapping, format=tsv)
+output.counts = PerBranchPerType(perBranchLength=false, file=$(DATA).mapping, format=tsv)
 
 #Where to output cluster tree:
-output.cluster_tree.file = $(DATA).cluster_join.dnd
+output.cluster_tree.file = 
 
 

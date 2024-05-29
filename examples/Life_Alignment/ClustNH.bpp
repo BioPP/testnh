@@ -1,7 +1,7 @@
 DATA = Life_Alignment
 
 input.counts.file = $(DATA).mapping.tsv
-input.tree.file = $(DATA).dnd
+input.tree.file = $(DATA).ml_h.rooted.dnd
 
 test.global = no
 test.branch = yes
