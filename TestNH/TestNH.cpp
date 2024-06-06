@@ -268,7 +268,7 @@ int main(int args, char** argv)
         // we should assume a rate distribution for the root also!!!
       }
       std::map<std::string, std::string> aliasFreqNames;
-      shared_ptr<FrequencySetInterface> rootFreqs = PhylogeneticsApplicationTools::getRootFrequencySet(alphabet, gCode, *sites, testnh.getParams(), aliasFreqNames, rateFreqs);
+      shared_ptr<FrequencySetInterface> rootFreqs = PhylogeneticsApplicationTools::getRootFrequencySet(alphabet, gCode, sites, testnh.getParams(), aliasFreqNames, rateFreqs);
 
       string descGlobal = ApplicationTools::getStringParameter("nonhomogeneous_one_per_branch.shared_parameters", testnh.getParams(), "", "", true, 1);
 

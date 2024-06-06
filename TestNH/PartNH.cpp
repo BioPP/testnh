@@ -607,7 +607,7 @@ int main(int args, char** argv)
       std::map<std::string, std::string> aliasFreqNames;
       if (!stationarity)
       {
-        rootFreqs = PhylogeneticsApplicationTools::getRootFrequencySet(alphabet, gCode, *sites, partnh.getParams(), aliasFreqNames, rateFreqs);
+        rootFreqs = PhylogeneticsApplicationTools::getRootFrequencySet(alphabet, gCode, sites, partnh.getParams(), aliasFreqNames, rateFreqs);
         stationarity = !rootFreqs;
       }
       ApplicationTools::displayBooleanResult("Stationarity assumed", stationarity);
