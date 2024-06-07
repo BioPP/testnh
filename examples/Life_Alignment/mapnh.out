@@ -1,0 +1,106 @@
+******************************************************************
+*                     Map NH, version 2                          *
+* Authors: J. Dutheil                       Created on  09/12/10 *
+*          B. Boussau                       Modif. 17/12/11      *
+*          L. Guéguen                       Last Modif. 28/11/17 *
+******************************************************************
+
+Parsing options:
+Parsing file MapNH.bpp for options.
+Parsing file Life_Alignment.params_h.bpp for options.
+Alphabet type .........................: RNA
+Sequence file .........................: Life_Alignment.mase
+Sequence format .......................: MASE file
+
+Data 1
+Sites to use...........................: complete
+Complete sites.........................: 527
+Number of sites........................: 527
+
+Tree 1
+Number of trees in file................: 1
+Number of leaves.......................: 92
+Branch lengths.........................: Input
+
+Rate 1
+Distribution...........................: Gamma
+Number of classes......................: 4
+Parameter found........................: Gamma.alpha=0.640723
+- Category 0 (Pr = 0.25) rate..........: 0.0616013
+- Category 1 (Pr = 0.25) rate..........: 0.334166
+- Category 2 (Pr = 0.25) rate..........: 0.900753
+- Category 3 (Pr = 0.25) rate..........: 2.70348
+
+Model 1
+Substitution model.....................: T92
+External model frequencies init........: None
+Parameter found........................: T92.kappa=3.05283
+Parameter found........................: T92.theta=0.554573
+
+Model 2
+Substitution model.....................: T92
+External model frequencies init........: None
+Parameter found........................: T92.theta=0.467592
+
+Model 3
+Substitution model.....................: T92
+External model frequencies init........: None
+Parameter found........................: T92.theta=0.192592
+
+Model 4
+Substitution model.....................: T92
+External model frequencies init........: None
+Parameter found........................: T92.theta=0.564996
+
+Model 5
+Substitution model.....................: T92
+External model frequencies init........: None
+Parameter found........................: T92.theta=0.559566
+
+Root Frequencies Set 1
+Parameter found........................: GC.theta=0.617531
+
+Process 1
+Process type...........................: NonHomogeneous
+ Model number1 associated to...........: 46 node(s).
+ Model number2 associated to...........: 43 node(s).
+ Model number3 associated to...........: 2 node(s).
+ Model number4 associated to...........: 51 node(s).
+ Model number5 associated to...........: 40 node(s).
+ Tree number...........................: 1
+ Rate number...........................: 1
+ Root frequencies number...............: 1
+Parameter alias found..................: T92.kappa_2 -> T92.kappa_1 = 3.05283
+Parameter alias found..................: T92.kappa_3 -> T92.kappa_1 = 3.05283
+Parameter alias found..................: T92.kappa_4 -> T92.kappa_1 = 3.05283
+Parameter alias found..................: T92.kappa_5 -> T92.kappa_1 = 3.05283
+
+Phylolikelihood 1
+ Data used ............................: 1
+ Process ..............................: 1
+
+Result Phylolikelihood 
+ Result................................: phylo1
+
+Initial log likelihood.................: -14346.626581568
+Manage unresolved characters...........: Zero
+Substitution Register..................: GC
+  * Count type 1.......................: AU->CG
+  * Count type 2.......................: CG->AU
+Display separate counts and normalizati: true
+WARNING!!! Parameter perWordSize not specified. Default used instead: 1
+Normalization per word size............: true
+Compute counts.........................: 
+[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] Done.
+null Parameter T92.theta_1.............: 0.5
+null Parameter T92.theta_2.............: 0.5
+null Parameter T92.theta_3.............: 0.5
+null Parameter T92.theta_4.............: 0.5
+null Parameter T92.theta_5.............: 0.5
+Compute rewards........................: 
+[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] Done.
+Format.................................: tsv
+Output counts to file..................: Life_Alignment.mapping.counts.tsv
+Output norms to file...................: Life_Alignment.mapping.norms.tsv
+MapNH's done. Bye.
+Total execution time: 0.000000d, 0.000000h, 0.000000m, 1.000000s.

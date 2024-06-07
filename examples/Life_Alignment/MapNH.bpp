@@ -14,10 +14,5 @@ nullProcessParams = T92.theta*=0.5
 
 #We convert the tree to Nhx format for use with PartNH:
 output.tree_with_id.file = $(DATA).nhx
-output.counts.tree.prefix = $(DATA).counts
-output.counts = PerBranchPerType(perBranchLength=false, file=$(DATA).mapping, format=tsv)
-
-#Where to output cluster tree:
-output.cluster_tree.file = 
-
+output.counts = PerBranchPerType(perBranchLength=false, file=$(DATA).mapping, format=tsv, splitNorm=true)
 
