@@ -1,0 +1,14 @@
+DATA = lysozymeLarge
+
+input.counts.file = $(DATA).mapping.tsv
+input.tree.file = $(DATA).ml_h.dnd_1
+
+test.global = no
+test.branch = yes
+test.branch.neighbor = #yes or no
+test.branch.negbrlen = no
+test.branch.auto_cluster = Marginal(threshold=0)
+
+# Where to output cluster tree:
+output.cluster_tree.file = $(DATA).cluster_join.dnd
+output.tree_with_id.file = $(DATA).nhx

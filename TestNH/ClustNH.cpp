@@ -50,11 +50,11 @@ int main(int args, char** argv)
     string mappingPath = ApplicationTools::getAFilePath("input.counts.file", clustnh.getParams(), true, true, "", true,  "mapping_counts_per_branch_per_type", 1);
 
     //Optionally, read normalizations:
-    string normalizationPath = ApplicationTools::getAFilePath("input.norms.file", clustnh.getParams(), false, true, "", true,  "mapping_norms_per_branch_per_type", 1);
+    string normalizationPath = ApplicationTools::getAFilePath("input.norms.file", clustnh.getParams(), false, true, "", true,  "none", 1);
     bool normalize = normalizationPath != "none";
 
     ApplicationTools::displayResult("Input counts (branch/type) in file", mappingPath);
-    ApplicationTools::displayResult("Normalize counts", normalize);
+    ApplicationTools::displayBooleanResult("Normalize counts", normalize);
     shared_ptr<DataTable> normsTable = nullptr;
     if (normalize) {
       ApplicationTools::displayResult("Input normalization (branch/type) in file", normalizationPath);
@@ -82,6 +82,12 @@ int main(int args, char** argv)
 	  v2[j] = c / m;
 	}
 	delta = VectorTools::sum(v1) / VectorTools::sum(v2);
+      } else {
+        for (size_t j = 0; j < countsTable->getNumberOfRows(); ++j)
+        {
+          double c = TextTools::toDouble((*countsTable)(j, i));
+	  v1[j] = c;
+	}
       }
       counts[i].resize(countsTable->getNumberOfRows());
       ids[i] = TextTools::toInt(countsTable->getColumnName(i));

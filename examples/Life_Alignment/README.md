@@ -54,10 +54,13 @@ We will map two types of substitutions: AT->GC and GC->AT, and also tha AT->AT a
 in order to be used with the "equilibrium" mapping. We use the homogeneous tree as input, after
 having rooted it with the midpoint method (bppPhyView).
 
-We try to cluster nodes freely:
 ```bash
 mapnh --noninteractive=yes param=MapNH.bpp > mapnh.out 
+```
 
+We try to cluster nodes freely:
+
+```bash
 clustnh --noninteractive=yes param=ClustNH.bpp \
       test.branch.neighbor=no \
       output.cluster_tree.file=Life_Alignment.cluster_free.dnd > clustnh_free.out
@@ -82,23 +85,23 @@ and use two model selection criteria (AIC and BIC):
 
 ```bash     
 partnh --noninteractive=yes param=PartNH.bpp \
-       input.cluster_tree.file=Life_Alignment.cluster_free.dnd\
-       partition.test=BIC\
+       input.cluster_tree.file=Life_Alignment.cluster_free.dnd \
+       partition.test=BIC \
        METHOD=free_BIC > partnh_free_BIC.out
 
 partnh --noninteractive=yes param=PartNH.bpp \
-       input.cluster_tree.file=Life_Alignment.cluster_join.dnd\
-       partition.test=BIC\
+       input.cluster_tree.file=Life_Alignment.cluster_join.dnd \
+       partition.test=BIC \
        METHOD=join_BIC > partnh_join_BIC.out
 
 partnh --noninteractive=yes param=PartNH.bpp \
-       input.cluster_tree.file=Life_Alignment.cluster_free.dnd\
-       partition.test=AIC\
+       input.cluster_tree.file=Life_Alignment.cluster_free.dnd \
+       partition.test=AIC \
        METHOD=free_AIC > partnh_free_AIC.out
 
 partnh --noninteractive=yes param=PartNH.bpp \
-       input.cluster_tree.file=Life_Alignment.cluster_join.dnd\
-       partition.test=AIC\
+       input.cluster_tree.file=Life_Alignment.cluster_join.dnd \
+       partition.test=AIC \
        METHOD=join_AIC > partnh_join_AIC.out
 ```
 

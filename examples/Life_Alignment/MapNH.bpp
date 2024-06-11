@@ -5,6 +5,7 @@ alphabet = RNA
 #Set imput tree file. Original branch lengths will be used for mapping.
 input.tree1=user(file = $(DATA).ml_h.rooted.dnd, format = Newick)
 
+# The sequence file to use (sequences must be aligned!)
 input.data1=alignment(file= $(DATA).mase, format=Mase, sites_to_use = complete)
 
 map.type = GC(stationarity=no)
