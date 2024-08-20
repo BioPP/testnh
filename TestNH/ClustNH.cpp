@@ -47,30 +47,63 @@ int main(int args, char** argv)
     std::map<std::string, std::string> unparsedParams;
     
     //Read counts from file:
-    string perSitenf = ApplicationTools::getAFilePath("input.counts.file", clustnh.getParams(), true, true, "", true,  "mapping_counts_per_branch_per_type", 1);
+    string mappingPath = ApplicationTools::getAFilePath("input.counts.file", clustnh.getParams(), true, true, "", true,  "mapping_counts_per_branch_per_type", 1);
 
-    ApplicationTools::displayResult(string("Input counts (branch/site) to file"), perSitenf);
+    //Optionally, read normalizations:
+    string normalizationPath = ApplicationTools::getAFilePath("input.norms.file", clustnh.getParams(), false, true, "", true,  "none", 1);
+    bool normalize = normalizationPath != "none";
 
-    std::ifstream inputStream(perSitenf, ios::in);
-    auto countsTable = DataTable::read(inputStream, "\t", true, -1);
+    ApplicationTools::displayResult("Input counts (branch/type) in file", mappingPath);
+    ApplicationTools::displayBooleanResult("Normalize counts", normalize);
+    shared_ptr<DataTable> normsTable = nullptr;
+    if (normalize) {
+      ApplicationTools::displayResult("Input normalization (branch/type) in file", normalizationPath);
+      std::ifstream inputStreamNorm(normalizationPath, ios::in);
+      normsTable = DataTable::read(inputStreamNorm, "\t", true, -1);
+    }
+
+    std::ifstream inputStreamCounts(mappingPath, ios::in);
+    auto countsTable = DataTable::read(inputStreamCounts, "\t", true, -1);
 
     //Branches are columns, types are rows, need to transpose and convert to numbers:
     VVdouble counts(countsTable->getNumberOfColumns());
     Vint ids(countsTable->getNumberOfColumns());
     for (size_t i = 0; i < countsTable->getNumberOfColumns(); ++i)
     {
+      vector<double> v1(countsTable->getNumberOfRows(), 1.);
+      vector<double> v2(countsTable->getNumberOfRows(), 1.);
+      double delta = 1.;
+      if (normalize) {
+        for (size_t j = 0; j < countsTable->getNumberOfRows(); ++j)
+        {
+          double c = TextTools::toDouble((*countsTable)(j, i));
+          double m = TextTools::toDouble((*normsTable)(j, i));
+	  v1[j] = c;
+	  v2[j] = c / m;
+	}
+	delta = VectorTools::sum(v1) / VectorTools::sum(v2);
+      } else {
+        for (size_t j = 0; j < countsTable->getNumberOfRows(); ++j)
+        {
+          double c = TextTools::toDouble((*countsTable)(j, i));
+	  v1[j] = c;
+	}
+      }
       counts[i].resize(countsTable->getNumberOfRows());
       ids[i] = TextTools::toInt(countsTable->getColumnName(i));
       for (size_t j = 0; j < countsTable->getNumberOfRows(); ++j)
       {
-        counts[i][j] = TextTools::toDouble((*countsTable)(j, i));
+	if (normalize) {
+           counts[i][j] = delta * v2[j]; 
+	} else {
+	   counts[i][j] = v1[j];
+	}
       } 
     }
 
     //////////////////////////////////////
     /// HOMOGENEITY TESTS
-    /////////////////////////////////////
-
+    //////////////////////////////////////
 
     bool testGlobal = ApplicationTools::getBooleanParameter("test.global", clustnh.getParams(), false, "", true, false);
     bool testBranch = ApplicationTools::getBooleanParameter("test.branch", clustnh.getParams(), false, "", true, false);

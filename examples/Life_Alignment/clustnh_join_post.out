@@ -1,0 +1,90 @@
+******************************************************************
+*                      Clust NH, version 2                       *
+* Authors: J. Dutheil                                            *
+*          B. Boussau                                            *
+*          L. Guéguen                                            *
+******************************************************************
+
+Parsing options:
+Parsing file ClustNH.bpp for options.
+Input counts (branch/type) in file.....: Life_Alignment.mapping_post.counts.tsv
+Normalize counts.......................: 1
+Input normalization (branch/type) in fi: Life_Alignment.mapping_post.norms.tsv
+Perform branch clustering..............: yes
+Cluster only neighbor nodes............: yes
+Allow len < 0 in clustering............: no
+Auto-clustering........................: Marginal
+Auto-clustering threshold..............: 1
+Input tree file .......................: Life_Alignment.ml_h.rooted.dnd
+Input tree format .....................: Newick
+[Automatically cluster node.............: 12 with 42
+Automatically cluster node.............: 8 with 10
+=Automatically cluster node.............: 3 with 5
+Automatically cluster node.............: 1 with 3
+=Automatically cluster node.............: 2 with 3
+=Automatically cluster node.............: 41 with 42
+Automatically cluster node.............: 21 with 41
+Automatically cluster node.............: 17 with 19
+Automatically cluster node.............: 13 with 17
+=Automatically cluster node.............: 16 with 17
+Automatically cluster node.............: 14 with 16
+Automatically cluster node.............: 15 with 16
+Automatically cluster node.............: 18 with 19
+=Automatically cluster node.............: 38 with 40
+Automatically cluster node.............: 34 with 38
+Automatically cluster node.............: 32 with 34
+=Automatically cluster node.............: 25 with 29
+=Automatically cluster node.............: 28 with 29
+===Automatically cluster node.............: 45 with 46
+Automatically cluster node.............: 101 with 105
+Automatically cluster node.............: 87 with 89
+=Automatically cluster node.............: 83 with 87
+Automatically cluster node.............: 79 with 83
+Automatically cluster node.............: 47 with 49
+=Automatically cluster node.............: 48 with 49
+==Automatically cluster node.............: 62 with 64
+Automatically cluster node.............: 60 with 62
+Automatically cluster node.............: 58 with 60
+=====Automatically cluster node.............: 96 with 98
+Automatically cluster node.............: 94 with 96
+=Automatically cluster node.............: 93 with 94
+===Automatically cluster node.............: 161 with 167
+Automatically cluster node.............: 143 with 159
+Automatically cluster node.............: 135 with 143
+Automatically cluster node.............: 123 with 135
+=Automatically cluster node.............: 119 with 123
+Automatically cluster node.............: 113 with 119
+=Automatically cluster node.............: 115 with 117
+Automatically cluster node.............: 116 with 117
+=Automatically cluster node.............: 134 with 135
+Automatically cluster node.............: 132 with 134
+Automatically cluster node.............: 128 with 132
+=Automatically cluster node.............: 126 with 128
+Automatically cluster node.............: 124 with 126
+Automatically cluster node.............: 125 with 126
+Automatically cluster node.............: 127 with 128
+Automatically cluster node.............: 131 with 132
+=Automatically cluster node.............: 129 with 131
+Automatically cluster node.............: 130 with 131
+Automatically cluster node.............: 140 with 142
+=Automatically cluster node.............: 136 with 138
+=Automatically cluster node.............: 148 with 158
+=Automatically cluster node.............: 157 with 158
+Automatically cluster node.............: 155 with 157
+=Automatically cluster node.............: 152 with 154
+Automatically cluster node.............: 151 with 152
+Automatically cluster node.............: 153 with 154
+=Automatically cluster node.............: 164 with 166
+Automatically cluster node.............: 162 with 164
+Automatically cluster node.............: 163 with 164
+=Automatically cluster node.............: 165 with 166
+=Automatically cluster node.............: 172 with 174
+Automatically cluster node.............: 173 with 174
+Automatically cluster node.............: 180 with 181
+===]Done.
+[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>]Done.
+P-value at root node...................: 5.95327e-09
+Number of tests performed..............: 840
+Output cluster tree to.................: Life_Alignment.cluster_join_post.dnd
+ClustNH's done. Bye.
+Total execution time: 0.000000d, 0.000000h, 0.000000m, 0.000000s.

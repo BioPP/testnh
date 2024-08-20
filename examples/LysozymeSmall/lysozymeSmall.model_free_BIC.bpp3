@@ -1,22 +1,20 @@
-# Log likelihood = -867.62969141261589811620
+# Log likelihood = -867.05719821603372565733
 
 # Substitution model parameters:
-nonhomogeneous = general
-nonhomogeneous.number_of_models = 4
+nonhomogeneous=general
+nonhomogeneous.number_of_models=4
+nonhomogeneous.stationarity = yes
+model1=YN98(frequencies=F3X4(1_Full.theta=0.475824175824,1_Full.theta1=0.616352201258,1_Full.theta2=0.711316397229,2_Full.theta=0.469230769231,2_Full.theta1=0.623188405797,2_Full.theta2=0.634660421546,3_Full.theta=0.420879120879,3_Full.theta1=0.434535104364,3_Full.theta2=0.456919060052),kappa=4.596837952219,omega=0.575347591723)
+model1.nodes_id=1,2,5,6,8
 
-model1 = YN98(frequencies=F3X4,kappa=4.616510003224, omega=3.814555396481, freq_Codon.1_Full.theta=0.475824175824, freq_Codon.1_Full.theta1=0.616352201258, freq_Codon.1_Full.theta2=0.711316397229, freq_Codon.2_Full.theta=0.469230769231, freq_Codon.2_Full.theta1=0.623188405797, freq_Codon.2_Full.theta2=0.634660421546, freq_Codon.3_Full.theta=0.420879120879, freq_Codon.3_Full.theta1=0.434535104364, freq_Codon.3_Full.theta2=0.456919060052)
-model1.nodes_id = 0,3,4
+model2=YN98(frequencies=F3X4(1_Full.theta=YN98.1_Full.theta_1,1_Full.theta1=YN98.1_Full.theta1_1,1_Full.theta2=YN98.1_Full.theta2_1,2_Full.theta=YN98.2_Full.theta_1,2_Full.theta1=YN98.2_Full.theta1_1,2_Full.theta2=YN98.2_Full.theta2_1,3_Full.theta=YN98.3_Full.theta_1,3_Full.theta1=YN98.3_Full.theta1_1,3_Full.theta2=YN98.3_Full.theta2_1),kappa=YN98.kappa_1,omega=0.001000000000)
+model2.nodes_id=7
 
-model2 = YN98(frequencies=F3X4,kappa=model1.YN98.kappa, omega=0.000000000001, freq_Codon.1_Full.theta=model1.YN98.freq_Codon.1_Full.theta, freq_Codon.1_Full.theta1=model1.YN98.freq_Codon.1_Full.theta1, freq_Codon.1_Full.theta2=model1.YN98.freq_Codon.1_Full.theta2, freq_Codon.2_Full.theta=model1.YN98.freq_Codon.2_Full.theta, freq_Codon.2_Full.theta1=model1.YN98.freq_Codon.2_Full.theta1, freq_Codon.2_Full.theta2=model1.YN98.freq_Codon.2_Full.theta2, freq_Codon.3_Full.theta=model1.YN98.freq_Codon.3_Full.theta, freq_Codon.3_Full.theta1=model1.YN98.freq_Codon.3_Full.theta1, freq_Codon.3_Full.theta2=model1.YN98.freq_Codon.3_Full.theta2)
-model2.nodes_id = 7
+model3=YN98(frequencies=F3X4(1_Full.theta=YN98.1_Full.theta_1,1_Full.theta1=YN98.1_Full.theta1_1,1_Full.theta2=YN98.1_Full.theta2_1,2_Full.theta=YN98.2_Full.theta_1,2_Full.theta1=YN98.2_Full.theta1_1,2_Full.theta2=YN98.2_Full.theta2_1,3_Full.theta=YN98.3_Full.theta_1,3_Full.theta1=YN98.3_Full.theta1_1,3_Full.theta2=YN98.3_Full.theta2_1),kappa=YN98.kappa_1,omega=3.393998638824)
+model3.nodes_id=0,3
 
-model3 = YN98(frequencies=F3X4,kappa=model1.YN98.kappa, omega=0.630235657098, freq_Codon.1_Full.theta=model1.YN98.freq_Codon.1_Full.theta, freq_Codon.1_Full.theta1=model1.YN98.freq_Codon.1_Full.theta1, freq_Codon.1_Full.theta2=model1.YN98.freq_Codon.1_Full.theta2, freq_Codon.2_Full.theta=model1.YN98.freq_Codon.2_Full.theta, freq_Codon.2_Full.theta1=model1.YN98.freq_Codon.2_Full.theta1, freq_Codon.2_Full.theta2=model1.YN98.freq_Codon.2_Full.theta2, freq_Codon.3_Full.theta=model1.YN98.freq_Codon.3_Full.theta, freq_Codon.3_Full.theta1=model1.YN98.freq_Codon.3_Full.theta1, freq_Codon.3_Full.theta2=model1.YN98.freq_Codon.3_Full.theta2)
-model3.nodes_id = 1,2,5,8
+model4=YN98(frequencies=F3X4(1_Full.theta=YN98.1_Full.theta_1,1_Full.theta1=YN98.1_Full.theta1_1,1_Full.theta2=YN98.1_Full.theta2_1,2_Full.theta=YN98.2_Full.theta_1,2_Full.theta1=YN98.2_Full.theta1_1,2_Full.theta2=YN98.2_Full.theta2_1,3_Full.theta=YN98.3_Full.theta_1,3_Full.theta1=YN98.3_Full.theta1_1,3_Full.theta2=YN98.3_Full.theta2_1),kappa=YN98.kappa_1,omega=999.000000000000)
+model4.nodes_id=4
 
-model4 = YN98(frequencies=F3X4,kappa=model1.YN98.kappa, omega=0.368717264043, freq_Codon.1_Full.theta=model1.YN98.freq_Codon.1_Full.theta, freq_Codon.1_Full.theta1=model1.YN98.freq_Codon.1_Full.theta1, freq_Codon.1_Full.theta2=model1.YN98.freq_Codon.1_Full.theta2, freq_Codon.2_Full.theta=model1.YN98.freq_Codon.2_Full.theta, freq_Codon.2_Full.theta1=model1.YN98.freq_Codon.2_Full.theta1, freq_Codon.2_Full.theta2=model1.YN98.freq_Codon.2_Full.theta2, freq_Codon.3_Full.theta=model1.YN98.freq_Codon.3_Full.theta, freq_Codon.3_Full.theta1=model1.YN98.freq_Codon.3_Full.theta1, freq_Codon.3_Full.theta2=model1.YN98.freq_Codon.3_Full.theta2)
-model4.nodes_id = 6
-
-# Root frequencies:
-nonhomogeneous.root_freq = None
-rate_distribution = Constant()
+rate_distribution=Constant()
 

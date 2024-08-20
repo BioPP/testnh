@@ -1,9 +1,10 @@
 #Input tree file must be in NHX format, in order to get proper node id.
 #MapNH can output such an NHX tree if the input one was in Newick or Nexus.
-input.tree.file = lysozymeLarge.ml_h.dnd
+input.tree.file = lysozymeLarge.ml_h.dnd_1
 input.tree.format = Newick
 
-alphabet = Codon(letter=DNA, type=Standard)
+alphabet = Codon(letter=DNA)
+genetic_code = Standard
 
 input.sequence.file = lysozymeLarge.fasta
 input.sequence.format = Fasta

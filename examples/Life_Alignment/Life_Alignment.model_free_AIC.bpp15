@@ -1,61 +1,61 @@
-# Log likelihood = -14073.71550035604741424322
+# Log likelihood = -13916.89234690681951178703
 
 # Substitution model parameters:
 nonhomogeneous=general
 nonhomogeneous.number_of_models=17
 
-model1=T92(kappa=3.068667553512,theta=0.615560576697)
-model1.nodes_id=26,41,43,67,75,76,77,84,123,124,125,126,127,147,151,155,159,180,181
+model1=T92(kappa=3.125993543130,theta=0.255840042269)
+model1.nodes_id=35,79,83,87,89,101,105
 
-model2=T92(kappa=T92.kappa_1,theta=0.580251298865)
-model2.nodes_id=34,35
+model2=T92(kappa=T92.kappa_1,theta=0.999998999999)
+model2.nodes_id=168
 
-model3=T92(kappa=T92.kappa_1,theta=0.619862049292)
-model3.nodes_id=1,2,8,78,80,86,89,90,92,96,97,100,107
+model3=T92(kappa=T92.kappa_1,theta=0.474764562808)
+model3.nodes_id=9,13,14,15,16,17,18,19,47,48,49,51,55,69,70,72,73,74,90,91,100,102,118,122,147,179
 
-model4=T92(kappa=T92.kappa_1,theta=0.391383739127)
-model4.nodes_id=0,65,71,83,110,113,114,119,121,157,158,161,172,173,176,177
+model4=T92(kappa=T92.kappa_1,theta=0.411710732189)
+model4.nodes_id=1,2,3,5,24,44,93,94,96,98,106,161,167
 
-model5=T92(kappa=T92.kappa_1,theta=0.615734253107)
-model5.nodes_id=3,7,10,19,37,53,54,58,59,60,66,101,103,133,160,162,163,164,165,166
+model5=T92(kappa=T92.kappa_1,theta=0.300710210653)
+model5.nodes_id=39,80,82,86,92,97,113,119,123,135,143,144,159
 
-model6=T92(kappa=T92.kappa_1,theta=0.594376840850)
-model6.nodes_id=4,13,14,15,16,17,21,23,25,27,49,57,69,102,104,105,109,174,178
+model6=T92(kappa=T92.kappa_1,theta=0.815162692715)
+model6.nodes_id=45,46,81,112,120,170
 
-model7=T92(kappa=T92.kappa_1,theta=0.540237295226)
-model7.nodes_id=18,20,51,55,70,72,73,74,87,88,91,115,116,117,118,122,169,179
+model7=T92(kappa=T92.kappa_1,theta=0.428503040031)
+model7.nodes_id=22,25,28,29,32,33,34,38,40,57,115,116,117,136,138,140,142,172,173,174,178
 
-model8=T92(kappa=T92.kappa_1,theta=0.446507829947)
-model8.nodes_id=32,36,45,46,47,48,50,139,141,171
+model8=T92(kappa=T92.kappa_1,theta=0.289008869914)
+model8.nodes_id=30,78,85,107,111
 
-model9=T92(kappa=T92.kappa_1,theta=0.537853572521)
-model9.nodes_id=79,81,120,128,129,130,131,132,134,135,136,138,148,149,170
+model9=T92(kappa=T92.kappa_1,theta=0.522259540140)
+model9.nodes_id=4,23,67,75,76,84,88,104,180,181
 
-model10=T92(kappa=T92.kappa_1,theta=0.425213506370)
-model10.nodes_id=6,42,56,108,137,142,145
+model10=T92(kappa=T92.kappa_1,theta=0.510833784064)
+model10.nodes_id=43,77,114,133,148,155,157,158,160,162,163,164,165,166
 
-model11=T92(kappa=T92.kappa_1,theta=0.448398528626)
-model11.nodes_id=11,31,52,61,62,63,68,99,146,175
+model11=T92(kappa=T92.kappa_1,theta=0.532622635897)
+model11.nodes_id=26,53,54,65,66
 
-model12=T92(kappa=T92.kappa_1,theta=0.524423067844)
-model12.nodes_id=12,24,28,29,85,93,94,95,111,167
+model12=T92(kappa=T92.kappa_1,theta=0.765093897862)
+model12.nodes_id=0,8,10,11,50,108,121,139,171
 
-model13=T92(kappa=T92.kappa_1,theta=0.411010480647)
-model13.nodes_id=9,22,33,40
+model13=T92(kappa=T92.kappa_1,theta=0.686855761323)
+model13.nodes_id=27,31,36,37,58,60,61,62,64,99,103,141,169
 
-model14=T92(kappa=T92.kappa_1,theta=0.634793571607)
-model14.nodes_id=5,30,39,82,98,106,140,143,144
+model14=T92(kappa=T92.kappa_1,theta=0.827123003465)
+model14.nodes_id=6,7,12,21,41,42,95,124,125,126,127,128,129,130,131,132,134,149,156
 
-model15=T92(kappa=T92.kappa_1,theta=0.814802701690)
-model15.nodes_id=38,44
+model15=T92(kappa=T92.kappa_1,theta=0.818259391283)
+model15.nodes_id=150,151,152,153,154,177
 
-model16=T92(kappa=T92.kappa_1,theta=0.532093029032)
-model16.nodes_id=64,152,153,154,156
+model16=T92(kappa=T92.kappa_1,theta=0.744713392717)
+model16.nodes_id=59,68,109,110,146,176
 
-model17=T92(kappa=T92.kappa_1,theta=0.088106507969)
-model17.nodes_id=112,150,168
+model17=T92(kappa=T92.kappa_1,theta=0.629908995902)
+model17.nodes_id=20,52,56,63,71,137,145,175
 
 # Root frequencies:
-nonhomogeneous.root_freq=GC(theta=0.620725330353)
-rate_distribution=Gamma(n=4,alpha=0.633571641384, Gamma.beta=alpha)
+nonhomogeneous.root_freq=GC(theta=0.466728639581)
+rate_distribution=Gamma(n=4,alpha=0.631235217654, Gamma.beta=alpha)
 

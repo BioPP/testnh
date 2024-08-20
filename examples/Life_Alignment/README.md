@@ -54,10 +54,13 @@ We will map two types of substitutions: AT->GC and GC->AT, and also tha AT->AT a
 in order to be used with the "equilibrium" mapping. We use the homogeneous tree as input, after
 having rooted it with the midpoint method (bppPhyView).
 
-We try to cluster nodes freely:
 ```bash
 mapnh --noninteractive=yes param=MapNH.bpp > mapnh.out 
+```
 
+We try to cluster nodes freely:
+
+```bash
 clustnh --noninteractive=yes param=ClustNH.bpp \
       test.branch.neighbor=no \
       output.cluster_tree.file=Life_Alignment.cluster_free.dnd > clustnh_free.out
@@ -82,23 +85,23 @@ and use two model selection criteria (AIC and BIC):
 
 ```bash     
 partnh --noninteractive=yes param=PartNH.bpp \
-       input.cluster_tree.file=Life_Alignment.cluster_free.dnd\
-       partition.test=BIC\
+       input.cluster_tree.file=Life_Alignment.cluster_free.dnd \
+       partition.test=BIC \
        METHOD=free_BIC > partnh_free_BIC.out
 
 partnh --noninteractive=yes param=PartNH.bpp \
-       input.cluster_tree.file=Life_Alignment.cluster_join.dnd\
-       partition.test=BIC\
+       input.cluster_tree.file=Life_Alignment.cluster_join.dnd \
+       partition.test=BIC \
        METHOD=join_BIC > partnh_join_BIC.out
 
 partnh --noninteractive=yes param=PartNH.bpp \
-       input.cluster_tree.file=Life_Alignment.cluster_free.dnd\
-       partition.test=AIC\
+       input.cluster_tree.file=Life_Alignment.cluster_free.dnd \
+       partition.test=AIC \
        METHOD=free_AIC > partnh_free_AIC.out
 
 partnh --noninteractive=yes param=PartNH.bpp \
-       input.cluster_tree.file=Life_Alignment.cluster_join.dnd\
-       partition.test=AIC\
+       input.cluster_tree.file=Life_Alignment.cluster_join.dnd \
+       partition.test=AIC \
        METHOD=join_AIC > partnh_join_AIC.out
 ```
 
@@ -134,38 +137,37 @@ We rerun the substitution mapping procedure and clustering of branches using the
 
 ```bash
 mapnh --noninteractive=yes \
-      param=MapNH.bpp\
-      param=Life_Alignment.model_free_BIC.bpp\
+      param=MapNH.bpp,Life_Alignment.model_free_BIC.bpp\
       input.tree.file=Life_Alignment.ml_nh_free_BIC.nhx\
       input.tree.format=NHX\
-      "map.type=GC(stationarity=no)"\
       test.branch.neighbor=no\
-      output.counts.tree.prefix=Life_Alignment.counts_post\
-      output.cluster_tree.file=Life_Alignment.cluster_equilibrium_free_post.dnd > mapnh_free_post.out &
+      "output.counts=PerBranchPerType(perBranchLength=false, file=Life_Alignment.mapping_post, format=tsv, splitNorm=true)" \
+      output.cluster_tree.file=Life_Alignment.cluster_free_post.dnd > mapnh_post.out
+
+clustnh --noninteractive=yes param=ClustNH.bpp \
+      input.counts.file=Life_Alignment.mapping_post.counts.tsv \
+      input.norms.file=Life_Alignment.mapping_post.norms.tsv \
+      test.branch.neighbor=no \
+      output.cluster_tree.file=Life_Alignment.cluster_free_post.dnd > clustnh_free_post.out
 
 partnh --noninteractive=yes param=PartNH.bpp \
-       input.cluster_tree.file=Life_Alignment.cluster_equilibrium_free_post.dnd\
+       input.cluster_tree.file=Life_Alignment.cluster_free_post.dnd\
        partition.test=BIC\
        partition.test.stop_condition=3\
-       METHOD=free_BIC_post > partnh_free_BIC_post.out &
+       METHOD=free_BIC_post > partnh_free_BIC_post.out
 
-
-mapnh --noninteractive=yes \
-      param=MapNH.bpp\
-      param=Life_Alignment.model_join_BIC.bpp\
-      input.tree.file=Life_Alignment.ml_nh_join_BIC.nhx\
-      input.tree.format=NHX\
-      "map.type=GC(stationarity=no)"\
-      test.branch.neighbor=yes\
-      output.counts.tree.prefix=Life_Alignment.counts_post\
-      output.cluster_tree.file=Life_Alignment.cluster_equilibrium_join_post.dnd > mapnh_join_post.out &
+clustnh --noninteractive=yes param=ClustNH.bpp \
+      input.counts.file=Life_Alignment.mapping_post.counts.tsv \
+      input.norms.file=Life_Alignment.mapping_post.norms.tsv \
+      test.branch.neighbor=no \
+      output.cluster_tree.file=Life_Alignment.cluster_join_post.dnd > clustnh_join_post.out
 
 partnh --noninteractive=yes \
        param=PartNH.bpp \
-       input.cluster_tree.file=Life_Alignment.cluster_equilibrium_join_post.dnd\
+       input.cluster_tree.file=Life_Alignment.cluster_join_post.dnd\
        partition.test=BIC\
        partition.test.stop_condition=3\
-       METHOD=join_BIC_post > partnh_join_BIC_post.out &
+       METHOD=join_BIC_post > partnh_join_BIC_post.out
 ```
 
 # Compare values with R:

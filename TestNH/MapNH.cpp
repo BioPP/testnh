@@ -454,7 +454,8 @@ int main(int args, char** argv)
       // Write outputs:
       Newick newick;
       Nhx nhx;
-      DataTable table(0,0);
+      DataTable tableCounts(0,0);
+      DataTable tableNorms(0,0);
         
       for (size_t i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i)
       {
@@ -502,7 +503,7 @@ int main(int args, char** argv)
             ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path + string(".nhx"));
             break;
           case 2:
-            appendPhyloTreeToTable(*pt, name, table);
+            appendPhyloTreeToTable(*pt, name, tableCounts);
             break;
           };
           if (splitNorm)
@@ -518,7 +519,7 @@ int main(int args, char** argv)
               ApplicationTools::displayResult(string("Output normalizations of type ") + TextTools::toString(i + 1) + string(" to file"), path + string(".nhx"));
               break;
             case 2:
-              appendPhyloTreeToTable(*pn, name+"_norm", table);
+              appendPhyloTreeToTable(*pn, name, tableNorms);
               break;
             };
           }
@@ -541,7 +542,7 @@ int main(int args, char** argv)
             ApplicationTools::displayResult(string("Output normalized counts of type ") + TextTools::toString(i + 1) + string(" to file"), path + string(".nhx"));
             break;
           case 2:
-            appendPhyloTreeToTable(*pt, name, table);
+            appendPhyloTreeToTable(*pt, name, tableCounts);
             break;
           };
         }
@@ -549,11 +550,22 @@ int main(int args, char** argv)
 
       if (cformat==2)
       {
-        string path = outputnf + string(".tsv");
-        ApplicationTools::displayResult(string("Output counts to file"), path);
-        StlOutputStream out(make_unique<ofstream>(path.c_str(), ios::out));
+	if(splitNorm) {
+	  string pathCounts = outputnf + string(".counts.tsv");
+          ApplicationTools::displayResult(string("Output counts to file"), pathCounts);
+          StlOutputStream outCounts(make_unique<ofstream>(pathCounts.c_str(), ios::out));
+          DataTable::write(tableCounts, outCounts, "\t", true);
 
-        DataTable::write(table, out, "\t", true);
+          string pathNorms = outputnf + string(".norms.tsv");
+          ApplicationTools::displayResult(string("Output norms to file"), pathNorms);
+          StlOutputStream outNorms(make_unique<ofstream>(pathNorms.c_str(), ios::out));
+          DataTable::write(tableNorms, outNorms, "\t", true);			
+	} else {
+          string path = outputnf + string(".tsv");
+          ApplicationTools::displayResult(string("Output counts to file"), path);
+          StlOutputStream out(make_unique<ofstream>(path.c_str(), ios::out));
+          DataTable::write(tableCounts, out, "\t", true);
+	}
       }
     }
     else

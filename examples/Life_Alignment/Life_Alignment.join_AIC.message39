@@ -1,310 +1,514 @@
-!!! Second order derivative is negative for parameter BrLen5(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen5, badValue = -1.034077 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen14(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen14, badValue = -0.899333 [ 1e-06; 10000] 
 !!! Second order derivative is negative for parameter BrLen15(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen15, badValue = -1.034898 [ 1e-06; 10000] 
-Constraint match at parameter BrLen18, badValue = -0.016225 [ 1e-06; 10000] 
-Constraint match at parameter BrLen44, badValue = -0.001055 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen51(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen51, badValue = -1.036969 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen52(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen52, badValue = -1.036969 [ 1e-06; 10000] 
-Constraint match at parameter BrLen61, badValue = -0.004712 [ 1e-06; 10000] 
-Constraint match at parameter BrLen69, badValue = -0.015060 [ 1e-06; 10000] 
-Constraint match at parameter BrLen83, badValue = -0.002446 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen85(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen85, badValue = -0.900050 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen86(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen86, badValue = -0.962463 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen87(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen87, badValue = -0.895566 [ 1e-06; 10000] 
-Constraint match at parameter BrLen92, badValue = -0.015311 [ 1e-06; 10000] 
-Constraint match at parameter BrLen103, badValue = -0.132544 [ 1e-06; 10000] 
-Constraint match at parameter BrLen114, badValue = -0.007243 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen119(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen119, badValue = -1.038997 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen120(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen120, badValue = -1.038997 [ 1e-06; 10000] 
-Constraint match at parameter BrLen132, badValue = -0.000288 [ 1e-06; 10000] 
-Constraint match at parameter BrLen151, badValue = -0.059534 [ 1e-06; 10000] 
-Constraint match at parameter T92.theta_16, badValue = 1.052627 ]1e-06; 0.999999[
-Constraint match at parameter T92.theta_34, badValue = 1.036120 ]1e-06; 0.999999[
-Constraint match at parameter T92.theta_36, badValue = 1.019740 ]1e-06; 0.999999[
-!!! Second order derivative is negative for parameter BrLen5(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen5, badValue = -1.034236 [ 1e-06; 10000] 
+Constraint match at parameter BrLen15, badValue = -0.899333 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen16, badValue = -0.890371 [ 1e-06; 10000] 
+Constraint match at parameter BrLen21, badValue = -0.002584 [ 1e-06; 10000] 
+Constraint match at parameter BrLen32, badValue = -0.264083 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen47, badValue = -1.017549 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen48, badValue = -1.017549 [ 1e-06; 10000] 
+Constraint match at parameter BrLen79, badValue = -0.069270 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen116, badValue = -0.992100 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen126, badValue = -1.040291 [ 1e-06; 10000] 
+Constraint match at parameter BrLen129, badValue = -0.094112 [ 1e-06; 10000] 
+Constraint match at parameter BrLen155, badValue = -0.021817 [ 1e-06; 10000] 
+Constraint match at parameter BrLen157, badValue = -0.008386 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen162, badValue = -1.029910 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen163, badValue = -1.029910 [ 1e-06; 10000] 
+Constraint match at parameter BrLen172, badValue = -0.006612 [ 1e-06; 10000] 
+Constraint match at parameter BrLen180, badValue = -0.043702 [ 1e-06; 10000] 
+Constraint match at parameter T92.theta_11, badValue = 1.004620 ]1e-06; 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen14, badValue = -0.899465 [ 1e-06; 10000] 
 !!! Second order derivative is negative for parameter BrLen15(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen15, badValue = -1.035063 [ 1e-06; 10000] 
-Constraint match at parameter BrLen18, badValue = -0.016217 [ 1e-06; 10000] 
-Constraint match at parameter BrLen44, badValue = -0.001051 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen51(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen51, badValue = -1.037119 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen52(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen52, badValue = -1.037119 [ 1e-06; 10000] 
-Constraint match at parameter BrLen61, badValue = -0.004705 [ 1e-06; 10000] 
-Constraint match at parameter BrLen69, badValue = -0.015277 [ 1e-06; 10000] 
-Constraint match at parameter BrLen83, badValue = -0.002521 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen85(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen85, badValue = -0.848987 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen86(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen86, badValue = -0.962556 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen87(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen87, badValue = -0.871628 [ 1e-06; 10000] 
-Constraint match at parameter BrLen92, badValue = -0.014664 [ 1e-06; 10000] 
-Constraint match at parameter BrLen103, badValue = -0.134469 [ 1e-06; 10000] 
-Constraint match at parameter BrLen114, badValue = -0.007395 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen119(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen119, badValue = -1.039154 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen120(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen120, badValue = -1.039154 [ 1e-06; 10000] 
-Constraint match at parameter BrLen132, badValue = -0.000283 [ 1e-06; 10000] 
-Constraint match at parameter BrLen151, badValue = -0.059494 [ 1e-06; 10000] 
-Constraint match at parameter T92.theta_16, badValue = 1.060252 ]1e-06; 0.999999[
-Constraint match at parameter T92.theta_34, badValue = 1.036304 ]1e-06; 0.999999[
-Constraint match at parameter T92.theta_36, badValue = 1.019797 ]1e-06; 0.999999[
-!!! Second order derivative is negative for parameter BrLen5(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen5, badValue = -1.034145 [ 1e-06; 10000] 
+Constraint match at parameter BrLen15, badValue = -0.899465 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen16, badValue = -0.890505 [ 1e-06; 10000] 
+Constraint match at parameter BrLen21, badValue = -0.002577 [ 1e-06; 10000] 
+Constraint match at parameter BrLen32, badValue = -0.264023 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen47, badValue = -1.017649 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen48, badValue = -1.017649 [ 1e-06; 10000] 
+Constraint match at parameter BrLen79, badValue = -0.069250 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen116, badValue = -0.992149 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen126, badValue = -1.040454 [ 1e-06; 10000] 
+Constraint match at parameter BrLen129, badValue = -0.094048 [ 1e-06; 10000] 
+Constraint match at parameter BrLen155, badValue = -0.021845 [ 1e-06; 10000] 
+Constraint match at parameter BrLen157, badValue = -0.009931 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen162, badValue = -1.029993 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen163, badValue = -1.029993 [ 1e-06; 10000] 
+Constraint match at parameter BrLen172, badValue = -0.006542 [ 1e-06; 10000] 
+Constraint match at parameter BrLen180, badValue = -0.043724 [ 1e-06; 10000] 
+Constraint match at parameter T92.theta_11, badValue = 1.004460 ]1e-06; 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen14, badValue = -0.899494 [ 1e-06; 10000] 
 !!! Second order derivative is negative for parameter BrLen15(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen15, badValue = -1.034947 [ 1e-06; 10000] 
-Constraint match at parameter BrLen18, badValue = -0.016231 [ 1e-06; 10000] 
-Constraint match at parameter BrLen44, badValue = -0.001060 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen51(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen51, badValue = -1.037019 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen52(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen52, badValue = -1.037019 [ 1e-06; 10000] 
-Constraint match at parameter BrLen61, badValue = -0.004714 [ 1e-06; 10000] 
-Constraint match at parameter BrLen69, badValue = -0.015159 [ 1e-06; 10000] 
-Constraint match at parameter BrLen83, badValue = -0.002490 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen85(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen85, badValue = -0.858732 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen86(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen86, badValue = -0.962474 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen87(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen87, badValue = -0.866682 [ 1e-06; 10000] 
-Constraint match at parameter BrLen92, badValue = -0.014286 [ 1e-06; 10000] 
-Constraint match at parameter BrLen103, badValue = -0.135598 [ 1e-06; 10000] 
-Constraint match at parameter BrLen114, badValue = -0.007326 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen119(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen119, badValue = -1.039048 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen120(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen120, badValue = -1.039048 [ 1e-06; 10000] 
-Constraint match at parameter BrLen132, badValue = -0.000297 [ 1e-06; 10000] 
-Constraint match at parameter BrLen151, badValue = -0.059645 [ 1e-06; 10000] 
-Constraint match at parameter T92.theta_16, badValue = 1.054618 ]1e-06; 0.999999[
-Constraint match at parameter T92.theta_34, badValue = 1.035936 ]1e-06; 0.999999[
-Constraint match at parameter T92.theta_36, badValue = 1.019690 ]1e-06; 0.999999[
-!!! Second order derivative is negative for parameter BrLen5(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen5, badValue = -1.034072 [ 1e-06; 10000] 
+Constraint match at parameter BrLen15, badValue = -0.899494 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen16, badValue = -0.890534 [ 1e-06; 10000] 
+Constraint match at parameter BrLen21, badValue = -0.002591 [ 1e-06; 10000] 
+Constraint match at parameter BrLen32, badValue = -0.264278 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen47, badValue = -1.017717 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen48, badValue = -1.017717 [ 1e-06; 10000] 
+Constraint match at parameter BrLen79, badValue = -0.069327 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen116, badValue = -0.992248 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen126, badValue = -1.040168 [ 1e-06; 10000] 
+Constraint match at parameter BrLen129, badValue = -0.095044 [ 1e-06; 10000] 
+Constraint match at parameter BrLen155, badValue = -0.021856 [ 1e-06; 10000] 
+Constraint match at parameter BrLen157, badValue = -0.009284 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen162, badValue = -1.030789 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen163, badValue = -1.030789 [ 1e-06; 10000] 
+Constraint match at parameter BrLen172, badValue = -0.006592 [ 1e-06; 10000] 
+Constraint match at parameter BrLen180, badValue = -0.044124 [ 1e-06; 10000] 
+Constraint match at parameter T92.theta_11, badValue = 1.004341 ]1e-06; 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen14, badValue = -0.899495 [ 1e-06; 10000] 
 !!! Second order derivative is negative for parameter BrLen15(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen15, badValue = -1.034881 [ 1e-06; 10000] 
-Constraint match at parameter BrLen18, badValue = -0.016227 [ 1e-06; 10000] 
-Constraint match at parameter BrLen44, badValue = -0.001052 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen51(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen51, badValue = -1.036952 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen52(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen52, badValue = -1.036952 [ 1e-06; 10000] 
-Constraint match at parameter BrLen61, badValue = -0.004711 [ 1e-06; 10000] 
-Constraint match at parameter BrLen69, badValue = -0.015224 [ 1e-06; 10000] 
-Constraint match at parameter BrLen83, badValue = -0.002512 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen85(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen85, badValue = -0.855307 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen86(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen86, badValue = -0.962472 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen87(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen87, badValue = -0.867359 [ 1e-06; 10000] 
-Constraint match at parameter BrLen92, badValue = -0.014133 [ 1e-06; 10000] 
-Constraint match at parameter BrLen103, badValue = -0.135089 [ 1e-06; 10000] 
-Constraint match at parameter BrLen114, badValue = -0.007359 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen119(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen119, badValue = -1.038985 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen120(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen120, badValue = -1.038985 [ 1e-06; 10000] 
-Constraint match at parameter BrLen132, badValue = -0.000289 [ 1e-06; 10000] 
-Constraint match at parameter BrLen151, badValue = -0.059522 [ 1e-06; 10000] 
-Constraint match at parameter T92.theta_16, badValue = 1.054399 ]1e-06; 0.999999[
-Constraint match at parameter T92.theta_34, badValue = 1.036181 ]1e-06; 0.999999[
-Constraint match at parameter T92.theta_36, badValue = 1.019739 ]1e-06; 0.999999[
-!!! Second order derivative is negative for parameter BrLen5(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen5, badValue = -1.034138 [ 1e-06; 10000] 
+Constraint match at parameter BrLen15, badValue = -0.899495 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen16, badValue = -0.890536 [ 1e-06; 10000] 
+Constraint match at parameter BrLen21, badValue = -0.002571 [ 1e-06; 10000] 
+Constraint match at parameter BrLen32, badValue = -0.264015 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen47, badValue = -1.017668 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen48, badValue = -1.017668 [ 1e-06; 10000] 
+Constraint match at parameter BrLen79, badValue = -0.069237 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen116, badValue = -0.992156 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen126, badValue = -1.040379 [ 1e-06; 10000] 
+Constraint match at parameter BrLen129, badValue = -0.095218 [ 1e-06; 10000] 
+Constraint match at parameter BrLen155, badValue = -0.021887 [ 1e-06; 10000] 
+Constraint match at parameter BrLen157, badValue = -0.010127 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen162, badValue = -1.030685 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen163, badValue = -1.030685 [ 1e-06; 10000] 
+Constraint match at parameter BrLen172, badValue = -0.006539 [ 1e-06; 10000] 
+Constraint match at parameter BrLen180, badValue = -0.044388 [ 1e-06; 10000] 
+Constraint match at parameter T92.theta_11, badValue = 1.004351 ]1e-06; 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen14, badValue = -0.899537 [ 1e-06; 10000] 
 !!! Second order derivative is negative for parameter BrLen15(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen15, badValue = -1.034934 [ 1e-06; 10000] 
-Constraint match at parameter BrLen18, badValue = -0.016227 [ 1e-06; 10000] 
-Constraint match at parameter BrLen44, badValue = -0.001056 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen51(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen51, badValue = -1.037008 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen52(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen52, badValue = -1.037008 [ 1e-06; 10000] 
-Constraint match at parameter BrLen61, badValue = -0.004711 [ 1e-06; 10000] 
-Constraint match at parameter BrLen69, badValue = -0.015151 [ 1e-06; 10000] 
-Constraint match at parameter BrLen83, badValue = -0.002503 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen85(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen85, badValue = -0.858629 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen86(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen86, badValue = -0.962504 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen87(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen87, badValue = -0.868301 [ 1e-06; 10000] 
-Constraint match at parameter BrLen92, badValue = -0.014029 [ 1e-06; 10000] 
-Constraint match at parameter BrLen103, badValue = -0.135102 [ 1e-06; 10000] 
-Constraint match at parameter BrLen114, badValue = -0.007310 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen119(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen119, badValue = -1.039039 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen120(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen120, badValue = -1.039039 [ 1e-06; 10000] 
-Constraint match at parameter BrLen132, badValue = -0.000289 [ 1e-06; 10000] 
-Constraint match at parameter BrLen151, badValue = -0.059551 [ 1e-06; 10000] 
-Constraint match at parameter T92.theta_16, badValue = 1.053982 ]1e-06; 0.999999[
-Constraint match at parameter T92.theta_34, badValue = 1.036105 ]1e-06; 0.999999[
-Constraint match at parameter T92.theta_36, badValue = 1.019741 ]1e-06; 0.999999[
-!!! Second order derivative is negative for parameter BrLen5(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen5, badValue = -1.034173 [ 1e-06; 10000] 
+Constraint match at parameter BrLen15, badValue = -0.899537 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen16, badValue = -0.890577 [ 1e-06; 10000] 
+Constraint match at parameter BrLen21, badValue = -0.002591 [ 1e-06; 10000] 
+Constraint match at parameter BrLen32, badValue = -0.264270 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen47, badValue = -1.017764 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen48, badValue = -1.017764 [ 1e-06; 10000] 
+Constraint match at parameter BrLen79, badValue = -0.069356 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen116, badValue = -0.992270 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen126, badValue = -1.040204 [ 1e-06; 10000] 
+Constraint match at parameter BrLen129, badValue = -0.095159 [ 1e-06; 10000] 
+Constraint match at parameter BrLen155, badValue = -0.021848 [ 1e-06; 10000] 
+Constraint match at parameter BrLen157, badValue = -0.009424 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen162, badValue = -1.031354 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen163, badValue = -1.031354 [ 1e-06; 10000] 
+Constraint match at parameter BrLen172, badValue = -0.006580 [ 1e-06; 10000] 
+Constraint match at parameter BrLen180, badValue = -0.044644 [ 1e-06; 10000] 
+Constraint match at parameter T92.theta_11, badValue = 1.004258 ]1e-06; 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen14, badValue = -0.899503 [ 1e-06; 10000] 
 !!! Second order derivative is negative for parameter BrLen15(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen15, badValue = -1.034967 [ 1e-06; 10000] 
-Constraint match at parameter BrLen18, badValue = -0.016224 [ 1e-06; 10000] 
-Constraint match at parameter BrLen44, badValue = -0.001052 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen51(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen51, badValue = -1.037042 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen52(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen52, badValue = -1.037042 [ 1e-06; 10000] 
-Constraint match at parameter BrLen61, badValue = -0.004710 [ 1e-06; 10000] 
-Constraint match at parameter BrLen69, badValue = -0.015222 [ 1e-06; 10000] 
-Constraint match at parameter BrLen83, badValue = -0.002510 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen85(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen85, badValue = -0.858602 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen86(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen86, badValue = -0.962551 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen87(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen87, badValue = -0.868537 [ 1e-06; 10000] 
-Constraint match at parameter BrLen92, badValue = -0.014010 [ 1e-06; 10000] 
-Constraint match at parameter BrLen103, badValue = -0.135021 [ 1e-06; 10000] 
-Constraint match at parameter BrLen114, badValue = -0.007351 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen119(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen119, badValue = -1.039073 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen120(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen120, badValue = -1.039073 [ 1e-06; 10000] 
-Constraint match at parameter BrLen132, badValue = -0.000288 [ 1e-06; 10000] 
-Constraint match at parameter BrLen151, badValue = -0.059514 [ 1e-06; 10000] 
-Constraint match at parameter T92.theta_16, badValue = 1.053859 ]1e-06; 0.999999[
-Constraint match at parameter T92.theta_34, badValue = 1.036145 ]1e-06; 0.999999[
-Constraint match at parameter T92.theta_36, badValue = 1.019748 ]1e-06; 0.999999[
-!!! Second order derivative is negative for parameter BrLen5(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen5, badValue = -1.034185 [ 1e-06; 10000] 
+Constraint match at parameter BrLen15, badValue = -0.899503 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen16, badValue = -0.890546 [ 1e-06; 10000] 
+Constraint match at parameter BrLen21, badValue = -0.002569 [ 1e-06; 10000] 
+Constraint match at parameter BrLen32, badValue = -0.264095 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen47, badValue = -1.017681 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen48, badValue = -1.017681 [ 1e-06; 10000] 
+Constraint match at parameter BrLen79, badValue = -0.069237 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen116, badValue = -0.992143 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen126, badValue = -1.040382 [ 1e-06; 10000] 
+Constraint match at parameter BrLen129, badValue = -0.094904 [ 1e-06; 10000] 
+Constraint match at parameter BrLen155, badValue = -0.021888 [ 1e-06; 10000] 
+Constraint match at parameter BrLen157, badValue = -0.010143 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen162, badValue = -1.031164 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen163, badValue = -1.031164 [ 1e-06; 10000] 
+Constraint match at parameter BrLen172, badValue = -0.006537 [ 1e-06; 10000] 
+Constraint match at parameter BrLen180, badValue = -0.044829 [ 1e-06; 10000] 
+Constraint match at parameter T92.theta_11, badValue = 1.004289 ]1e-06; 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen14, badValue = -0.899536 [ 1e-06; 10000] 
 !!! Second order derivative is negative for parameter BrLen15(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen15, badValue = -1.034982 [ 1e-06; 10000] 
-Constraint match at parameter BrLen18, badValue = -0.016225 [ 1e-06; 10000] 
-Constraint match at parameter BrLen44, badValue = -0.001054 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen51(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen51, badValue = -1.037058 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen52(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen52, badValue = -1.037058 [ 1e-06; 10000] 
-Constraint match at parameter BrLen61, badValue = -0.004711 [ 1e-06; 10000] 
-Constraint match at parameter BrLen69, badValue = -0.015151 [ 1e-06; 10000] 
-Constraint match at parameter BrLen83, badValue = -0.002507 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen85(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen85, badValue = -0.859278 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen86(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen86, badValue = -0.962571 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen87(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen87, badValue = -0.868776 [ 1e-06; 10000] 
-Constraint match at parameter BrLen92, badValue = -0.013984 [ 1e-06; 10000] 
-Constraint match at parameter BrLen103, badValue = -0.135013 [ 1e-06; 10000] 
-Constraint match at parameter BrLen114, badValue = -0.007322 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen119(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen119, badValue = -1.039088 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen120(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen120, badValue = -1.039088 [ 1e-06; 10000] 
-Constraint match at parameter BrLen132, badValue = -0.000288 [ 1e-06; 10000] 
-Constraint match at parameter BrLen151, badValue = -0.059523 [ 1e-06; 10000] 
-Constraint match at parameter T92.theta_16, badValue = 1.053849 ]1e-06; 0.999999[
-Constraint match at parameter T92.theta_34, badValue = 1.036128 ]1e-06; 0.999999[
-Constraint match at parameter T92.theta_36, badValue = 1.019746 ]1e-06; 0.999999[
-!!! Second order derivative is negative for parameter BrLen5(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen5, badValue = -1.034208 [ 1e-06; 10000] 
+Constraint match at parameter BrLen15, badValue = -0.899536 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen16, badValue = -0.890576 [ 1e-06; 10000] 
+Constraint match at parameter BrLen21, badValue = -0.002591 [ 1e-06; 10000] 
+Constraint match at parameter BrLen32, badValue = -0.264247 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen47, badValue = -1.017763 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen48, badValue = -1.017763 [ 1e-06; 10000] 
+Constraint match at parameter BrLen79, badValue = -0.069369 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen116, badValue = -0.992240 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen126, badValue = -1.040221 [ 1e-06; 10000] 
+Constraint match at parameter BrLen129, badValue = -0.094537 [ 1e-06; 10000] 
+Constraint match at parameter BrLen155, badValue = -0.021840 [ 1e-06; 10000] 
+Constraint match at parameter BrLen157, badValue = -0.009515 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen162, badValue = -1.031670 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen163, badValue = -1.031670 [ 1e-06; 10000] 
+Constraint match at parameter BrLen172, badValue = -0.006570 [ 1e-06; 10000] 
+Constraint match at parameter BrLen180, badValue = -0.044968 [ 1e-06; 10000] 
+Constraint match at parameter T92.theta_11, badValue = 1.004220 ]1e-06; 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen14, badValue = -0.899492 [ 1e-06; 10000] 
 !!! Second order derivative is negative for parameter BrLen15(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen15, badValue = -1.034999 [ 1e-06; 10000] 
-Constraint match at parameter BrLen18, badValue = -0.016224 [ 1e-06; 10000] 
-Constraint match at parameter BrLen44, badValue = -0.001053 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen51(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen51, badValue = -1.037076 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen52(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen52, badValue = -1.037076 [ 1e-06; 10000] 
-Constraint match at parameter BrLen61, badValue = -0.004710 [ 1e-06; 10000] 
-Constraint match at parameter BrLen69, badValue = -0.015223 [ 1e-06; 10000] 
-Constraint match at parameter BrLen83, badValue = -0.002510 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen85(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen85, badValue = -0.859298 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen86(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen86, badValue = -0.962579 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen87(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen87, badValue = -0.868837 [ 1e-06; 10000] 
-Constraint match at parameter BrLen92, badValue = -0.013982 [ 1e-06; 10000] 
-Constraint match at parameter BrLen103, badValue = -0.135000 [ 1e-06; 10000] 
-Constraint match at parameter BrLen114, badValue = -0.007346 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen119(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen119, badValue = -1.039106 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen120(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen120, badValue = -1.039106 [ 1e-06; 10000] 
-Constraint match at parameter BrLen132, badValue = -0.000287 [ 1e-06; 10000] 
-Constraint match at parameter BrLen151, badValue = -0.059511 [ 1e-06; 10000] 
-Constraint match at parameter T92.theta_16, badValue = 1.053830 ]1e-06; 0.999999[
-Constraint match at parameter T92.theta_34, badValue = 1.036140 ]1e-06; 0.999999[
-Constraint match at parameter T92.theta_36, badValue = 1.019747 ]1e-06; 0.999999[
-!!! Second order derivative is negative for parameter BrLen5(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen5, badValue = -1.034212 [ 1e-06; 10000] 
+Constraint match at parameter BrLen15, badValue = -0.899492 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen16, badValue = -0.890537 [ 1e-06; 10000] 
+Constraint match at parameter BrLen21, badValue = -0.002566 [ 1e-06; 10000] 
+Constraint match at parameter BrLen32, badValue = -0.264152 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen47, badValue = -1.017671 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen48, badValue = -1.017671 [ 1e-06; 10000] 
+Constraint match at parameter BrLen79, badValue = -0.069235 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen116, badValue = -0.992120 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen126, badValue = -1.040357 [ 1e-06; 10000] 
+Constraint match at parameter BrLen129, badValue = -0.094333 [ 1e-06; 10000] 
+Constraint match at parameter BrLen155, badValue = -0.021888 [ 1e-06; 10000] 
+Constraint match at parameter BrLen157, badValue = -0.010123 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen162, badValue = -1.031446 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen163, badValue = -1.031446 [ 1e-06; 10000] 
+Constraint match at parameter BrLen172, badValue = -0.006536 [ 1e-06; 10000] 
+Constraint match at parameter BrLen180, badValue = -0.045105 [ 1e-06; 10000] 
+Constraint match at parameter T92.theta_11, badValue = 1.004250 ]1e-06; 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen14, badValue = -0.899525 [ 1e-06; 10000] 
 !!! Second order derivative is negative for parameter BrLen15(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen15, badValue = -1.034999 [ 1e-06; 10000] 
-Constraint match at parameter BrLen18, badValue = -0.016224 [ 1e-06; 10000] 
-Constraint match at parameter BrLen44, badValue = -0.001054 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen51(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen51, badValue = -1.037077 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen52(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen52, badValue = -1.037077 [ 1e-06; 10000] 
-Constraint match at parameter BrLen61, badValue = -0.004711 [ 1e-06; 10000] 
-Constraint match at parameter BrLen69, badValue = -0.015152 [ 1e-06; 10000] 
-Constraint match at parameter BrLen83, badValue = -0.002508 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen85(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen85, badValue = -0.859425 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen86(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen86, badValue = -0.962580 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen87(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen87, badValue = -0.868882 [ 1e-06; 10000] 
-Constraint match at parameter BrLen92, badValue = -0.013976 [ 1e-06; 10000] 
-Constraint match at parameter BrLen103, badValue = -0.135004 [ 1e-06; 10000] 
-Constraint match at parameter BrLen114, badValue = -0.007332 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen119(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen119, badValue = -1.039107 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen120(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen120, badValue = -1.039107 [ 1e-06; 10000] 
-Constraint match at parameter BrLen132, badValue = -0.000288 [ 1e-06; 10000] 
-Constraint match at parameter BrLen151, badValue = -0.059517 [ 1e-06; 10000] 
-Constraint match at parameter T92.theta_16, badValue = 1.053830 ]1e-06; 0.999999[
-Constraint match at parameter T92.theta_34, badValue = 1.036131 ]1e-06; 0.999999[
-Constraint match at parameter T92.theta_36, badValue = 1.019746 ]1e-06; 0.999999[
-!!! Second order derivative is negative for parameter BrLen5(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen5, badValue = -1.034223 [ 1e-06; 10000] 
+Constraint match at parameter BrLen15, badValue = -0.899525 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen16, badValue = -0.890565 [ 1e-06; 10000] 
+Constraint match at parameter BrLen21, badValue = -0.002591 [ 1e-06; 10000] 
+Constraint match at parameter BrLen32, badValue = -0.264208 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen47, badValue = -1.017752 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen48, badValue = -1.017752 [ 1e-06; 10000] 
+Constraint match at parameter BrLen79, badValue = -0.069370 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen116, badValue = -0.992212 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen126, badValue = -1.040221 [ 1e-06; 10000] 
+Constraint match at parameter BrLen129, badValue = -0.094048 [ 1e-06; 10000] 
+Constraint match at parameter BrLen155, badValue = -0.021834 [ 1e-06; 10000] 
+Constraint match at parameter BrLen157, badValue = -0.009584 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen162, badValue = -1.031842 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen163, badValue = -1.031842 [ 1e-06; 10000] 
+Constraint match at parameter BrLen172, badValue = -0.006563 [ 1e-06; 10000] 
+Constraint match at parameter BrLen180, badValue = -0.045154 [ 1e-06; 10000] 
+Constraint match at parameter T92.theta_11, badValue = 1.004204 ]1e-06; 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen14, badValue = -0.899479 [ 1e-06; 10000] 
 !!! Second order derivative is negative for parameter BrLen15(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen15, badValue = -1.035008 [ 1e-06; 10000] 
-Constraint match at parameter BrLen18, badValue = -0.016223 [ 1e-06; 10000] 
-Constraint match at parameter BrLen44, badValue = -0.001053 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen51(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen51, badValue = -1.037086 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen52(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen52, badValue = -1.037086 [ 1e-06; 10000] 
-Constraint match at parameter BrLen61, badValue = -0.004710 [ 1e-06; 10000] 
-Constraint match at parameter BrLen69, badValue = -0.015225 [ 1e-06; 10000] 
-Constraint match at parameter BrLen83, badValue = -0.002509 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen85(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen85, badValue = -0.859434 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen86(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen86, badValue = -0.962591 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen87(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen87, badValue = -0.868898 [ 1e-06; 10000] 
-Constraint match at parameter BrLen92, badValue = -0.013974 [ 1e-06; 10000] 
-Constraint match at parameter BrLen103, badValue = -0.134997 [ 1e-06; 10000] 
-Constraint match at parameter BrLen114, badValue = -0.007342 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen119(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen119, badValue = -1.039116 [ 1e-06; 10000] 
-!!! Second order derivative is negative for parameter BrLen120(1e-06). Moving in the other direction.
-Constraint match at parameter BrLen120, badValue = -1.039116 [ 1e-06; 10000] 
-Constraint match at parameter BrLen132, badValue = -0.000287 [ 1e-06; 10000] 
-Constraint match at parameter BrLen151, badValue = -0.059511 [ 1e-06; 10000] 
-Constraint match at parameter T92.theta_16, badValue = 1.053838 ]1e-06; 0.999999[
-Constraint match at parameter T92.theta_34, badValue = 1.036139 ]1e-06; 0.999999[
-Constraint match at parameter T92.theta_36, badValue = 1.019747 ]1e-06; 0.999999[
+Constraint match at parameter BrLen15, badValue = -0.899479 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen16, badValue = -0.890525 [ 1e-06; 10000] 
+Constraint match at parameter BrLen21, badValue = -0.002563 [ 1e-06; 10000] 
+Constraint match at parameter BrLen32, badValue = -0.264194 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen47, badValue = -1.017658 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen48, badValue = -1.017658 [ 1e-06; 10000] 
+Constraint match at parameter BrLen79, badValue = -0.069232 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen116, badValue = -0.992103 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen126, badValue = -1.040327 [ 1e-06; 10000] 
+Constraint match at parameter BrLen129, badValue = -0.093970 [ 1e-06; 10000] 
+Constraint match at parameter BrLen155, badValue = -0.021887 [ 1e-06; 10000] 
+Constraint match at parameter BrLen157, badValue = -0.010093 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen162, badValue = -1.031615 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen163, badValue = -1.031615 [ 1e-06; 10000] 
+Constraint match at parameter BrLen172, badValue = -0.006535 [ 1e-06; 10000] 
+Constraint match at parameter BrLen180, badValue = -0.045286 [ 1e-06; 10000] 
+Constraint match at parameter T92.theta_11, badValue = 1.004223 ]1e-06; 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen14, badValue = -0.899515 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen15(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen15, badValue = -0.899515 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen16, badValue = -0.890554 [ 1e-06; 10000] 
+Constraint match at parameter BrLen21, badValue = -0.002591 [ 1e-06; 10000] 
+Constraint match at parameter BrLen32, badValue = -0.264164 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen47, badValue = -1.017741 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen48, badValue = -1.017741 [ 1e-06; 10000] 
+Constraint match at parameter BrLen79, badValue = -0.069365 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen116, badValue = -0.992192 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen126, badValue = -1.040220 [ 1e-06; 10000] 
+Constraint match at parameter BrLen129, badValue = -0.093767 [ 1e-06; 10000] 
+Constraint match at parameter BrLen155, badValue = -0.021828 [ 1e-06; 10000] 
+Constraint match at parameter BrLen157, badValue = -0.009637 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen162, badValue = -1.031937 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen163, badValue = -1.031937 [ 1e-06; 10000] 
+Constraint match at parameter BrLen172, badValue = -0.006556 [ 1e-06; 10000] 
+Constraint match at parameter BrLen180, badValue = -0.045251 [ 1e-06; 10000] 
+Constraint match at parameter T92.theta_11, badValue = 1.004198 ]1e-06; 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen14, badValue = -0.899467 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen15(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen15, badValue = -0.899467 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen16, badValue = -0.890514 [ 1e-06; 10000] 
+Constraint match at parameter BrLen21, badValue = -0.002560 [ 1e-06; 10000] 
+Constraint match at parameter BrLen32, badValue = -0.264231 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen47, badValue = -1.017645 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen48, badValue = -1.017645 [ 1e-06; 10000] 
+Constraint match at parameter BrLen79, badValue = -0.069234 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen116, badValue = -0.992091 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen126, badValue = -1.040300 [ 1e-06; 10000] 
+Constraint match at parameter BrLen129, badValue = -0.093772 [ 1e-06; 10000] 
+Constraint match at parameter BrLen155, badValue = -0.021887 [ 1e-06; 10000] 
+Constraint match at parameter BrLen157, badValue = -0.010064 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen162, badValue = -1.031716 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen163, badValue = -1.031716 [ 1e-06; 10000] 
+Constraint match at parameter BrLen172, badValue = -0.006536 [ 1e-06; 10000] 
+Constraint match at parameter BrLen180, badValue = -0.045412 [ 1e-06; 10000] 
+Constraint match at parameter T92.theta_11, badValue = 1.004203 ]1e-06; 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen14, badValue = -0.899507 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen15(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen15, badValue = -0.899507 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen16, badValue = -0.890545 [ 1e-06; 10000] 
+Constraint match at parameter BrLen21, badValue = -0.002593 [ 1e-06; 10000] 
+Constraint match at parameter BrLen32, badValue = -0.264119 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen47, badValue = -1.017734 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen48, badValue = -1.017734 [ 1e-06; 10000] 
+Constraint match at parameter BrLen79, badValue = -0.069356 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen116, badValue = -0.992179 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen126, badValue = -1.040220 [ 1e-06; 10000] 
+Constraint match at parameter BrLen129, badValue = -0.093614 [ 1e-06; 10000] 
+Constraint match at parameter BrLen155, badValue = -0.021823 [ 1e-06; 10000] 
+Constraint match at parameter BrLen157, badValue = -0.009679 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen162, badValue = -1.031988 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen163, badValue = -1.031988 [ 1e-06; 10000] 
+Constraint match at parameter BrLen172, badValue = -0.006552 [ 1e-06; 10000] 
+Constraint match at parameter BrLen180, badValue = -0.045291 [ 1e-06; 10000] 
+Constraint match at parameter T92.theta_11, badValue = 1.004199 ]1e-06; 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen14, badValue = -0.899456 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen15(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen15, badValue = -0.899456 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen16, badValue = -0.890505 [ 1e-06; 10000] 
+Constraint match at parameter BrLen21, badValue = -0.002557 [ 1e-06; 10000] 
+Constraint match at parameter BrLen32, badValue = -0.264267 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen47, badValue = -1.017633 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen48, badValue = -1.017633 [ 1e-06; 10000] 
+Constraint match at parameter BrLen79, badValue = -0.069239 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen116, badValue = -0.992081 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen126, badValue = -1.040277 [ 1e-06; 10000] 
+Constraint match at parameter BrLen129, badValue = -0.093669 [ 1e-06; 10000] 
+Constraint match at parameter BrLen155, badValue = -0.021887 [ 1e-06; 10000] 
+Constraint match at parameter BrLen157, badValue = -0.010038 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen162, badValue = -1.031777 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen163, badValue = -1.031777 [ 1e-06; 10000] 
+Constraint match at parameter BrLen172, badValue = -0.006537 [ 1e-06; 10000] 
+Constraint match at parameter BrLen180, badValue = -0.045508 [ 1e-06; 10000] 
+Constraint match at parameter T92.theta_11, badValue = 1.004188 ]1e-06; 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen14, badValue = -0.899502 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen15(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen15, badValue = -0.899502 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen16, badValue = -0.890539 [ 1e-06; 10000] 
+Constraint match at parameter BrLen21, badValue = -0.002596 [ 1e-06; 10000] 
+Constraint match at parameter BrLen32, badValue = -0.264074 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen47, badValue = -1.017732 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen48, badValue = -1.017732 [ 1e-06; 10000] 
+Constraint match at parameter BrLen79, badValue = -0.069343 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen116, badValue = -0.992172 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen126, badValue = -1.040222 [ 1e-06; 10000] 
+Constraint match at parameter BrLen129, badValue = -0.093530 [ 1e-06; 10000] 
+Constraint match at parameter BrLen155, badValue = -0.021818 [ 1e-06; 10000] 
+Constraint match at parameter BrLen157, badValue = -0.009711 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen162, badValue = -1.032017 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen163, badValue = -1.032017 [ 1e-06; 10000] 
+Constraint match at parameter BrLen172, badValue = -0.006548 [ 1e-06; 10000] 
+Constraint match at parameter BrLen180, badValue = -0.045293 [ 1e-06; 10000] 
+Constraint match at parameter T92.theta_11, badValue = 1.004204 ]1e-06; 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen14, badValue = -0.899446 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen15(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen15, badValue = -0.899446 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen16, badValue = -0.890496 [ 1e-06; 10000] 
+Constraint match at parameter BrLen21, badValue = -0.002553 [ 1e-06; 10000] 
+Constraint match at parameter BrLen32, badValue = -0.264304 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen47, badValue = -1.017620 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen48, badValue = -1.017620 [ 1e-06; 10000] 
+Constraint match at parameter BrLen79, badValue = -0.069250 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen116, badValue = -0.992072 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen126, badValue = -1.040256 [ 1e-06; 10000] 
+Constraint match at parameter BrLen129, badValue = -0.093619 [ 1e-06; 10000] 
+Constraint match at parameter BrLen155, badValue = -0.021889 [ 1e-06; 10000] 
+Constraint match at parameter BrLen157, badValue = -0.010017 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen162, badValue = -1.031811 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen163, badValue = -1.031811 [ 1e-06; 10000] 
+Constraint match at parameter BrLen172, badValue = -0.006538 [ 1e-06; 10000] 
+Constraint match at parameter BrLen180, badValue = -0.045589 [ 1e-06; 10000] 
+Constraint match at parameter T92.theta_11, badValue = 1.004174 ]1e-06; 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen14, badValue = -0.899500 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen15(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen15, badValue = -0.899500 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen16, badValue = -0.890536 [ 1e-06; 10000] 
+Constraint match at parameter BrLen21, badValue = -0.002599 [ 1e-06; 10000] 
+Constraint match at parameter BrLen32, badValue = -0.264027 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen47, badValue = -1.017734 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen48, badValue = -1.017734 [ 1e-06; 10000] 
+Constraint match at parameter BrLen79, badValue = -0.069326 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen116, badValue = -0.992170 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen126, badValue = -1.040227 [ 1e-06; 10000] 
+Constraint match at parameter BrLen129, badValue = -0.093483 [ 1e-06; 10000] 
+Constraint match at parameter BrLen155, badValue = -0.021813 [ 1e-06; 10000] 
+Constraint match at parameter BrLen157, badValue = -0.009735 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen162, badValue = -1.032036 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen163, badValue = -1.032036 [ 1e-06; 10000] 
+Constraint match at parameter BrLen172, badValue = -0.006545 [ 1e-06; 10000] 
+Constraint match at parameter BrLen180, badValue = -0.045269 [ 1e-06; 10000] 
+Constraint match at parameter T92.theta_11, badValue = 1.004212 ]1e-06; 0.999999[
+!!! Function at new point is greater than at current point: 13882.4>13882.4. Applying Felsenstein-Churchill correction: 0
+!!! Second order derivative is negative for parameter BrLen14(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen14, badValue = -0.899468 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen15(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen15, badValue = -0.899468 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen16, badValue = -0.890512 [ 1e-06; 10000] 
+Constraint match at parameter BrLen21, badValue = -0.002573 [ 1e-06; 10000] 
+Constraint match at parameter BrLen32, badValue = -0.264187 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen47, badValue = -1.017670 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen48, badValue = -1.017670 [ 1e-06; 10000] 
+Constraint match at parameter BrLen79, badValue = -0.069296 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen116, badValue = -0.992116 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen126, badValue = -1.040232 [ 1e-06; 10000] 
+Constraint match at parameter BrLen129, badValue = -0.093540 [ 1e-06; 10000] 
+Constraint match at parameter BrLen155, badValue = -0.021853 [ 1e-06; 10000] 
+Constraint match at parameter BrLen157, badValue = -0.009868 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen162, badValue = -1.031932 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen163, badValue = -1.031932 [ 1e-06; 10000] 
+Constraint match at parameter BrLen172, badValue = -0.006542 [ 1e-06; 10000] 
+Constraint match at parameter BrLen180, badValue = -0.045467 [ 1e-06; 10000] 
+Constraint match at parameter T92.theta_11, badValue = 1.004186 ]1e-06; 0.999999[
+!!! Second order derivative is negative for parameter BrLen14(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen14, badValue = -0.899468 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen15(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen15, badValue = -0.899468 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen16(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen16, badValue = -0.890511 [ 1e-06; 10000] 
+Constraint match at parameter BrLen21, badValue = -0.002576 [ 1e-06; 10000] 
+Constraint match at parameter BrLen32, badValue = -0.264161 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen47(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen47, badValue = -1.017673 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen48(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen48, badValue = -1.017673 [ 1e-06; 10000] 
+Constraint match at parameter BrLen79, badValue = -0.069285 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen116(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen116, badValue = -0.992117 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen126(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen126, badValue = -1.040235 [ 1e-06; 10000] 
+Constraint match at parameter BrLen129, badValue = -0.093525 [ 1e-06; 10000] 
+Constraint match at parameter BrLen155, badValue = -0.021849 [ 1e-06; 10000] 
+Constraint match at parameter BrLen157, badValue = -0.009875 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen162(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen162, badValue = -1.031939 [ 1e-06; 10000] 
+!!! Second order derivative is negative for parameter BrLen163(1e-06). Moving in the other direction.
+Constraint match at parameter BrLen163, badValue = -1.031939 [ 1e-06; 10000] 
+Constraint match at parameter BrLen172, badValue = -0.006541 [ 1e-06; 10000] 
+Constraint match at parameter BrLen180, badValue = -0.045445 [ 1e-06; 10000] 
+Constraint match at parameter T92.theta_11, badValue = 1.004192 ]1e-06; 0.999999[

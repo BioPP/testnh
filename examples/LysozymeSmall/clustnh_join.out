@@ -1,0 +1,27 @@
+******************************************************************
+*                      Clust NH, version 2                       *
+* Authors: J. Dutheil                                            *
+*          B. Boussau                                            *
+*          L. Guéguen                                            *
+******************************************************************
+
+Parsing options:
+Parsing file ClustNH.bpp for options.
+Input counts (branch/type) in file.....: lysozymeSmall.mapping.tsv
+Normalize counts.......................: no
+Perform branch clustering..............: yes
+Cluster only neighbor nodes............: yes
+Allow len < 0 in clustering............: no
+Auto-clustering........................: Global
+Auto-clustering threshold..............: 1
+WARNING!!! Parameter number_of_categories not specified. Default used instead: 0
+WARNING!!! Parameter allow_within_category_substitutions not specified. Default used instead: 0
+Input tree file .......................: lysozymeSmall.ml_h.dnd_1
+Input tree format .....................: Newick
+[======================================]Done.
+[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>]Done.
+P-value at root node...................: 0.0265247
+Number of tests performed..............: 27
+Output cluster tree to.................: lysozymeSmall.cluster_join.dnd
+ClustNH's done. Bye.
+Total execution time: 0.000000d, 0.000000h, 0.000000m, 0.000000s.

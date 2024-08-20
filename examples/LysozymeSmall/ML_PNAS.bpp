@@ -18,7 +18,7 @@ input.data1=alignment(file = $(DATA).fasta, format=Fasta, sites_to_use = complet
 # ----------------------------------------------------------------------------------------
 
 # user or random
-input.tree1 = user(file = $(DATA).dnd, format = Newick, brlen.method = Input)
+input.tree1 = user(file = $(DATA)2.dnd, format = Newick, brlen.method = Input)
 
 # ----------------------------------------------------------------------------------------
 #                                     Model specification
@@ -30,11 +30,11 @@ model1 = YN98(kappa=1, omega=0.6114, frequencies=F3X4, initFreqs=observed, data=
 
 model2 = YN98(frequencies=F3X4,kappa=YN98.kappa_1, omega=4.2878, 1_Full.theta=YN98.1_Full.theta_1, 1_Full.theta1=YN98.1_Full.theta1_1, 1_Full.theta2=YN98.1_Full.theta2_1, 2_Full.theta=YN98.2_Full.theta_1, 2_Full.theta1=YN98.2_Full.theta1_1, 2_Full.theta2=YN98.2_Full.theta2_1, 3_Full.theta=YN98.3_Full.theta_1, 3_Full.theta1=YN98.3_Full.theta1_1, 3_Full.theta2=YN98.3_Full.theta2_1)
 
-model3 = YN98(frequencies=F3X4,kappa=YN98.kappa_1, omega=4.2878, 1_Full.theta=YN98.1_Full.theta_1, 1_Full.theta1=YN98.1_Full.theta1_1, 1_Full.theta2=YN98.1_Full.theta2_1, 2_Full.theta=YN98.2_Full.theta_1, 2_Full.theta1=YN98.2_Full.theta1_1, 2_Full.theta2=YN98.2_Full.theta2_1, 3_Full.theta=YN98.3_Full.theta_1, 3_Full.theta1=YN98.3_Full.theta1_1, 3_Full.theta2=YN98.3_Full.theta2_1)
+model3 = YN98(frequencies=F3X4,kappa=YN98.kappa_1, omega=0.00001, 1_Full.theta=YN98.1_Full.theta_1, 1_Full.theta1=YN98.1_Full.theta1_1, 1_Full.theta2=YN98.1_Full.theta2_1, 2_Full.theta=YN98.2_Full.theta_1, 2_Full.theta1=YN98.2_Full.theta1_1, 2_Full.theta2=YN98.2_Full.theta2_1, 3_Full.theta=YN98.3_Full.theta_1, 3_Full.theta1=YN98.3_Full.theta1_1, 3_Full.theta2=YN98.3_Full.theta2_1)
 
 rate_distribution1 = Constant()
 
-process1 = NonHomogeneous(model1=1, model1.nodes_id = (6, 8, 1, 2, 5), model2=2, model2.nodes_id = (0, 3, 4), model3=3, model3.nodes_id = (7, 9, 10), tree=1, rate=1)
+process1 = NonHomogeneous(model1=1, model1.nodes_id = (6, 8, 1, 2, 5), model2=2, model2.nodes_id = (0, 3, 4), model3=3, model3.nodes_id = (7), tree=1, rate=1)
 
 phylo1 = Single(process=1, data=1)
 

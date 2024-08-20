@@ -1,0 +1,71 @@
+******************************************************************
+*                     Map NH, version 2                          *
+* Authors: J. Dutheil                       Created on  09/12/10 *
+*          B. Boussau                       Modif. 17/12/11      *
+*          L. Guéguen                       Last Modif. 28/11/17 *
+******************************************************************
+
+Parsing options:
+Parsing file MapNH.bpp for options.
+Parsing file lysozymeSmall.ml_h.params.bpp for options.
+Alphabet type .........................: Codon(letter=DNA)
+Genetic Code...........................: Standard
+Sequence file .........................: lysozymeSmall.fasta
+Sequence format .......................: FASTA file
+
+Data 1
+Sites to use...........................: all
+Remove Stop Codons.....................: yes
+Number of sites........................: 130
+
+Tree 1
+Number of trees in file................: 1
+Number of leaves.......................: 6
+Branch lengths.........................: Input
+
+Rate 1
+Distribution...........................: Constant
+Number of classes......................: 1
+- Category 0 (Pr = 1) rate.............: 1
+
+Model 1
+Substitution model.....................: YN98
+External model frequencies init........: None
+Parameter found........................: YN98.kappa=4.55399
+Parameter found........................: YN98.omega=0.844851
+Parameter found........................: YN98.1_Full.theta=0.475824
+Parameter found........................: YN98.1_Full.theta1=0.616352
+Parameter found........................: YN98.1_Full.theta2=0.711316
+Parameter found........................: YN98.2_Full.theta=0.469231
+Parameter found........................: YN98.2_Full.theta1=0.623188
+Parameter found........................: YN98.2_Full.theta2=0.63466
+Parameter found........................: YN98.3_Full.theta=0.420879
+Parameter found........................: YN98.3_Full.theta1=0.434535
+Parameter found........................: YN98.3_Full.theta2=0.456919
+
+Process 1
+Process type...........................: Homogeneous
+ Model number..........................: 1
+ Tree number...........................: 1
+ Rate number...........................: 1
+ Stationarity assumed.
+
+Phylolikelihood 1
+ Data used ............................: 1
+ Process ..............................: 1
+
+Result Phylolikelihood 
+ Result................................: phylo1
+
+Initial log likelihood.................: -872.952247981534
+Saturation threshold used..............: 3
+Manage unresolved characters...........: Zero
+Substitution Register..................: DnDs
+  * Count type 1.......................: dS
+  * Count type 2.......................: dN
+Compute counts.........................: 
+[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] Done.
+Format.................................: tsv
+Output counts to file..................: lysozymeSmall.mapping.tsv
+MapNH's done. Bye.
+Total execution time: 0.000000d, 0.000000h, 0.000000m, 1.000000s.
