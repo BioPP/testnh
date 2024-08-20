@@ -267,7 +267,7 @@ int main(int args, char** argv)
     string nullProcessParams = ApplicationTools::getStringParameter("nullProcessParams", mapnh.getParams(), "", "", false, 1);
     // output
 
-    string outputDesc = ApplicationTools::getStringParameter("output.counts", mapnh.getParams(), "PerType(prefix=counts_)");
+    string outputDesc = ApplicationTools::getStringParameter("output.counts", mapnh.getParams(), "PerType(file=counts_)");
 
     string outputType;
     map<string, string> outputArgs;
@@ -412,9 +412,6 @@ int main(int args, char** argv)
     string defaultnf = string(perBranch ? "tree_counts" : "mapping_counts") + (perSite ? "_per_site" : "") + (perType ? "_per_type" : "");
       
     string outputnf = ApplicationTools::getStringParameter("file", outputArgs, defaultnf, "", true, 1);
-
-    if (outputnf=="") 
-      outputnf = ApplicationTools::getStringParameter("prefix", outputArgs, defaultnf, "", true, 1); // legacy
 
     string format = ApplicationTools::getStringParameter("format", outputArgs, "Newick", "", true, 1);
 
@@ -630,7 +627,10 @@ int main(int args, char** argv)
       // output not per branch
       if (!perBranch)
       {
-        ApplicationTools::displayResult(string("Output counts (site/type) to file"), outputnf + ".sged");
+        if (perSite)
+          ApplicationTools::displayResult(string("Output counts (site/type) to file"), outputnf + ".sged");
+        else
+          ApplicationTools::displayResult(string("Output counts (site/type) to file"), outputnf + ".tsv");
 
         VVdouble counts2(counts.size());
 
@@ -673,8 +673,11 @@ int main(int args, char** argv)
           
         if (nullProcessParams!="" && splitNorm)
         {
-          outputnf += "_norm.sged";
-              
+          if (perSite)
+            outputnf += "_norm.sged";
+          else
+            outputnf += "_norm.tsv";
+            
           ApplicationTools::displayResult(string("Output normalizations (site/type) to file"), outputnf);
               
           VVdouble norm2(norm.size());
@@ -695,10 +698,9 @@ int main(int args, char** argv)
           }
 
           if (perSite)
-            SubstitutionMappingTools::outputPerSitePerType(outputnf, *reg, *data, counts2);
+            SubstitutionMappingTools::outputPerSitePerType(outputnf, *reg, *data, norm2);
           else
-            SubstitutionMappingTools::outputPerType(outputnf, *reg, *data, counts2);
-
+            SubstitutionMappingTools::outputPerType(outputnf, *reg, *data, norm2);
         }
       }
       else
