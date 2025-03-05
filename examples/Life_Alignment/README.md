@@ -34,6 +34,8 @@ be analyzed and/or plotted using R for instance.
 ```bash
 bppml --noninteractive=yes param=ML_NH_Full.bpp > bppml_nh_full.out
 ```
+
+Log likelihood: -13825.2273607301
     
 ### 1.3.2) NHML
 
