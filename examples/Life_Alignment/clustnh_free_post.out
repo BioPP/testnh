@@ -8,7 +8,7 @@
 Parsing options:
 Parsing file ClustNH.bpp for options.
 Input counts (branch/type) in file.....: Life_Alignment.mapping_post.counts.tsv
-Normalize counts.......................: 1
+Normalize counts.......................: yes
 Input normalization (branch/type) in fi: Life_Alignment.mapping_post.norms.tsv
 Perform branch clustering..............: yes
 Cluster only neighbor nodes............: no

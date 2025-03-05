@@ -38,7 +38,7 @@ clustnh --noninteractive=yes param=ClustNH.bpp \
 ```
 
 This will first create a tree in Nhx format, identical to the input one, but with
-nodes ID. It then creates a cluster tree in Newick format, with leaves being nodes ID.
+node IDs. It then creates a cluster tree in Newick format, with leaves being node IDs.
 
 ## Use the clustering tree to define partitions, and test them using model testing.
 

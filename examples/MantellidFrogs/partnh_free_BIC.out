@@ -6,7 +6,7 @@
 
 Parsing options:
 Parsing file PartNH.bpp for options.
-Input cluster tree.....................: MantellidDataset.cluster_free.dnd
+Input cluster tree.....................: Mantellid.cluster_free.dnd
 Input tree file........................: MantellidDataset.nhx
 Alphabet type .........................: Codon(letter=DNA)
 Genetic Code...........................: VertebrateMitochondrial
@@ -39,9 +39,9 @@ Initializing data structure............: Done.
 Number of distinct sites...............: 1554
 Log-Likelihood.........................: -51864.5
 Output intermediate models.............: yes
-Output log to..........................: MantellidDataset.model_free_AIC.log.txt
-Message handler........................: MantellidDataset.free_AIC.message*
-Profiler...............................: MantellidDataset.free_AIC.profile*
+Output log to..........................: MantellidDataset.model_free_BIC.log.txt
+Message handler........................: MantellidDataset.free_BIC.message*
+Profiler...............................: MantellidDataset.free_BIC.profile*
 Parameter ignored......................: YN98.1_Full.theta
 Parameter ignored......................: YN98.1_Full.theta1
 Parameter ignored......................: YN98.1_Full.theta2
@@ -66,7 +66,7 @@ Global parameter.......................: YN98.*Full.theta*
 AIC....................................: 90779.5
 AICc...................................: 90781.8
 BIC....................................: 91005.6
-Likelihood comparison method...........: AIC
+Likelihood comparison method...........: BIC
 Stop condition.........................: test 10 nested models after local best
 Current threshold......................: 0
 Number of real partitions..............: 2
@@ -386,43 +386,10 @@ Parameter ignored......................: YN98.3_Full.theta2_1
                - AIC...................: 90658.6
                - AICc..................: 90662.4
                - BIC...................: 90949.2
-Current threshold......................: 0.869108
-Number of real partitions..............: 14
-Partition 1............................: 1 element(s).
-Partition 2............................: 2 element(s).
-Partition 3............................: 5 element(s).
-Partition 4............................: 2 element(s).
-Partition 5............................: 1 element(s).
-Partition 6............................: 2 element(s).
-Partition 7............................: 2 element(s).
-Partition 8............................: 2 element(s).
-Partition 9............................: 1 element(s).
-Partition 10...........................: 2 element(s).
-Partition 11...........................: 4 element(s).
-Partition 12...........................: 1 element(s).
-Partition 13...........................: 1 element(s).
-Partition 14...........................: 5 element(s).
-Parameter ignored......................: YN98.1_Full.theta_1
-Parameter ignored......................: YN98.1_Full.theta1_1
-Parameter ignored......................: YN98.1_Full.theta2_1
-Parameter ignored......................: YN98.2_Full.theta_1
-Parameter ignored......................: YN98.2_Full.theta1_1
-Parameter ignored......................: YN98.2_Full.theta2_1
-Parameter ignored......................: YN98.3_Full.theta_1
-Parameter ignored......................: YN98.3_Full.theta1_1
-Parameter ignored......................: YN98.3_Full.theta2_1
-***************************
-
-* New NH model - LogL..................: -45275.2
-               - df....................: 55
-               - LRT p-value...........: 0.732129
-               - AIC...................: 90660.5
-               - AICc..................: 90664.5
-               - BIC...................: 90956.5
-Model description output to file.......: MantellidDataset.model_free_AIC.bpp
-Output parameter table to..............: MantellidDataset.ml_nh_free_AIC.parameters.csv
-Output partitions record to............: MantellidDataset.partitions_record_free_AIC.txt
-Wrote tree to file ....................: MantellidDataset.ml_nh_free_AIC.nhx
-Partitions output to file..............: MantellidDataset.partitions_free_AIC.dnd
+Model description output to file.......: MantellidDataset.model_free_BIC.bpp
+Output parameter table to..............: MantellidDataset.ml_nh_free_BIC.parameters.csv
+Output partitions record to............: MantellidDataset.partitions_record_free_BIC.txt
+Wrote tree to file ....................: MantellidDataset.ml_nh_free_BIC.nhx
+Partitions output to file..............: MantellidDataset.partitions_free_BIC.dnd
 PartNH's done. Bye.
-Total execution time: 0.000000d, 2.000000h, 27.000000m, 56.000000s.
+Total execution time: 0.000000d, 2.000000h, 14.000000m, 12.000000s.

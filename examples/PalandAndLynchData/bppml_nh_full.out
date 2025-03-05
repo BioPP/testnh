@@ -1,7 +1,7 @@
 ******************************************************************
-*       Bio++ Maximum Likelihood Computation, version 2.4.0      *
+*       Bio++ Maximum Likelihood Computation, version 3.0.0      *
 *                                                                *
-* Authors: J. Dutheil                       Last Modif. 19/02/18 *
+* Authors: J. Dutheil                       Last Modif. (prerelease) *
 *          B. Boussau                                            *
 *          L. Guéguen                                            *
 *          M. Groussin                                           *
@@ -13,64 +13,57 @@ Alphabet type .........................: Codon(letter=DNA)
 Genetic Code...........................: InvertebrateMitochondrial
 Sequence file .........................: PalandAndLynch28Concatenate.fasta
 Sequence format .......................: FASTA file
+
+Data 1
 Sites to use...........................: all
-Remove sites with gaps.................: 
-[======================================]Done.
 Remove Stop Codons.....................: yes
-Number of sequences....................: 28
 Number of sites........................: 3681
-Input tree.............................: user
-Input tree file .......................: PalandAndLynch28Tree_unrooted.dnd
-Input tree format .....................: Newick
+
+Tree 1
+Number of trees in file................: 1
 Number of leaves.......................: 28
-Output tree file ......................: PalandAndLynch28.ml_nh_full.dnd
-Output tree format ....................: Newick
 Branch lengths.........................: Input
-Heterogeneous model....................: one_per_branch
-StopCodon frequencies distribution ....: uniform
-Substitution model.....................: YN98
-External frequencies initialization for: observed
-Parameter found........................: YN98.kappa=2
-Parameter found........................: YN98.omega=0.5
-Parameter found........................: YN98.1_Full.theta=0.446594
-Parameter found........................: YN98.1_Full.theta1=0.46971
-Parameter found........................: YN98.1_Full.theta2=0.567696
-Parameter found........................: YN98.2_Full.theta=0.374549
-Parameter found........................: YN98.2_Full.theta1=0.277684
-Parameter found........................: YN98.2_Full.theta2=0.44014
-Parameter found........................: YN98.3_Full.theta=0.366634
-Parameter found........................: YN98.3_Full.theta1=0.421688
-Parameter found........................: YN98.3_Full.theta2=0.443592
-External frequencies initialization for: observed
-Parameter found........................: YN98.kappa=2
-Parameter found........................: YN98.omega=0.5
-Parameter found........................: YN98.1_Full.theta=0.446594
-Parameter found........................: YN98.1_Full.theta1=0.46971
-Parameter found........................: YN98.1_Full.theta2=0.567696
-Parameter found........................: YN98.2_Full.theta=0.374549
-Parameter found........................: YN98.2_Full.theta1=0.277684
-Parameter found........................: YN98.2_Full.theta2=0.44014
-Parameter found........................: YN98.3_Full.theta=0.366634
-Parameter found........................: YN98.3_Full.theta1=0.421688
-Parameter found........................: YN98.3_Full.theta2=0.443592
+
+Rate 1
 Distribution...........................: Constant
 Number of classes......................: 1
 - Category 0 (Pr = 1) rate.............: 1
-Rate distribution......................: Constant
-Number of classes......................: 1
-Stationarity assumed...................: yes
-Global parameter.......................: YN98.kappa
-Global parameter.......................: YN98*theta*
-Likelihood recursion...................: simple
-Initializing data structure............: Done.
-Number of distinct sites...............: 773
-WARNING!!! Branch length 11 is too small: 0. Value is set to 1e-06
-WARNING!!! Branch length 21 is too small: 0. Value is set to 1e-06
-WARNING!!! Branch length 27 is too small: 0. Value is set to 1e-06
-WARNING!!! Branch length 34 is too small: 0. Value is set to 1e-06
-WARNING!!! Branch length 42 is too small: 0. Value is set to 1e-06
-WARNING!!! Branch length 43 is too small: 0. Value is set to 1e-06
-Initial log likelihood.................: -20077.627717501
+
+Model 1
+Substitution model.....................: YN98
+External model frequencies init........: observed
+Parameter found........................: YN98.kappa=2
+Parameter found........................: YN98.omega=0.5
+Parameter found........................: YN98.1_Full.theta=0.446972
+Parameter found........................: YN98.1_Full.theta1=0.469903
+Parameter found........................: YN98.1_Full.theta2=0.567161
+Parameter found........................: YN98.2_Full.theta=0.375437
+Parameter found........................: YN98.2_Full.theta1=0.278943
+Parameter found........................: YN98.2_Full.theta2=0.440704
+Parameter found........................: YN98.3_Full.theta=0.367578
+Parameter found........................: YN98.3_Full.theta1=0.422126
+Parameter found........................: YN98.3_Full.theta2=0.444134
+Data used .............................: 1
+
+Process 1
+Process type...........................: OnePerBranch
+ Model number..........................: 1
+ Tree number...........................: 1
+ Rate number...........................: 1
+ Stationarity assumed.
+ Shared parameter......................: YN98.kappa
+ Shared parameter......................: YN98*theta*
+
+Phylolikelihood 1
+ Data used ............................: 1
+ Process ..............................: 1
+
+Result Phylolikelihood 
+WARNING!!! Parameter result not specified. Default used instead: phylo1
+ Result................................: phylo1
+
+
+Initial log likelihood.................: -20075.7241786695
 Message handler........................: PalandAndLynch28_nh_full.messages
 Profiler...............................: PalandAndLynch28_nh_full.profile
 Parameter ignored......................: YN98.1_Full.theta_1
@@ -84,215 +77,40 @@ Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
 Max # ML evaluations...................: 10000
 Tolerance..............................: 1e-06
-Optimize topology......................: no
 Optimization method....................: FullD
 Algorithm used for derivable parameters: Newton
-Reparametrization......................: yes
+Reparametrization......................: no
 Molecular clock........................: None
-Parameter BrLen0 was tanh transformed: 0.00501->-7.25343
-Parameter BrLen1 was tanh transformed: 0.0018575->-7.7497
-Parameter BrLen2 was tanh transformed: 0.001435->-7.87881
-Parameter BrLen3 was tanh transformed: 0.0018575->-7.7497
-Parameter BrLen4 was tanh transformed: 0.00158->-7.83065
-Parameter BrLen5 was tanh transformed: 0.00276->-7.55161
-Parameter BrLen6 was tanh transformed: 0.00034->-8.59993
-Parameter BrLen7 was tanh transformed: 0.00073->-8.21709
-Parameter BrLen8 was tanh transformed: 0.00243->-7.61531
-Parameter BrLen9 was tanh transformed: 0.00317->-7.48234
-Parameter BrLen10 was tanh transformed: 3e-05->-9.82928
-Parameter BrLen11 was tanh transformed: 1e-06->-18.3684
-Parameter BrLen12 was tanh transformed: 0.00137->-7.90201
-Parameter BrLen13 was tanh transformed: 0.00065->-8.27521
-Parameter BrLen14 was tanh transformed: 0.0011->-8.01185
-Parameter BrLen15 was tanh transformed: 0.00064->-8.28297
-Parameter BrLen16 was tanh transformed: 0.00073->-8.21709
-Parameter BrLen17 was tanh transformed: 0.0014->-7.89117
-Parameter BrLen18 was tanh transformed: 0.00055->-8.35888
-Parameter BrLen19 was tanh transformed: 0.00201->-7.71023
-Parameter BrLen20 was tanh transformed: 9e-05->-9.26861
-Parameter BrLen21 was tanh transformed: 1e-06->-18.3684
-Parameter BrLen22 was tanh transformed: 0.00018->-8.91923
-Parameter BrLen23 was tanh transformed: 0.00018->-8.91923
-Parameter BrLen24 was tanh transformed: 0.00146->-7.87017
-Parameter BrLen25 was tanh transformed: 0.00165->-7.80896
-Parameter BrLen26 was tanh transformed: 0.00037->-8.55753
-Parameter BrLen27 was tanh transformed: 1e-06->-18.3684
-Parameter BrLen28 was tanh transformed: 9e-05->-9.26861
-Parameter BrLen29 was tanh transformed: 9e-05->-9.26861
-Parameter BrLen30 was tanh transformed: 0.00157->-7.83383
-Parameter BrLen31 was tanh transformed: 0.00017->-8.94798
-Parameter BrLen32 was tanh transformed: 0.00127->-7.93993
-Parameter BrLen33 was tanh transformed: 0.00093->-8.09587
-Parameter BrLen34 was tanh transformed: 1e-06->-18.3684
-Parameter BrLen35 was tanh transformed: 0.00146->-7.87017
-Parameter BrLen36 was tanh transformed: 0.00128->-7.93601
-Parameter BrLen37 was tanh transformed: 0.00083->-8.15282
-Parameter BrLen38 was tanh transformed: 0.0011->-8.01185
-Parameter BrLen39 was tanh transformed: 0.00269->-7.56446
-Parameter BrLen40 was tanh transformed: 0.00184->-7.75444
-Parameter BrLen41 was tanh transformed: 0.00016->-8.97847
-Parameter BrLen42 was tanh transformed: 1e-06->-18.3684
-Parameter BrLen43 was tanh transformed: 1e-06->-18.3684
-Parameter BrLen44 was tanh transformed: 9e-05->-9.26861
-Parameter BrLen45 was tanh transformed: 0.0022->-7.66505
-Parameter BrLen46 was tanh transformed: 0.00182->-7.7599
-Parameter BrLen47 was tanh transformed: 0.00073->-8.21709
-Parameter BrLen48 was tanh transformed: 0.00045->-8.45941
-Parameter BrLen49 was tanh transformed: 0.00018->-8.91923
-Parameter BrLen50 was tanh transformed: 9e-05->-9.26861
-Parameter BrLen51 was tanh transformed: 0.00187->-7.74635
-Parameter BrLen52 was tanh transformed: 0.00638->-7.13254
-Parameter YN98.kappa_1 was log transformed: 2->1
-Parameter YN98.omega_1 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_2 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_3 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_4 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_5 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_6 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_7 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_8 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_9 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_10 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_11 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_12 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_13 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_14 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_15 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_16 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_17 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_18 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_19 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_20 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_21 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_22 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_23 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_24 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_25 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_26 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_27 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_28 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_29 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_30 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_31 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_32 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_33 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_34 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_35 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_36 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_37 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_38 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_39 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_40 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_41 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_42 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_43 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_44 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_45 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_46 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_47 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_48 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_49 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_50 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_51 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_52 was tanh transformed: 0.5->-3.8007
-Parameter YN98.omega_53 was tanh transformed: 0.5->-3.8007
-****************************
+********************
 
-Performed..............................: 29 function evaluations.
-Output tree file ......................: PalandAndLynch28.ml_nh_full.dnd
-Output tree format ....................: Newick
-Log likelihood.........................: -19432.3262250668
-YN98.kappa_1...........................: 12.4948
-YN98.omega_1...........................: 0.100391
-YN98.1_Full.theta_1....................: 0.446594
-YN98.1_Full.theta1_1...................: 0.46971
-YN98.1_Full.theta2_1...................: 0.567696
-YN98.2_Full.theta_1....................: 0.374549
-YN98.2_Full.theta1_1...................: 0.277684
-YN98.2_Full.theta2_1...................: 0.44014
-YN98.3_Full.theta_1....................: 0.366634
-YN98.3_Full.theta1_1...................: 0.421688
-YN98.3_Full.theta2_1...................: 0.443592
-YN98.omega_2...........................: 0.0700525
-YN98.omega_3...........................: 0.279859
-YN98.omega_4...........................: 0.00205872
-YN98.omega_5...........................: 0.217815
-YN98.omega_6...........................: 0.261035
-YN98.omega_7...........................: 0.00100027
-YN98.omega_8...........................: 0.00100001
-YN98.omega_9...........................: 0.122995
-YN98.omega_10..........................: 0.247463
-YN98.omega_11..........................: 0.001
-YN98.omega_12..........................: 0.00119905
-YN98.omega_13..........................: 0.0804833
-YN98.omega_14..........................: 0.699484
-YN98.omega_15..........................: 0.262011
-YN98.omega_16..........................: 0.00100001
-YN98.omega_17..........................: 0.0749074
-YN98.omega_18..........................: 0.261488
-YN98.omega_19..........................: 0.104352
-YN98.omega_20..........................: 0.153418
-YN98.omega_21..........................: 0.0010002
-YN98.omega_22..........................: 0.110113
-YN98.omega_23..........................: 0.00100003
-YN98.omega_24..........................: 0.00665743
-YN98.omega_25..........................: 0.120892
-YN98.omega_26..........................: 0.201245
-YN98.omega_27..........................: 0.00100003
-YN98.omega_28..........................: 1.25105
-YN98.omega_29..........................: 0.00100021
-YN98.omega_30..........................: 0.00100008
-YN98.omega_31..........................: 0.217605
-YN98.omega_32..........................: 0.00100005
-YN98.omega_33..........................: 0.143208
-YN98.omega_34..........................: 0.349661
-YN98.omega_35..........................: 0.00103392
-YN98.omega_36..........................: 0.121057
-YN98.omega_37..........................: 0.944374
-YN98.omega_38..........................: 0.262009
-YN98.omega_39..........................: 0.17458
-YN98.omega_40..........................: 0.166082
-YN98.omega_41..........................: 0.173971
-YN98.omega_42..........................: 0.00100008
-YN98.omega_43..........................: 0.612489
-YN98.omega_44..........................: 2.54951
-YN98.omega_45..........................: 993.047
-YN98.omega_46..........................: 0.0440016
-YN98.omega_47..........................: 0.0573087
-YN98.omega_48..........................: 0.878889
-YN98.omega_49..........................: 0.792034
-YN98.omega_50..........................: 0.52733
-YN98.omega_51..........................: 0.00100009
-YN98.omega_52..........................: 0.227305
-YN98.omega_53..........................: 0.0925063
-WARNING!!! This parameter has a value close to the boundary: BrLen3(1e-06).
-WARNING!!! This parameter has a value close to the boundary: BrLen11(1e-06).
-WARNING!!! This parameter has a value close to the boundary: BrLen21(1e-06).
-WARNING!!! This parameter has a value close to the boundary: BrLen23(1e-06).
-WARNING!!! This parameter has a value close to the boundary: BrLen27(1e-06).
-WARNING!!! This parameter has a value close to the boundary: BrLen34(1e-06).
-WARNING!!! This parameter has a value close to the boundary: BrLen42(1e-06).
-WARNING!!! This parameter has a value close to the boundary: BrLen43(1e-06).
-WARNING!!! This parameter has a value close to the boundary: YN98.omega_7(0.00100027).
-WARNING!!! This parameter has a value close to the boundary: YN98.omega_8(0.00100001).
+Performed..............................: 21 function evaluations.
+Log likelihood.........................: -19430.9603570426
+Too many parameters for screen output!
+WARNING!!! This parameter has a value close to the boundary: YN98.omega_7(0.001).
+WARNING!!! This parameter has a value close to the boundary: YN98.omega_8(0.001).
 WARNING!!! This parameter has a value close to the boundary: YN98.omega_11(0.001).
-WARNING!!! This parameter has a value close to the boundary: YN98.omega_16(0.00100001).
-WARNING!!! This parameter has a value close to the boundary: YN98.omega_21(0.0010002).
-WARNING!!! This parameter has a value close to the boundary: YN98.omega_23(0.00100003).
-WARNING!!! This parameter has a value close to the boundary: YN98.omega_27(0.00100003).
-WARNING!!! This parameter has a value close to the boundary: YN98.omega_29(0.00100021).
-WARNING!!! This parameter has a value close to the boundary: YN98.omega_30(0.00100008).
-WARNING!!! This parameter has a value close to the boundary: YN98.omega_32(0.00100005).
-WARNING!!! This parameter has a value close to the boundary: YN98.omega_42(0.00100008).
-WARNING!!! This parameter has a value close to the boundary: YN98.omega_51(0.00100009).
-WARNING!!! Parameter output.estimates.alias not specified. Default used instead: 1
-Output estimates to file...............: PalandAndLynch28.params_nh_full.bpp
-
-Posterior rate distribution for dataset:
-
-Pr(1.000000) = 1.000000
-
-
+WARNING!!! This parameter has a value close to the boundary: YN98.omega_12(0.001).
+WARNING!!! This parameter has a value close to the boundary: YN98.omega_16(0.001).
+WARNING!!! This parameter has a value close to the boundary: YN98.omega_21(0.001).
+WARNING!!! This parameter has a value close to the boundary: YN98.omega_23(0.001).
+WARNING!!! This parameter has a value close to the boundary: YN98.omega_27(0.001).
+WARNING!!! This parameter has a value close to the boundary: YN98.omega_29(0.001).
+WARNING!!! This parameter has a value close to the boundary: YN98.omega_30(0.001).
+WARNING!!! This parameter has a value close to the boundary: YN98.omega_32(0.001).
+WARNING!!! This parameter has a value close to the boundary: YN98.omega_35(0.001).
+WARNING!!! This parameter has a value close to the boundary: YN98.omega_42(0.001).
+WARNING!!! This parameter has a value close to the boundary: YN98.omega_45(999).
+WARNING!!! This parameter has a value close to the boundary: YN98.omega_51(0.001).
+WARNING!!! This parameter has a value close to the boundary: BrLen11_1(1e-12).
+WARNING!!! This parameter has a value close to the boundary: BrLen3_1(1e-12).
+WARNING!!! This parameter has a value close to the boundary: BrLen23_1(1e-12).
+WARNING!!! This parameter has a value close to the boundary: BrLen21_1(1e-12).
+WARNING!!! This parameter has a value close to the boundary: BrLen43_1(1e-12).
+WARNING!!! This parameter has a value close to the boundary: BrLen27_1(1e-12).
+WARNING!!! This parameter has a value close to the boundary: BrLen34_1(1e-12).
+WARNING!!! This parameter has a value close to the boundary: BrLen42_1(1e-12).
+output.estimates.......................: PalandAndLynch28.params_nh_full.bpp
+Wrote trees to files : ................: PalandAndLynch28.ml_nh_full.dnd_...
 Alignment information logfile..........: PalandAndLynch28_nh_full.infos
-BppML's done. Bye.
-Total execution time: 0.000000d, 0.000000h, 7.000000m, 46.000000s.
+bppml's done. Bye.
+Total execution time: 0.000000d, 0.000000h, 1.000000m, 5.000000s.

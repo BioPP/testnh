@@ -4,11 +4,11 @@
 #   Francois Gindraud (2017)
 # Created: 07/04/2010
 
-cmake_minimum_required (VERSION 3.5.0)
+cmake_minimum_required (VERSION 3.10)
 project (testnh CXX)
 
 # Compile options
-set (CMAKE_CXX_FLAGS "-std=c++14 -Wall -Weffc++ -Wshadow -Wconversion")
+add_compile_options(-std=c++14 -Wall -Weffc++ -Wshadow -Wconversion)
 
 IF(NOT CMAKE_BUILD_TYPE)
   SET(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING
@@ -37,7 +37,7 @@ IF(NOT BUILD_STATIC)
 ENDIF()
 IF(BUILD_STATIC)
   MESSAGE(STATUS "Static linkage requested.")
-  SET(CMAKE_CXX_FLAGS "-static -static-libgcc ${CMAKE_CXX_FLAGS}")
+  add_compile_options(-static -static-libgcc)
 ENDIF()
 
 # Check compression program

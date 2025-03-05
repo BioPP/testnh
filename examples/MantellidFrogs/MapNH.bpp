@@ -4,25 +4,18 @@ param = MantellidDataset.params_h.bpp
 alphabet = Codon(letter=DNA)
 genetic_code = VertebrateMitochondrial
 
-#Set imput tree file. Original branch lengths will be used for mapping.
+# The sequence file to use (sequences must be aligned!)
 input.data1=alignment(file = $(DATA).faln, format=Fasta, sites_to_use = all, remove_stop_codons = yes)
 
-input.tree1=user(file = $(DATA).ml_h.dnd, format = Newick)
+#Set imput tree file. Original branch lengths will be used for mapping.
+input.tree1 = user(file = $(DATA).ml_h.dnd_1, format = Newick, brlen.method = Input)
+
+
+map.type = DnDs(code=Standard)
+count.max = 3
+
 
 #We convert the tree to Nhx format for use with PartNH:
 output.tree_with_id.file = $(DATA).nhx
-#Where to output cluster tree:
-output.cluster_tree.file = $(DATA).cluster_join.dnd
-
-
-map.type = DnDs(code=VertebrateMitochondrial)
-count.max = 3
-test.global = no
-test.branch = yes
-test.branch.neighbor = #yes or no
-test.branch.negbrlen = no
-test.branch.auto_cluster = Global(threshold=1)
- 
-output.counts = PerType(file=CountsTree)
-
+output.counts = PerBranchPerType(perBranchLength=false, file=$(DATA).mapping, format=tsv, splitNorm=true)
 
