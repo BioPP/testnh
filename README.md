@@ -26,7 +26,7 @@ all required code from the libraries.
 
 You can get executable files pre-compiled for your system (if there
 are any), use pre-compiled packages (if there are any) or compile the
-programs yourself (should work on any system with a decent C++
+programs yourself (it should work on any system with a decent C++
 compiler). Pre-compiled packages will ask for all required
 dependencies, which can be found in the same download directory. The
 needed libraries are [bpp-core](https://github.com/BioPP/bpp-core),
@@ -45,7 +45,7 @@ from the git repository, please follow the instructions from
 
 Several example data sets are distributed along with the source code
 of the package. A reference manual is also available at
-http://bioweb.me/testnh/releases.
+[pbil](https://pbil.univ-lyon1.fr/bpp-doc/testnh/testnh.html).
 
 ## References
 
