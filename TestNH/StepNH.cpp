@@ -493,7 +493,7 @@ int main(int args, char** argv)
         size_t post = desc.rfind("_");
         if (post == std::string::npos || post == desc.size() - 1 || desc[post + 1] != '[')
           globalParameters[desc] = {}
-          ;
+        ;
         else
         {
           string key = desc.substr(0, post);
