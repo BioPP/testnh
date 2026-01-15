@@ -316,7 +316,7 @@ Counts can be normalized with the counts that could have been
 performed by another model, on the same history as the one described
 by the main model. For this, use option:
 
-@item nullModelParams = @{list@{<chars>=<values>@}@}
+@item nullProcessParams = @{list@{<chars>=<values>@}@}
 
 to assigne a list of parameter values used to define the normalization
 model from the main one. 
@@ -328,7 +328,7 @@ in YN98 modeling (typically for dN/dS):
 
 @cartouche
 @example
-nullModelParams = YN98.omega*=1
+nullProcessParams = YN98.omega*=1
 @end example
 @end cartouche
 

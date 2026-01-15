@@ -40,12 +40,11 @@ from the git repository, please follow the instructions from
 [bppsuite](https://github.com/BioPP/bppsuite#readme) and up to date [mapnh](https://pbil.univ-lyon1.fr/bpp-doc/testnh/testnh.html).
 
 
-
 ## How do I use it?
 
 Several example data sets are distributed along with the source code
-of the package. A reference manual is also available at
-http://bioweb.me/testnh/releases.
+of the package. A reference manual is also available
+[there](https://pbil.univ-lyon1.fr/bpp-doc/testnh/testnh.html).
 
 ## References
 
