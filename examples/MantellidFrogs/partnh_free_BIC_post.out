@@ -14,11 +14,11 @@ Sequence file .........................: MantellidDataset.faln
 Sequence format .......................: FASTA file
 Sites to use...........................: all
 Remove Stop Codons.....................: yes
+Number of sites........................: 1606
 Number of sequences....................: 17
 Number of sites........................: 1606
-StopCodon frequencies distribution ....: uniform
 Substitution model.....................: YN98
-External frequencies initialization for: observed
+External model frequencies init........: observed
 Parameter found........................: YN98.kappa=2
 Parameter found........................: YN98.omega=0.5
 Parameter found........................: YN98.1_Full.theta=0.459638
@@ -37,7 +37,7 @@ Rate distribution......................: Constant
 Number of classes......................: 1
 Initializing data structure............: Done.
 Number of distinct sites...............: 1554
-Log-Likelihood.........................: -52259.9
+Log-Likelihood.........................: -51864.5
 Output intermediate models.............: yes
 Output log to..........................: MantellidDataset.model_free_BIC_post.log.txt
 Message handler........................: MantellidDataset.free_BIC_post.message*
@@ -56,16 +56,13 @@ Tolerance..............................: 1e-06
 Reparametrization......................: no
 WARNING!!! Parameter optimization.clock not specified. Default used instead: None
 Molecular clock........................: None
-***************************************
+************************************
 
 * Homogeneous model - LogL.............: -45347.8
                     - df...............: 42
-WARNING!!! Parameter nonhomogeneous.stationarity not specified. Default used instead: 0
 Stationarity assumed...................: yes
 Global parameter.......................: YN98.kappa
-Global parameter.......................: YN98.1_Full.theta*
-Global parameter.......................: YN98.2_Full.theta*
-Global parameter.......................: YN98.3_Full.theta*
+Global parameter.......................: YN98.*Full.theta*
 AIC....................................: 90779.5
 AICc...................................: 90781.8
 BIC....................................: 91005.6
@@ -73,8 +70,8 @@ Likelihood comparison method...........: BIC
 Stop condition.........................: test 3 nested models after local best
 Current threshold......................: 0
 Number of real partitions..............: 2
-Partition 1............................: 12 element(s).
-Partition 2............................: 19 element(s).
+Partition 1............................: 17 element(s).
+Partition 2............................: 14 element(s).
 Parameter ignored......................: YN98.1_Full.theta_1
 Parameter ignored......................: YN98.1_Full.theta1_1
 Parameter ignored......................: YN98.1_Full.theta2_1
@@ -84,19 +81,19 @@ Parameter ignored......................: YN98.2_Full.theta2_1
 Parameter ignored......................: YN98.3_Full.theta_1
 Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
-****************************
+********************************
 
-* New NH model - LogL..................: -45298.3
+* New NH model - LogL..................: -45293.1
                - df....................: 43
                - LRT p-value...........: 0
-               - AIC...................: 90682.5
-               - AICc..................: 90684.9
-               - BIC...................: 90913.9
-Current threshold......................: 2.26e-06
+               - AIC...................: 90672.2
+               - AICc..................: 90674.6
+               - BIC...................: 90903.6
+Current threshold......................: 0.0006812
 Number of real partitions..............: 3
-Partition 1............................: 12 element(s).
-Partition 2............................: 17 element(s).
-Partition 3............................: 2 element(s).
+Partition 1............................: 14 element(s).
+Partition 2............................: 8 element(s).
+Partition 3............................: 9 element(s).
 Parameter ignored......................: YN98.1_Full.theta_1
 Parameter ignored......................: YN98.1_Full.theta1_1
 Parameter ignored......................: YN98.1_Full.theta2_1
@@ -106,20 +103,20 @@ Parameter ignored......................: YN98.2_Full.theta2_1
 Parameter ignored......................: YN98.3_Full.theta_1
 Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
-******************************************************
+*****************************
 
-* New NH model - LogL..................: -45297.8
+* New NH model - LogL..................: -45281.7
                - df....................: 44
-               - LRT p-value...........: 0.347383
-               - AIC...................: 90683.6
-               - AICc..................: 90686.2
-               - BIC...................: 90920.4
-Current threshold......................: 0.00818548
+               - LRT p-value...........: 1.7403e-06
+               - AIC...................: 90651.3
+               - AICc..................: 90653.9
+               - BIC...................: 90888.1
+Current threshold......................: 0.0888533
 Number of real partitions..............: 4
-Partition 1............................: 12 element(s).
-Partition 2............................: 2 element(s).
-Partition 3............................: 7 element(s).
-Partition 4............................: 10 element(s).
+Partition 1............................: 8 element(s).
+Partition 2............................: 9 element(s).
+Partition 3............................: 6 element(s).
+Partition 4............................: 8 element(s).
 Parameter ignored......................: YN98.1_Full.theta_1
 Parameter ignored......................: YN98.1_Full.theta1_1
 Parameter ignored......................: YN98.1_Full.theta2_1
@@ -129,20 +126,20 @@ Parameter ignored......................: YN98.2_Full.theta2_1
 Parameter ignored......................: YN98.3_Full.theta_1
 Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
-******************
+*******************************
 
-* New NH model - LogL..................: -45297.8
+* New NH model - LogL..................: -45280.1
                - df....................: 45
-               - LRT p-value...........: 0.922197
-               - AIC...................: 90685.6
-               - AICc..................: 90688.3
-               - BIC...................: 90927.8
-Current threshold......................: 0.0233151
+               - LRT p-value...........: 0.074179
+               - AIC...................: 90650.1
+               - AICc..................: 90652.8
+               - BIC...................: 90892.3
+Current threshold......................: 0.205592
 Number of real partitions..............: 5
-Partition 1............................: 2 element(s).
-Partition 2............................: 7 element(s).
-Partition 3............................: 10 element(s).
-Partition 4............................: 9 element(s).
+Partition 1............................: 8 element(s).
+Partition 2............................: 6 element(s).
+Partition 3............................: 8 element(s).
+Partition 4............................: 6 element(s).
 Partition 5............................: 3 element(s).
 Parameter ignored......................: YN98.1_Full.theta_1
 Parameter ignored......................: YN98.1_Full.theta1_1
@@ -153,19 +150,43 @@ Parameter ignored......................: YN98.2_Full.theta2_1
 Parameter ignored......................: YN98.3_Full.theta_1
 Parameter ignored......................: YN98.3_Full.theta1_1
 Parameter ignored......................: YN98.3_Full.theta2_1
-****************************
+******************************
 
-* New NH model - LogL..................: -45291.4
+* New NH model - LogL..................: -45279.6
                - df....................: 46
-               - LRT p-value...........: 0.000329088
-               - AIC...................: 90674.7
-               - AICc..................: 90677.5
-               - BIC...................: 90922.3
+               - LRT p-value...........: 0.352981
+               - AIC...................: 90651.3
+               - AICc..................: 90654
+               - BIC...................: 90898.8
+Current threshold......................: 0.233595
+Number of real partitions..............: 6
+Partition 1............................: 6 element(s).
+Partition 2............................: 8 element(s).
+Partition 3............................: 6 element(s).
+Partition 4............................: 3 element(s).
+Partition 5............................: 4 element(s).
+Partition 6............................: 4 element(s).
+Parameter ignored......................: YN98.1_Full.theta_1
+Parameter ignored......................: YN98.1_Full.theta1_1
+Parameter ignored......................: YN98.1_Full.theta2_1
+Parameter ignored......................: YN98.2_Full.theta_1
+Parameter ignored......................: YN98.2_Full.theta1_1
+Parameter ignored......................: YN98.2_Full.theta2_1
+Parameter ignored......................: YN98.3_Full.theta_1
+Parameter ignored......................: YN98.3_Full.theta1_1
+Parameter ignored......................: YN98.3_Full.theta2_1
+**********************************************
+
+* New NH model - LogL..................: -45278
+               - df....................: 47
+               - LRT p-value...........: 0.0699994
+               - AIC...................: 90650
+               - AICc..................: 90652.9
+               - BIC...................: 90902.9
 Model description output to file.......: MantellidDataset.model_free_BIC_post.bpp
 Output parameter table to..............: MantellidDataset.ml_nh_free_BIC_post.parameters.csv
 Output partitions record to............: MantellidDataset.partitions_record_free_BIC_post.txt
-Output tree file ......................: MantellidDataset.ml_nh_free_BIC_post.nhx
-Output tree format ....................: Nhx
+Wrote tree to file ....................: MantellidDataset.ml_nh_free_BIC_post.nhx
 Partitions output to file..............: MantellidDataset.partitions_free_BIC_post.dnd
 PartNH's done. Bye.
-Total execution time: 0.000000d, 0.000000h, 53.000000m, 58.000000s.
+Total execution time: 0.000000d, 4.000000h, 18.000000m, 34.000000s.

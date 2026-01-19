@@ -45,18 +45,19 @@ int main(int args, char** argv)
 
     clustnh.startTimer();
     std::map<std::string, std::string> unparsedParams;
-    
-    //Read counts from file:
+
+    // Read counts from file:
     string mappingPath = ApplicationTools::getAFilePath("input.counts.file", clustnh.getParams(), true, true, "", true,  "mapping_counts_per_branch_per_type", 1);
 
-    //Optionally, read normalizations:
+    // Optionally, read normalizations:
     string normalizationPath = ApplicationTools::getAFilePath("input.norms.file", clustnh.getParams(), false, true, "", true,  "none", 1);
     bool normalize = normalizationPath != "none";
 
     ApplicationTools::displayResult("Input counts (branch/type) in file", mappingPath);
     ApplicationTools::displayBooleanResult("Normalize counts", normalize);
     shared_ptr<DataTable> normsTable = nullptr;
-    if (normalize) {
+    if (normalize)
+    {
       ApplicationTools::displayResult("Input normalization (branch/type) in file", normalizationPath);
       std::ifstream inputStreamNorm(normalizationPath, ios::in);
       normsTable = DataTable::read(inputStreamNorm, "\t", true, -1);
@@ -65,7 +66,7 @@ int main(int args, char** argv)
     std::ifstream inputStreamCounts(mappingPath, ios::in);
     auto countsTable = DataTable::read(inputStreamCounts, "\t", true, -1);
 
-    //Branches are columns, types are rows, need to transpose and convert to numbers:
+    // Branches are columns, types are rows, need to transpose and convert to numbers:
     VVdouble counts(countsTable->getNumberOfColumns());
     Vint ids(countsTable->getNumberOfColumns());
     for (size_t i = 0; i < countsTable->getNumberOfColumns(); ++i)
@@ -73,32 +74,38 @@ int main(int args, char** argv)
       vector<double> v1(countsTable->getNumberOfRows(), 1.);
       vector<double> v2(countsTable->getNumberOfRows(), 1.);
       double delta = 1.;
-      if (normalize) {
+      if (normalize)
+      {
         for (size_t j = 0; j < countsTable->getNumberOfRows(); ++j)
         {
           double c = TextTools::toDouble((*countsTable)(j, i));
           double m = TextTools::toDouble((*normsTable)(j, i));
-	  v1[j] = c;
-	  v2[j] = c / m;
-	}
-	delta = VectorTools::sum(v1) / VectorTools::sum(v2);
-      } else {
+          v1[j] = c;
+          v2[j] = c / m;
+        }
+        delta = VectorTools::sum(v1) / VectorTools::sum(v2);
+      }
+      else
+      {
         for (size_t j = 0; j < countsTable->getNumberOfRows(); ++j)
         {
           double c = TextTools::toDouble((*countsTable)(j, i));
-	  v1[j] = c;
-	}
+          v1[j] = c;
+        }
       }
       counts[i].resize(countsTable->getNumberOfRows());
       ids[i] = TextTools::toInt(countsTable->getColumnName(i));
       for (size_t j = 0; j < countsTable->getNumberOfRows(); ++j)
       {
-	if (normalize) {
-           counts[i][j] = delta * v2[j]; 
-	} else {
-	   counts[i][j] = v1[j];
-	}
-      } 
+        if (normalize)
+        {
+          counts[i][j] = delta * v2[j];
+        }
+        else
+        {
+          counts[i][j] = v1[j];
+        }
+      }
     }
 
     //////////////////////////////////////
@@ -151,7 +158,7 @@ int main(int args, char** argv)
     {
       bool testNeighb = ApplicationTools::getBooleanParameter("test.branch.neighbor", clustnh.getParams(), true, "", true, 1);
       bool testNegBrL = ApplicationTools::getBooleanParameter("test.branch.negbrlen", clustnh.getParams(), false, "", true, 2);
-      ApplicationTools::displayBooleanResult("Perform branch clustering"  , testBranch);
+      ApplicationTools::displayBooleanResult("Perform branch clustering", testBranch);
       ApplicationTools::displayBooleanResult("Cluster only neighbor nodes", testNeighb);
       ApplicationTools::displayBooleanResult("Allow len < 0 in clustering", testNegBrL);
       string autoClustDesc = ApplicationTools::getStringParameter("test.branch.auto_cluster", clustnh.getParams(), "Global(threshold=0)", "", true, 1);
@@ -168,10 +175,10 @@ int main(int args, char** argv)
       {
         size_t threshold = ApplicationTools::getParameter<size_t>("threshold", autoClustParam, 0, "", true, 1);
         ApplicationTools::displayResult("Auto-clustering threshold", threshold);
-	//which counts to use:
-    	size_t numberOfCategories = 0;
-	numberOfCategories = ApplicationTools::getParameter<size_t>("number_of_categories", clustnh.getParams(), numberOfCategories, "", false, false);
-	bool allowWithin = ApplicationTools::getBooleanParameter("allow_within_category_substitutions", clustnh.getParams(), false, "", true, false);
+        // which counts to use:
+        size_t numberOfCategories = 0;
+        numberOfCategories = ApplicationTools::getParameter<size_t>("number_of_categories", clustnh.getParams(), numberOfCategories, "", false, false);
+        bool allowWithin = ApplicationTools::getBooleanParameter("allow_within_category_substitutions", clustnh.getParams(), false, "", true, false);
         vector<size_t> toIgnore;
         if (numberOfCategories > 0 && allowWithin)
         {

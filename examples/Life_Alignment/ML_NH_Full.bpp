@@ -14,7 +14,7 @@ input.data1=alignment(file= $(DATA).mase, format=Mase, sites_to_use = complete, 
 #                                     Input tree file
 # ----------------------------------------------------------------------------------------
 
-input.tree1=user(file = $(DATA).dnd, format = Newick)
+input.tree1=user(file = $(DATA).ml_h.rooted.dnd, format = Newick)
 
 # ----------------------------------------------------------------------------------------
 #                                     Model specification
@@ -26,9 +26,13 @@ model1 = T92(kappa=2.0, initFreqs=observed, data=1)
 
 rate_distribution1 = Gamma(n=4, alpha=0.5)
 
-process1 = Homogeneous(model=1, tree=1, rate=1)
+process1 = OnePerBranch(model=1, tree=1, rate=1, shared_parameters=(T92.kappa))
 
 phylo1 = Single(process=1, data=1)
+
+nonhomogeneous.root_freq = GC()
+
+result = phylo1
 
 # ----------------------------------------------------------------------------------------
 #                                     Optimization
@@ -63,53 +67,22 @@ optimization.max_number_f_eval = 10000
 optimization.tolerance = 0.000001
 
 # idem for error or warning messages:
-optimization.message_handler = $(DATA)_h.messages
+optimization.message_handler = $(DATA)_nh_full.messages
 
 # A file where to dump optimization steps (a file path or std for standard output)
-optimization.profiler = $(DATA)_h.profile
-
-# Shall we optimize tree topology as well?
-optimization.topology = no
-
-# Algorithm to use for topology estimation: only NNI for now
-optimization.topology.algorithm = NNI
-
-# NNI method: fast, better or phyml
-# You should use the phyml option, since it is really more efficient!
-optimization.topology.algorithm_nni.method = phyml
-
-# Number of phyml topology movement steps before reoptimizing parameters:
-optimization.topology.nstep = 4
-
-# Shall we estimate parameters before looking for topology movements?
-optimization.topology.numfirst = no
-
-# Tolerances: These numbers should not be too low, in order to save computation
-# time and also for a better topology estimation.
-# The optimization.tolerance parameter will be used for the final optimization
-# of numerical parameters.
-#
-# Tolerance for the prior-topology estimation
-optimization.topology.tolerance.before = 100
-
-# Tolerance for the during-topology estimation
-optimization.topology.tolerance.during = 100
-
-# Shall we first scale the tree before optimizing parameters? [deprecated]
-optimization.scale_first = no
-
+optimization.profiler = $(DATA)_nh_full.profile
 
 
 
 # Should we write the resulting tree? none or file name.
-output.tree.file = $(DATA).ml_h.dnd
+output.tree.file = $(DATA).ml_nh_full.dnd
 output.tree.format = Newick
 
 # Alignment information log file (site specific rates, etc):
-output.infos = $(DATA)_h.infos
+output.infos = $(DATA)_nh_full.infos
 
 # Write numerical parameter estimated values:
-output.estimates = $(DATA).params_h.bpp
+output.estimates = $(DATA).params_nh_full.bpp
 
 # ----------------------------------------------------------------------------------------
 #                                     Bootstrap

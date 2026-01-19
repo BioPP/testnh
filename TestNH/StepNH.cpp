@@ -332,10 +332,10 @@ void stepBackward(NonHomogeneousTreeLikelihood* nhtl,
         // Adjust current model:
         ApplicationTools::displayTask("Optimizing current model");
         nhtl->setParameters(nhtl->getParameters());
-//        OptimizationTools::optimizeNumericalParameters2(
-//            dynamic_cast<DiscreteRatesAcrossSitesTreeLikelihood*>(nhtl),
-//            nhtl->getParameters(), 0, precision, 10000, messenger, profiler, false,
-//            max(0, (int)verbose - 2), OptimizationTools::OPTIMIZATION_NEWTON);
+        //        OptimizationTools::optimizeNumericalParameters2(
+        //            dynamic_cast<DiscreteRatesAcrossSitesTreeLikelihood*>(nhtl),
+        //            nhtl->getParameters(), 0, precision, 10000, messenger, profiler, false,
+        //            max(0, (int)verbose - 2), OptimizationTools::OPTIMIZATION_NEWTON);
         OptimizationTools::optimizeNumericalParameters(
             dynamic_cast<DiscreteRatesAcrossSitesTreeLikelihood*>(nhtl),
             nhtl->getParameters(), 0, 1, precision, 10000, messenger, profiler, false,
@@ -610,18 +610,18 @@ int main(int args, char** argv)
     modelSet = tl->getSubstitutionModelSet();
 
 
-/*  if(optimizeClock == "global")
-   {
-    PhylogeneticsApplicationTools::optimizeParameters(dynamic_cast<DiscreteRatesAcrossSitesClockTreeLikelihood *>(tl), stepnh.getParams());
-   }
-   else
-   {
-    tl = dynamic_cast<DiscreteRatesAcrossSitesTreeLikelihood *>(
-        PhylogeneticsApplicationTools::optimizeParameters(tl, stepnh.getParams()));
-   }
+    /*  if(optimizeClock == "global")
+       {
+        PhylogeneticsApplicationTools::optimizeParameters(dynamic_cast<DiscreteRatesAcrossSitesClockTreeLikelihood *>(tl), stepnh.getParams());
+       }
+       else
+       {
+        tl = dynamic_cast<DiscreteRatesAcrossSitesTreeLikelihood *>(
+            PhylogeneticsApplicationTools::optimizeParameters(tl, stepnh.getParams()));
+       }
 
-   tree = new TreeTemplate<Node>(*tl->getTree());
-   PhylogeneticsApplicationTools::writeTree(* tree, stepnh.getParams()); */
+       tree = new TreeTemplate<Node>(*tl->getTree());
+       PhylogeneticsApplicationTools::writeTree(* tree, stepnh.getParams()); */
 
     // Write parameters to screen:
     ApplicationTools::displayResult("Log likelihood", TextTools::toString(tl->getValue(), 15));

@@ -14,7 +14,7 @@ It currently contains the following programs:
 - *partnh* fits a non-homogeneous model of evolution according to branch partitions, as defined from a clustering tree. It can test different sets of partitions and use a model selection criterion to select the appropriate number of clusters as described in (2)
 - *randnh* generates random non-homogeneous models using two models of non-homogeneity, corresponding to the clustering algorithms implemented in mapnh.
 
-## How can i get it?
+## How can I get it?
 
 The TestNH programs are command-line driven. The programs depend on
 the Bio++ libraries. 
@@ -26,7 +26,7 @@ all required code from the libraries.
 
 You can get executable files pre-compiled for your system (if there
 are any), use pre-compiled packages (if there are any) or compile the
-programs yourself (should work on any system with a decent C++
+programs yourself (it should work on any system with a decent C++
 compiler). Pre-compiled packages will ask for all required
 dependencies, which can be found in the same download directory. The
 needed libraries are [bpp-core](https://github.com/BioPP/bpp-core),
@@ -39,6 +39,7 @@ For compiling the programs yourself, from the downloaded sources or
 from the git repository, please follow the instructions from 
 [bppsuite](https://github.com/BioPP/bppsuite#readme) and up to date [mapnh](https://pbil.univ-lyon1.fr/bpp-doc/testnh/testnh.html).
 
+Otherwise, those programs are available in a singularity image [there](https://biopp.github.io/).
 
 ## How do I use it?
 

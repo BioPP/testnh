@@ -1,117 +1,145 @@
-# CMake script for TestNH package
-# Authors:
-#   Julien Dutheil
-#   Francois Gindraud (2017)
-# Created: 07/04/2010
+# SPDX-FileCopyrightText: The Bio++ Development Group
+#
+# SPDX-License-Identifier: CECILL-2.1
 
-cmake_minimum_required (VERSION 3.5.0)
-project (testnh CXX)
+cmake_minimum_required(VERSION 3.10)
+project(testnh CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Compile options
-set (CMAKE_CXX_FLAGS "-std=c++14 -Wall -Weffc++ -Wshadow -Wconversion")
+add_compile_options(-Wall -Weffc++ -Wshadow -Wconversion)
 
-IF(NOT CMAKE_BUILD_TYPE)
-  SET(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING
-      "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
-      FORCE)
-ENDIF(NOT CMAKE_BUILD_TYPE)
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE
+        RelWithDebInfo
+        CACHE STRING
+        "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
+        FORCE
+    )
+endif(NOT CMAKE_BUILD_TYPE)
 
-IF(NOT NO_DEP_CHECK)
-  SET(NO_DEP_CHECK FALSE CACHE BOOL
-      "Disable dependencies check for building distribution only."
-      FORCE)
-ENDIF(NOT NO_DEP_CHECK)
+if(NOT NO_DEP_CHECK)
+    set(NO_DEP_CHECK
+        FALSE
+        CACHE BOOL
+        "Disable dependencies check for building distribution only."
+        FORCE
+    )
+endif(NOT NO_DEP_CHECK)
 
-IF(NO_DEP_CHECK)
-  MESSAGE(STATUS "Dependencies checking disabled. Only distribution can be built.")
-ELSE(NO_DEP_CHECK)
+if(NO_DEP_CHECK)
+    message(
+        STATUS
+        "Dependencies checking disabled. Only distribution can be built."
+    )
+else(NO_DEP_CHECK)
+    #This creates rpm packages:
+    add_custom_target(
+        rpm
+        rpmbuild -ta ${CPACK_SOURCE_PACKAGE_FILE_NAME}.tar.gz
+        DEPENDS dist info man
+    )
 
-#This creates rpm packages:
-ADD_CUSTOM_TARGET(rpm rpmbuild -ta ${CPACK_SOURCE_PACKAGE_FILE_NAME}.tar.gz DEPENDS dist info man)
+    #static linkage?
+    if(NOT BUILD_STATIC)
+        set(BUILD_STATIC FALSE CACHE BOOL "Enable static linkage." FORCE)
+    endif()
+    if(BUILD_STATIC)
+        message(STATUS "Static linkage requested.")
+    endif()
 
-#static linkage?
-IF(NOT BUILD_STATIC)
-  SET(BUILD_STATIC FALSE CACHE BOOL
-      "Enable static linkage."
-      FORCE)
-ENDIF()
-IF(BUILD_STATIC)
-  MESSAGE(STATUS "Static linkage requested.")
-  SET(CMAKE_CXX_FLAGS "-static -static-libgcc ${CMAKE_CXX_FLAGS}")
-ENDIF()
+    # Check compression program
+    # COMPRESS_PROGRAM controls the choice of program
+    # COMPRESS_EXT can be used to override the file extension
+    if(NOT COMPRESS_PROGRAM)
+        set(COMPRESS_PROGRAM
+            gzip
+            CACHE STRING
+            "Set program for compressing documentation"
+            FORCE
+        )
+    endif()
+    find_program(
+        COMPRESS_BIN
+        NAMES ${COMPRESS_PROGRAM}
+        DOC "${COMPRESS_PROGRAM} compression program"
+    )
+    if(NOT COMPRESS_BIN)
+        message(
+            STATUS
+            "${COMPRESS_PROGRAM} program not found, text doc will not be compressed"
+        )
+    else()
+        # Deduce COMPRESS_EXT for known compression programs if not set
+        if(NOT COMPRESS_EXT)
+            if(${COMPRESS_PROGRAM} STREQUAL "gzip")
+                set(COMPRESS_EXT "gz")
+            elseif(${COMPRESS_PROGRAM} STREQUAL "bzip2")
+                set(COMPRESS_EXT "bz2")
+            else()
+                set(COMPRESS_EXT "${COMPRESS_PROGRAM}") # Default: program name (works for xz/lzma)
+            endif()
+        endif()
+        # Generate command line args (always add -c to output compressed file to stdout)
+        if(${COMPRESS_PROGRAM} STREQUAL "gzip")
+            # -n for no timestamp in files (reproducible builds)
+            # -9 for maximum compression
+            set(COMPRESS_ARGS -c -n -9)
+        else()
+            set(COMPRESS_ARGS -c)
+        endif()
+        message(
+            STATUS
+            "Found ${COMPRESS_BIN} compression program, using file extension .${COMPRESS_EXT}"
+        )
+    endif()
 
-# Check compression program
-# COMPRESS_PROGRAM controls the choice of program
-# COMPRESS_EXT can be used to override the file extension
-if (NOT COMPRESS_PROGRAM)
-  set (COMPRESS_PROGRAM gzip CACHE STRING "Set program for compressing documentation" FORCE)
-endif ()
-find_program (COMPRESS_BIN NAMES ${COMPRESS_PROGRAM} DOC "${COMPRESS_PROGRAM} compression program")
-if (NOT COMPRESS_BIN)
-  message (STATUS "${COMPRESS_PROGRAM} program not found, text doc will not be compressed")
-else ()
-  # Deduce COMPRESS_EXT for known compression programs if not set
-  if (NOT COMPRESS_EXT)
-    if (${COMPRESS_PROGRAM} STREQUAL "gzip")
-      set (COMPRESS_EXT "gz")
-    elseif (${COMPRESS_PROGRAM} STREQUAL "bzip2")
-      set (COMPRESS_EXT "bz2")
-    else ()
-      set (COMPRESS_EXT "${COMPRESS_PROGRAM}") # Default: program name (works for xz/lzma)
-    endif ()
-  endif ()
-  # Generate command line args (always add -c to output compressed file to stdout)
-  if (${COMPRESS_PROGRAM} STREQUAL "gzip")
-    # -n for no timestamp in files (reproducible builds)
-    # -9 for maximum compression
-    set (COMPRESS_ARGS -c -n -9)
-  else ()
-    set (COMPRESS_ARGS -c)
-  endif ()
-  message (STATUS "Found ${COMPRESS_BIN} compression program, using file extension .${COMPRESS_EXT}")
-endif ()
+    # Find dependencies (add install directory to search)
+    if(CMAKE_INSTALL_PREFIX)
+        set(CMAKE_PREFIX_PATH "${CMAKE_INSTALL_PREFIX}" ${CMAKE_PREFIX_PATH})
+    endif(CMAKE_INSTALL_PREFIX)
 
-# Find dependencies (add install directory to search)
-if (CMAKE_INSTALL_PREFIX)
-  set (CMAKE_PREFIX_PATH "${CMAKE_INSTALL_PREFIX}" ${CMAKE_PREFIX_PATH})
-endif (CMAKE_INSTALL_PREFIX)
+    include(GNUInstallDirs)
+    find_package(bpp-core 3.0.0 REQUIRED)
+    find_package(bpp-seq 3.0.0 REQUIRED)
+    find_package(bpp-phyl 3.0.0 REQUIRED)
 
-include (GNUInstallDirs)
-find_package (bpp-core 3.0.0 REQUIRED)
-find_package (bpp-seq 3.0.0 REQUIRED)
-find_package (bpp-phyl 3.0.0 REQUIRED)
-
-# Subdirectories
-add_subdirectory (TestNH)
-add_subdirectory (doc)
-add_subdirectory (man)
-
-ENDIF(NO_DEP_CHECK)
+    # Subdirectories
+    add_subdirectory(TestNH)
+    add_subdirectory(doc)
+    add_subdirectory(man)
+endif(NO_DEP_CHECK)
 
 # Packager
-SET(CPACK_PACKAGE_NAME "testnh")
-SET(CPACK_PACKAGE_VENDOR "Bastien Boussau and Julien Dutheil and Laurent Guéguen")
-SET(CPACK_PACKAGE_VERSION "3.0.0")
-SET(CPACK_PACKAGE_VERSION_MAJOR "3")
-SET(CPACK_PACKAGE_VERSION_MINOR "0")
-SET(CPACK_PACKAGE_VERSION_PATCH "0")
-SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Non-homogeneous model testing")
-SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING")
-SET(CPACK_RESOURCE_FILE_AUTHORS "${CMAKE_SOURCE_DIR}/AUTHORS")
-SET(CPACK_RESOURCE_FILE_INSTALL "${CMAKE_SOURCE_DIR}/INSTALL")
-SET(CPACK_SOURCE_GENERATOR "TGZ")
+set(CPACK_PACKAGE_NAME "testnh")
+set(CPACK_PACKAGE_VENDOR
+    "Bastien Boussau and Julien Dutheil and Laurent Guéguen"
+)
+set(CPACK_PACKAGE_VERSION "3.0.0")
+set(CPACK_PACKAGE_VERSION_MAJOR "3")
+set(CPACK_PACKAGE_VERSION_MINOR "0")
+set(CPACK_PACKAGE_VERSION_PATCH "0")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Non-homogeneous model testing")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING")
+set(CPACK_RESOURCE_FILE_AUTHORS "${CMAKE_SOURCE_DIR}/AUTHORS")
+set(CPACK_RESOURCE_FILE_INSTALL "${CMAKE_SOURCE_DIR}/INSTALL")
+set(CPACK_SOURCE_GENERATOR "TGZ")
 # /!\ This assumes that an external build is used
-SET(CPACK_SOURCE_IGNORE_FILES 
-       "/build/" 
-       "/\\\\.git/" 
-       "/\\\\.gitignore" 
-       ${CPACK_SOURCE_IGNORE_FILES}
-       )
+set(CPACK_SOURCE_IGNORE_FILES
+    "/build/"
+    "/\\\\.git/"
+    "/\\\\.gitignore"
+    ${CPACK_SOURCE_IGNORE_FILES}
+)
 
-SET(CPACK_SOURCE_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
-SET(CPACK_DEBSOURCE_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}_${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}.orig")
-INCLUDE(CPack)
+set(CPACK_SOURCE_PACKAGE_FILE_NAME
+    "${CMAKE_PROJECT_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}"
+)
+set(CPACK_DEBSOURCE_PACKAGE_FILE_NAME
+    "${CMAKE_PROJECT_NAME}_${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}.orig"
+)
+include(CPack)
 
 #This adds the 'dist' target
-ADD_CUSTOM_TARGET(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
-
+add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)

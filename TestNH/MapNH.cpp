@@ -104,25 +104,26 @@ void appendPhyloTreeToTable(const PhyloTree& tree, const std::string& type, Data
 
     std::vector<std::string> colNames;
     for ( ; !brIt->end(); brIt->next())
+    {
       colNames.push_back(TextTools::toString(tree.getEdgeIndex(**brIt)));
+    }
 
-    DataTable infotmp(0,colNames);
-      
+    DataTable infotmp(0, colNames);
+
     infos = infotmp;
   }
 
-  infos.addRow(type, std::vector<string>(infos.getNumberOfColumns(),"0"));
-  size_t nRow=infos.getNumberOfRows();
-  
+  infos.addRow(type, std::vector<string>(infos.getNumberOfColumns(), "0"));
+  size_t nRow = infos.getNumberOfRows();
+
   auto brIt2 = tree.allEdgesIterator();
 
   for ( ; !brIt2->end(); brIt2->next())
   {
     const auto& brm = (**brIt2);
     auto index = tree.getEdgeIndex(brm);
-    infos(nRow-1,TextTools::toString(index))=TextTools::toString(brm->getLength(),12);
+    infos(nRow - 1, TextTools::toString(index)) = TextTools::toString(brm->getLength(), 12);
   }
-
 }
 
 //////////////////////////////////////
@@ -373,7 +374,7 @@ int main(int args, char** argv)
         for (size_t np = 0; np < pl0.size(); np++)
         {
           AutoParameter ap(pl0[np]);
-//            ap.setMessageHandlerA(messageHandler_);
+          //            ap.setMessageHandlerA(messageHandler_);
           pl0.setParameter(np, ap);
         }
 
@@ -405,12 +406,12 @@ int main(int args, char** argv)
     //// OUTPUT
     ////////////////////////////////////////////
 
-    bool perBranch=(outputType.find("Branch")!=string::npos);
-    bool perType=(outputType.find("Type")!=string::npos);
-    bool perSite=(outputType.find("Site")!=string::npos);
+    bool perBranch = (outputType.find("Branch") != string::npos);
+    bool perType = (outputType.find("Type") != string::npos);
+    bool perSite = (outputType.find("Site") != string::npos);
 
     string defaultnf = string(perBranch ? "tree_counts" : "mapping_counts") + (perSite ? "_per_site" : "") + (perType ? "_per_type" : "");
-      
+
     string outputnf = ApplicationTools::getStringParameter("file", outputArgs, defaultnf, "", true, 1);
 
     string format = ApplicationTools::getStringParameter("format", outputArgs, "Newick", "", true, 1);
@@ -420,81 +421,82 @@ int main(int args, char** argv)
       ApplicationTools::displayResult("Format", format);
 
       // Encode format
-      size_t cformat=(format=="Newick"?0:(format=="NHX"?1:(format=="Tsv" || format=="tsv")?2:3));
-      if (cformat>2)
+      size_t cformat = (format == "Newick" ? 0 : (format == "NHX" ? 1 : (format == "Tsv" || format == "tsv") ? 2 : 3));
+      if (cformat > 2)
       {
         ApplicationTools::displayWarning("Unknown output format, set to Newick");
-        cformat=0;
+        cformat = 0;
       }
-      
+
       // Output Counts Through Trees
 
-      PhyloTree pht;               
-      if (nullProcessParams!="" && !splitNorm)
+      PhyloTree pht;
+      if (nullProcessParams != "" && !splitNorm)
       {
         size_t nbs(0);
-        
-        for (size_t pr=0;pr<vpt.size();pr++)
+
+        for (size_t pr = 0; pr < vpt.size(); pr++)
         {
           PhyloTree pht2(*vpt[pr]);
-          size_t ns=vpsm[pr]->counts().getNumberOfSites();
+          size_t ns = vpsm[pr]->counts().getNumberOfSites();
           pht2.scaleTree((double)(ns));
-          nbs+=ns;
+          nbs += ns;
           // proportional to the number of sites
-          
-          if (pr==0)
-            pht=pht2;
+
+          if (pr == 0)
+            pht = pht2;
           else
-            pht+=pht2;
+            pht += pht2;
         }
         if (perBranchLength)
-          pht.scaleTree(1./(double)nbs);          
+          pht.scaleTree(1. / (double)nbs);
       }
-        
+
       // Write outputs:
       Newick newick;
       Nhx nhx;
-      DataTable tableCounts(0,0);
-      DataTable tableNorms(0,0);
-        
+      DataTable tableCounts(0, 0);
+      DataTable tableNorms(0, 0);
+
       for (size_t i = 0; i < reg->getNumberOfSubstitutionTypes(); ++i)
       {
-        string name=reg->getTypeName(i+1);
-        if (name=="")
-          name=TextTools::toString(i + 1);
-        
+        string name = reg->getTypeName(i + 1);
+        if (name == "")
+          name = TextTools::toString(i + 1);
+
         unique_ptr<PhyloTree> pt, pn, ptt, pnt;
-        
+
         for (auto& psm:vpsm)
         {
-          if (pt==0)
-            pt = SubstitutionMappingTools::getTreeForType(psm->counts(),i);
+          if (pt == 0)
+            pt = SubstitutionMappingTools::getTreeForType(psm->counts(), i);
           else
           {
-            ptt = SubstitutionMappingTools::getTreeForType(psm->counts(),i);
-            (*pt)+=(*ptt);
+            ptt = SubstitutionMappingTools::getTreeForType(psm->counts(), i);
+            (*pt) += (*ptt);
           }
-          
-          if (nullProcessParams!="")
+
+          if (nullProcessParams != "")
           {
-            if (pn==0)
-              pn = SubstitutionMappingTools::getTreeForType(psm->normalizations(),i);
+            if (pn == 0)
+              pn = SubstitutionMappingTools::getTreeForType(psm->normalizations(), i);
             else
             {
-              pnt = SubstitutionMappingTools::getTreeForType(psm->normalizations(),i);
-              (*pn)+=(*pnt);
+              pnt = SubstitutionMappingTools::getTreeForType(psm->normalizations(), i);
+              (*pn) += (*pnt);
             }
           }
         }
-        
-        // Normalize per word size
-        pt->scaleTree(1./siteSize);
 
-        if (splitNorm || nullProcessParams=="")
+        // Normalize per word size
+        pt->scaleTree(1. / siteSize);
+
+        if (splitNorm || nullProcessParams == "")
         {
           string path = outputnf + "_" + name;
-          switch(cformat){
-          case 0:      
+          switch (cformat)
+          {
+          case 0:
             newick.writePhyloTree(*pt, path + string(".dnd"), true);
             ApplicationTools::displayResult(string("Output counts of type ") + TextTools::toString(i + 1) + string(" to file"), path + string(".dnd"));
             break;
@@ -505,14 +507,15 @@ int main(int args, char** argv)
           case 2:
             appendPhyloTreeToTable(*pt, name, tableCounts);
             break;
-          };
+          }
           if (splitNorm)
           {
             path = outputnf + "_" + name + string("_norm");
-            switch(cformat){
-            case 0:      
+            switch (cformat)
+            {
+            case 0:
               newick.writePhyloTree(*pn, path + string(".dnd"), true);
-            ApplicationTools::displayResult(string("Output normalizations of type ") + TextTools::toString(i + 1) + string(" to file"), path + string(".dnd"));
+              ApplicationTools::displayResult(string("Output normalizations of type ") + TextTools::toString(i + 1) + string(" to file"), path + string(".dnd"));
               break;
             case 1:
               nhx.writePhyloTree(*pn, path + string(".nhx"), true);
@@ -521,19 +524,20 @@ int main(int args, char** argv)
             case 2:
               appendPhyloTreeToTable(*pn, name, tableNorms);
               break;
-            };
+            }
           }
         }
         else
         {
-          (*pt)/=(*pn);
-          
+          (*pt) /= (*pn);
+
           if (perBranchLength)
-            (*pt)*=pht;
-          
+            (*pt) *= pht;
+
           string path = outputnf + "_" + name;
-          switch(cformat){
-          case 0:      
+          switch (cformat)
+          {
+          case 0:
             newick.writePhyloTree(*pt, path + string(".dnd"), true);
             ApplicationTools::displayResult(string("Output normalized counts of type ") + TextTools::toString(i + 1) + string(" to file"), path + string(".dnd"));
             break;
@@ -544,14 +548,15 @@ int main(int args, char** argv)
           case 2:
             appendPhyloTreeToTable(*pt, name, tableCounts);
             break;
-          };
+          }
         }
       }
 
-      if (cformat==2)
+      if (cformat == 2)
       {
-	if(splitNorm) {
-	  string pathCounts = outputnf + string(".counts.tsv");
+        if (splitNorm)
+        {
+          string pathCounts = outputnf + string(".counts.tsv");
           ApplicationTools::displayResult(string("Output counts to file"), pathCounts);
           StlOutputStream outCounts(make_unique<ofstream>(pathCounts.c_str(), ios::out));
           DataTable::write(tableCounts, outCounts, "\t", true);
@@ -559,13 +564,15 @@ int main(int args, char** argv)
           string pathNorms = outputnf + string(".norms.tsv");
           ApplicationTools::displayResult(string("Output norms to file"), pathNorms);
           StlOutputStream outNorms(make_unique<ofstream>(pathNorms.c_str(), ios::out));
-          DataTable::write(tableNorms, outNorms, "\t", true);			
-	} else {
+          DataTable::write(tableNorms, outNorms, "\t", true);
+        }
+        else
+        {
           string path = outputnf + string(".tsv");
           ApplicationTools::displayResult(string("Output counts to file"), path);
           StlOutputStream out(make_unique<ofstream>(path.c_str(), ios::out));
           DataTable::write(tableCounts, out, "\t", true);
-	}
+        }
       }
     }
     else
@@ -679,19 +686,19 @@ int main(int args, char** argv)
         }
 
         if (perSite)
-          SubstitutionMappingTools::outputPerSitePerType(outputnf+".sged", *reg, *data, counts2);
+          SubstitutionMappingTools::outputPerSitePerType(outputnf + ".sged", *reg, *data, counts2);
         else
-          SubstitutionMappingTools::outputPerType(outputnf+".tsv", *reg, *data, counts2);
-          
-        if (nullProcessParams!="" && splitNorm)
+          SubstitutionMappingTools::outputPerType(outputnf + ".tsv", *reg, *data, counts2);
+
+        if (nullProcessParams != "" && splitNorm)
         {
           if (perSite)
             outputnf += "_norm.sged";
           else
             outputnf += "_norm.tsv";
-            
+
           ApplicationTools::displayResult(string("Output normalizations (site/type) to file"), outputnf);
-              
+
           VVdouble norm2(norm.size());
           for (auto& n:norm2)
           {
@@ -721,7 +728,7 @@ int main(int args, char** argv)
         // PER SITE PER BRANCH
         {
           ApplicationTools::displayResult(string("Output counts (branch/site) to file"), outputnf);
-          
+
           VVdouble counts2(counts.size());
           for (auto& c : counts2)
           {
@@ -755,14 +762,14 @@ int main(int args, char** argv)
             }
           }
 
-          SubstitutionMappingTools::outputPerSitePerBranch(outputnf +".sged", ids, *data, counts2);
+          SubstitutionMappingTools::outputPerSitePerBranch(outputnf + ".sged", ids, *data, counts2);
 
           if (nullProcessParams != "" && splitNorm)
           {
             outputnf += "_norm.sged";
-            
+
             ApplicationTools::displayResult(string("Output normalizations (branch/site) to file"), outputnf);
-              
+
             VVdouble norm2(norm.size());
             for (auto& n:norm2)
             {
@@ -785,7 +792,7 @@ int main(int args, char** argv)
         else
         {
           // OUTPUT PER SITE PER TYPE PER BRANCH
-        
+
           ApplicationTools::displayResult(string("Output counts (site/branch/type) to files"), outputnf + "*");
 
           if (nullProcessParams != "" && !splitNorm)
@@ -808,22 +815,22 @@ int main(int args, char** argv)
           }
 
           // normalize per word length
-          counts/=siteSize;
-          
-          SubstitutionMappingTools::outputPerSitePerBranchPerType(outputnf+"_", ids, *reg, *data, counts);
-        
-          if (nullProcessParams!="" && splitNorm)
+          counts /= siteSize;
+
+          SubstitutionMappingTools::outputPerSitePerBranchPerType(outputnf + "_", ids, *reg, *data, counts);
+
+          if (nullProcessParams != "" && splitNorm)
           {
             outputnf += "_norm_";
-          
+
             ApplicationTools::displayResult(string("Output normalizations (site/branch/type) to files"), outputnf + "*");
-          
+
             SubstitutionMappingTools::outputPerSitePerBranchPerType(outputnf, ids, *reg, *data, norm);
           }
         }
       }
     }
- 
+
     /////////////////////////////////
     // clean up
 

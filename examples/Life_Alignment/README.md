@@ -34,6 +34,8 @@ be analyzed and/or plotted using R for instance.
 ```bash
 bppml --noninteractive=yes param=ML_NH_Full.bpp > bppml_nh_full.out
 ```
+
+Log likelihood: -13825.2273607301
     
 ### 1.3.2) NHML
 
@@ -140,9 +142,7 @@ mapnh --noninteractive=yes \
       param=MapNH.bpp,Life_Alignment.model_free_BIC.bpp\
       input.tree.file=Life_Alignment.ml_nh_free_BIC.nhx\
       input.tree.format=NHX\
-      test.branch.neighbor=no\
-      "output.counts=PerBranchPerType(perBranchLength=false, file=Life_Alignment.mapping_post, format=tsv, splitNorm=true)" \
-      output.cluster_tree.file=Life_Alignment.cluster_free_post.dnd > mapnh_post.out
+      "output.counts=PerBranchPerType(perBranchLength=false, file=Life_Alignment.mapping_post, format=tsv, splitNorm=true)" > mapnh_post.out
 
 clustnh --noninteractive=yes param=ClustNH.bpp \
       input.counts.file=Life_Alignment.mapping_post.counts.tsv \
@@ -151,22 +151,22 @@ clustnh --noninteractive=yes param=ClustNH.bpp \
       output.cluster_tree.file=Life_Alignment.cluster_free_post.dnd > clustnh_free_post.out
 
 partnh --noninteractive=yes param=PartNH.bpp \
-       input.cluster_tree.file=Life_Alignment.cluster_free_post.dnd\
-       partition.test=BIC\
-       partition.test.stop_condition=3\
+       input.cluster_tree.file=Life_Alignment.cluster_free_post.dnd \
+       partition.test=BIC \
+       partition.test.stop_condition=3 \
        METHOD=free_BIC_post > partnh_free_BIC_post.out
 
 clustnh --noninteractive=yes param=ClustNH.bpp \
       input.counts.file=Life_Alignment.mapping_post.counts.tsv \
       input.norms.file=Life_Alignment.mapping_post.norms.tsv \
-      test.branch.neighbor=no \
+      test.branch.neighbor=yes \
       output.cluster_tree.file=Life_Alignment.cluster_join_post.dnd > clustnh_join_post.out
 
 partnh --noninteractive=yes \
        param=PartNH.bpp \
-       input.cluster_tree.file=Life_Alignment.cluster_join_post.dnd\
-       partition.test=BIC\
-       partition.test.stop_condition=3\
+       input.cluster_tree.file=Life_Alignment.cluster_join_post.dnd \
+       partition.test=BIC \
+       partition.test.stop_condition=3 \
        METHOD=join_BIC_post > partnh_join_BIC_post.out
 ```
 

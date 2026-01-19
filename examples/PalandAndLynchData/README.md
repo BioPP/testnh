@@ -1,14 +1,11 @@
-1) Dn/Ds analysis on Paland and Lynch data set.
-===============================================
+# Dn/Ds analysis on Paland and Lynch data set.
 
-1.1) Fit a homogeneous model, with a single Dn/Ds for all branches:
--------------------------------------------------------------------
+## Fit a homogeneous model, with a single Dn/Ds for all branches:
      
 ```bash
-bppml --noninteractive=yes param=ML.bpp > bppml_h.out &
+bppml --noninteractive=yes param=ML.bpp > bppml_h.out
 ```
-logL = -19467.60877771
-
+logL = -19466.2435871097
 This will store optimized parameters in file `PalandAndLynch28.params_h.bpp`
 and corresponding tree in file               `PalandAndLynch28.ml_h.dnd`
 
@@ -21,8 +18,7 @@ codeml
 ```
 PAML finds logL = -19467.750099
 
-1.2) Same thing as above, but using the general syntax to specify non-homogeneous models:
------------------------------------------------------------------------------------------
+## Same thing as above, but using the general syntax to specify non-homogeneous models:
 
 ```bash
 bppml param=ML_NH_1DNDS.bpp
@@ -30,25 +26,24 @@ bppml param=ML_NH_1DNDS.bpp
 
 This will store optimized parameters in file `PalandAndLynch28.params_NH_1DNDS.bpp`
 and corresponding tree in file               `PalandAndLynch28.ml_NH_1DNDS.dnd`
-The resulting log-likelihood is -19467.6087777115
+The resulting log-likelihood is -19466.2435871097
 
-1.3) Same model as Lynch and Paland tried, using 2 models, one for internal branches, one for external branches:
-----------------------------------------------------------------------------------------------------------------
+## Same model as Lynch and Paland tried, using 2 models, one for internal branches, one for external branches:
      
 ```bash
 bppml param=ML_NH_2DNDS.bpp
 ```
 
-The resulting log-likelihood is -19463.7543303538
+The resulting log-likelihood is -19461.476494838
 
-1.4) Full model:
-----------------
+## Full model:
 
 ```bash
-bppml --noninteractive=yes param=ML_NH_Full.bpp > bppml_nh_full.out &
+bppml --noninteractive=yes param=ML_NH_Full.bpp > bppml_nh_full.out
 ```
 
-logL = -19432.3262250668
+logL = -19430.9603570426
+-19432.3262250668
 
 
 ```bash

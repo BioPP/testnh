@@ -8,5 +8,121 @@
 ******************************************************************
 
 Parsing options:
-AttributesTools::parseOptions(). Parameter file not found.: ML_NH_Full.bpp
-	from  2   libbpp-core3.1.0.0.dylib            0x0000000104d5a6c0 _ZN3bpp14BppApplicationC2EiPPcRKNSt3__112basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEbi + 244
+Parsing file ML_NH_Full.bpp for options.
+Alphabet type .........................: RNA
+Sequence file .........................: Life_Alignment.mase
+Sequence format .......................: MASE file
+
+Data 1
+Sites to use...........................: complete
+Complete sites.........................: 527
+Number of sites........................: 527
+
+Tree 1
+Number of trees in file................: 1
+Number of leaves.......................: 92
+Branch lengths.........................: Input
+
+Rate 1
+Distribution...........................: Gamma
+Number of classes......................: 4
+Parameter found........................: Gamma.alpha=0.5
+- Category 0 (Pr = 0.25) rate..........: 0.0333878
+- Category 1 (Pr = 0.25) rate..........: 0.251916
+- Category 2 (Pr = 0.25) rate..........: 0.820268
+- Category 3 (Pr = 0.25) rate..........: 2.89443
+
+Model 1
+Substitution model.....................: T92
+External model frequencies init........: observed
+Parameter found........................: T92.kappa=2
+Parameter found........................: T92.theta=0.539518
+Data used .............................: 1
+
+Process 1
+Process type...........................: OnePerBranch
+ Model number..........................: 1
+ Tree number...........................: 1
+ Rate number...........................: 1
+ Stationarity assumed.
+ Shared parameter......................: T92.kappa
+
+Phylolikelihood 1
+ Data used ............................: 1
+ Process ..............................: 1
+
+Result Phylolikelihood 
+ Result................................: phylo1
+
+
+Initial log likelihood.................: -14190.9336777159
+Message handler........................: Life_Alignment_nh_full.messages
+Profiler...............................: Life_Alignment_nh_full.profile
+Max # ML evaluations...................: 10000
+Tolerance..............................: 1e-06
+Optimization method....................: newton
+Algorithm used for derivable parameters: Newton
+Reparametrization......................: no
+Molecular clock........................: None
+*******************************************************************************************************************************************************************************************************************************************************************************************************************************
+
+Performed..............................: 320 function evaluations.
+Log likelihood.........................: -13825.2273607301
+Too many parameters for screen output!
+WARNING!!! This parameter has a value close to the boundary: T92.theta_3(1e-06).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_13(0.999999).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_18(0.999999).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_19(1e-06).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_22(1e-06).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_29(0.999999).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_35(1e-06).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_39(1e-06).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_42(0.999999).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_46(0.999999).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_56(1e-06).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_57(1e-06).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_61(0.999999).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_84(0.999999).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_88(1e-06).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_97(1e-06).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_102(1e-06).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_114(0.999999).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_124(0.999999).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_125(0.999999).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_128(1e-06).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_131(0.999999).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_132(1e-06).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_133(0.999999).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_136(1e-06).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_137(1e-06).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_144(1e-06).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_147(0.999999).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_149(1e-06).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_152(0.999999).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_153(0.999999).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_154(0.999999).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_156(0.999999).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_158(0.999999).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_162(1e-06).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_165(1e-06).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_173(0.999999).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_174(0.999999).
+WARNING!!! This parameter has a value close to the boundary: T92.theta_178(0.999999).
+WARNING!!! This parameter has a value close to the boundary: BrLen16_1(1e-12).
+WARNING!!! This parameter has a value close to the boundary: BrLen14_1(1e-12).
+WARNING!!! This parameter has a value close to the boundary: BrLen15_1(1e-12).
+WARNING!!! This parameter has a value close to the boundary: BrLen32_1(1e-12).
+WARNING!!! This parameter has a value close to the boundary: BrLen79_1(1e-12).
+WARNING!!! This parameter has a value close to the boundary: BrLen47_1(1e-12).
+WARNING!!! This parameter has a value close to the boundary: BrLen48_1(1e-12).
+WARNING!!! This parameter has a value close to the boundary: BrLen116_1(1e-12).
+WARNING!!! This parameter has a value close to the boundary: BrLen126_1(1e-12).
+WARNING!!! This parameter has a value close to the boundary: BrLen129_1(1e-12).
+WARNING!!! This parameter has a value close to the boundary: BrLen162_1(1e-12).
+WARNING!!! This parameter has a value close to the boundary: BrLen163_1(1e-12).
+WARNING!!! This parameter has a value close to the boundary: BrLen180_1(1e-12).
+output.estimates.......................: Life_Alignment.params_nh_full.bpp
+Wrote trees to files : ................: Life_Alignment.ml_nh_full.dnd_1
+Alignment information logfile..........: Life_Alignment_nh_full.infos
+bppml's done. Bye.
+Total execution time: 0.000000d, 0.000000h, 3.000000m, 57.000000s.
