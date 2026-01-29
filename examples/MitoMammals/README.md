@@ -73,20 +73,23 @@ partnh param=PartNH.bpp --noninteractive=yes\
        METHOD=_join_BIC >& partnh_join_BIC.out &
 ```
 
-The resulting likelihood is -19436.6, for 0 cluster
+(Runs very long...)
 
+```{bash}
+partnh param=PartNH.bpp --noninteractive=yes\
+       input.cluster_tree.file=mito_mammals.all.cluster_free.dnd\
+       partition.test=AIC\
+       METHOD=_free_AIC >& partnh_free_AIC.out &
+```
 
-     partnh param=PartNH.bpp --noninteractive=yes\
-            input.cluster_tree.file=mito_mammals.all.cluster_free.dnd\
-            partition.test=AIC\
-            METHOD=_free_AIC >& partnh_free_AIC.out &
-	    
      The resulting likelihood is -19408.2, for 7 clusters
 
-     partnh param=PartNH.bpp --noninteractive=yes\
-            input.cluster_tree.file=mito_mammals.all.cluster_join.dnd\
-            partition.test=AIC\
-            METHOD=_join_AIC >& partnh_join_AIC.out &
+```{bash}
+partnh param=PartNH.bpp --noninteractive=yes\
+       input.cluster_tree.file=mito_mammals.all.cluster_join.dnd\
+       partition.test=AIC\
+       METHOD=_join_AIC >& partnh_join_AIC.out &
+```
 
      The resulting likelihood is -19417.4, for 14 clusters
 

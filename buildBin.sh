@@ -1,6 +1,6 @@
 #! /bin/sh
 arch=`uname -m`
-version=2.3.2
+version=3.0.0-1
 
 strip TestNH/testnh
 strip TestNH/mapnh
