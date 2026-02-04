@@ -101,9 +101,7 @@ else(NO_DEP_CHECK)
     endif(CMAKE_INSTALL_PREFIX)
 
     include(GNUInstallDirs)
-    find_package(bpp-core 3.0.0 REQUIRED)
-    find_package(bpp-seq 3.0.0 REQUIRED)
-    find_package(bpp-phyl 3.0.0 REQUIRED)
+    find_package(bpp-phyl 13.0.0 REQUIRED)
 
     # Subdirectories
     add_subdirectory(TestNH)
