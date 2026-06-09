@@ -289,9 +289,6 @@ These statistics are declared in @samp{bppSuite} documentation file.
 See
 @uref{https://pbil.univ-lyon1.fr/bpp-doc/bppsuite/bppsuite.html#Index2}
 
-weights = SequenceApplicationTools::getAlphabetIndex2(alphabet, weightOption, "Substitution weight scheme:");
-    distances = SequenceApplicationTools::getAlphabetIndex2(alphabet, distanceOption, "Substitution distances:");
-
 @item output.counts=@{output type@}
 
 Describes the type of outputs. There are several types:
