@@ -261,6 +261,37 @@ Counts combinations of substitution types.
 @end table
 
 
+In option, these calculations can be ponderated by @var{weight} or
+@var{distance} assigned to substitutions:
+
+@cartouche
+@example
+map.type=Total(distance=Diff(index1=Charge))
+@end example
+@end cartouche
+
+The options are:
+
+@table @var
+@item weight Each count between states i and j is multiplied by a
+given weight  (which can be negative.)
+@item distance Each substitution rate between states i and j is multiplied
+by a given distance (which can be negative).
+@end table
+
+The difference between both options is that weights are used after the
+computation of the counts, and then are not related to the
+intermediate states between the first and last states. On the
+contrary, distances are used inside the computation, and apply to the
+intermediate states.
+
+These statistics are declared in @samp{bppSuite} documentation file.
+See
+@uref{https://pbil.univ-lyon1.fr/bpp-doc/bppsuite/bppsuite.html#Index2}
+
+weights = SequenceApplicationTools::getAlphabetIndex2(alphabet, weightOption, "Substitution weight scheme:");
+    distances = SequenceApplicationTools::getAlphabetIndex2(alphabet, distanceOption, "Substitution distances:");
+
 @item output.counts=@{output type@}
 
 Describes the type of outputs. There are several types:
