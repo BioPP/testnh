@@ -273,10 +273,10 @@ map.type=Total(distance=Diff(index1=Charge))
 The options are:
 
 @table @var
-@item weight Each count between states i and j is multiplied by a
-given weight  (which can be negative.)
-@item distance Each substitution rate between states i and j is multiplied
-by a given distance (which can be negative).
+@item weight
+Each count between states i and j is multiplied by a given weight  (which can be negative.)
+@item distance
+Each substitution rate between states i and j is multiplied by a given distance (which can be negative).
 @end table
 
 The difference between both options is that weights are used after the
